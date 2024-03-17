@@ -3,3 +3,15 @@ micronaut:
     name: sharedfoodorder
   security:
     authentication: cookie
+    oauth2:
+      pkce:
+        enabled: false
+      clients:
+        auth0:
+          client-id: '${OAUTH_CLIENT_ID:xxx}'
+          client-secret: '${OAUTH_CLIENT_SECRET:yyy}'
+          openid:
+            issuer: 'https://${OAUTH_DOMAIN:micronautguides.eu.auth0.com}/'
+    endpoints:
+      logout:
+        get-allowed: true
