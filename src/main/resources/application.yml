@@ -3,3 +3,8 @@ micronaut:
     name: sharedfoodorder
   security:
     authentication: cookie
+
+  dynamodb:
+    primary_table:
+      region: "http://localhost:8000"
+      endpoint: "us-west-2"
