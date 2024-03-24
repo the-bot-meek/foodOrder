@@ -6,32 +6,37 @@ import com.example.services.MealService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
+import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.ServerAuthentication;
+import io.micronaut.security.rules.SecurityRule;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
 
 @Controller("meal")
+@Secured(SecurityRule.IS_AUTHENTICATED)
 public class MealController {
     private final MealService mealService;
 
     MealController(MealService mealService) {
         this.mealService = mealService;
     }
-    @Put(consumes = MediaType.ALL)
-    public HttpResponse<Meal> addMeal(@Body CreateMealRequest createMealRequest) {
-        return HttpResponse.ok(mealService.newMeal(createMealRequest, "101"));
+    @Put
+    public HttpResponse<Meal> addMeal(@Body CreateMealRequest createMealRequest, Principal principal) {
+        return HttpResponse.ok(mealService.newMeal(createMealRequest, principal.getName()));
     }
 
     @Get("{mealSortKey}")
-    public Optional<Meal> updateMeal(@NotNull @NotBlank String mealSortKey) {
-        return mealService.getMeal("101", mealSortKey);
+    public Optional<Meal> updateMeal(@NotNull @NotBlank String mealSortKey, Principal principal) {
+        return mealService.getMeal(principal.getName(), mealSortKey);
     }
 
     @Get
-    public List<Meal> listMeals() {
-        return mealService.getListOfMeals("101");
+    public List<Meal> listMeals(Principal principal) {
+        return mealService.getListOfMeals(principal.getName());
     }
 }

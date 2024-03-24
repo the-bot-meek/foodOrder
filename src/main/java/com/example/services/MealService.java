@@ -35,8 +35,8 @@ public class MealService {
     }
 
 
-    public Meal newMeal(CreateMealRequest createMealRequest, String organiserId) {
-        Meal meal = convertCreateMealRequestToNewMeal(createMealRequest, organiserId);
+    public Meal newMeal(CreateMealRequest createMealRequest, String uid) {
+        Meal meal = convertCreateMealRequestToNewMeal(createMealRequest, uid);
         dynamoDBMapper.save(meal);
         return meal;
     }
@@ -60,15 +60,15 @@ public class MealService {
         );
     }
 
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String organiserId) {
+    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) {
         final String id = UUID.randomUUID().toString();
-        return convertCreateMealRequestToNewMeal(createMealRequest, organiserId, id);
+        return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
     }
 
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String organiserId, String id) {
+    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) {
         return new Meal(
                 id,
-                organiserId,
+                uid,
                 createMealRequest.name(),
                 createMealRequest.venueMenuId(),
                 Instant.ofEpochSecond(createMealRequest.mealDate())

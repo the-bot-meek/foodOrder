@@ -2,10 +2,12 @@ package com.example.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
 
 @DynamoDBTable(tableName = "primary_table")
+@Serdeable
 public class Meal {
     private String id;
     private String uid;
