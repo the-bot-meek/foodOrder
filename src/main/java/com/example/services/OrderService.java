@@ -56,4 +56,17 @@ public class OrderService {
                 .withExpressionAttributeValues(eav);
         return dynamoDBMapper.query(Order.class, dynamoDBQueryExpression);
     }
+
+    public List<Order> listOrdersFromUserID(String uid) {
+        final String pk = "Order_" + uid;
+        log.trace("Getting all orders for meal:{}", uid);
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":PK", new AttributeValue().withS(pk));
+        DynamoDBQueryExpression<Order> dynamoDBQueryExpression = new DynamoDBQueryExpression<Order>()
+                .withIndexName("uid_gsi")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("uid = :PK")
+                .withExpressionAttributeValues(eav);
+        return dynamoDBMapper.query(Order.class, dynamoDBQueryExpression);
+    }
 }

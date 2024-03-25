@@ -12,14 +12,14 @@ public class Meal {
     private String id;
     private String uid;
     private String name;
-    private String venueMenuId;
+    private String menuId;
     private Instant mealDate;
 
-    public Meal(String id, String organiserId, String name, String venueMenuId, Instant mealDate) {
+    public Meal(String id, String organiserId, String name, String menuId, Instant mealDate) {
         this.id = id;
         this.uid = organiserId;
         this.name = name;
-        this.venueMenuId = venueMenuId;
+        this.menuId = menuId;
         this.mealDate = mealDate;
     }
 
@@ -95,11 +95,11 @@ public class Meal {
         this.name = name;
     }
 
-    public String getVenueMenuId() {
-        return venueMenuId;
+    public String getMenuId() {
+        return menuId;
     }
 
-    public void setVenueMenuId(String venueMenuId) {
-        this.venueMenuId = venueMenuId;
+    public void setMenuId(String menuId) {
+        this.menuId = menuId;
     }
 }
