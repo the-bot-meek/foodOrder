@@ -32,16 +32,16 @@ public class OrderService {
         this.dynamoDBMapper = new DynamoDBMapper(dynamoDbClient);
     }
 
-    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest) {
+    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid) {
         return new Order(
                 createOrderRequest.mealId(),
                 createOrderRequest.dateOfMeal(),
-                createOrderRequest.uid()
+                uid
         );
     }
 
-    public Order addOrder(CreateOrderRequest createOrderRequest) {
-        Order order = convertCreateOrderRequestToOrder(createOrderRequest);
+    public Order addOrder(CreateOrderRequest createOrderRequest, String uid) {
+        Order order = convertCreateOrderRequestToOrder(createOrderRequest, uid);
         dynamoDBMapper.save(order);
         return order;
     }

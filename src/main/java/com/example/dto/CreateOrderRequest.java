@@ -16,9 +16,6 @@ public record CreateOrderRequest(
         Instant dateOfMeal,
         @NotNull
         @NotBlank
-        String uid,
-        @NotNull
-        @NotBlank
         String mealId
 ) {
 }
