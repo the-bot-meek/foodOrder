@@ -39,9 +39,13 @@ public class VenueService {
     }
 
     public Optional<Venue> getValue(String location, String name) {
-        return Optional.ofNullable(
-                dynamoDBMapper.load(Venue.class,"Venue_" + location, name)
-        );
+        Venue venue = dynamoDBMapper.load(Venue.class,"Venue_" + location, name);
+        if (venue == null) {
+            log.trace("Getting Venue location: {}, name:{}", location, name);
+            return Optional.empty();
+        }
+        log.trace("Getting Venue id:{}, location: {}, name:{}", venue.getId(), location, name);
+        return Optional.of(venue);
     }
 
     public List<Venue> listVenues(String location) {

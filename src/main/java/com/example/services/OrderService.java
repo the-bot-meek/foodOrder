@@ -42,6 +42,7 @@ public class OrderService {
 
     public Order addOrder(CreateOrderRequest createOrderRequest, String uid) {
         Order order = convertCreateOrderRequestToOrder(createOrderRequest, uid);
+        log.trace("Adding Order MealId: {}, uid: {}", order.getMealId(), order.getUid());
         dynamoDBMapper.save(order);
         return order;
     }

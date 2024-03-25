@@ -74,6 +74,4 @@ public class MealService {
                 Instant.ofEpochSecond(createMealRequest.mealDate())
         );
     }
-
-
 }
