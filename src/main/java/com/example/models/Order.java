@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @DynamoDBTable(tableName = "order_table")
 @Serdeable
@@ -75,5 +76,23 @@ public class Order {
     @DynamoDBIgnore
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Order order)) return false;
+
+        if (!Objects.equals(mealId, order.mealId)) return false;
+        if (!Objects.equals(dateOfMeal, order.dateOfMeal)) return false;
+        return Objects.equals(uid, order.uid);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mealId != null ? mealId.hashCode() : 0;
+        result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
+        result = 31 * result + (uid != null ? uid.hashCode() : 0);
+        return result;
     }
 }

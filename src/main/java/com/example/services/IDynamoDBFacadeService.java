@@ -9,4 +9,5 @@ public interface IDynamoDBFacadeService {
     <T> Optional<T> load(Class<T> clazz, String primaryKey, String sortKey);
     <T> List<T> list(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression);
     <T> void save(T object);
+    <T> List<T> query(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression);
 }

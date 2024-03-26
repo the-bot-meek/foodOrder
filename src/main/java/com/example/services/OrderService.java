@@ -1,14 +1,9 @@
 package com.example.services;
 
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.dto.CreateOrderRequest;
 import com.example.models.Order;
-import io.micronaut.context.annotation.Value;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,21 +13,16 @@ import java.util.Map;
 
 @Singleton
 public class OrderService {
-    public final AmazonDynamoDB dynamoDbClient;
-    private final DynamoDBMapper dynamoDBMapper;
     private final Logger log = LoggerFactory.getLogger(MealService.class);
+    private final IDynamoDBFacadeService dynamoDBFacadeService;
 
     public OrderService(
-            @Value("${micronaut.dynamodb.primary_table.region}") String endpoint,
-            @Value("${micronaut.dynamodb.primary_table.endpoint}") String region
+            IDynamoDBFacadeService dynamoDBFacadeService
     ) {
-        this.dynamoDbClient = AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
-                .build();
-        this.dynamoDBMapper = new DynamoDBMapper(dynamoDbClient);
+        this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
-    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid) {
+    public static Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid) {
         return new Order(
                 createOrderRequest.mealId(),
                 createOrderRequest.dateOfMeal(),
@@ -43,7 +33,7 @@ public class OrderService {
     public Order addOrder(CreateOrderRequest createOrderRequest, String uid) {
         Order order = convertCreateOrderRequestToOrder(createOrderRequest, uid);
         log.trace("Adding Order MealId: {}, uid: {}", order.getMealId(), order.getUid());
-        dynamoDBMapper.save(order);
+        dynamoDBFacadeService.save(order);
         return order;
     }
 
@@ -55,7 +45,7 @@ public class OrderService {
         DynamoDBQueryExpression<Order> dynamoDBQueryExpression = new DynamoDBQueryExpression<Order>()
                 .withKeyConditionExpression("meal_id = :PK")
                 .withExpressionAttributeValues(eav);
-        return dynamoDBMapper.query(Order.class, dynamoDBQueryExpression);
+        return dynamoDBFacadeService.query(Order.class, dynamoDBQueryExpression);
     }
 
     public List<Order> listOrdersFromUserID(String uid) {
@@ -68,6 +58,6 @@ public class OrderService {
                 .withConsistentRead(false)
                 .withKeyConditionExpression("uid = :PK")
                 .withExpressionAttributeValues(eav);
-        return dynamoDBMapper.query(Order.class, dynamoDBQueryExpression);
+        return dynamoDBFacadeService.query(Order.class, dynamoDBQueryExpression);
     }
 }

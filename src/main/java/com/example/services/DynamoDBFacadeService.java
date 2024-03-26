@@ -19,7 +19,6 @@ import java.util.Optional;
 public class DynamoDBFacadeService implements IDynamoDBFacadeService{
     public final AmazonDynamoDB dynamoDbClient;
     private final DynamoDBMapper dynamoDBMapper;
-    private final Logger log = LoggerFactory.getLogger(MealService.class);
 
     public DynamoDBFacadeService(
             @Value("${micronaut.dynamodb.primary_table.region}") String endpoint,
@@ -41,5 +40,10 @@ public class DynamoDBFacadeService implements IDynamoDBFacadeService{
 
     public <T> void save(T object) {
         dynamoDBMapper.save(object);
+    }
+
+    @Override
+    public <T> List<T> query(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression) {
+        return dynamoDBMapper.query(clazz, dynamoDBQueryExpression);
     }
 }
