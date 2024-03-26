@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Set;
 
 @DynamoDBTable(tableName = "primary_table")
@@ -83,6 +84,30 @@ public class Venue {
     }
 
     public void setMenuItems(Set<HashMap<String, ?>> menuItems) {
-        this.menuItems = mapper.convertValue(menuItems, new TypeReference<Set<MenuItem>>(){});
+        this.menuItems = mapper.convertValue(menuItems, new TypeReference<>(){});
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Venue venue)) return false;
+
+        if (!Objects.equals(id, venue.id)) return false;
+        if (!Objects.equals(name, venue.name)) return false;
+        if (!Objects.equals(location, venue.location)) return false;
+        if (!Objects.equals(description, venue.description)) return false;
+        if (!Objects.equals(menuItems, venue.menuItems)) return false;
+        return mapper.equals(venue.mapper);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
+        result = 31 * result + mapper.hashCode();
+        return result;
     }
 }
