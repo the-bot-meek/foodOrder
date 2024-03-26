@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @DynamoDBTable(tableName = "primary_table")
 @Serdeable
@@ -101,5 +102,27 @@ public class Meal {
 
     public void setMenuId(String menuId) {
         this.menuId = menuId;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Meal meal)) return false;
+
+        if (!Objects.equals(id, meal.id)) return false;
+        if (!Objects.equals(uid, meal.uid)) return false;
+        if (!Objects.equals(name, meal.name)) return false;
+        if (!Objects.equals(menuId, meal.menuId)) return false;
+        return Objects.equals(mealDate, meal.mealDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (uid != null ? uid.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (menuId != null ? menuId.hashCode() : 0);
+        result = 31 * result + (mealDate != null ? mealDate.hashCode() : 0);
+        return result;
     }
 }

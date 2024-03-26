@@ -29,7 +29,7 @@ public class MealController {
     }
 
     @Get("{mealSortKey}")
-    public Optional<Meal> updateMeal(@NotNull @NotBlank String mealSortKey, Principal principal) {
+    public Optional<Meal> getMeal(@NotNull @NotBlank String mealSortKey, Principal principal) {
         return mealService.getMeal(principal.getName(), mealSortKey);
     }
 
