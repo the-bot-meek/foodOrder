@@ -1,7 +1,15 @@
 micronaut:
   security:
-    # ToDo: remove before commit
-    reject-not-found: false
+    authentication: cookie
+    oauth2:
+      pkce:
+        enabled: false
+      clients:
+        auth0:
+          client-id: 'demo'
+          client-secret: 'kYDB6KtZ1WGvD541Vhy1Auwp90em402d'
+          openid:
+            issuer: 'localhost:8180/realms/master'
 endpoints:
   routes:
     enabled: true
