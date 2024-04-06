@@ -3,10 +3,10 @@ name: Gradle Test
 on:
   push:
     branches:
-      - main  # Adjust branch as needed
+      - main
   pull_request:
     branches:
-      - main  # Adjust branch as needed
+      - main
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
           java-version: '21'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
 
       - name: Run tests
         run: ./gradlew test --no-daemon
