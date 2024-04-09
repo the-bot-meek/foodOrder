@@ -15,8 +15,3 @@ micronaut:
     endpoints:
       logout:
         get-allowed: true
-
-  dynamodb:
-    primary_table:
-      region: "http://localhost:8000"
-      endpoint: "us-west-2"

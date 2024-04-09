@@ -10,6 +10,11 @@ micronaut:
           client-secret: 'kYDB6KtZ1WGvD541Vhy1Auwp90em402d'
           openid:
             issuer: 'localhost:8180/realms/master'
+  dynamodb:
+    primary_table:
+      region: "http://localhost:4566"
+      endpoint: "eu-west-1"
+
 endpoints:
   routes:
     enabled: true

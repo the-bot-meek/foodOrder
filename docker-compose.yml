@@ -1,14 +1,13 @@
 version: '3.8'
 services:
-  dynamodb-local:
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
-    image: "amazon/dynamodb-local:latest"
-    container_name: dynamodb-local
+  localstack:
+    image: "localstack/localstack"
     ports:
-      - "8000:8000"
+      - "4566:4566"
+    environment:
+      - SERVICES=dynamodb
     volumes:
-      - "./docker/food-orde/dynamodb:/home/dynamodblocal/data"
-    working_dir: /home/dynamodblocal
+      - "/Users/stevenmeek/sharedfoodorder/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh"
   key-clock:
     container_name: "key-clock"
     image: "quay.io/keycloak/keycloak:24.0.2"
