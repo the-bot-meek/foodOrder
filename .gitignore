@@ -14,4 +14,4 @@ out/
 .classpath
 .factorypath
 /import/
-/docker/
+/dynamodb_volume/*
