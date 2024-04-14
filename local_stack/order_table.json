@@ -1,0 +1,46 @@
+{
+  "TableName": "order_table",
+  "KeySchema": [
+    {
+      "KeyType": "HASH",
+      "AttributeName": "meal_id"
+    },
+    {
+      "KeyType": "RANGE",
+      "AttributeName": "date_of_meal"
+    }
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "meal_id",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "date_of_meal",
+      "AttributeType": "S"
+    },
+    {
+      "AttributeName": "uid",
+      "AttributeType": "S"
+    }
+  ],
+  "BillingMode": "PAY_PER_REQUEST",
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "uid_gsi",
+      "Projection": {
+        "ProjectionType": "ALL"
+      },
+      "KeySchema": [
+        {
+          "AttributeName": "uid",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "date_of_meal",
+          "KeyType": "RANGE"
+        }
+      ]
+    }
+  ]
+}
