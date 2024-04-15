@@ -1,6 +1,6 @@
 package com.example.controllers;
 
-import com.example.dto.CreateVenueRequest;
+import com.example.dto.request.CreateVenueRequest;
 import com.example.models.Venue;
 import com.example.services.VenueService;
 import io.micronaut.http.annotation.Body;

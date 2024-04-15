@@ -1,6 +1,6 @@
 package com.example.controllers
 
-import com.example.dto.CreateOrderRequest
+import com.example.dto.request.CreateOrderRequest
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.OrderService

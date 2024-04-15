@@ -2,7 +2,7 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.dto.CreateVenueRequest;
+import com.example.dto.request.CreateVenueRequest;
 import com.example.models.Venue;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.exceptions.HttpStatusException;

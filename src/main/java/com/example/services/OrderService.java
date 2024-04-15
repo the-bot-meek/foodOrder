@@ -2,7 +2,7 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.dto.CreateOrderRequest;
+import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Order;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;

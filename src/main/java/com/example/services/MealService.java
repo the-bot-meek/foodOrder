@@ -2,7 +2,7 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.dto.CreateMealRequest;
+import com.example.dto.request.CreateMealRequest;
 import com.example.models.Meal;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;

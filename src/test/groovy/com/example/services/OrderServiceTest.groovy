@@ -1,6 +1,6 @@
 package com.example.services
 
-import com.example.dto.CreateOrderRequest
+import com.example.dto.request.CreateOrderRequest
 import com.example.models.Order
 import spock.lang.Specification
 

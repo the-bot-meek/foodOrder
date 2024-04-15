@@ -1,6 +1,6 @@
 package com.example.controllers
 
-import com.example.dto.CreateMealRequest
+import com.example.dto.request.CreateMealRequest
 import com.example.models.Meal
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.MealService
