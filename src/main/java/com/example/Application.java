@@ -7,7 +7,6 @@ import io.micronaut.context.annotation.ContextConfigurer;
 import io.micronaut.runtime.Micronaut;
 
 public class Application {
-
     @ContextConfigurer
     public static class Configurer implements ApplicationContextConfigurer {
         @Override

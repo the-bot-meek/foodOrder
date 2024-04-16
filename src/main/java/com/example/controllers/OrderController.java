@@ -14,7 +14,7 @@ import java.security.Principal;
 @Controller("order")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class OrderController {
-    OrderService orderService;
+    private final OrderService  orderService;
     OrderController(OrderService orderService) {
         this.orderService = orderService;
     }

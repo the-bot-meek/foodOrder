@@ -13,7 +13,7 @@ import java.util.List;
 @Controller("user")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class UserOrderController {
-    OrderService orderService;
+    private final OrderService orderService;
     UserOrderController(OrderService orderService) {
         this.orderService = orderService;
     }

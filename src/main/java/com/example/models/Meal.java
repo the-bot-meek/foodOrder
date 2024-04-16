@@ -49,7 +49,7 @@ public class Meal {
             throw new IllegalStateException("Can not get valid sort key while mealDate is null");
         }
 
-        return this.mealDate.toString() + "_" + this.id;
+        return this.mealDate + "_" + this.id;
     }
 
     public void setSortKey(String sortKey) {

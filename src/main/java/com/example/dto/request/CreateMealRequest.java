@@ -6,9 +6,6 @@ import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.io.Serializable;
-import java.util.LinkedHashMap;
-
 @Introspected
 @JsonSerialize
 @Serdeable.Deserializable

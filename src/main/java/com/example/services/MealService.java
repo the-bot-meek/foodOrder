@@ -16,12 +16,9 @@ public class MealService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
 
-    public MealService(
-            IDynamoDBFacadeService dynamoDBFacadeService
-    ) {
+    public MealService(IDynamoDBFacadeService dynamoDBFacadeService) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
-
 
     public Meal newMeal(CreateMealRequest createMealRequest, String uid) {
         Meal meal = convertCreateMealRequestToNewMeal(createMealRequest, uid);

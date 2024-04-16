@@ -19,7 +19,6 @@ class MealSpec extends Specification {
 
     def "test primary key deserialization"() {
         given:
-        String primaryKey = "Meal_12345"
         Meal meal = new Meal()
 
         when:
