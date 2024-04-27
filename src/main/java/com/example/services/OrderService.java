@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Order;
+import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,16 +23,17 @@ public class OrderService {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
-    public static Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid) {
+    public static Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
         return new Order(
                 createOrderRequest.mealId(),
                 createOrderRequest.dateOfMeal(),
-                uid
+                authentication.getName(),
+                (String) authentication.getAttributes().get("preferred_username")
         );
     }
 
-    public Order addOrder(CreateOrderRequest createOrderRequest, String uid) {
-        Order order = convertCreateOrderRequestToOrder(createOrderRequest, uid);
+    public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
+        Order order = convertCreateOrderRequestToOrder(createOrderRequest, authentication);
         log.trace("Adding Order MealId: {}, uid: {}", order.getMealId(), order.getUid());
         dynamoDBFacadeService.save(order);
         return order;

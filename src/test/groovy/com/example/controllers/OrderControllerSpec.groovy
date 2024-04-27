@@ -4,6 +4,7 @@ import com.example.dto.request.CreateOrderRequest
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.OrderService
+import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
 import java.security.Principal
@@ -20,12 +21,13 @@ class OrderControllerSpec extends Specification {
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
         String uid = "d84e61c73fe7-de8f-47ed-833a-797b001f"
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId)
-        Principal principal = Mock(Principal)
-        principal.getName() >> uid
+        Authentication authentication = Mock(Authentication)
+        authentication.getAttributes() >> Map.of("preferred_username", "usename")
+        authentication.getName() >> uid
 
 
         when:
-        orderController.addOrder(createOrderRequest, principal)
+        orderController.addOrder(createOrderRequest, authentication)
 
         then:
         1 * dynamoDBFacadeService.save(new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid))

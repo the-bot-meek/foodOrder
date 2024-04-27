@@ -7,9 +7,9 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Put;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.validation.Valid;
-import java.security.Principal;
 
 @Controller("order")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -19,7 +19,7 @@ public class OrderController {
         this.orderService = orderService;
     }
     @Put
-    public Order addOrder(@Valid @Body CreateOrderRequest createOrderRequest, Principal principal) {
-        return orderService.addOrder(createOrderRequest, principal.getName());
+    public Order addOrder(@Valid @Body CreateOrderRequest createOrderRequest, Authentication authentication) {
+        return orderService.addOrder(createOrderRequest, authentication);
     }
 }

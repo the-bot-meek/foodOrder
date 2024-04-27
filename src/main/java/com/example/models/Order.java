@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "order_table")
@@ -12,11 +13,13 @@ public class Order {
     private String mealId;
     private Instant dateOfMeal;
     private String uid;
+    private String participantsName;
 
-    public Order(String mealId, Instant dateOfMeal, String uid) {
+    public Order(String mealId, Instant dateOfMeal, String uid, String participantsName) {
         this.mealId = mealId;
         this.dateOfMeal = dateOfMeal;
         this.uid = uid;
+        this.participantsName = participantsName;
     }
 
     public Order() {
@@ -76,6 +79,15 @@ public class Order {
     @DynamoDBIgnore
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    @DynamoDBAttribute
+    public String getParticipantsName() {
+        return participantsName;
+    }
+
+    public void setParticipantsName(String participantsName) {
+        this.participantsName = participantsName;
     }
 
     @Override
