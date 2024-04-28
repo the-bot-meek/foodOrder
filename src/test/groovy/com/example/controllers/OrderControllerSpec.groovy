@@ -12,7 +12,6 @@ import com.example.services.VenueService
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
-import java.security.Principal
 import java.time.Instant
 
 class OrderControllerSpec extends Specification {
@@ -27,7 +26,7 @@ class OrderControllerSpec extends Specification {
 
 
         IDynamoDBFacadeService mealServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(mealServiceIDynamoDBFacadeService)
+        MealService mealService = new MealService(mealServiceIDynamoDBFacadeService, null)
         mealServiceIDynamoDBFacadeService.load(Meal, organizerUid, (dateOfMeal.toString() + "_" + mealId)) >> {
             return Optional.of(new Meal(location: location, venueName: name))
         }
@@ -65,6 +64,6 @@ class OrderControllerSpec extends Specification {
         orderController.addOrder(createOrderRequest, authentication)
 
         then:
-        1 * dynamoDBFacadeService.save(new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid))
+        1 * dynamoDBFacadeService.save(new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid, menuItems: menuItems, participantsName: "usename"))
     }
 }

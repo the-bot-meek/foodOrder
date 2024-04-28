@@ -80,7 +80,8 @@ public class OrderService {
                 createOrderRequest.mealId(),
                 createOrderRequest.dateOfMeal(),
                 authentication.getName(),
-                (String) authentication.getAttributes().get("preferred_username")
+                (String) authentication.getAttributes().get("preferred_username"),
+                createOrderRequest.menuItems()
         );
     }
 

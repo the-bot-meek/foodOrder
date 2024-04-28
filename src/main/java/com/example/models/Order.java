@@ -14,12 +14,14 @@ public class Order {
     private Instant dateOfMeal;
     private String uid;
     private String participantsName;
+    private List<MenuItem> menuItems;
 
-    public Order(String mealId, Instant dateOfMeal, String uid, String participantsName) {
+    public Order(String mealId, Instant dateOfMeal, String uid, String participantsName, List<MenuItem> menuItems) {
         this.mealId = mealId;
         this.dateOfMeal = dateOfMeal;
         this.uid = uid;
         this.participantsName = participantsName;
+        this.menuItems = menuItems;
     }
 
     public Order() {
@@ -82,6 +84,16 @@ public class Order {
     }
 
     @DynamoDBAttribute
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
+    }
+
+
+    @DynamoDBAttribute
     public String getParticipantsName() {
         return participantsName;
     }
@@ -97,7 +109,9 @@ public class Order {
 
         if (!Objects.equals(mealId, order.mealId)) return false;
         if (!Objects.equals(dateOfMeal, order.dateOfMeal)) return false;
-        return Objects.equals(uid, order.uid);
+        if (!Objects.equals(uid, order.uid)) return false;
+        if (!Objects.equals(participantsName, order.participantsName)) return false;
+        return Objects.equals(menuItems, order.menuItems);
     }
 
     @Override
@@ -105,6 +119,8 @@ public class Order {
         int result = mealId != null ? mealId.hashCode() : 0;
         result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
+        result = 31 * result + (participantsName != null ? participantsName.hashCode() : 0);
+        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
         return result;
     }
 }

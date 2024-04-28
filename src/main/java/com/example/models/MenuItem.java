@@ -1,11 +1,13 @@
 package com.example.models;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.Objects;
 
 
 @Serdeable
+@DynamoDBDocument
 public class MenuItem {
     private String name;
     private String description;

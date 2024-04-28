@@ -2,6 +2,7 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
 import com.example.models.Meal;
 import jakarta.inject.Singleton;
@@ -15,12 +16,14 @@ import java.util.*;
 public class MealService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
+    private final LocationService locationService;
 
-    public MealService(IDynamoDBFacadeService dynamoDBFacadeService) {
+    public MealService(IDynamoDBFacadeService dynamoDBFacadeService, LocationService locationService) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
+        this.locationService = locationService;
     }
 
-    public Meal newMeal(CreateMealRequest createMealRequest, String uid) {
+    public Meal newMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
         Meal meal = convertCreateMealRequestToNewMeal(createMealRequest, uid);
         dynamoDBFacadeService.save(meal);
         return meal;
@@ -47,13 +50,16 @@ public class MealService {
         return dynamoDBFacadeService.load(Meal.class, pk, sk);
     }
 
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) {
+    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
         final String id = UUID.randomUUID().toString();
         return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
     }
 
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) {
+    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) throws MealRequestConverterException {
         log.trace("Converting CreateMealRequest into Meal");
+        if (!locationService.listLocation().contains(createMealRequest.location())) {
+            throw new MealRequestConverterException("Invalid Location");
+        }
         return new Meal(
                 id,
                 uid,

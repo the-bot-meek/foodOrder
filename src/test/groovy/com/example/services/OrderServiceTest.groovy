@@ -28,16 +28,12 @@ class OrderServiceTest extends Specification {
         String organizerUid = "384n4uc73fe7-de8f-47ed-833a-797b001f"
         String location = "London"
         String name = "MacD"
-        MenuItem menuItem = new MenuItem(
-                name: "name",
-                description: "description",
-                price: 1.0
-        )
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, List.of(menuItem), organizerUid)
+        List<MenuItem> menuItems = List.of(new MenuItem(name: "name", description: "description", price: 1.0))
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, menuItems, organizerUid)
         Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(new Meal(location: location, venueName: name))
         }
@@ -59,7 +55,7 @@ class OrderServiceTest extends Specification {
         Order order = orderService.convertCreateOrderRequestToOrder(createOrderRequest, authentication)
 
         then:
-        order == new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid)
+        order == new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid, menuItems: menuItems, participantsName: "usename")
     }
 
     def "ConvertCreateOrderRequestToOrder with invalid mealId organizerUid/sort key"() {
@@ -79,7 +75,7 @@ class OrderServiceTest extends Specification {
         Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.empty()
         }
@@ -110,7 +106,7 @@ class OrderServiceTest extends Specification {
         Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(new Meal(location: location, venueName: name))
         }

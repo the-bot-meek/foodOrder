@@ -3,7 +3,9 @@ package com.example.controllers
 import com.example.dto.request.CreateMealRequest
 import com.example.models.Meal
 import com.example.services.IDynamoDBFacadeService
+import com.example.services.LocationService
 import com.example.services.MealService
+import io.micronaut.http.exceptions.HttpStatusException
 import spock.lang.Specification
 
 import java.security.Principal
@@ -13,7 +15,8 @@ class MealControllerSpec extends Specification {
     def "AddMeal"() {
         given:
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(dynamoDBFacadeService)
+        LocationService locationService = new LocationService()
+        MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
         Principal principal = Mock(Principal)
@@ -35,6 +38,22 @@ class MealControllerSpec extends Specification {
         }
     }
 
+    def "addMeal with invalid location"() {
+        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
+        LocationService locationService = new LocationService()
+        MealService mealService = new MealService(dynamoDBFacadeService, locationService)
+        MealController mealController = new MealController(mealService)
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "idk", "MacD")
+        Principal principal = Mock(Principal)
+        principal.getName() >> "principal_name"
+
+        when:
+        mealController.addMeal(createMealRequest, principal)
+
+        then:
+        thrown(HttpStatusException)
+    }
+
     def "GetMeal"() {
         given:
         String mealSortKey = "2024-03-25T22:17:46Z_797b001f-de8f-47ed-833a-d84e61c73fe7"
@@ -45,7 +64,7 @@ class MealControllerSpec extends Specification {
             )
         }
 
-        MealService mealService = new MealService(dynamoDBFacadeService)
+        MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
         Principal principal = Mock(Principal)
         principal.getName() >> "principal_name"
@@ -61,7 +80,7 @@ class MealControllerSpec extends Specification {
     def "ListMeals"() {
         given:
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(dynamoDBFacadeService)
+        MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
         Principal principal = Mock(Principal)
         principal.getName() >> "principal_name"
