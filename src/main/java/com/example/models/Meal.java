@@ -116,7 +116,6 @@ public class Meal {
         this.venueName = venueName;
     }
 
-
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
@@ -125,7 +124,9 @@ public class Meal {
         if (!Objects.equals(id, meal.id)) return false;
         if (!Objects.equals(uid, meal.uid)) return false;
         if (!Objects.equals(name, meal.name)) return false;
-        return Objects.equals(mealDate, meal.mealDate);
+        if (!Objects.equals(mealDate, meal.mealDate)) return false;
+        if (!Objects.equals(location, meal.location)) return false;
+        return Objects.equals(venueName, meal.venueName);
     }
 
     @Override
@@ -134,6 +135,8 @@ public class Meal {
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (mealDate != null ? mealDate.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
         return result;
     }
 }
