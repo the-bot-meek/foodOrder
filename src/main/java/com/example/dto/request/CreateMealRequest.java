@@ -17,7 +17,10 @@ public record CreateMealRequest(
         Long mealDate,
         @NotNull
         @NotBlank
-        String venueMenuId
+        String location,
+        @NotNull
+        @NotBlank
+        String venueName
 ) {
 
 }

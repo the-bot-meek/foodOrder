@@ -22,7 +22,7 @@ public class VenueController {
 
     @Get("/{location}/{name}")
     public Optional<Venue> getVenue(String location, String name) {
-        return venueService.getValue(location, name);
+        return venueService.getVenue(location, name);
     }
 
     @Get("/{location}")

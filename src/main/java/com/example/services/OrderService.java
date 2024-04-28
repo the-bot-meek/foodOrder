@@ -3,7 +3,10 @@ package com.example.services;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.dto.request.CreateOrderRequest;
+import com.example.models.Meal;
+import com.example.models.MenuItem;
 import com.example.models.Order;
+import com.example.models.Venue;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -11,19 +14,65 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class OrderService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
+    private final VenueService venueService;
+    private final MealService mealService;
 
     public OrderService(
-            IDynamoDBFacadeService dynamoDBFacadeService
+            IDynamoDBFacadeService dynamoDBFacadeService,
+            VenueService venueService,
+            MealService mealService
     ) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
+        this.venueService = venueService;
+        this.mealService = mealService;
     }
 
-    public static Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
+    /**
+     *
+     * @param menuItems
+     * @param venue
+     * @return a list of MenuItems that don't belong to a Venue
+     */
+    private List<MenuItem> getInvalidMenuItemsForVenue(List<MenuItem> menuItems, Venue venue) {
+        return venue.getMenuItems().stream().filter(menuItem -> !menuItems.contains(menuItem)).toList();
+    }
+
+    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
+        final Optional<Meal> meal = mealService.getMeal(
+                createOrderRequest.organizerUid(),
+                createOrderRequest.dateOfMeal(),
+                createOrderRequest.mealId()
+        );
+
+        // ToDo: Need to make a custom exception
+        if (meal.isEmpty()) {
+            throw new RuntimeException(String.format("Could not find Meal with id: %s", createOrderRequest.mealId()));
+        }
+
+        final Optional<Venue> venue = venueService.getVenue(
+                meal.get().getLocation(),
+                meal.get().getVenueName()
+        );
+
+        if (venue.isEmpty()) {
+            throw new RuntimeException(
+                    String.format("Could not find Venue with location: %s, name: %s", meal.get().getLocation(), meal.get().getVenueName())
+            );
+        }
+
+        List<MenuItem> invalidMenuItems = getInvalidMenuItemsForVenue(createOrderRequest.menuItems(), venue.get());
+
+        if (!invalidMenuItems.isEmpty()) {
+            throw new RuntimeException("pfffff");
+        }
+
+
         return new Order(
                 createOrderRequest.mealId(),
                 createOrderRequest.dateOfMeal(),

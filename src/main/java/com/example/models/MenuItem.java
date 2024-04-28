@@ -41,8 +41,7 @@ public class MenuItem {
         if (!(object instanceof MenuItem menuItem)) return false;
 
         if (!Objects.equals(name, menuItem.name)) return false;
-        if (!Objects.equals(description, menuItem.description))
-            return false;
+        if (!Objects.equals(description, menuItem.description)) return false;
         return Objects.equals(price, menuItem.price);
     }
 

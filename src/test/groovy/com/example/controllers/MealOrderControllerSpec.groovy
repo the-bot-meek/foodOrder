@@ -15,7 +15,7 @@ class MealOrderControllerSpec extends Specification {
         given:
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService, null, null)
         dynamoDBFacadeService.query(Order.class, _) >> [new Order(mealId: mealId, dateOfMeal: Instant.ofEpochSecond(1711487392), uid: "d84e61c73fe7-de8f-47ed-833a-797b001f")]
         MealOrderController mealOrderController = new MealOrderController(orderService)
 

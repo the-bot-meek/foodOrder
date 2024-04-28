@@ -38,6 +38,10 @@ public class MealService {
         return dynamoDBFacadeService.list(Meal.class, dynamoDBQueryExpression);
     }
 
+    public Optional<Meal> getMeal(String originatorUid, Instant mealDate, String mealId) {
+        return dynamoDBFacadeService.load(Meal.class, originatorUid, mealDate + "_" + mealId);
+    }
+
     public Optional<Meal> getMeal(String pk, String sk) {
         log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
         return dynamoDBFacadeService.load(Meal.class, pk, sk);
@@ -49,12 +53,14 @@ public class MealService {
     }
 
     private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) {
+        log.trace("Converting CreateMealRequest into Meal");
         return new Meal(
                 id,
                 uid,
                 createMealRequest.name(),
-                createMealRequest.venueMenuId(),
-                Instant.ofEpochSecond(createMealRequest.mealDate())
+                Instant.ofEpochSecond(createMealRequest.mealDate()),
+                createMealRequest.location(),
+                createMealRequest.venueName()
         );
     }
 }

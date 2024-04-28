@@ -15,7 +15,7 @@ class MealControllerSpec extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(dynamoDBFacadeService)
         MealController mealController = new MealController(mealService)
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "123456789")
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
         Principal principal = Mock(Principal)
         principal.getName() >> "principal_name"
 
@@ -25,9 +25,9 @@ class MealControllerSpec extends Specification {
         then:
         1 * dynamoDBFacadeService.save(_) >> { Meal meal ->
             meal.with {
+                // ToDo: update this test
                 assert it.getName() == "name"
                 assert it.getMealDate() == Instant.ofEpochSecond(1711405066)
-                assert it.getMenuId() == "123456789"
                 assert it.getUid() == "principal_name"
                 assert it.getSortKey().startsWith("2024-03-25T22:17:46Z_")
                 assert it.getPrimaryKeyValue() == "Meal_principal_name"
@@ -41,7 +41,7 @@ class MealControllerSpec extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         dynamoDBFacadeService.load(Meal.class,"principal_name", mealSortKey) >> {
             Optional.of(
-                    new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), menuId: "123456789", uid: "principal_name")
+                    new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
             )
         }
 
@@ -55,7 +55,7 @@ class MealControllerSpec extends Specification {
 
         then:
         assert meal.isPresent()
-        meal.get() == new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), menuId: "123456789", uid: "principal_name")
+        meal.get() == new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
     }
 
     def "ListMeals"() {
@@ -65,12 +65,12 @@ class MealControllerSpec extends Specification {
         MealController mealController = new MealController(mealService)
         Principal principal = Mock(Principal)
         principal.getName() >> "principal_name"
-        dynamoDBFacadeService.list(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), menuId: "123456789", uid: "principal_name")]}
+        dynamoDBFacadeService.list(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
 
         when:
         List<Meal> mealList = mealController.listMeals(principal)
 
         then:
-        mealList == [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), menuId: "123456789", uid: "principal_name")]
+        mealList == [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]
     }
 }

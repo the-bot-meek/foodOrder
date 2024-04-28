@@ -13,15 +13,17 @@ public class Meal {
     private String id;
     private String uid;
     private String name;
-    private String menuId;
     private Instant mealDate;
+    private String location;
+    private String venueName;
 
-    public Meal(String id, String organiserId, String name, String menuId, Instant mealDate) {
+    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
         this.id = id;
         this.uid = organiserId;
         this.name = name;
-        this.menuId = menuId;
         this.mealDate = mealDate;
+        this.location = location;
+        this.venueName = venueName;
     }
 
     public Meal() {
@@ -96,13 +98,24 @@ public class Meal {
         this.name = name;
     }
 
-    public String getMenuId() {
-        return menuId;
+    @DynamoDBAttribute
+    public String getLocation() {
+        return location;
     }
 
-    public void setMenuId(String menuId) {
-        this.menuId = menuId;
+    public void setLocation(String location) {
+        this.location = location;
     }
+
+    @DynamoDBAttribute
+    public String getVenueName() {
+        return venueName;
+    }
+
+    public void setVenueName(String venueName) {
+        this.venueName = venueName;
+    }
+
 
     @Override
     public boolean equals(Object object) {
@@ -112,7 +125,6 @@ public class Meal {
         if (!Objects.equals(id, meal.id)) return false;
         if (!Objects.equals(uid, meal.uid)) return false;
         if (!Objects.equals(name, meal.name)) return false;
-        if (!Objects.equals(menuId, meal.menuId)) return false;
         return Objects.equals(mealDate, meal.mealDate);
     }
 
@@ -121,7 +133,6 @@ public class Meal {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (menuId != null ? menuId.hashCode() : 0);
         result = 31 * result + (mealDate != null ? mealDate.hashCode() : 0);
         return result;
     }

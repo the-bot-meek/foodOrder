@@ -27,7 +27,7 @@ public class VenueService {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
-    public Optional<Venue> getValue(String location, String name) {
+    public Optional<Venue> getVenue(String location, String name) {
         return dynamoDBFacadeService.load(Venue.class,"Venue_" + location, name);
     }
 
