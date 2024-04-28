@@ -2,11 +2,14 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.example.Exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Meal;
 import com.example.models.MenuItem;
 import com.example.models.Order;
 import com.example.models.Venue;
+import io.micronaut.http.HttpStatus;
+import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -40,10 +43,10 @@ public class OrderService {
      * @return a list of MenuItems that don't belong to a Venue
      */
     private List<MenuItem> getInvalidMenuItemsForVenue(List<MenuItem> menuItems, Venue venue) {
-        return venue.getMenuItems().stream().filter(menuItem -> !menuItems.contains(menuItem)).toList();
+        return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
     }
 
-    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
+    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
         final Optional<Meal> meal = mealService.getMeal(
                 createOrderRequest.organizerUid(),
                 createOrderRequest.dateOfMeal(),
@@ -52,7 +55,7 @@ public class OrderService {
 
         // ToDo: Need to make a custom exception
         if (meal.isEmpty()) {
-            throw new RuntimeException(String.format("Could not find Meal with id: %s", createOrderRequest.mealId()));
+            throw new OrderRequestConverterException(String.format("Could not find Meal with id: %s", createOrderRequest.mealId()));
         }
 
         final Optional<Venue> venue = venueService.getVenue(
@@ -61,7 +64,7 @@ public class OrderService {
         );
 
         if (venue.isEmpty()) {
-            throw new RuntimeException(
+            throw new OrderRequestConverterException(
                     String.format("Could not find Venue with location: %s, name: %s", meal.get().getLocation(), meal.get().getVenueName())
             );
         }
@@ -69,7 +72,7 @@ public class OrderService {
         List<MenuItem> invalidMenuItems = getInvalidMenuItemsForVenue(createOrderRequest.menuItems(), venue.get());
 
         if (!invalidMenuItems.isEmpty()) {
-            throw new RuntimeException("pfffff");
+            throw new OrderRequestConverterException("Invalid MenuItems");
         }
 
 
@@ -82,7 +85,12 @@ public class OrderService {
     }
 
     public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
-        Order order = convertCreateOrderRequestToOrder(createOrderRequest, authentication);
+        Order order;
+        try {
+            order = convertCreateOrderRequestToOrder(createOrderRequest, authentication);
+        } catch (OrderRequestConverterException e) {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST, "Could not add order");
+        }
         log.trace("Adding Order MealId: {}, uid: {}", order.getMealId(), order.getUid());
         dynamoDBFacadeService.save(order);
         return order;
