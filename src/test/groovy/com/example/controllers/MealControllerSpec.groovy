@@ -84,7 +84,7 @@ class MealControllerSpec extends Specification {
         MealController mealController = new MealController(mealService)
         Principal principal = Mock(Principal)
         principal.getName() >> "principal_name"
-        dynamoDBFacadeService.list(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
+        dynamoDBFacadeService.query(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
 
         when:
         List<Meal> mealList = mealController.listMeals(principal)

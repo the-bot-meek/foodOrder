@@ -38,7 +38,7 @@ public class MealService {
         DynamoDBQueryExpression<Meal> dynamoDBQueryExpression = new DynamoDBQueryExpression<Meal>()
                 .withKeyConditionExpression("pk = :PK")
                 .withExpressionAttributeValues(eav);
-        return dynamoDBFacadeService.list(Meal.class, dynamoDBQueryExpression);
+        return dynamoDBFacadeService.query(Meal.class, dynamoDBQueryExpression);
     }
 
     public Optional<Meal> getMeal(String originatorUid, Instant mealDate, String mealId) {

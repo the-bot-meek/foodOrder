@@ -33,20 +33,18 @@ public class DynamoDBFacadeService implements IDynamoDBFacadeService{
         this.dynamoDBMapper = new DynamoDBMapper(dynamoDbClient);
     }
 
+    @Override
     public <T> Optional<T> load(Class<T> clazz, String primaryKey, String sortKey) {
         log.trace("Loading clazz: {}, primaryKey: {}, sortKey: {}", clazz, primaryKey, sortKey);
         return Optional.ofNullable(dynamoDBMapper.load(clazz, primaryKey, sortKey));
     }
 
-    public <T> List<T> list(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression) {
-        log.trace("Getting clazz: {}, dynamoDBQueryExpression: {}", clazz, dynamoDBQueryExpression);
-        return dynamoDBMapper.query(clazz, dynamoDBQueryExpression);
-    }
-
+    @Override
     public <T> void save(T object) {
         log.trace("Saving object: {}", object);
         dynamoDBMapper.save(object);
     }
+
 
     @Override
     public <T> List<T> query(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression) {
