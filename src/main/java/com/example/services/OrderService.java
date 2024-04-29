@@ -8,8 +8,6 @@ import com.example.models.Meal;
 import com.example.models.MenuItem;
 import com.example.models.Order;
 import com.example.models.Venue;
-import io.micronaut.http.HttpStatus;
-import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
