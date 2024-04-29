@@ -92,13 +92,8 @@ public class OrderService {
         );
     }
 
-    public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) {
-        Order order;
-        try {
-            order = convertCreateOrderRequestToOrder(createOrderRequest, authentication);
-        } catch (OrderRequestConverterException e) {
-            throw new HttpStatusException(HttpStatus.BAD_REQUEST, "Could not add order");
-        }
+    public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
+        Order order = convertCreateOrderRequestToOrder(createOrderRequest, authentication);
         dynamoDBFacadeService.save(order);
         return order;
     }

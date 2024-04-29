@@ -1,11 +1,14 @@
 package com.example.controllers;
 
+import com.example.Exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Order;
 import com.example.services.OrderService;
+import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Put;
+import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
@@ -24,6 +27,10 @@ public class OrderController {
     @Put
     public Order addOrder(@Valid @Body CreateOrderRequest createOrderRequest, Authentication authentication) {
         log.info("Adding Order createOrderRequest: {}, uid: {}", createOrderRequest, authentication.getName());
-        return orderService.addOrder(createOrderRequest, authentication);
+        try {
+            return orderService.addOrder(createOrderRequest, authentication);
+        } catch (OrderRequestConverterException e) {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
+        }
     }
 }
