@@ -27,4 +27,14 @@ public record CreateVenueRequest(
         @NotBlank
         String description
 ) {
+        @Override
+        public String toString() {
+                final StringBuilder sb = new StringBuilder("CreateVenueRequest{");
+                sb.append("menuItems=").append(menuItems);
+                sb.append(", location='").append(location).append('\'');
+                sb.append(", name='").append(name).append('\'');
+                sb.append(", description='").append(description).append('\'');
+                sb.append('}');
+                return sb.toString();
+        }
 }

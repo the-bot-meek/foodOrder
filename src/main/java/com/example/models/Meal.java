@@ -139,4 +139,17 @@ public class Meal {
         result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Meal{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", uid='").append(uid).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", mealDate=").append(mealDate);
+        sb.append(", location='").append(location).append('\'');
+        sb.append(", venueName='").append(venueName).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

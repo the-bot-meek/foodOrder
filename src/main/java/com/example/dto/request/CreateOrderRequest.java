@@ -27,4 +27,14 @@ public record CreateOrderRequest(
         @NotBlank
         String organizerUid
 ) {
+        @Override
+        public String toString() {
+                final StringBuilder sb = new StringBuilder("CreateOrderRequest{");
+                sb.append("dateOfMeal=").append(dateOfMeal);
+                sb.append(", mealId='").append(mealId).append('\'');
+                sb.append(", menuItems=").append(menuItems);
+                sb.append(", organizerUid='").append(organizerUid).append('\'');
+                sb.append('}');
+                return sb.toString();
+        }
 }

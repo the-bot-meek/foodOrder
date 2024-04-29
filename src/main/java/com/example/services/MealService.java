@@ -58,6 +58,7 @@ public class MealService {
     private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) throws MealRequestConverterException {
         log.trace("Converting CreateMealRequest into Meal");
         if (!locationService.listLocation().contains(createMealRequest.location())) {
+            log.trace("Invalid Location Invalid location: {}", createMealRequest.location());
             throw new MealRequestConverterException("Invalid Location");
         }
         return new Meal(

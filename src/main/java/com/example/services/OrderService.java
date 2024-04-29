@@ -36,42 +36,49 @@ public class OrderService {
         this.mealService = mealService;
     }
 
-    /**
-     *
-     * @param menuItems
-     * @param venue
-     * @return a list of MenuItems that don't belong to a Venue
-     */
     private List<MenuItem> getInvalidMenuItemsForVenue(List<MenuItem> menuItems, Venue venue) {
         return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
     }
 
     public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
-        final Optional<Meal> meal = mealService.getMeal(
+        final Optional<Meal> mealOptional = mealService.getMeal(
                 createOrderRequest.organizerUid(),
                 createOrderRequest.dateOfMeal(),
                 createOrderRequest.mealId()
         );
 
-        // ToDo: Need to make a custom exception
-        if (meal.isEmpty()) {
+        if (mealOptional.isEmpty()) {
+            log.trace("Could not find Meal organizerUid: {}, dateOfMeal: {}, mealId: {}.",
+                    createOrderRequest.organizerUid(),
+                    createOrderRequest.dateOfMeal(),
+                    createOrderRequest.mealId()
+            );
             throw new OrderRequestConverterException(String.format("Could not find Meal with id: %s", createOrderRequest.mealId()));
         }
 
-        final Optional<Venue> venue = venueService.getVenue(
-                meal.get().getLocation(),
-                meal.get().getVenueName()
+        Meal meal = mealOptional.get();
+        final Optional<Venue> venueOptional = venueService.getVenue(
+                meal.getLocation(),
+                meal.getVenueName()
         );
 
-        if (venue.isEmpty()) {
+        if (venueOptional.isEmpty()) {
+            log.trace("Could not find Venue location: {}, name: {}", meal.getLocation(), meal.getVenueName());
             throw new OrderRequestConverterException(
-                    String.format("Could not find Venue with location: %s, name: %s", meal.get().getLocation(), meal.get().getVenueName())
+                    String.format("Could not find Venue with location: %s, name: %s", mealOptional.get().getLocation(), mealOptional.get().getVenueName())
             );
         }
+        Venue venue = venueOptional.get();
 
-        List<MenuItem> invalidMenuItems = getInvalidMenuItemsForVenue(createOrderRequest.menuItems(), venue.get());
+        List<MenuItem> invalidMenuItems = getInvalidMenuItemsForVenue(createOrderRequest.menuItems(), venue);
 
         if (!invalidMenuItems.isEmpty()) {
+            log.trace("Found {} invalid invalidMenuItems for venue id: {}, location: {}, name: {}.",
+                    invalidMenuItems.size(),
+                    venue.getId(),
+                    venue.getLocation(),
+                    venue.getName()
+            );
             throw new OrderRequestConverterException("Invalid MenuItems");
         }
 
@@ -92,7 +99,6 @@ public class OrderService {
         } catch (OrderRequestConverterException e) {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, "Could not add order");
         }
-        log.trace("Adding Order MealId: {}, uid: {}", order.getMealId(), order.getUid());
         dynamoDBFacadeService.save(order);
         return order;
     }

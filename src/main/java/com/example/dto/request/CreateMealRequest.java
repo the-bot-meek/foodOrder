@@ -23,6 +23,16 @@ public record CreateMealRequest(
         String venueName
 ) {
 
+        @Override
+        public String toString() {
+                final StringBuilder sb = new StringBuilder("CreateMealRequest{");
+                sb.append("name='").append(name).append('\'');
+                sb.append(", mealDate=").append(mealDate);
+                sb.append(", location='").append(location).append('\'');
+                sb.append(", venueName='").append(venueName).append('\'');
+                sb.append('}');
+                return sb.toString();
+        }
 }
 
 
