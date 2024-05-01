@@ -30,6 +30,7 @@ public class OrderController {
         try {
             return orderService.addOrder(createOrderRequest, authentication);
         } catch (OrderRequestConverterException e) {
+            log.error(String.valueOf(e));
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }
     }

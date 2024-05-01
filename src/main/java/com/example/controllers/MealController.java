@@ -36,6 +36,7 @@ public class MealController {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, principal.getName());
             return HttpResponse.ok(mealService.newMeal(createMealRequest, principal.getName()));
         } catch (MealRequestConverterException e) {
+            log.error(String.valueOf(e));
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }
     }

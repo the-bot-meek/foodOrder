@@ -1,4 +1,7 @@
 micronaut:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   server:
     cors:
       enabled: true
@@ -15,7 +18,7 @@ micronaut:
       clients:
         auth0:
           client-id: 'demo'
-          client-secret: 'kYDB6KtZ1WGvD541Vhy1Auwp90em402d'
+          client-secret: 'jzyuTZnQCD863Xu9BFdKuFYGLrtCmffN'
           openid:
             issuer: 'localhost:8180/realms/master'
   dynamodb:
@@ -30,3 +33,11 @@ endpoints:
   beans:
     enabled: true
     sensitive: false
+
+jackson:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  serialization:
+    WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
+  serialization-inclusion: always

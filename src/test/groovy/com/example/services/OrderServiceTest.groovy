@@ -123,9 +123,8 @@ class OrderServiceTest extends Specification {
         orderService.convertCreateOrderRequestToOrder(createOrderRequest, authentication)
 
         then:
-        def a = thrown(OrderRequestConverterException)
-        println a
-
+        thrown(OrderRequestConverterException)
+        
         where:
         index | venue
         1     | Optional.of(new Venue(menuItems: List.of(new MenuItem(name: "name", description: "description", price: 5.0))))
