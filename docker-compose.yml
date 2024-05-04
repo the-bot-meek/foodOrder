@@ -2,6 +2,7 @@ version: '3.8'
 services:
   localstack:
     image: "localstack/localstack"
+    hostname: "localstack"
     ports:
       - "4566:4566"
     environment:
@@ -10,17 +11,16 @@ services:
     volumes:
       - "./local_stack:/etc/localstack/init/ready.d"
       - "./dynamodb_volume:/var/lib/localstack"
-  key-clock:
-    container_name: "key-clock"
-    image: "quay.io/keycloak/keycloak:24.0.2"
+  food-order-server:
+    container_name: "food-order-server"
+    image: "sharedfoodorder:latest"
     ports:
-      - "8180:8080"
-    volumes:
-      - "./import:/opt/keycloak/data/import"
+      - "8080:8080"
     environment:
-      KEYCLOAK_ADMIN: "admin"
-      KEYCLOAK_ADMIN_PASSWORD: "admin"
-    command:
-     - "start-dev"
-     - "--import-realm"
-
+      OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
+      OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
+      OAUTH_DOMAIN: "${OAUTH_DOMAIN}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_KEY: "${AWS_SECRET_KEY}"
+    depends_on:
+      - localstack

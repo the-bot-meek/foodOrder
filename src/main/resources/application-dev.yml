@@ -17,13 +17,13 @@ micronaut:
         enabled: false
       clients:
         auth0:
-          client-id: 'demo'
-          client-secret: 'jzyuTZnQCD863Xu9BFdKuFYGLrtCmffN'
+          client-id: '${OAUTH_CLIENT_ID}'
+          client-secret: '${OAUTH_CLIENT_SECRET}'
           openid:
-            issuer: 'localhost:8180/realms/master'
+            issuer: 'https://${OAUTH_DOMAIN}/'
   dynamodb:
     primary_table:
-      region: "http://localhost:4566"
+      region: "http://localstack:4566"
       endpoint: "eu-west-1"
 
 endpoints:
