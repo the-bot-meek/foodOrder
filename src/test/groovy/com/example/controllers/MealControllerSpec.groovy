@@ -11,6 +11,12 @@ import spock.lang.Specification
 import java.time.Instant
 
 class MealControllerSpec extends Specification {
+    private Authentication mockAuthentication(String name) {
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> name
+        return authentication;
+    }
+    
     def "AddMeal"() {
         given:
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
@@ -18,8 +24,7 @@ class MealControllerSpec extends Specification {
         MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
-        Authentication authentication = Mock(Authentication)
-        authentication.getName() >> "principal_name"
+        Authentication authentication = mockAuthentication( "principal_name")
 
         when:
         mealController.addMeal(createMealRequest, authentication)
@@ -43,8 +48,7 @@ class MealControllerSpec extends Specification {
         MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "idk", "MacD")
-        Authentication authentication = Mock(Authentication)
-        authentication.getName() >> "principal_name"
+        Authentication authentication = mockAuthentication( "principal_name")
 
         when:
         mealController.addMeal(createMealRequest, authentication)
@@ -65,8 +69,7 @@ class MealControllerSpec extends Specification {
 
         MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
-        Authentication authentication = Mock(Authentication)
-        authentication.getName() >> "principal_name"
+        Authentication authentication = mockAuthentication( "principal_name")
 
         when:
         Optional<Meal> meal = mealController.getMeal(mealSortKey, authentication)
@@ -81,8 +84,7 @@ class MealControllerSpec extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
-        Authentication authentication = Mock(Authentication)
-        authentication.getName() >> "principal_name"
+        Authentication authentication = mockAuthentication("principal_name")
         dynamoDBFacadeService.query(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
 
         when:

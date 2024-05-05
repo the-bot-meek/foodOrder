@@ -2,14 +2,17 @@ package com.example.controllers;
 
 import com.example.models.Order;
 import com.example.services.OrderService;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller("/meal")
 @Secured(SecurityRule.IS_AUTHENTICATED)
@@ -21,8 +24,24 @@ public class MealOrderController {
     }
 
     @Get("/{mealId}/orders")
-    public List<Order> listAllOrdersForMeal(String mealId) {
+    public HttpResponse<List<Order>> listAllOrdersForMeal(String mealId, Authentication authentication) {
         log.info("Getting all Orders for mealId: {}", mealId);
-        return orderService.getOrderFromMealId(mealId);
+        List<Order> orders = orderService.getOrderFromMealId(mealId);
+        if (!validateListOfOrders(orders, authentication)) {
+            return HttpResponse.notFound();
+        }
+        return HttpResponse.ok(orders);
+    }
+
+    private boolean validateListOfOrders(List<Order> orders, Authentication authentication) {
+        if (orders.isEmpty()) return true;
+        Order order = orders.get(0);
+        boolean uniform = orders.stream().allMatch(it ->
+                Objects.equals(it.getMealId(), order.getMealId())
+                && it.getDateOfMeal() == order.getDateOfMeal()
+                && Objects.equals(it.getUid(), order.getUid())
+        );
+        if (!uniform) return false;
+        return (authentication.getName().equals(order.getUid()));
     }
 }
