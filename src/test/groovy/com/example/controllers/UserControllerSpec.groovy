@@ -1,18 +1,17 @@
 package com.example.controllers
 
+import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
-
-import java.security.Principal
 
 class UserControllerSpec extends Specification {
     def "GetUserInfo"() {
         given:
-        Principal principal = Mock(Principal)
-        principal.getName() >> "name"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> "name"
 
         UserController userController = new UserController()
         when:
-        Map<String,?> userInfo = userController.getUserInfo(principal)
+        Map<String,?> userInfo = userController.getUserInfo(authentication)
 
         then:
         userInfo.keySet() == ["name"].toSet()

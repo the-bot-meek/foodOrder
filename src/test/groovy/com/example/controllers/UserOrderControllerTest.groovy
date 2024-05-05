@@ -3,9 +3,8 @@ package com.example.controllers
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.OrderService
+import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
-
-import java.security.Principal
 import java.time.Instant
 
 class UserOrderControllerTest extends Specification {
@@ -14,11 +13,11 @@ class UserOrderControllerTest extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         OrderService orderService = new OrderService(dynamoDBFacadeService, null, null)
         UserOrderController userOrderController = new UserOrderController(orderService)
-        Principal principal = Mock(Principal)
-        principal.getName() >> "d84e61c73fe7-de8f-47ed-833a-797b001f"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> "d84e61c73fe7-de8f-47ed-833a-797b001f"
 
         when:
-        List<Order> orderList = userOrderController.listOrders(principal)
+        List<Order> orderList = userOrderController.listOrders(authentication)
 
         then:
         1 * dynamoDBFacadeService.query(Order.class, _) >> {

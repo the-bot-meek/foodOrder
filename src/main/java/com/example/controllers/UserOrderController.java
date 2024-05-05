@@ -5,11 +5,10 @@ import com.example.services.OrderService;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
+import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.security.Principal;
 import java.util.List;
 
 @Controller("user")
@@ -21,8 +20,8 @@ public class UserOrderController {
         this.orderService = orderService;
     }
     @Get("order")
-    public List<Order> listOrders(Principal principal) {
-        log.info("Getting all Orders for uid: {}", principal.getName());
-        return orderService.listOrdersFromUserID(principal.getName());
+    public List<Order> listOrders(Authentication authentication) {
+        log.info("Getting all Orders for uid: {}", authentication.getName());
+        return orderService.listOrdersFromUserID(authentication.getName());
     }
 }

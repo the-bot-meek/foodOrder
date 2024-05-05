@@ -1,13 +1,9 @@
 package com.example.controllers
 
-import com.example.models.Meal
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
-import com.example.services.MealService
 import com.example.services.OrderService
 import spock.lang.Specification
-
-import java.security.Principal
 import java.time.Instant
 
 class MealOrderControllerSpec extends Specification {

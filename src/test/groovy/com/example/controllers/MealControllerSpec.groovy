@@ -6,9 +6,8 @@ import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
 import com.example.services.MealService
 import io.micronaut.http.exceptions.HttpStatusException
+import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
-
-import java.security.Principal
 import java.time.Instant
 
 class MealControllerSpec extends Specification {
@@ -19,11 +18,11 @@ class MealControllerSpec extends Specification {
         MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
-        Principal principal = Mock(Principal)
-        principal.getName() >> "principal_name"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> "principal_name"
 
         when:
-        mealController.addMeal(createMealRequest, principal)
+        mealController.addMeal(createMealRequest, authentication)
 
         then:
         1 * dynamoDBFacadeService.save(_) >> { Meal meal ->
@@ -44,11 +43,11 @@ class MealControllerSpec extends Specification {
         MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "idk", "MacD")
-        Principal principal = Mock(Principal)
-        principal.getName() >> "principal_name"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> "principal_name"
 
         when:
-        mealController.addMeal(createMealRequest, principal)
+        mealController.addMeal(createMealRequest, authentication)
 
         then:
         thrown(HttpStatusException)
@@ -66,11 +65,11 @@ class MealControllerSpec extends Specification {
 
         MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
-        Principal principal = Mock(Principal)
-        principal.getName() >> "principal_name"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> "principal_name"
 
         when:
-        Optional<Meal> meal = mealController.getMeal(mealSortKey, principal)
+        Optional<Meal> meal = mealController.getMeal(mealSortKey, authentication)
 
         then:
         assert meal.isPresent()
@@ -82,12 +81,12 @@ class MealControllerSpec extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
-        Principal principal = Mock(Principal)
-        principal.getName() >> "principal_name"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> "principal_name"
         dynamoDBFacadeService.query(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
 
         when:
-        List<Meal> mealList = mealController.listMeals(principal)
+        List<Meal> mealList = mealController.listMeals(authentication)
 
         then:
         mealList == [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]
