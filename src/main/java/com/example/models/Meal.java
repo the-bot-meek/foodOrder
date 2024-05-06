@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "primary_table")
+@DynamoDBDocument
 @Serdeable
 public class Meal {
     private String id;

@@ -10,40 +10,48 @@ import java.util.Objects;
 @DynamoDBTable(tableName = "order_table")
 @Serdeable
 public class Order {
-    private String mealId;
-    private Instant dateOfMeal;
+    private Meal meal;
     private String uid;
     private String participantsName;
     private List<MenuItem> menuItems;
 
-    public Order(String mealId, Instant dateOfMeal, String uid, String participantsName, List<MenuItem> menuItems) {
-        this.mealId = mealId;
-        this.dateOfMeal = dateOfMeal;
+    public Order(Meal meal, String uid, String participantsName, List<MenuItem> menuItems) {
+        this.meal = meal;
         this.uid = uid;
         this.participantsName = participantsName;
         this.menuItems = menuItems;
     }
 
     public Order() {
-
+        this.meal = new Meal();
     }
+
+    @DynamoDBAttribute
+    public Meal getMeal() {
+        return meal;
+    }
+
+    public void setMeal(Meal meal) {
+        this.meal = meal;
+    }
+
 
     @DynamoDBHashKey(attributeName = "meal_id")
     public String getPrimaryKey() {
-        return "Order_" + mealId;
+        return "Order_" + meal.getId();
     }
 
     public void setPrimaryKey(String pk) {
-        this.mealId = pk.replace("Order_", "");
+        this.meal.setId(pk.replace("Order_", ""));;
     }
 
     @DynamoDBRangeKey(attributeName = "date_of_meal")
     public String getSortKey() {
-        return dateOfMeal.toString();
+        return meal.getMealDate().toString();
     }
 
     public void setSortKey(String sk) {
-        this.dateOfMeal = Instant.parse(sk);
+        this.meal.setMealDate(Instant.parse(sk));;
     }
 
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "uid_gsi", attributeName = "uid")
@@ -53,24 +61,6 @@ public class Order {
 
     public void setGSIPrimaryKey(String primaryKeyGSI) {
         uid = primaryKeyGSI.replace("Order_", "");
-    }
-
-    public String getMealId() {
-        return mealId;
-    }
-
-    public void setMealId(String mealId) {
-        this.mealId = mealId;
-    }
-
-    @DynamoDBIgnore
-    public Instant getDateOfMeal() {
-        return dateOfMeal;
-    }
-
-    @DynamoDBIgnore
-    public void setDateOfMeal(Instant dateOfMeal) {
-        this.dateOfMeal = dateOfMeal;
     }
 
     @DynamoDBIgnore
@@ -107,17 +97,16 @@ public class Order {
         if (this == object) return true;
         if (!(object instanceof Order order)) return false;
 
-        if (!Objects.equals(mealId, order.mealId)) return false;
-        if (!Objects.equals(dateOfMeal, order.dateOfMeal)) return false;
+        if (!Objects.equals(meal, order.meal)) return false;
         if (!Objects.equals(uid, order.uid)) return false;
-        if (!Objects.equals(participantsName, order.participantsName)) return false;
+        if (!Objects.equals(participantsName, order.participantsName))
+            return false;
         return Objects.equals(menuItems, order.menuItems);
     }
 
     @Override
     public int hashCode() {
-        int result = mealId != null ? mealId.hashCode() : 0;
-        result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
+        int result = meal != null ? meal.hashCode() : 0;
         result = 31 * result + (uid != null ? uid.hashCode() : 0);
         result = 31 * result + (participantsName != null ? participantsName.hashCode() : 0);
         result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);

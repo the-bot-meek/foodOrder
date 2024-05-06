@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.example.models.Meal
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.OrderService
@@ -20,9 +21,9 @@ class MealOrderControllerSpec extends Specification {
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         OrderService orderService = new OrderService(dynamoDBFacadeService, null, null)
+        Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
-                mealId: mealId,
-                dateOfMeal: Instant.ofEpochSecond(1711487392),
+                meal: meal,
                 uid: "d84e61c73fe7-de8f-47ed-833a-797b001f"
         )]
         dynamoDBFacadeService.query(Order.class, _) >> orders
@@ -41,9 +42,9 @@ class MealOrderControllerSpec extends Specification {
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         OrderService orderService = new OrderService(dynamoDBFacadeService, null, null)
+        Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
-                mealId: mealId,
-                dateOfMeal: Instant.ofEpochSecond(1711487392),
+                meal: meal,
                 uid: "d84e61c73fe7-de8f-47ed-833a-797b001f",
                 participantsName: "principal_name"
         )]
@@ -63,9 +64,9 @@ class MealOrderControllerSpec extends Specification {
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         OrderService orderService = new OrderService(dynamoDBFacadeService, null, null)
+        Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
-                mealId: mealId,
-                dateOfMeal: Instant.ofEpochSecond(1711487392),
+                meal: meal,
                 uid: "d84e61c73fe7-de8f-47ed-833a-797b001f",
                 participantsName: "principal_name"
         ), new Order()]

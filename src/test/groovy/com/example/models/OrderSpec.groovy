@@ -13,7 +13,7 @@ class OrderSpec extends Specification {
         order.setPrimaryKey("Order_101")
 
         then:
-        order.getMealId() == "101"
+        order.getMeal().getId() == "101"
     }
 
     def "test primary key desterilisation"() {
@@ -21,7 +21,7 @@ class OrderSpec extends Specification {
         Order order = new Order()
 
         when:
-        order.setMealId("101")
+        order.meal.setId("101")
 
         then:
         order.getPrimaryKey() == "Order_101"
@@ -32,7 +32,7 @@ class OrderSpec extends Specification {
         Order order = new Order()
 
         when:
-        order.setDateOfMeal(Instant.ofEpochSecond(1711394564))
+        order.meal.setMealDate(Instant.ofEpochSecond(1711394564))
 
         then:
         order.getSortKey() == "2024-03-25T19:22:44Z"
@@ -47,6 +47,6 @@ class OrderSpec extends Specification {
         order.setSortKey(sortKey)
 
         then:
-        order.getDateOfMeal() == Instant.ofEpochSecond(1711394564)
+        order.getMeal().getMealDate() == Instant.ofEpochSecond(1711394564)
     }
 }

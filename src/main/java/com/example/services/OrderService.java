@@ -82,8 +82,7 @@ public class OrderService {
 
 
         return new Order(
-                createOrderRequest.mealId(),
-                createOrderRequest.dateOfMeal(),
+                meal,
                 authentication.getName(),
                 (String) authentication.getAttributes().get("preferred_username"),
                 createOrderRequest.menuItems()

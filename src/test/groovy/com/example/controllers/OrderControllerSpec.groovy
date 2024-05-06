@@ -28,7 +28,7 @@ class OrderControllerSpec extends Specification {
         IDynamoDBFacadeService mealServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(mealServiceIDynamoDBFacadeService, null)
         mealServiceIDynamoDBFacadeService.load(Meal, organizerUid, (dateOfMeal.toString() + "_" + mealId)) >> {
-            return Optional.of(new Meal(location: location, venueName: name))
+            return Optional.of(new Meal(location: location, venueName: name, id: mealId, mealDate: dateOfMeal))
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
@@ -64,6 +64,15 @@ class OrderControllerSpec extends Specification {
         orderController.addOrder(createOrderRequest, authentication)
 
         then:
-        1 * dynamoDBFacadeService.save(new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid, menuItems: menuItems, participantsName: "usename"))
+        1 * dynamoDBFacadeService.save({Order order ->
+            assert order.getUid() == uid
+            assert order.getMenuItems() == menuItems
+            assert order.getParticipantsName() == "usename"
+            order.getMeal().with {Meal meal ->
+                assert meal.getId() == mealId
+                assert meal.getMealDate() == dateOfMeal
+            }
+
+        })
     }
 }

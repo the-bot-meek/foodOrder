@@ -37,8 +37,8 @@ public class MealOrderController {
         if (orders.isEmpty()) return true;
         Order order = orders.get(0);
         boolean uniform = orders.stream().allMatch(it ->
-                Objects.equals(it.getMealId(), order.getMealId())
-                && it.getDateOfMeal() == order.getDateOfMeal()
+                Objects.equals(it.getMeal().getId(), order.getMeal().getId())
+                && it.getMeal().getMealDate() == order.getMeal().getMealDate()
                 && Objects.equals(it.getUid(), order.getUid())
         );
         if (!uniform) return false;

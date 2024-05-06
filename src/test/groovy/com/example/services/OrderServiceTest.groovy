@@ -34,8 +34,9 @@ class OrderServiceTest extends Specification {
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
-            return Optional.of(new Meal(location: location, venueName: name))
+            return Optional.of(meal)
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
@@ -55,7 +56,7 @@ class OrderServiceTest extends Specification {
         Order order = orderService.convertCreateOrderRequestToOrder(createOrderRequest, authentication)
 
         then:
-        order == new Order(mealId: mealId, dateOfMeal: dateOfMeal, uid: uid, menuItems: menuItems, participantsName: "usename")
+        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: "usename")
     }
 
     def "ConvertCreateOrderRequestToOrder with invalid mealId organizerUid/sort key"() {

@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.example.models.Meal
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.OrderService
@@ -15,14 +16,16 @@ class UserOrderControllerTest extends Specification {
         UserOrderController userOrderController = new UserOrderController(orderService)
         Authentication authentication = Mock(Authentication)
         authentication.getName() >> "d84e61c73fe7-de8f-47ed-833a-797b001f"
+        Meal meal = new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", mealDate: Instant.ofEpochSecond(1711487392))
+
 
         when:
         List<Order> orderList = userOrderController.listOrders(authentication)
 
         then:
         1 * dynamoDBFacadeService.query(Order.class, _) >> {
-            List.of(new Order(mealId: "797b001f-de8f-47ed-833a-d84e61c73fe7", dateOfMeal: Instant.ofEpochSecond(1711487392), uid: "d84e61c73fe7-de8f-47ed-833a-797b001f"))
+            List.of(new Order(meal: meal, uid: "d84e61c73fe7-de8f-47ed-833a-797b001f"))
         }
-        orderList.get(0) == new Order(mealId: "797b001f-de8f-47ed-833a-d84e61c73fe7", dateOfMeal: Instant.ofEpochSecond(1711487392), uid: "d84e61c73fe7-de8f-47ed-833a-797b001f")
+        orderList.get(0) == new Order(meal: meal, uid: "d84e61c73fe7-de8f-47ed-833a-797b001f")
     }
 }
