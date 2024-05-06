@@ -42,6 +42,6 @@ public class MealOrderController {
                 && Objects.equals(it.getUid(), order.getUid())
         );
         if (!uniform) return false;
-        return (authentication.getName().equals(order.getUid()));
+        return (authentication.getName().equals(order.getMeal().getUid()));
     }
 }
