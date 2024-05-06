@@ -4,8 +4,6 @@ micronaut:
   security:
     authentication: cookie
     oauth2:
-      pkce:
-        enabled: false
       clients:
         auth0:
           client-id: '${OAUTH_CLIENT_ID:xxx}'
