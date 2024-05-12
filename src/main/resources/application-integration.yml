@@ -1,0 +1,31 @@
+micronaut:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  server:
+    cors:
+      enabled: true
+      configurations:
+        ui:
+          allowed-origins:
+            - http://localhost:8080
+            - http://localhost:4200
+  dynamodb:
+    primary_table:
+      region: "http://localhost:4566/"
+      endpoint: "eu-west-1"
+
+endpoints:
+  routes:
+    enabled: true
+    sensitive: false
+  beans:
+    enabled: true
+    sensitive: false
+jackson:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  serialization:
+    WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
+  serialization-inclusion: always
