@@ -46,8 +46,8 @@ class OrderIntegrationSpec extends Specification {
 
 
         when:
-        Venue createVenueResp = venueClient.addVenue(createVenueRequest)
-        Meal meal = mealClient.addMeal(createMealRequest);
+        venueClient.addVenue(createVenueRequest)
+        Meal meal = mealClient.addMeal(createMealRequest)
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, meal.getId(), menuItems, "steven")
         Order order = orderClient.addOrder(createOrderRequest)

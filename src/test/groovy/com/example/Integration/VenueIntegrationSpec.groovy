@@ -13,7 +13,7 @@ import spock.lang.Specification
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
 class VenueIntegrationSpec extends Specification {
     @Inject
-    VenueClient venueClient;
+    VenueClient venueClient
 
     def "Add Venue"() {
         given:
@@ -50,7 +50,7 @@ class VenueIntegrationSpec extends Specification {
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description")
 
         when:
-        Venue createVenueResp = venueClient.addVenue(createVenueRequest)
+        venueClient.addVenue(createVenueRequest)
         List<Venue> venueList = venueClient.listVenuesForLocation("London")
 
         then:

@@ -17,10 +17,10 @@ import java.time.Instant
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
 class MealIntegrationSpec extends Specification {
     @Inject
-    MealClient mealClient;
+    MealClient mealClient
     def "Add meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD")
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -36,7 +36,7 @@ class MealIntegrationSpec extends Specification {
 
     def "Get Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD")
 
         when:
         Meal createMealResp = mealClient.addMeal(createMealRequest)
@@ -48,10 +48,10 @@ class MealIntegrationSpec extends Specification {
 
     def "List all meals for current user"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", 1711405066, "London", "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD")
 
         when:
-        Meal createMealResp = mealClient.addMeal(createMealRequest)
+        mealClient.addMeal(createMealRequest)
         List<Meal> mealList = mealClient.listAllMealsForUser()
         then:
         assert !mealList.isEmpty()

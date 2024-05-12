@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
 import com.example.dto.request.CreateMealRequest
 import com.example.models.Meal
 import com.example.services.IDynamoDBFacadeService
@@ -14,7 +15,7 @@ class MealControllerSpec extends Specification {
     private Authentication mockAuthentication(String name) {
         Authentication authentication = Mock(Authentication)
         authentication.getName() >> name
-        return authentication;
+        return authentication
     }
     
     def "AddMeal"() {
@@ -85,7 +86,7 @@ class MealControllerSpec extends Specification {
         MealService mealService = new MealService(dynamoDBFacadeService, null)
         MealController mealController = new MealController(mealService)
         Authentication authentication = mockAuthentication("principal_name")
-        dynamoDBFacadeService.query(Meal, _) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
+        dynamoDBFacadeService.query(Meal, _ as DynamoDBQueryExpression) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
 
         when:
         List<Meal> mealList = mealController.listMeals(authentication)

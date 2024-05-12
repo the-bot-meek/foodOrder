@@ -4,7 +4,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -43,7 +42,7 @@ public class Order {
     }
 
     public void setPrimaryKey(String pk) {
-        this.meal.setId(pk.replace("Order_", ""));;
+        this.meal.setId(pk.replace("Order_", ""));
     }
 
     @DynamoDBRangeKey(attributeName = "date_of_meal")
@@ -52,7 +51,7 @@ public class Order {
     }
 
     public void setSortKey(String sk) {
-        this.meal.setMealDate(Instant.parse(sk));;
+        this.meal.setMealDate(Instant.parse(sk));
     }
 
     @DynamoDBIndexHashKey(globalSecondaryIndexName = "uid_gsi", attributeName = "uid")
