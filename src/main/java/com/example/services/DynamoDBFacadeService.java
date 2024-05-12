@@ -15,21 +15,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Singleton
-@Requires(property = "micronaut.dynamodb.primary_table.region")
-@Requires(property = "micronaut.dynamodb.primary_table.endpoint")
+@Requires(bean = AmazonDynamoDB.class)
 public class DynamoDBFacadeService implements IDynamoDBFacadeService{
     public final AmazonDynamoDB dynamoDbClient;
     private final DynamoDBMapper dynamoDBMapper;
     private final Logger log = LoggerFactory.getLogger(DynamoDBFacadeService.class);
 
-    public DynamoDBFacadeService(
-            @Value("${micronaut.dynamodb.primary_table.region}") String endpoint,
-            @Value("${micronaut.dynamodb.primary_table.endpoint}") String region
-    ) {
-        log.trace("DynamoDBFacadeService. endpoint: {}, region: {}", endpoint, region);
-        this.dynamoDbClient = AmazonDynamoDBClientBuilder.standard()
-                .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpoint, region))
-                .build();
+    public DynamoDBFacadeService(AmazonDynamoDB dynamoDbClient) {
+        this.dynamoDbClient = dynamoDbClient;
         this.dynamoDBMapper = new DynamoDBMapper(dynamoDbClient);
     }
 
