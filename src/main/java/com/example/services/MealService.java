@@ -65,7 +65,7 @@ public class MealService {
                 id,
                 uid,
                 createMealRequest.name(),
-                Instant.ofEpochSecond(createMealRequest.mealDate()),
+                createMealRequest.dateOfMeal(),
                 createMealRequest.location(),
                 createMealRequest.venueName()
         );

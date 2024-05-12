@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
 
 @Introspected
 @JsonSerialize
@@ -22,7 +23,7 @@ public record CreateOrderRequest(
         String mealId,
         @NotNull
         @NotEmpty
-        List<MenuItem> menuItems,
+        Set<MenuItem> menuItems,
         @NotNull
         @NotBlank
         String organizerUid

@@ -12,10 +12,8 @@ import io.micronaut.security.authentication.Authentication;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+
+import java.util.*;
 
 @Singleton
 public class OrderService {
@@ -34,7 +32,7 @@ public class OrderService {
         this.mealService = mealService;
     }
 
-    private List<MenuItem> getInvalidMenuItemsForVenue(List<MenuItem> menuItems, Venue venue) {
+    private List<MenuItem> getInvalidMenuItemsForVenue(Set<MenuItem> menuItems, Venue venue) {
         return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
     }
 
@@ -51,7 +49,12 @@ public class OrderService {
                     createOrderRequest.dateOfMeal(),
                     createOrderRequest.mealId()
             );
-            throw new OrderRequestConverterException(String.format("Could not find Meal with id: %s", createOrderRequest.mealId()));
+            throw new OrderRequestConverterException(
+                    String.format("Could not find Meal organizerUid: %s, dateOfMeal: %s, mealId: %s.", createOrderRequest.organizerUid(),
+                    createOrderRequest.dateOfMeal(),
+                    createOrderRequest.mealId()
+                )
+            );
         }
 
         Meal meal = mealOptional.get();

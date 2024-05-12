@@ -28,7 +28,7 @@ class OrderServiceTest extends Specification {
         String organizerUid = "384n4uc73fe7-de8f-47ed-833a-797b001f"
         String location = "London"
         String name = "MacD"
-        List<MenuItem> menuItems = List.of(new MenuItem(name: "name", description: "description", price: 1.0))
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.0)]
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, menuItems, organizerUid)
         Authentication authentication = getUserAuth(uid)
 
@@ -65,14 +65,12 @@ class OrderServiceTest extends Specification {
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
         String uid = "d84e61c73fe7-de8f-47ed-833a-797b001f"
         String organizerUid = "384n4uc73fe7-de8f-47ed-833a-797b001f"
-        String location = "London"
-        String name = "MacD"
         MenuItem menuItem = new MenuItem(
                 name: "name",
                 description: "description",
                 price: 1.0
         )
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, List.of(menuItem), organizerUid)
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, Set.of(menuItem), organizerUid)
         Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
@@ -103,7 +101,7 @@ class OrderServiceTest extends Specification {
                 description: "description",
                 price: 1.0
         )
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, List.of(menuItem), organizerUid)
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, Set.of(menuItem), organizerUid)
         Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)

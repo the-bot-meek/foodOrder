@@ -49,7 +49,7 @@ class OrderControllerSpec extends Specification {
         authentication.getAttributes() >> Map.of("preferred_username", "usename")
         authentication.getName() >> uid
 
-        List<MenuItem> menuItems = List.of(
+        Set<MenuItem> menuItems = Set.of(
                 new MenuItem(name: "name", description: "description", price: 1.0)
         )
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(
@@ -58,7 +58,6 @@ class OrderControllerSpec extends Specification {
                 menuItems,
                 organizerUid
         )
-
 
         when:
         orderController.addOrder(createOrderRequest, authentication)

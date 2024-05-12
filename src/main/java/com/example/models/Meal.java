@@ -49,7 +49,7 @@ public class Meal {
         }
 
         if (this.mealDate == null) {
-            throw new IllegalStateException("Can not get valid sort key while mealDate is null");
+            throw new IllegalStateException("Can not get valid sort key while dateOfMeal is null");
         }
 
         return this.mealDate + "_" + this.id;
@@ -147,7 +147,7 @@ public class Meal {
         sb.append("id='").append(id).append('\'');
         sb.append(", uid='").append(uid).append('\'');
         sb.append(", name='").append(name).append('\'');
-        sb.append(", mealDate=").append(mealDate);
+        sb.append(", dateOfMeal=").append(mealDate);
         sb.append(", location='").append(location).append('\'');
         sb.append(", venueName='").append(venueName).append('\'');
         sb.append('}');

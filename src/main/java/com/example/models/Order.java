@@ -6,6 +6,7 @@ import io.micronaut.serde.annotation.Serdeable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @DynamoDBTable(tableName = "order_table")
 @Serdeable
@@ -13,9 +14,9 @@ public class Order {
     private Meal meal;
     private String uid;
     private String participantsName;
-    private List<MenuItem> menuItems;
+    private Set<MenuItem> menuItems;
 
-    public Order(Meal meal, String uid, String participantsName, List<MenuItem> menuItems) {
+    public Order(Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
         this.meal = meal;
         this.uid = uid;
         this.participantsName = participantsName;
@@ -74,11 +75,11 @@ public class Order {
     }
 
     @DynamoDBAttribute
-    public List<MenuItem> getMenuItems() {
+    public Set<MenuItem> getMenuItems() {
         return menuItems;
     }
 
-    public void setMenuItems(List<MenuItem> menuItems) {
+    public void setMenuItems(Set<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }
 
