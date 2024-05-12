@@ -17,12 +17,6 @@ import java.time.Instant
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
 class MealIntegrationSpec extends Specification {
     @Inject
-    EmbeddedServer server
-
-    @Inject
-    ApplicationContext context
-
-    @Inject
     MealClient mealClient;
     def "Add meal"() {
         given:

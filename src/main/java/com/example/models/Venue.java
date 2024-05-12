@@ -96,8 +96,7 @@ public class Venue {
         if (!Objects.equals(name, venue.name)) return false;
         if (!Objects.equals(location, venue.location)) return false;
         if (!Objects.equals(description, venue.description)) return false;
-        if (!Objects.equals(menuItems, venue.menuItems)) return false;
-        return mapper.equals(venue.mapper);
+        return Objects.equals(menuItems, venue.menuItems);
     }
 
     @Override
@@ -107,7 +106,6 @@ public class Venue {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
-        result = 31 * result + mapper.hashCode();
         return result;
     }
 }
