@@ -72,8 +72,16 @@ tasks.named("dockerfile") {
     baseImage("eclipse-temurin:17-jre-jammy")
 }
 
-tasks.named("dockerfileNative") {
-    jdkVersion = "17"
+
+task integrationTest(type: Test) {
+    group = "verification"
+    doFirst {
+        environment("requireIntegrationTests", "true")
+    }
+
+    filter {
+        includeTestsMatching("com.example.Integration.*")
+    }
 }
 
 
