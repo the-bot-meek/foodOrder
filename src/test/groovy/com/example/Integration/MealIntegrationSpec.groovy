@@ -15,7 +15,7 @@ import java.time.Instant
 
 @MicronautTest(environments = ["integration"])
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
-class Integration extends Specification {
+class MealIntegrationSpec extends Specification {
     @Inject
     EmbeddedServer server
 
