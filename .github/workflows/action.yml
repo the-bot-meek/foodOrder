@@ -28,3 +28,9 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test --no-daemon
+
+      - name: Start local stack
+        run: docker-compose up -d localstack
+
+      - name: Run integration test
+        run: ./gradlew integrationTest
