@@ -1,7 +1,9 @@
 package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
+import com.amazonaws.services.dynamodbv2.datamodeling.ConversionSchemas;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import io.micronaut.context.annotation.Requires;
 import jakarta.inject.Singleton;
@@ -20,7 +22,11 @@ public class DynamoDBFacadeService implements IDynamoDBFacadeService{
 
     public DynamoDBFacadeService(AmazonDynamoDB dynamoDbClient) {
         this.dynamoDbClient = dynamoDbClient;
-        this.dynamoDBMapper = new DynamoDBMapper(dynamoDbClient);
+        DynamoDBMapperConfig dynamoDBMapperConfig = DynamoDBMapperConfig
+                .builder()
+                .withConversionSchema(ConversionSchemas.V2)
+                .build();
+        this.dynamoDBMapper = new DynamoDBMapper(dynamoDbClient, dynamoDBMapperConfig);
     }
 
     @Override
