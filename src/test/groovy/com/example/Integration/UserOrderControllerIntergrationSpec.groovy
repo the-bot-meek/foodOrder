@@ -52,6 +52,6 @@ class UserOrderControllerIntergrationSpec extends Specification {
         List<Order> orderList = userClient.listOrders()
 
         then:
-        assert orderList.last() == order
+        assert orderList.find{Order it -> it.getId() == order.getId()} == order
     }
 }

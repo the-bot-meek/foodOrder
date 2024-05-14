@@ -83,8 +83,9 @@ public class OrderService {
             throw new OrderRequestConverterException("Invalid MenuItems");
         }
 
-
+        String orderId = UUID.randomUUID().toString();
         return new Order(
+                orderId,
                 meal,
                 authentication.getName(),
                 (String) authentication.getAttributes().get("preferred_username"),

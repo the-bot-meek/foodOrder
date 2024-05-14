@@ -10,12 +10,14 @@ import java.util.Set;
 @DynamoDBTable(tableName = "order_table")
 @Serdeable
 public class Order {
+    private String id;
     private Meal meal;
     private String uid;
     private String participantsName;
     private Set<MenuItem> menuItems;
 
-    public Order(Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
+    public Order(String id, Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
+        this.id = id;
         this.meal = meal;
         this.uid = uid;
         this.participantsName = participantsName;
@@ -24,6 +26,15 @@ public class Order {
 
     public Order() {
         this.meal = new Meal();
+    }
+
+    @DynamoDBAttribute
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @DynamoDBAttribute

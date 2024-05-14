@@ -47,6 +47,6 @@ class MealOrderIntegrationSpec extends Specification {
         List<Order> orderList = mealClient.listAllOrdersForMeal(meal.getId())
 
         then:
-        assert orderList.last() == order
+        assert orderList.find{Order it -> it.getId() == order.getId()} == order
     }
 }
