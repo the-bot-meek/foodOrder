@@ -1,11 +1,8 @@
 package com.example.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.serde.annotation.Serdeable;
 
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,8 +14,6 @@ public class Venue {
     private String location;
     private String description;
     private Set<MenuItem> menuItems;
-
-    private final ObjectMapper mapper = new ObjectMapper();
 
     public Venue(String id, String name, String location, String description, Set<MenuItem> menuItems) {
         this.id = id;
@@ -78,13 +73,12 @@ public class Venue {
     }
 
     @DynamoDBAttribute
-    @DynamoDBTypeConvertedJson
     public Set<MenuItem> getMenuItems() {
         return menuItems;
     }
 
-    public void setMenuItems(Set<HashMap<String, ?>> menuItems) {
-        this.menuItems = mapper.convertValue(menuItems, new TypeReference<>(){});
+    public void setMenuItems(Set<MenuItem> menuItems) {
+        this.menuItems = menuItems;
     }
 
     @Override
