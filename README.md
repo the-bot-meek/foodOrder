@@ -1,3 +1,11 @@
+# Getting started
+
+1. clone this repo and wait for the dependencies to install.
+2. Run the gradle test and integrationTest tasks to ensure that the application is running as expected.  
+3. Run the dockerBuild gradle task.  
+4. Follow the steps to set up a oauth account listed in the [SECURE A MICRONAUT APPLICATION WITH AUTH0](https://guides.micronaut.io/latest/micronaut-oauth2-auth0-gradle-java.html) Micronaut guide.   
+5. Run the docker-compose file with your oauth details in the environment variables.
+
 # Design Decision
 
 ## Spec

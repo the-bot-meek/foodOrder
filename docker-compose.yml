@@ -20,8 +20,8 @@ services:
       OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
       OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
       OAUTH_DOMAIN: "${OAUTH_DOMAIN}"
-      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
-      AWS_SECRET_KEY: "${AWS_SECRET_KEY}"
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:-123}"
+      AWS_SECRET_KEY: "${AWS_SECRET_KEY:-123}"
       DYNAMODB_URL: "http://localstack:4566"
     depends_on:
       - localstack
