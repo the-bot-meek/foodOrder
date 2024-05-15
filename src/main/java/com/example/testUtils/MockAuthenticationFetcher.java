@@ -14,7 +14,7 @@ import io.micronaut.security.filters.AuthenticationFetcher;
 import java.util.Map;
 
 @Singleton
-@Requires(Environment.TEST)
+@Requires(env = Environment.TEST)
 @Replaces(AuthenticationFetcher.class)
 public class MockAuthenticationFetcher implements AuthenticationFetcher<HttpRequest<?>> {
     @Override
