@@ -21,7 +21,7 @@ import java.time.Instant
 
 // 2024-03-26T21:09:52Z_e44bb7fc-7164-45e9-8c28-3c561baa7d90
 
-@MicronautTest(environments = ["integration"])
+@MicronautTest(environments = ["mock_auth"])
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
 class OrderIntegrationSpec extends Specification {
     @Inject

@@ -9,7 +9,7 @@ import jakarta.inject.Inject
 import spock.lang.IgnoreIf
 import spock.lang.Specification
 
-@MicronautTest(environments = ["integration"])
+@MicronautTest(environments = ["mock_auth"])
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
 class VenueIntegrationSpec extends Specification {
     @Inject

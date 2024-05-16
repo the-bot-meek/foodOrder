@@ -13,7 +13,7 @@ import spock.lang.Specification
 import java.time.Instant
 
 
-@MicronautTest(environments = ["integration"])
+@MicronautTest(environments = ["mock_auth"])
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
 class MealIntegrationSpec extends Specification {
     @Inject
