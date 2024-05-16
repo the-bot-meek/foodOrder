@@ -49,4 +49,27 @@ class OrderSpec extends Specification {
         then:
         order.getMeal().getMealDate() == Instant.ofEpochSecond(1711394564)
     }
+
+    def "test GSIPrimaryKey sterilisation"() {
+        given:
+        Order order = new Order()
+        String orderGSIPrimaryKey = "Order_c023346e-4e16-4fb0-a3df-b04dedf58307"
+
+        when:
+        order.setGSIPrimaryKey(orderGSIPrimaryKey)
+
+        then:
+        assert order.getUid() == "c023346e-4e16-4fb0-a3df-b04dedf58307"
+    }
+
+    def "test GSIPrimaryKey desterilisation"() {
+        given:
+        Order order = new Order()
+
+        when:
+        order.setUid("c023346e-4e16-4fb0-a3df-b04dedf58307")
+
+        then:
+        order.getGSIPrimaryKey() == "Order_c023346e-4e16-4fb0-a3df-b04dedf58307"
+    }
 }
