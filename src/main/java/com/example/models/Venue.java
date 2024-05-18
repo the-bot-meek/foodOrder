@@ -8,7 +8,7 @@ import java.util.Set;
 
 @DynamoDBTable(tableName = "primary_table")
 @Serdeable
-public class Venue {
+public class Venue implements Model {
     private String id;
     private String name;
     private String location;
@@ -34,6 +34,16 @@ public class Venue {
 
     public void setPrimaryKey(String pk) {
         this.location = pk.replace("Venue_", "");
+    }
+
+    @Override
+    public String getSortKey() {
+        return name;
+    }
+
+    @Override
+    public void setSortKey(String sortKey) {
+        name = sortKey;
     }
 
     @DynamoDBAttribute

@@ -10,7 +10,7 @@ import java.util.Objects;
 @DynamoDBTable(tableName = "primary_table")
 @DynamoDBDocument
 @Serdeable
-public class Meal {
+public class Meal implements Model {
     private String id;
     private String uid;
     private String name;
@@ -32,11 +32,11 @@ public class Meal {
     }
 
     @DynamoDBHashKey(attributeName = "pk")
-    public String getPrimaryKeyValue() {
+    public String getPrimaryKey() {
         return "Meal_" + this.uid;
     }
 
-    public void setPrimaryKeyValue(String value) {
+    public void setPrimaryKey(String value) {
         this.uid = value.replace("Meal_", "");
     }
 

@@ -9,7 +9,7 @@ import java.util.Set;
 
 @DynamoDBTable(tableName = "order_table")
 @Serdeable
-public class Order {
+public class Order implements Model {
     private String id;
     private Meal meal;
     private String uid;
