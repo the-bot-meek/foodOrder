@@ -38,7 +38,7 @@ class MealControllerSpec extends Specification {
                 assert it.getMealDate() == Instant.ofEpochSecond(1711405066)
                 assert it.getUid() == "principal_name"
                 assert it.getSortKey().startsWith("2024-03-25T22:17:46Z_")
-                assert it.getPrimaryKeyValue() == "Meal_principal_name"
+                assert it.getPrimaryKey() == "Meal_principal_name"
             }
         }
     }

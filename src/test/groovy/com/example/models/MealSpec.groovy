@@ -14,7 +14,7 @@ class MealSpec extends Specification {
         meal.setUid(organiserId)
 
         then:
-        meal.getPrimaryKeyValue() == "Meal_" + organiserId
+        meal.getPrimaryKey() == "Meal_" + organiserId
     }
 
     def "test primary key deserialization"() {
@@ -22,7 +22,7 @@ class MealSpec extends Specification {
         Meal meal = new Meal()
 
         when:
-        meal.setPrimaryKeyValue("Meal_12345")
+        meal.setPrimaryKey("Meal_12345")
 
         then:
         meal.getUid() == "12345"
