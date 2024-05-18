@@ -40,7 +40,7 @@ class UserOrderControllerIntergrationSpec extends Specification {
 
         Set<MenuItem> menuItems = [new MenuItem()]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name, dateOfMeal, location, name)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name, dateOfMeal, location, name, false)
 
 
         when:
