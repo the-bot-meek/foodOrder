@@ -110,6 +110,11 @@ public class OrderService {
         return dynamoDBFacadeService.query(Order.class, dynamoDBQueryExpression);
     }
 
+    public void deleteAllOrdersForMeal(String mealId) {
+        List<Order> orders = getOrderFromMealId(mealId);
+        dynamoDBFacadeService.batchDelete(orders);
+    }
+
     public List<Order> listOrdersFromUserID(String uid) {
         final String pk = "Order_" + uid;
         log.trace("Getting all orders for meal:{}", uid);

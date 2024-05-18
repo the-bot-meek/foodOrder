@@ -31,6 +31,12 @@ public class Meal implements Model {
 
     }
 
+    public Meal(String uid, Instant mealDate, String id) {
+        this.uid = uid;
+        this.mealDate = mealDate;
+        this.id = id;
+    }
+
     @DynamoDBHashKey(attributeName = "pk")
     public String getPrimaryKey() {
         return "Meal_" + this.uid;

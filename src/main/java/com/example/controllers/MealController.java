@@ -2,8 +2,10 @@ package com.example.controllers;
 
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
+import com.example.dto.request.DeleteMealRequest;
 import com.example.models.Meal;
 import com.example.services.MealService;
+import com.example.services.OrderService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.*;
@@ -25,9 +27,11 @@ import java.util.Optional;
 public class MealController {
     private final MealService mealService;
     private final Logger log = LoggerFactory.getLogger(MealController.class);
+    private final OrderService orderService;
 
-    MealController(MealService mealService) {
+    MealController(MealService mealService, OrderService orderService) {
         this.mealService = mealService;
+        this.orderService = orderService;
     }
     @Put
     public HttpResponse<Meal> addMeal(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
@@ -35,7 +39,7 @@ public class MealController {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, authentication.getName());
             return HttpResponse.ok(mealService.newMeal(createMealRequest, authentication.getName()));
         } catch (MealRequestConverterException e) {
-            log.error(String.valueOf(e));
+//            log.error(String.valueOf(e));
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }
     }
@@ -50,5 +54,11 @@ public class MealController {
     public List<Meal> listMeals(Authentication authentication) {
         log.info("Getting all meals for uid: {}", authentication.getName());
         return mealService.getListOfMeals(authentication.getName());
+    }
+
+    @Delete
+    public void deleteMeal(@Valid @Body DeleteMealRequest deleteMealRequest) {
+        mealService.deleteMeal(deleteMealRequest.uid(), deleteMealRequest.mealDate(), deleteMealRequest.id());
+        orderService.deleteAllOrdersForMeal(deleteMealRequest.id());
     }
 }

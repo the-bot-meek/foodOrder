@@ -58,6 +58,7 @@ public class Order implements Model {
 
     @DynamoDBRangeKey(attributeName = "date_of_meal")
     public String getSortKey() {
+        if (meal.getMealDate() == null) return null;
         return meal.getMealDate().toString();
     }
 

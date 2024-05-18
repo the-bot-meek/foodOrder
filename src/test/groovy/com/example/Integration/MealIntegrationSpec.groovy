@@ -1,10 +1,13 @@
 package com.example.Integration
 
 import com.example.client.MealClient
+import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
+import com.example.dto.request.CreateOrderRequest
+import com.example.dto.request.DeleteMealRequest
 import com.example.models.Meal
-import io.micronaut.context.ApplicationContext
-import io.micronaut.runtime.server.EmbeddedServer
+import com.example.models.MenuItem
+import com.example.models.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -18,6 +21,9 @@ import java.time.Instant
 class MealIntegrationSpec extends Specification {
     @Inject
     MealClient mealClient
+
+    @Inject
+    OrderClient orderClient
     def "Add meal"() {
         given:
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD")
@@ -56,5 +62,30 @@ class MealIntegrationSpec extends Specification {
         then:
         assert !mealList.isEmpty()
         assert mealList.every {Meal meal -> meal.uid == "steven"}
+    }
+
+    def "Ensure meal is deleted"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD")
+        Set<MenuItem> menuItems = [new MenuItem()]
+
+        when:
+        Meal meal = mealClient.addMeal(createMealRequest)
+
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(meal.mealDate, meal.getId(), menuItems, "steven")
+
+        DeleteMealRequest deleteMealRequest = new DeleteMealRequest(
+                meal.getUid(),
+                meal.getMealDate(),
+                meal.getId()
+        )
+        mealClient.deleteMeal(deleteMealRequest)
+        Meal mealAfterDelete = mealClient.fetchMeal(meal.getSortKey())
+        List<Order> orderAfterDelete = mealClient.listAllOrdersForMeal(meal.getId())
+
+        then:
+        assert mealAfterDelete == null
+        assert orderAfterDelete.size() == 0
+
     }
 }

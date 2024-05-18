@@ -50,6 +50,10 @@ public class MealService {
         return dynamoDBFacadeService.load(Meal.class, pk, sk);
     }
 
+    public void deleteMeal(String uid, Instant mealDate, String id) {
+        dynamoDBFacadeService.delete(new Meal(uid, mealDate, id));
+    }
+
     private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
         final String id = UUID.randomUUID().toString();
         return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
