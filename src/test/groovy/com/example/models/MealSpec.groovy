@@ -42,7 +42,7 @@ class MealSpec extends Specification {
         meal.getSortKey() == "2024-03-21T19:24:31Z_12345"
     }
 
-    def "test sort key sterilization" () {
+    def "test sort key deserialization" () {
         given:
         String sortKey = "2024-03-21T19:24:31Z_12345"
         Meal meal = new Meal()
