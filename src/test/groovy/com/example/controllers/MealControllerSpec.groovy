@@ -24,7 +24,7 @@ class MealControllerSpec extends Specification {
         LocationService locationService = new LocationService()
         MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService, null)
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", null)
         Authentication authentication = mockAuthentication( "principal_name")
 
         when:
@@ -48,7 +48,7 @@ class MealControllerSpec extends Specification {
         LocationService locationService = new LocationService()
         MealService mealService = new MealService(dynamoDBFacadeService, locationService)
         MealController mealController = new MealController(mealService, null)
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "idk", "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "idk", "MacD", null)
         Authentication authentication = mockAuthentication( "principal_name")
 
         when:
