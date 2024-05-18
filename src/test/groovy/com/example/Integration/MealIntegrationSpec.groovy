@@ -5,6 +5,7 @@ import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.DeleteMealRequest
+import com.example.models.DraftMeal
 import com.example.models.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
@@ -38,6 +39,23 @@ class MealIntegrationSpec extends Specification {
         assert meal.getVenueName() == "MacD"
         assert meal.getLocation() == "London"
         assert meal.getId() != null
+    }
+
+    def "Add draftMeal"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
+
+        when:
+        Meal meal = mealClient.addMeal(createMealRequest)
+
+        then:
+        assert meal.getMealDate() == Instant.ofEpochSecond(1711405066)
+        assert meal.getUid() == "steven"
+        assert meal.getName() == "name"
+        assert meal.getVenueName() == "MacD"
+        assert meal.getLocation() == "London"
+        assert meal.getId() != null
+        assert meal instanceof DraftMeal
     }
 
     def "Get Meal"() {

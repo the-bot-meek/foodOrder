@@ -65,6 +65,7 @@ public class CreateMealRequest {
         }
 
         public Boolean getDraft() {
+                if (draft == null) return false;
                 return draft;
         }
 

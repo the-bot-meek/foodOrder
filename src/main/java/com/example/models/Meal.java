@@ -2,6 +2,8 @@ package com.example.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
@@ -9,14 +11,16 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName = "primary_table")
 @DynamoDBDocument
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonSubTypes({@JsonSubTypes.Type(value = Meal.class, name = "Meal"), @JsonSubTypes.Type(value = DraftMeal.class, name = "DraftMeal")})
 @Serdeable
 public class Meal implements Model {
-    private String id;
-    private String uid;
-    private String name;
-    private Instant mealDate;
-    private String location;
-    private String venueName;
+    protected String id;
+    protected String uid;
+    protected String name;
+    protected Instant mealDate;
+    protected String location;
+    protected String venueName;
 
     public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
         this.id = id;

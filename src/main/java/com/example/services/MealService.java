@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
+import com.example.models.DraftMeal;
 import com.example.models.Meal;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -65,13 +66,9 @@ public class MealService {
             log.trace("Invalid Location Invalid location: {}", createMealRequest.getLocation());
             throw new MealRequestConverterException("Invalid Location");
         }
-        return new Meal(
-                id,
-                uid,
-                createMealRequest.getName(),
-                createMealRequest.getDateOfMeal(),
-                createMealRequest.getLocation(),
-                createMealRequest.getVenueName()
-        );
+        if (createMealRequest.getDraft()) {
+            return new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
+        }
+        return new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
     }
 }
