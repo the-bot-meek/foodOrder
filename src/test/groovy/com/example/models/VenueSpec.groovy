@@ -1,6 +1,6 @@
 package com.example.models
 
-import com.example.services.VenueService
+import com.example.models.Venue.Venue
 import spock.lang.Specification
 
 class VenueSpec extends Specification {

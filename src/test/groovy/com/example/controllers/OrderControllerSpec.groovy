@@ -1,10 +1,10 @@
 package com.example.controllers
 
 import com.example.dto.request.CreateOrderRequest
-import com.example.models.Meal
+import com.example.models.Meal.Meal
 import com.example.models.MenuItem
-import com.example.models.Order
-import com.example.models.Venue
+import com.example.models.Order.Order
+import com.example.models.Venue.Venue
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.MealService
 import com.example.services.OrderService

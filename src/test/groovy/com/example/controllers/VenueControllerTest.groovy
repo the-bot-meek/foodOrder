@@ -2,7 +2,7 @@ package com.example.controllers
 
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
-import com.example.models.Venue
+import com.example.models.Venue.Venue
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
 import com.example.services.VenueService

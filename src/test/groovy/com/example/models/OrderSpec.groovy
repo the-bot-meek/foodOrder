@@ -1,5 +1,6 @@
 package com.example.models
 
+import com.example.models.Order.Order
 import spock.lang.Specification
 
 import java.time.Instant

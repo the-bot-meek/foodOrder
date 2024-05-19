@@ -1,39 +1,98 @@
 package com.example.dto.request;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.serde.annotation.Serdeable;
+import io.micronaut.core.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Introspected
-@JsonSerialize
-@Serdeable.Deserializable
-public record CreateMealRequest(
+public class CreateMealRequest {
         @NotNull
         @NotBlank
-        String name,
+        String name;
         @NotNull
-        Instant dateOfMeal,
-        @NotNull
-        @NotBlank
-        String location,
+        Instant dateOfMeal;
         @NotNull
         @NotBlank
-        String venueName
-) {
+        String location;
+        @NotNull
+        @NotBlank
+        String venueName;
+        @Nullable
+        Boolean draft;
+
+        public CreateMealRequest(String name, Instant dateOfMeal, String location, String venueName, Boolean draft) {
+                this.name = name;
+                this.dateOfMeal = dateOfMeal;
+                this.location = location;
+                this.venueName = venueName;
+                this.draft = draft;
+        }
+
+        public String getName() {
+                return name;
+        }
+
+        public void setName(String name) {
+                this.name = name;
+        }
+
+        public Instant getDateOfMeal() {
+                return dateOfMeal;
+        }
+
+        public void setDateOfMeal(Instant dateOfMeal) {
+                this.dateOfMeal = dateOfMeal;
+        }
+
+        public String getLocation() {
+                return location;
+        }
+
+        public void setLocation(String location) {
+                this.location = location;
+        }
+
+        public String getVenueName() {
+                return venueName;
+        }
+
+        public void setVenueName(String venueName) {
+                this.venueName = venueName;
+        }
+
+        public Boolean getDraft() {
+                if (draft == null) return false;
+                return draft;
+        }
+
+        public void setDraft(Boolean draft) {
+                this.draft = draft;
+        }
 
         @Override
-        public String toString() {
-                final StringBuilder sb = new StringBuilder("CreateMealRequest{");
-                sb.append("name='").append(name).append('\'');
-                sb.append(", dateOfMeal=").append(dateOfMeal);
-                sb.append(", location='").append(location).append('\'');
-                sb.append(", venueName='").append(venueName).append('\'');
-                sb.append('}');
-                return sb.toString();
+        public boolean equals(Object object) {
+                if (this == object) return true;
+                if (!(object instanceof CreateMealRequest that)) return false;
+
+                if (!Objects.equals(name, that.name)) return false;
+                if (!Objects.equals(dateOfMeal, that.dateOfMeal)) return false;
+                if (!Objects.equals(location, that.location)) return false;
+                if (!Objects.equals(venueName, that.venueName)) return false;
+            return Objects.equals(draft, that.draft);
+        }
+
+        @Override
+        public int hashCode() {
+                int result = name != null ? name.hashCode() : 0;
+                result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
+                result = 31 * result + (location != null ? location.hashCode() : 0);
+                result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
+                result = 31 * result + (draft != null ? draft.hashCode() : 0);
+                return result;
         }
 }
 

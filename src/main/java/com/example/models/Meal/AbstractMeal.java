@@ -1,7 +1,10 @@
-package com.example.models;
+package com.example.models.Meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.example.models.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
@@ -9,29 +12,31 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName = "primary_table")
 @DynamoDBDocument
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonSubTypes({@JsonSubTypes.Type(value = Meal.class, name = "Meal"), @JsonSubTypes.Type(value = DraftMeal.class, name = "DraftMeal")})
 @Serdeable
-public class Meal implements Model {
-    private String id;
-    private String uid;
-    private String name;
-    private Instant mealDate;
-    private String location;
-    private String venueName;
+public abstract class AbstractMeal implements Model {
+    protected String id;
+    protected String uid;
+    protected String name;
+    protected Instant mealDate;
+    protected String location;
+    protected String venueName;
 
-    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
+    public AbstractMeal(String id, String uid, String name, Instant mealDate, String location, String venueName) {
         this.id = id;
-        this.uid = organiserId;
+        this.uid = uid;
         this.name = name;
         this.mealDate = mealDate;
         this.location = location;
         this.venueName = venueName;
     }
 
-    public Meal() {
+    public AbstractMeal() {
 
     }
 
-    public Meal(String uid, Instant mealDate, String id) {
+    public AbstractMeal(String uid, Instant mealDate, String id) {
         this.uid = uid;
         this.mealDate = mealDate;
         this.id = id;
@@ -39,14 +44,11 @@ public class Meal implements Model {
 
     @DynamoDBHashKey(attributeName = "pk")
     public String getPrimaryKey() {
-        return "Meal_" + this.uid;
+        return getPrimaryKeySuffix() + this.getUid();
     }
-
     public void setPrimaryKey(String value) {
-        this.uid = value.replace("Meal_", "");
+        this.setUid(value.replace(getPrimaryKeySuffix(), ""));
     }
-
-
 
     @DynamoDBRangeKey(attributeName = "sk")
     public String getSortKey() {
@@ -126,14 +128,14 @@ public class Meal implements Model {
     @Override
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof Meal meal)) return false;
+        if (!(object instanceof AbstractMeal that)) return false;
 
-        if (!Objects.equals(id, meal.id)) return false;
-        if (!Objects.equals(uid, meal.uid)) return false;
-        if (!Objects.equals(name, meal.name)) return false;
-        if (!Objects.equals(mealDate, meal.mealDate)) return false;
-        if (!Objects.equals(location, meal.location)) return false;
-        return Objects.equals(venueName, meal.venueName);
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(uid, that.uid)) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (!Objects.equals(mealDate, that.mealDate)) return false;
+        if (!Objects.equals(location, that.location)) return false;
+        return Objects.equals(venueName, that.venueName);
     }
 
     @Override
@@ -145,18 +147,5 @@ public class Meal implements Model {
         result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
         return result;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Meal{");
-        sb.append("id='").append(id).append('\'');
-        sb.append(", uid='").append(uid).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", dateOfMeal=").append(mealDate);
-        sb.append(", location='").append(location).append('\'');
-        sb.append(", venueName='").append(venueName).append('\'');
-        sb.append('}');
-        return sb.toString();
     }
 }

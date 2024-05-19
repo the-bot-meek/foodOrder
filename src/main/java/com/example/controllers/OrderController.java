@@ -2,7 +2,7 @@ package com.example.controllers;
 
 import com.example.Exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
-import com.example.models.Order;
+import com.example.models.Order.Order;
 import com.example.services.OrderService;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;

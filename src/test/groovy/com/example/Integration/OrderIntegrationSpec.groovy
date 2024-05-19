@@ -6,13 +6,11 @@ import com.example.client.VenueClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.CreateVenueRequest
-import com.example.models.Meal
+import com.example.models.Meal.Meal
 import com.example.models.MenuItem
-import com.example.models.Order
-import com.example.models.Venue
+import com.example.models.Order.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Specification
 
@@ -42,7 +40,7 @@ class OrderIntegrationSpec extends Specification {
 
         Set<MenuItem> menuItems = [new MenuItem()]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name, dateOfMeal, location, name)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name, dateOfMeal, location, name, false)
 
 
         when:

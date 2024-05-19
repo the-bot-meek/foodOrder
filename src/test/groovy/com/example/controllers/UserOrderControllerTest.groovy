@@ -1,7 +1,7 @@
 package com.example.controllers
 
-import com.example.models.Meal
-import com.example.models.Order
+import com.example.models.Meal.Meal
+import com.example.models.Order.Order
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.OrderService
 import io.micronaut.security.authentication.Authentication

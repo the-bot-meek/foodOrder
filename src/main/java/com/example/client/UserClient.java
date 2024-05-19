@@ -1,6 +1,6 @@
 package com.example.client;
 
-import com.example.models.Order;
+import com.example.models.Order.Order;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.annotation.Client;
 

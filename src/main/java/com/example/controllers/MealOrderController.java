@@ -1,6 +1,6 @@
 package com.example.controllers;
 
-import com.example.models.Order;
+import com.example.models.Order.Order;
 import com.example.services.OrderService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;

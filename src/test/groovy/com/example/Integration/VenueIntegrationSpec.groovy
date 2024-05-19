@@ -3,7 +3,7 @@ package com.example.Integration
 import com.example.client.VenueClient
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
-import com.example.models.Venue
+import com.example.models.Venue.Venue
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
