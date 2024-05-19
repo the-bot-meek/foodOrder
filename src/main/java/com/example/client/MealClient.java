@@ -2,6 +2,7 @@ package com.example.client;
 
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.DeleteMealRequest;
+import com.example.models.DraftMeal;
 import com.example.models.Meal;
 import com.example.models.Order;
 import io.micronaut.http.annotation.Body;
@@ -23,6 +24,9 @@ public interface MealClient {
 
     @Get("{mealSortKey}")
     Meal fetchMeal(String mealSortKey);
+
+    @Get("draft/{mealSortKey}")
+    DraftMeal fetchDraftMeal(String mealSortKey);
 
     @Get("/{mealId}/orders")
     List<Order> listAllOrdersForMeal(String mealId);

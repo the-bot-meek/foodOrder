@@ -46,6 +46,11 @@ public class MealService {
         return dynamoDBFacadeService.load(Meal.class, originatorUid, mealDate + "_" + mealId);
     }
 
+    public Optional<DraftMeal> getDraftMeal(String pk, String sk) {
+        log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
+        return dynamoDBFacadeService.load(DraftMeal.class, pk, sk);
+    }
+
     public Optional<Meal> getMeal(String pk, String sk) {
         log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
         return dynamoDBFacadeService.load(Meal.class, pk, sk);
