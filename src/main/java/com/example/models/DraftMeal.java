@@ -4,8 +4,10 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 
 import java.time.Instant;
 
-public class DraftMeal extends Meal {
-    public DraftMeal(){}
+public class DraftMeal extends AbstractMeal {
+    public DraftMeal(){
+        super();
+    }
     public DraftMeal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
         super(id, organiserId, name, mealDate, location, venueName);
     }

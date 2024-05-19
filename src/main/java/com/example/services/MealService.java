@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
+import com.example.models.AbstractMeal;
 import com.example.models.DraftMeal;
 import com.example.models.Meal;
 import jakarta.inject.Singleton;
@@ -24,8 +25,8 @@ public class MealService {
         this.locationService = locationService;
     }
 
-    public Meal newMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
-        Meal meal = convertCreateMealRequestToNewMeal(createMealRequest, uid);
+    public AbstractMeal newMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
+        AbstractMeal meal = convertCreateMealRequestToNewMeal(createMealRequest, uid);
         dynamoDBFacadeService.save(meal);
         return meal;
     }
@@ -60,12 +61,12 @@ public class MealService {
         dynamoDBFacadeService.delete(new Meal(uid, mealDate, id));
     }
 
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
+    private AbstractMeal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
         final String id = UUID.randomUUID().toString();
         return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
     }
 
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) throws MealRequestConverterException {
+    private AbstractMeal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) throws MealRequestConverterException {
         log.trace("Converting CreateMealRequest into Meal");
         if (!locationService.listLocation().contains(createMealRequest.getLocation())) {
             log.trace("Invalid Location Invalid location: {}", createMealRequest.getLocation());

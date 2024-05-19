@@ -46,7 +46,7 @@ class MealIntegrationSpec extends Specification {
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
 
         when:
-        Meal meal = mealClient.addMeal(createMealRequest)
+        DraftMeal meal = mealClient.addMeal(createMealRequest)
 
         then:
         assert meal.getMealDate() == Instant.ofEpochSecond(1711405066)

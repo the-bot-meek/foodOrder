@@ -2,6 +2,7 @@ package com.example.client;
 
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.DeleteMealRequest;
+import com.example.models.AbstractMeal;
 import com.example.models.DraftMeal;
 import com.example.models.Meal;
 import com.example.models.Order;
@@ -20,7 +21,7 @@ public interface MealClient {
     List<Meal> listAllMealsForUser();
 
     @Put()
-    Meal addMeal(@Body CreateMealRequest createMealRequest);
+    AbstractMeal addMeal(@Body CreateMealRequest createMealRequest);
 
     @Get("{mealSortKey}")
     Meal fetchMeal(String mealSortKey);

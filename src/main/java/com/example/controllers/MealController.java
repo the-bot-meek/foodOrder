@@ -3,6 +3,7 @@ package com.example.controllers;
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.DeleteMealRequest;
+import com.example.models.AbstractMeal;
 import com.example.models.Meal;
 import com.example.services.MealService;
 import com.example.services.OrderService;
@@ -34,7 +35,7 @@ public class MealController {
         this.orderService = orderService;
     }
     @Put
-    public HttpResponse<Meal> addMeal(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
+    public HttpResponse<AbstractMeal> addMeal(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
         try {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, authentication.getName());
             return HttpResponse.ok(mealService.newMeal(createMealRequest, authentication.getName()));

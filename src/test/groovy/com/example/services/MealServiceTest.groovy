@@ -44,7 +44,7 @@ class MealServiceTest extends Specification {
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
 
         when:
-        Meal meal = mealService.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
+        DraftMeal meal = mealService.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
 
         then:
         assert meal.getId() == mealId

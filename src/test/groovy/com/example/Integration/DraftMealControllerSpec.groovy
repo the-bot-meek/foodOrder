@@ -2,6 +2,7 @@ package com.example.Integration
 
 import com.example.client.MealClient
 import com.example.dto.request.CreateMealRequest
+import com.example.models.AbstractMeal
 import com.example.models.DraftMeal
 import com.example.models.Meal
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -21,7 +22,7 @@ class DraftMealControllerSpec extends Specification {
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
 
         when:
-        Meal draftMealSaved = mealClient.addMeal(createMealRequest)
+        AbstractMeal draftMealSaved = mealClient.addMeal(createMealRequest)
         DraftMeal draftMeal = mealClient.fetchDraftMeal(draftMealSaved.getSortKey())
 
         then:
