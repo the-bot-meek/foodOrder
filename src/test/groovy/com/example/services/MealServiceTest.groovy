@@ -1,8 +1,8 @@
 package com.example.services
 
 import com.example.dto.request.CreateMealRequest
-import com.example.models.DraftMeal
-import com.example.models.Meal
+import com.example.models.Meal.DraftMeal
+import com.example.models.Meal.Meal
 import spock.lang.Specification
 
 import java.time.Instant

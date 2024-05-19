@@ -2,7 +2,7 @@ package com.example.controllers
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
 import com.example.dto.request.CreateMealRequest
-import com.example.models.Meal
+import com.example.models.Meal.Meal
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
 import com.example.services.MealService

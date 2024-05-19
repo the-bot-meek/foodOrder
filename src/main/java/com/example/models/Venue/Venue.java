@@ -1,6 +1,8 @@
-package com.example.models;
+package com.example.models.Venue;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.example.models.MenuItem;
+import com.example.models.Model;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.Objects;

@@ -5,10 +5,10 @@ import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.DeleteMealRequest
-import com.example.models.DraftMeal
-import com.example.models.Meal
+import com.example.models.Meal.DraftMeal
+import com.example.models.Meal.Meal
 import com.example.models.MenuItem
-import com.example.models.Order
+import com.example.models.Order.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -89,9 +89,6 @@ class MealIntegrationSpec extends Specification {
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
-
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(meal.mealDate, meal.getId(), menuItems, "steven")
-
         DeleteMealRequest deleteMealRequest = new DeleteMealRequest(
                 meal.getUid(),
                 meal.getMealDate(),

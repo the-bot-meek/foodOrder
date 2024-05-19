@@ -1,6 +1,7 @@
-package com.example.models;
+package com.example.models.Meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.example.models.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

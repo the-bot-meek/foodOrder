@@ -1,7 +1,7 @@
 package com.example.client;
 
 import com.example.dto.request.CreateVenueRequest;
-import com.example.models.Venue;
+import com.example.models.Venue.Venue;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Put;

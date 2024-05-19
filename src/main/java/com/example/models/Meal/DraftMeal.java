@@ -1,4 +1,4 @@
-package com.example.models;
+package com.example.models.Meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIgnore;
 

@@ -2,7 +2,7 @@ package com.example.services
 
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
-import com.example.models.Venue
+import com.example.models.Venue.Venue
 import spock.lang.Specification
 
 class VenueServiceTest extends Specification {

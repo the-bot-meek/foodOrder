@@ -2,9 +2,8 @@ package com.example.Integration
 
 import com.example.client.MealClient
 import com.example.dto.request.CreateMealRequest
-import com.example.models.AbstractMeal
-import com.example.models.DraftMeal
-import com.example.models.Meal
+import com.example.models.Meal.AbstractMeal
+import com.example.models.Meal.DraftMeal
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
