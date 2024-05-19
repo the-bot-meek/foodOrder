@@ -27,13 +27,19 @@ public class Venue implements Model {
 
     }
 
+    @Override
+    @DynamoDBIgnore
+    public String getPrimaryKeySuffix() {
+        return "Venue_";
+    }
+
     @DynamoDBHashKey(attributeName = "pk")
     public String getPrimaryKey() {
-        return "Venue_" + this.location;
+        return getPrimaryKeySuffix() + this.location;
     }
 
     public void setPrimaryKey(String pk) {
-        this.location = pk.replace("Venue_", "");
+        this.location = pk.replace(getPrimaryKeySuffix(), "");
     }
 
     @Override

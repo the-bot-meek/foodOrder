@@ -41,8 +41,14 @@ public abstract class AbstractMeal implements Model {
         this.id = id;
     }
 
-    public abstract String getPrimaryKey();
-    public abstract void setPrimaryKey(String value);
+    @DynamoDBHashKey(attributeName = "pk")
+    public String getPrimaryKey() {
+        return getPrimaryKeySuffix() + this.getUid();
+    }
+    public void setPrimaryKey(String value) {
+        this.setUid(value.replace(getPrimaryKeySuffix(), ""));
+    }
+
     @DynamoDBRangeKey(attributeName = "sk")
     public String getSortKey() {
         if (this.id == null) {

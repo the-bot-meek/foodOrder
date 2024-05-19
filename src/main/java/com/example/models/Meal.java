@@ -18,13 +18,11 @@ public class Meal extends AbstractMeal {
         super(id, uid, name, dateOfMeal, location, venueName);
     }
 
-    @DynamoDBHashKey(attributeName = "pk")
-    public String getPrimaryKey() {
-        return "Meal_" + this.uid;
-    }
 
-    public void setPrimaryKey(String value) {
-        this.uid = value.replace("Meal_", "");
+    @Override
+    @DynamoDBIgnore
+    public String getPrimaryKeySuffix() {
+        return "Meal_";
     }
 
     @Override

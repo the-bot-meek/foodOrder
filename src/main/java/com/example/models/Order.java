@@ -47,9 +47,15 @@ public class Order implements Model {
     }
 
 
+    @Override
+    @DynamoDBIgnore
+    public String getPrimaryKeySuffix() {
+        return "Order_";
+    }
+
     @DynamoDBHashKey(attributeName = "meal_id")
     public String getPrimaryKey() {
-        return "Order_" + meal.getId();
+        return getPrimaryKeySuffix() + meal.getId();
     }
 
     public void setPrimaryKey(String pk) {
