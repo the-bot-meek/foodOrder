@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Start local stack
+        run: docker-compose up -d localstack
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -28,12 +31,6 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test --no-daemon
-
-      - name: Start local stack
-        run: docker-compose up -d localstack
-
-      - name: delay to allow localstack init script to run
-        run: sleep 45
 
       - name: Run integration test
         run: ./gradlew integrationTest
