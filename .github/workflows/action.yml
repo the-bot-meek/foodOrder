@@ -32,5 +32,8 @@ jobs:
       - name: Start local stack
         run: docker-compose up -d localstack
 
+      - name: delay to allow localstack init script to run
+        run: sleep 45
+
       - name: Run integration test
         run: ./gradlew integrationTest
