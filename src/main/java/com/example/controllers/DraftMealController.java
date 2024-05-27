@@ -1,6 +1,6 @@
 package com.example.controllers;
 
-import com.example.models.DraftMeal;
+import com.example.models.Meal.DraftMeal;
 import com.example.services.MealService;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;

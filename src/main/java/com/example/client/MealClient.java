@@ -2,8 +2,8 @@ package com.example.client;
 
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.DeleteMealRequest;
-import com.example.models.DraftMeal;
-import com.example.models.Meal;
+import com.example.models.Meal.DraftMeal;
+import com.example.models.Meal.Meal;
 import com.example.models.Order;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Delete;

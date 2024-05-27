@@ -1,6 +1,7 @@
-package com.example.models;
+package com.example.models.Meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.example.models.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -21,6 +22,7 @@ public class Meal implements Model {
     protected Instant mealDate;
     protected String location;
     protected String venueName;
+    protected MealConfig mealConfig;
 
     public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
         this.id = id;
@@ -126,6 +128,16 @@ public class Meal implements Model {
     public void setVenueName(String venueName) {
         this.venueName = venueName;
     }
+
+    @DynamoDBAttribute
+    public MealConfig getMealConfig() {
+        return mealConfig;
+    }
+
+    public void setMealConfig(MealConfig mealConfig) {
+        this.mealConfig = mealConfig;
+    }
+
 
     @Override
     public boolean equals(Object object) {

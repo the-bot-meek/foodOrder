@@ -1,7 +1,7 @@
 package com.example.controllers
 
 import com.example.dto.request.CreateOrderRequest
-import com.example.models.Meal
+import com.example.models.Meal.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
 import com.example.models.Venue

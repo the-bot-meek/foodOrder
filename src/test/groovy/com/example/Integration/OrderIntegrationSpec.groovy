@@ -6,13 +6,11 @@ import com.example.client.VenueClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.CreateVenueRequest
-import com.example.models.Meal
+import com.example.models.Meal.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
-import com.example.models.Venue
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
-import spock.lang.Ignore
 import spock.lang.IgnoreIf
 import spock.lang.Specification
 

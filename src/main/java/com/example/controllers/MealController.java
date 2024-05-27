@@ -3,7 +3,7 @@ package com.example.controllers;
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.DeleteMealRequest;
-import com.example.models.Meal;
+import com.example.models.Meal.Meal;
 import com.example.services.MealService;
 import com.example.services.OrderService;
 import io.micronaut.http.HttpResponse;

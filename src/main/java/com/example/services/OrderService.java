@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.Exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
-import com.example.models.Meal;
+import com.example.models.Meal.Meal;
 import com.example.models.MenuItem;
 import com.example.models.Order;
 import com.example.models.Venue;

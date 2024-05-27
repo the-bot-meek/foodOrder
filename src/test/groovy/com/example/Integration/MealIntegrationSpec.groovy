@@ -5,8 +5,8 @@ import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.DeleteMealRequest
-import com.example.models.DraftMeal
-import com.example.models.Meal
+import com.example.models.Meal.DraftMeal
+import com.example.models.Meal.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
