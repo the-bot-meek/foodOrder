@@ -2,6 +2,7 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.example.Converters.CreateMealRequestConverter;
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
 import com.example.models.Meal.DraftMeal;
@@ -17,15 +18,15 @@ import java.util.*;
 public class MealService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
-    private final LocationService locationService;
+    private final CreateMealRequestConverter convertCreateMealRequestToNewMeal;
 
-    public MealService(IDynamoDBFacadeService dynamoDBFacadeService, LocationService locationService) {
+    public MealService(IDynamoDBFacadeService dynamoDBFacadeService, CreateMealRequestConverter convertCreateMealRequestToNewMeal) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
-        this.locationService = locationService;
+        this.convertCreateMealRequestToNewMeal = convertCreateMealRequestToNewMeal;
     }
 
     public Meal newMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
-        Meal meal = convertCreateMealRequestToNewMeal(createMealRequest, uid);
+        Meal meal = convertCreateMealRequestToNewMeal.convertCreateMealRequestToNewMeal(createMealRequest, uid);
         dynamoDBFacadeService.save(meal);
         return meal;
     }
@@ -58,22 +59,5 @@ public class MealService {
 
     public void deleteMeal(String uid, Instant mealDate, String id) {
         dynamoDBFacadeService.delete(new Meal(uid, mealDate, id));
-    }
-
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
-        final String id = UUID.randomUUID().toString();
-        return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
-    }
-
-    private Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) throws MealRequestConverterException {
-        log.trace("Converting CreateMealRequest into Meal");
-        if (!locationService.listLocation().contains(createMealRequest.getLocation())) {
-            log.trace("Invalid Location Invalid location: {}", createMealRequest.getLocation());
-            throw new MealRequestConverterException("Invalid Location");
-        }
-        if (createMealRequest.getDraft()) {
-            return new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
-        }
-        return new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
     }
 }

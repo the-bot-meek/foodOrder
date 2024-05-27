@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.example.Converters.CreateMealRequestConverter
 import com.example.models.Meal.DraftMeal
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
@@ -30,7 +31,8 @@ class DraftMealControllerTest extends Specification {
         dynamoDBFacadeService.load(DraftMeal.class, uid, mealSortKey) >> Optional.of(savedDraftMeal)
         LocationService locationService = Mock(LocationService)
         locationService.listLocation() >> ["London"]
-        MealService mealService = new MealService(dynamoDBFacadeService, locationService)
+        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
+        MealService mealService = new MealService(dynamoDBFacadeService, createMealRequestConverter)
         DraftMealController draftMealController = new DraftMealController(mealService)
 
         when:

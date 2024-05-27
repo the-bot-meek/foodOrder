@@ -1,5 +1,6 @@
 package com.example.services
 
+import com.example.Converters.CreateMealRequestConverter
 import com.example.dto.request.CreateMealRequest
 import com.example.models.Meal.DraftMeal
 import com.example.models.Meal.Meal
@@ -12,14 +13,14 @@ class MealServiceTest extends Specification {
         given:
         LocationService locationService = Mock(LocationService)
         locationService.listLocation() >> ["London"]
-        MealService mealService = new MealService(null, locationService)
         String uid = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
+        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
 
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", false)
 
         when:
-        Meal meal = mealService.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
+        Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
 
         then:
         assert meal.getId() == mealId
@@ -37,14 +38,14 @@ class MealServiceTest extends Specification {
         given:
         LocationService locationService = Mock(LocationService)
         locationService.listLocation() >> ["London"]
-        MealService mealService = new MealService(null, locationService)
+        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
         String uid = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
 
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
 
         when:
-        Meal meal = mealService.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
+        Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
 
         then:
         assert meal.getId() == mealId

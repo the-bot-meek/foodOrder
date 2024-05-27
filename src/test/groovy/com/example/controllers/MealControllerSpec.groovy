@@ -1,6 +1,7 @@
 package com.example.controllers
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
+import com.example.Converters.CreateMealRequestConverter
 import com.example.dto.request.CreateMealRequest
 import com.example.models.Meal.Meal
 import com.example.services.IDynamoDBFacadeService
@@ -22,7 +23,8 @@ class MealControllerSpec extends Specification {
         given:
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
-        MealService mealService = new MealService(dynamoDBFacadeService, locationService)
+        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
+        MealService mealService = new MealService(dynamoDBFacadeService, createMealRequestConverter)
         MealController mealController = new MealController(mealService, null)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", null)
         Authentication authentication = mockAuthentication( "principal_name")
@@ -46,7 +48,8 @@ class MealControllerSpec extends Specification {
     def "addMeal with invalid location"() {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
-        MealService mealService = new MealService(dynamoDBFacadeService, locationService)
+        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
+        MealService mealService = new MealService(dynamoDBFacadeService, createMealRequestConverter)
         MealController mealController = new MealController(mealService, null)
         CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "idk", "MacD", null)
         Authentication authentication = mockAuthentication( "principal_name")
