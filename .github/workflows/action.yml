@@ -20,6 +20,9 @@ jobs:
       - name: Start local stack
         run: docker-compose up -d localstack
 
+      - name: Wait for for localstack init script to finish
+        run: bash scripts/wait_for_localstack_init_script_to_finish.sh
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
@@ -31,9 +34,6 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test --no-daemon
-
-      - name: Wait for for localstack init script to finish
-        run: bash scripts/wait_for_localstack_init_script_to_finish.sh
 
       - name: Run integration test
         run: ./gradlew integrationTest

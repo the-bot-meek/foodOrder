@@ -1,5 +1,6 @@
 #!/bin/bash
 result=$(curl -s localhost:4566/_localstack/init | jq -r ".scripts[0].state")
+echo "$result"
 while [ "$result" == "RUNNING" ]; do
   result=$(curl -s localhost:4566/_localstack/init | jq -r ".scripts[0].state")
   if [ "$result" == "SUCCESSFUL" ]; then
