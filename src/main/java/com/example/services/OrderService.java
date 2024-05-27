@@ -36,7 +36,7 @@ public class OrderService {
         return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
     }
 
-    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
+    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername) throws OrderRequestConverterException {
         final Optional<Meal> mealOptional = mealService.getMeal(
                 createOrderRequest.organizerUid(),
                 createOrderRequest.dateOfMeal(),
@@ -87,16 +87,20 @@ public class OrderService {
         return new Order(
                 orderId,
                 meal,
-                authentication.getName(),
-                (String) authentication.getAttributes().get("preferred_username"),
+                uid,
+                preferredUsername,
                 createOrderRequest.menuItems()
         );
     }
 
-    public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
-        Order order = convertCreateOrderRequestToOrder(createOrderRequest, authentication);
+    public Order addOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername) throws OrderRequestConverterException {
+        Order order = convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername);
         dynamoDBFacadeService.save(order);
         return order;
+    }
+
+    public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
+        return addOrder(createOrderRequest, authentication.getName(), (String) authentication.getAttributes().get("preferred_username"));
     }
 
     public List<Order> getOrderFromMealId(String mealId) {

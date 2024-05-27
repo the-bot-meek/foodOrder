@@ -25,12 +25,13 @@ class OrderServiceTest extends Specification {
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
         String uid = "d84e61c73fe7-de8f-47ed-833a-797b001f"
+        String preferredUsername = "Steven"
         String organizerUid = "384n4uc73fe7-de8f-47ed-833a-797b001f"
         String location = "London"
         String name = "MacD"
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.0)]
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, menuItems, organizerUid)
-        Authentication authentication = getUserAuth(uid)
+
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
@@ -53,10 +54,10 @@ class OrderServiceTest extends Specification {
 
 
         when:
-        Order order = orderService.convertCreateOrderRequestToOrder(createOrderRequest, authentication)
+        Order order = orderService.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)
 
         then:
-        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: "usename")
+        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: preferredUsername)
     }
 
     def "ConvertCreateOrderRequestToOrder with invalid mealId organizerUid/sort key"() {
@@ -64,6 +65,7 @@ class OrderServiceTest extends Specification {
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
         String uid = "d84e61c73fe7-de8f-47ed-833a-797b001f"
+        String preferredUsername = "Steven"
         String organizerUid = "384n4uc73fe7-de8f-47ed-833a-797b001f"
         MenuItem menuItem = new MenuItem(
                 name: "name",
@@ -71,7 +73,6 @@ class OrderServiceTest extends Specification {
                 price: 1.0
         )
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, Set.of(menuItem), organizerUid)
-        Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
@@ -82,7 +83,7 @@ class OrderServiceTest extends Specification {
 
 
         when:
-        orderService.convertCreateOrderRequestToOrder(createOrderRequest, authentication)
+        orderService.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)
 
         then:
         thrown(OrderRequestConverterException)
@@ -93,6 +94,7 @@ class OrderServiceTest extends Specification {
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
         String uid = "d84e61c73fe7-de8f-47ed-833a-797b001f"
+        String preferredUsername = "Steven"
         String organizerUid = "384n4uc73fe7-de8f-47ed-833a-797b001f"
         String location = "London"
         String name = "MacD"
@@ -102,7 +104,6 @@ class OrderServiceTest extends Specification {
                 price: 1.0
         )
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, Set.of(menuItem), organizerUid)
-        Authentication authentication = getUserAuth(uid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
@@ -119,7 +120,7 @@ class OrderServiceTest extends Specification {
 
 
         when:
-        orderService.convertCreateOrderRequestToOrder(createOrderRequest, authentication)
+        orderService.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)
 
         then:
         thrown(OrderRequestConverterException)
