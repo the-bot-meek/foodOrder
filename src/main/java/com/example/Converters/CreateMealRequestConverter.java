@@ -2,8 +2,11 @@ package com.example.Converters;
 
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
+import com.example.dto.request.CreatePrivateMealRequest;
 import com.example.models.Meal.DraftMeal;
 import com.example.models.Meal.Meal;
+import com.example.models.Meal.MealConfig;
+import com.example.models.Meal.PrivateMealConfig;
 import com.example.services.LocationService;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -29,9 +32,21 @@ public class CreateMealRequestConverter {
             log.trace("Invalid Location Invalid location: {}", createMealRequest.getLocation());
             throw new MealRequestConverterException("Invalid Location");
         }
+        Meal meal;
         if (createMealRequest.getDraft()) {
-            return new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
+            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
+        } else {
+            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
         }
-        return new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
+        meal.setMealConfig(buildMealConfig(createMealRequest));
+        return meal;
+    }
+
+    private MealConfig buildMealConfig(CreateMealRequest createMealRequest) {
+        if (createMealRequest.getClass() == CreatePrivateMealRequest.class) {
+            return new PrivateMealConfig(((CreatePrivateMealRequest) createMealRequest).getParticipant());
+        } else {
+            return new MealConfig();
+        }
     }
 }

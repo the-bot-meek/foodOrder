@@ -1,5 +1,7 @@
 package com.example.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.core.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
@@ -9,6 +11,8 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Introspected
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonSubTypes({@JsonSubTypes.Type(value = CreateMealRequest.class, name = "Meal"), @JsonSubTypes.Type(value = CreatePrivateMealRequest.class, name = "PrivateMeal")})
 public class CreateMealRequest {
         @NotNull
         @NotBlank

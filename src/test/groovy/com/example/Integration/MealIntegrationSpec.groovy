@@ -4,9 +4,12 @@ import com.example.client.MealClient
 import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
+import com.example.dto.request.CreatePrivateMealRequest
 import com.example.dto.request.DeleteMealRequest
 import com.example.models.Meal.DraftMeal
 import com.example.models.Meal.Meal
+import com.example.models.Meal.MealConfig
+import com.example.models.Meal.PrivateMealConfig
 import com.example.models.MenuItem
 import com.example.models.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -39,6 +42,8 @@ class MealIntegrationSpec extends Specification {
         assert meal.getVenueName() == "MacD"
         assert meal.getLocation() == "London"
         assert meal.getId() != null
+        assert meal.getClass() == Meal
+        assert meal.getMealConfig().getClass() == MealConfig
     }
 
     def "Add draftMeal"() {
@@ -56,6 +61,26 @@ class MealIntegrationSpec extends Specification {
         assert meal.getLocation() == "London"
         assert meal.getId() != null
         assert meal instanceof DraftMeal
+    }
+
+
+    def "Add private meal"() {
+        Set<String> participant = ["9def4c16-91fa-4de3-9673-bfb0b09cce81"]
+        CreatePrivateMealRequest createMealRequest = new CreatePrivateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", false, participant)
+
+        when:
+        Meal meal = mealClient.addMeal(createMealRequest)
+
+        then:
+        assert meal.getMealDate() == Instant.ofEpochSecond(1711405066)
+        assert meal.getUid() == "steven"
+        assert meal.getName() == "name"
+        assert meal.getVenueName() == "MacD"
+        assert meal.getLocation() == "London"
+        assert meal.getId() != null
+        assert meal.getClass() == Meal
+        assert meal.getMealConfig().getClass() == PrivateMealConfig
+        assert ((PrivateMealConfig) meal.getMealConfig()).getRecipientIds() == ["9def4c16-91fa-4de3-9673-bfb0b09cce81"].toSet()
     }
 
     def "Get Meal"() {
