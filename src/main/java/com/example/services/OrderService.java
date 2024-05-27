@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.example.Exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Meal.Meal;
+import com.example.models.Meal.PrivateMealConfig;
 import com.example.models.MenuItem;
 import com.example.models.Order;
 import com.example.models.Venue;
@@ -58,6 +59,12 @@ public class OrderService {
         }
 
         Meal meal = mealOptional.get();
+
+        if (meal.getMealConfig() instanceof PrivateMealConfig && !((PrivateMealConfig) meal.getMealConfig()).getRecipientIds().contains(uid)) {
+            String errMsg = String.format("Uid: %s is not in recipientIds list for Meal: %s", uid, meal.getId());
+            throw new OrderRequestConverterException(errMsg);
+        }
+
         final Optional<Venue> venueOptional = venueService.getVenue(
                 meal.getLocation(),
                 meal.getVenueName()
