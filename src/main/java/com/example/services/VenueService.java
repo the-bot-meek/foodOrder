@@ -2,10 +2,7 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.dto.request.CreateVenueRequest;
 import com.example.models.Venue;
-import io.micronaut.http.HttpStatus;
-import io.micronaut.http.exceptions.HttpStatusException;
 import jakarta.inject.Singleton;
 import java.util.*;
 import org.slf4j.Logger;
@@ -15,15 +12,11 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class VenueService {
     private final Logger log = LoggerFactory.getLogger(VenueService.class);
-
-    private final LocationService locationService;
     private final IDynamoDBFacadeService dynamoDBFacadeService;
 
     public VenueService(
-            LocationService locationService,
             IDynamoDBFacadeService dynamoDBFacadeService
     ) {
-        this.locationService = locationService;
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 

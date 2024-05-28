@@ -44,7 +44,7 @@ class VenueControllerTest extends Specification {
         menuItems = Set.of(new MenuItem(name: "name", description: "description", price: 5.55))
         dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         locationService = new LocationService()
-        venueService = new VenueService(locationService, dynamoDBFacadeService)
+        venueService = new VenueService(dynamoDBFacadeService)
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
         venueController = new VenueController(venueService, createVenueRequestConverter)
     }
@@ -79,7 +79,7 @@ class VenueControllerTest extends Specification {
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
-        VenueService venueService = new VenueService(locationService, dynamoDBFacadeService)
+        VenueService venueService = new VenueService(dynamoDBFacadeService)
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
         VenueController venueController = new VenueController(venueService, createVenueRequestConverter)
 
@@ -98,7 +98,7 @@ class VenueControllerTest extends Specification {
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
-        VenueService venueService = new VenueService(locationService, dynamoDBFacadeService)
+        VenueService venueService = new VenueService(dynamoDBFacadeService)
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
         VenueController venueController = new VenueController(venueService, createVenueRequestConverter)
 

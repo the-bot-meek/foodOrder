@@ -38,7 +38,7 @@ class CreateOrderRequestConverterTest extends Specification {
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        VenueService venueService = new VenueService(null, venueServiceIDynamoDBFacadeService)
+        VenueService venueService = new VenueService(venueServiceIDynamoDBFacadeService)
         venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
             return Optional.of(
                     new Venue(menuItems: List.of(
@@ -107,7 +107,7 @@ class CreateOrderRequestConverterTest extends Specification {
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        VenueService venueService = new VenueService(null, venueServiceIDynamoDBFacadeService)
+        VenueService venueService = new VenueService(venueServiceIDynamoDBFacadeService)
         venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
             return venue
         }
@@ -149,7 +149,7 @@ class CreateOrderRequestConverterTest extends Specification {
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        VenueService venueService = new VenueService(null, venueServiceIDynamoDBFacadeService)
+        VenueService venueService = new VenueService(venueServiceIDynamoDBFacadeService)
         venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
             return Optional.of(
                     new Venue(menuItems: List.of(
@@ -191,7 +191,7 @@ class CreateOrderRequestConverterTest extends Specification {
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        VenueService venueService = new VenueService(null, venueServiceIDynamoDBFacadeService)
+        VenueService venueService = new VenueService(venueServiceIDynamoDBFacadeService)
         venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
             return Optional.of(
                     new Venue(menuItems: List.of(

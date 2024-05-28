@@ -20,9 +20,8 @@ public class OrderService {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
-    public Order addOrder(Order order) {
+    public void addOrder(Order order) {
         dynamoDBFacadeService.save(order);
-        return order;
     }
 
     public List<Order> getOrderFromMealId(String mealId) {
