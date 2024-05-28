@@ -9,6 +9,7 @@ import com.example.models.Order;
 import com.example.models.Venue;
 import com.example.services.MealService;
 import com.example.services.VenueService;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+@Singleton
 public class CreateOrderRequestConverter {
     private final Logger log = LoggerFactory.getLogger(CreateOrderRequestConverter.class);
     private final MealService mealService;
