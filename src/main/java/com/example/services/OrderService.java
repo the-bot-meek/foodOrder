@@ -17,24 +17,16 @@ import java.util.*;
 public class OrderService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
-    private final CreateOrderRequestConverter createOrderRequestConverter;
 
     public OrderService(
-            IDynamoDBFacadeService dynamoDBFacadeService,
-            CreateOrderRequestConverter createOrderRequestConverter
+            IDynamoDBFacadeService dynamoDBFacadeService
     ) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
-        this.createOrderRequestConverter = createOrderRequestConverter;
     }
 
-    public Order addOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername) throws OrderRequestConverterException {
-        Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername);
+    public Order addOrder(Order order) {
         dynamoDBFacadeService.save(order);
         return order;
-    }
-
-    public Order addOrder(CreateOrderRequest createOrderRequest, Authentication authentication) throws OrderRequestConverterException {
-        return addOrder(createOrderRequest, authentication.getName(), (String) authentication.getAttributes().get("preferred_username"));
     }
 
     public List<Order> getOrderFromMealId(String mealId) {

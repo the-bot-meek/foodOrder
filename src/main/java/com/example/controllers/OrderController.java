@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.Converters.CreateOrderRequestConverter;
 import com.example.Exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Order;
@@ -19,16 +20,24 @@ import org.slf4j.LoggerFactory;
 @Controller("order")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class OrderController {
-    private final OrderService  orderService;
     private final Logger log = LoggerFactory.getLogger(OrderController.class);
-    OrderController(OrderService orderService) {
+    private final OrderService  orderService;
+    private final CreateOrderRequestConverter createOrderRequestConverter;
+    OrderController(OrderService orderService, CreateOrderRequestConverter createOrderRequestConverter) {
         this.orderService = orderService;
+        this.createOrderRequestConverter = createOrderRequestConverter;
     }
     @Put
     public Order addOrder(@Valid @Body CreateOrderRequest createOrderRequest, Authentication authentication) {
         log.info("Adding Order createOrderRequest: {}, uid: {}", createOrderRequest, authentication.getName());
         try {
-            return orderService.addOrder(createOrderRequest, authentication);
+            Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(
+                    createOrderRequest,
+                    authentication.getName(),
+                    (String) authentication.getAttributes().get("preferred_username")
+            );
+            orderService.addOrder(order);
+            return order;
         } catch (OrderRequestConverterException e) {
             log.error(String.valueOf(e));
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
