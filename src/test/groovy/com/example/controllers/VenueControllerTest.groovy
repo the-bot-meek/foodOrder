@@ -1,11 +1,15 @@
 package com.example.controllers
 
+import com.example.Converters.CreateOrderRequestConverter
+import com.example.Converters.CreateVenueRequestConverter
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
 import com.example.models.Venue
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
 import com.example.services.VenueService
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.exceptions.HttpStatusException
 import spock.lang.Specification
 
@@ -41,7 +45,8 @@ class VenueControllerTest extends Specification {
         dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         locationService = new LocationService()
         venueService = new VenueService(locationService, dynamoDBFacadeService)
-        venueController = new VenueController(venueService)
+        CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
+        venueController = new VenueController(venueService, createVenueRequestConverter)
     }
 
     def "GetVenue"() {
@@ -75,10 +80,11 @@ class VenueControllerTest extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
         VenueService venueService = new VenueService(locationService, dynamoDBFacadeService)
-        VenueController venueController = new VenueController(venueService)
+        CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
+        VenueController venueController = new VenueController(venueService, createVenueRequestConverter)
 
         when:
-        Venue venue =  venueController.addVenue(createVenueRequest)
+        Venue venue =  venueController.addVenue(createVenueRequest).body()
 
         then:
         1 * dynamoDBFacadeService.save(_) >> { Venue v -> isEql(v)}
@@ -93,12 +99,13 @@ class VenueControllerTest extends Specification {
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
         VenueService venueService = new VenueService(locationService, dynamoDBFacadeService)
-        VenueController venueController = new VenueController(venueService)
+        CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
+        VenueController venueController = new VenueController(venueService, createVenueRequestConverter)
 
         when:
-        venueController.addVenue(createVenueRequest)
+        HttpResponse<Venue> venueHttpResponse = venueController.addVenue(createVenueRequest)
 
         then:
-        thrown(HttpStatusException)
+        venueHttpResponse.status() == HttpStatus.BAD_REQUEST;
     }
 }

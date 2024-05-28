@@ -42,23 +42,9 @@ public class VenueService {
         return dynamoDBFacadeService.query(Venue.class, dynamoDBQueryExpression);
     }
 
-    public static Venue convertMealRequestIntoMeal(CreateVenueRequest createVenueRequest) {
-        final String id = UUID.randomUUID().toString();
-        return new Venue(
-                id,
-                createVenueRequest.name(),
-                createVenueRequest.location(),
-                createVenueRequest.description(),
-                createVenueRequest.menuItems()
-        );
-    }
 
-    public Venue addVenue(CreateVenueRequest createVenueRequest) {
-        if (!locationService.listLocation().contains(createVenueRequest.location())) {
-            throw new HttpStatusException(HttpStatus.BAD_REQUEST, String.format("Invalid Location %s", createVenueRequest.location()));
-        }
-        Venue venue = convertMealRequestIntoMeal(createVenueRequest);
+
+    public void addVenue(Venue venue) {
         dynamoDBFacadeService.save(venue);
-        return venue;
     }
 }

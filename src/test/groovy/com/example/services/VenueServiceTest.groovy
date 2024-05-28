@@ -1,5 +1,6 @@
 package com.example.services
 
+import com.example.Converters.CreateVenueRequestConverter
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
 import com.example.models.Venue
@@ -13,9 +14,12 @@ class VenueServiceTest extends Specification {
         String description = "description"
         Set<MenuItem> menuItems = Set.of(new MenuItem(name: "name", description: "description", price: 5.55))
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, description)
+        LocationService locationService = Mock(LocationService)
+        locationService.listLocation() >> ["London"]
+        CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
 
         when:
-        Venue venue = VenueService.convertMealRequestIntoMeal(createVenueRequest)
+        Venue venue = createVenueRequestConverter.convertCreateVenuelRequestIntoVenue(createVenueRequest)
 
         then:
         venue.with {
