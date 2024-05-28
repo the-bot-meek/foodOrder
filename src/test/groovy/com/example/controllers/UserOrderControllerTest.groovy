@@ -12,7 +12,7 @@ class UserOrderControllerTest extends Specification {
     def "ListOrders"() {
         given:
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService, null, null)
+        OrderService orderService = new OrderService(dynamoDBFacadeService, null)
         UserOrderController userOrderController = new UserOrderController(orderService)
         Authentication authentication = Mock(Authentication)
         authentication.getName() >> "d84e61c73fe7-de8f-47ed-833a-797b001f"

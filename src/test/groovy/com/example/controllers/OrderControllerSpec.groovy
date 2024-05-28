@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.example.Converters.CreateOrderRequestConverter
 import com.example.dto.request.CreateOrderRequest
 import com.example.models.Meal.Meal
 import com.example.models.MenuItem
@@ -43,7 +44,8 @@ class OrderControllerSpec extends Specification {
         }
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService, venueService, mealService)
+        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService, createOrderRequestConverter)
         OrderController orderController = new OrderController(orderService)
         Authentication authentication = Mock(Authentication)
         authentication.getAttributes() >> Map.of("preferred_username", "usename")
