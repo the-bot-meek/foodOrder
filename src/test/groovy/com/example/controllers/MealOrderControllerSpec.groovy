@@ -14,7 +14,7 @@ class MealOrderControllerSpec extends Specification {
     private Authentication mockAuthentication(String name) {
         Authentication authentication = Mock(Authentication)
         authentication.getName() >> name
-        return authentication;
+        return authentication
     }
     def "ListAllOrdersForMeal"() {
         given:

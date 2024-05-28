@@ -2,9 +2,6 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.Converters.CreateMealRequestConverter;
-import com.example.Exceptions.MealRequestConverterException;
-import com.example.dto.request.CreateMealRequest;
 import com.example.models.Meal.DraftMeal;
 import com.example.models.Meal.Meal;
 import jakarta.inject.Singleton;
