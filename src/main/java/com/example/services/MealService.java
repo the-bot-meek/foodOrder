@@ -18,17 +18,12 @@ import java.util.*;
 public class MealService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
-    private final CreateMealRequestConverter convertCreateMealRequestToNewMeal;
-
-    public MealService(IDynamoDBFacadeService dynamoDBFacadeService, CreateMealRequestConverter convertCreateMealRequestToNewMeal) {
+    public MealService(IDynamoDBFacadeService dynamoDBFacadeService) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
-        this.convertCreateMealRequestToNewMeal = convertCreateMealRequestToNewMeal;
     }
 
-    public Meal newMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
-        Meal meal = convertCreateMealRequestToNewMeal.convertCreateMealRequestToNewMeal(createMealRequest, uid);
+    public void saveMeal(Meal meal) {
         dynamoDBFacadeService.save(meal);
-        return meal;
     }
 
     // ToDo: add pagination based on the meal date in the sort key

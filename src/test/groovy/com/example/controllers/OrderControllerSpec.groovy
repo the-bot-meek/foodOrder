@@ -27,7 +27,7 @@ class OrderControllerSpec extends Specification {
 
 
         IDynamoDBFacadeService mealServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(mealServiceIDynamoDBFacadeService, null)
+        MealService mealService = new MealService(mealServiceIDynamoDBFacadeService)
         mealServiceIDynamoDBFacadeService.load(Meal, organizerUid, (dateOfMeal.toString() + "_" + mealId)) >> {
             return Optional.of(new Meal(location: location, venueName: name, id: mealId, mealDate: dateOfMeal))
         }

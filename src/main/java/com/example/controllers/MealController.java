@@ -1,5 +1,6 @@
 package com.example.controllers;
 
+import com.example.Converters.CreateMealRequestConverter;
 import com.example.Exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.DeleteMealRequest;
@@ -28,16 +29,24 @@ public class MealController {
     private final MealService mealService;
     private final Logger log = LoggerFactory.getLogger(MealController.class);
     private final OrderService orderService;
+    private final CreateMealRequestConverter createMealRequestConverter;
 
-    MealController(MealService mealService, OrderService orderService) {
+    MealController(
+            MealService mealService,
+            OrderService orderService,
+            CreateMealRequestConverter createMealRequestConverter
+    ) {
         this.mealService = mealService;
         this.orderService = orderService;
+        this.createMealRequestConverter = createMealRequestConverter;
     }
     @Put
     public HttpResponse<Meal> addMeal(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
         try {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, authentication.getName());
-            return HttpResponse.ok(mealService.newMeal(createMealRequest, authentication.getName()));
+            Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, authentication.getName());
+            mealService.saveMeal(meal);
+            return HttpResponse.ok(meal);
         } catch (MealRequestConverterException e) {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }

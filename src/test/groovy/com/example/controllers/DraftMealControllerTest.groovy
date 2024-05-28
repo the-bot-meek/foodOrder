@@ -31,8 +31,7 @@ class DraftMealControllerTest extends Specification {
         dynamoDBFacadeService.load(DraftMeal.class, uid, mealSortKey) >> Optional.of(savedDraftMeal)
         LocationService locationService = Mock(LocationService)
         locationService.listLocation() >> ["London"]
-        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
-        MealService mealService = new MealService(dynamoDBFacadeService, createMealRequestConverter)
+        MealService mealService = new MealService(dynamoDBFacadeService)
         DraftMealController draftMealController = new DraftMealController(mealService)
 
         when:

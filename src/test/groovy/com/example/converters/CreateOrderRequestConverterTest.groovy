@@ -17,13 +17,6 @@ import spock.lang.Specification
 import java.time.Instant
 
 class CreateOrderRequestConverterTest extends Specification {
-    private Authentication getUserAuth(String uid) {
-        Authentication authentication = Mock(Authentication)
-        authentication.getAttributes() >> Map.of("preferred_username", "usename")
-        authentication.getName() >> uid
-        return authentication
-    }
-
     def "ConvertCreateOrderRequestToOrder"() {
         given:
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
@@ -38,7 +31,7 @@ class CreateOrderRequestConverterTest extends Specification {
 
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
@@ -78,7 +71,7 @@ class CreateOrderRequestConverterTest extends Specification {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, Set.of(menuItem), organizerUid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.empty()
         }
@@ -108,7 +101,7 @@ class CreateOrderRequestConverterTest extends Specification {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, mealId, Set.of(menuItem), organizerUid)
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(new Meal(location: location, venueName: name))
         }
@@ -147,7 +140,7 @@ class CreateOrderRequestConverterTest extends Specification {
 
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         PrivateMealConfig privateMealConfig = new PrivateMealConfig()
         privateMealConfig.addRecipientId(uid)
         Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: privateMealConfig)
@@ -189,7 +182,7 @@ class CreateOrderRequestConverterTest extends Specification {
 
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService, null)
+        MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         PrivateMealConfig privateMealConfig = new PrivateMealConfig()
 
         Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: privateMealConfig)
