@@ -1,14 +1,15 @@
-package com.example.services
+package com.example.converters
 
 import com.example.Converters.CreateMealRequestConverter
 import com.example.dto.request.CreateMealRequest
 import com.example.models.Meal.DraftMeal
 import com.example.models.Meal.Meal
+import com.example.services.LocationService
 import spock.lang.Specification
 
 import java.time.Instant
 
-class MealServiceTest extends Specification {
+class CreateMealRequestConverterTest extends Specification {
     def "ConvertCreateMealRequestToMeal"() {
         given:
         LocationService locationService = Mock(LocationService)
