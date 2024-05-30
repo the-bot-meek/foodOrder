@@ -15,3 +15,6 @@ out/
 .factorypath
 /import/
 /dynamodb_volume
+node_modules
+.vscode
+.angular
