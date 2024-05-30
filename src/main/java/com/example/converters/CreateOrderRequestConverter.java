@@ -1,9 +1,9 @@
-package com.example.Converters;
+package com.example.converters;
 
-import com.example.Exceptions.OrderRequestConverterException;
+import com.example.exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
-import com.example.models.Meal.Meal;
-import com.example.models.Meal.PrivateMealConfig;
+import com.example.models.meal.Meal;
+import com.example.models.meal.PrivateMealConfig;
 import com.example.models.MenuItem;
 import com.example.models.Order;
 import com.example.models.Venue;

@@ -1,6 +1,6 @@
 package com.example.services
 
-import com.example.Converters.CreateVenueRequestConverter
+import com.example.converters.CreateVenueRequestConverter
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
 import com.example.models.Venue

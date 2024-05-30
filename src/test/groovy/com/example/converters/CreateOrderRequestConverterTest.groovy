@@ -1,17 +1,16 @@
 package com.example.converters
 
-import com.example.Converters.CreateOrderRequestConverter
-import com.example.Exceptions.OrderRequestConverterException
+
+import com.example.exceptions.OrderRequestConverterException
 import com.example.dto.request.CreateOrderRequest
-import com.example.models.Meal.Meal
-import com.example.models.Meal.PrivateMealConfig
+import com.example.models.meal.Meal
+import com.example.models.meal.PrivateMealConfig
 import com.example.models.MenuItem
 import com.example.models.Order
 import com.example.models.Venue
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.MealService
 import com.example.services.VenueService
-import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
 import java.time.Instant

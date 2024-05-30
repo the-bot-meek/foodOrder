@@ -1,4 +1,4 @@
-package com.example.models.Meal;
+package com.example.models.meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.fasterxml.jackson.annotation.JsonSubTypes;

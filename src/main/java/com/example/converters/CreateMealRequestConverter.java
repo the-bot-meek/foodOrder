@@ -1,12 +1,12 @@
-package com.example.Converters;
+package com.example.converters;
 
-import com.example.Exceptions.MealRequestConverterException;
+import com.example.exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
 import com.example.dto.request.CreatePrivateMealRequest;
-import com.example.models.Meal.DraftMeal;
-import com.example.models.Meal.Meal;
-import com.example.models.Meal.MealConfig;
-import com.example.models.Meal.PrivateMealConfig;
+import com.example.models.meal.DraftMeal;
+import com.example.models.meal.Meal;
+import com.example.models.meal.MealConfig;
+import com.example.models.meal.PrivateMealConfig;
 import com.example.services.LocationService;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;

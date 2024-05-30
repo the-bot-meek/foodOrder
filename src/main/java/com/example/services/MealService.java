@@ -2,8 +2,8 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.models.Meal.DraftMeal;
-import com.example.models.Meal.Meal;
+import com.example.models.meal.DraftMeal;
+import com.example.models.meal.Meal;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package com.example.controllers
 
-import com.example.Converters.CreateMealRequestConverter
-import com.example.models.Meal.DraftMeal
+
+import com.example.models.meal.DraftMeal
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
 import com.example.services.MealService

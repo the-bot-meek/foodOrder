@@ -1,4 +1,4 @@
-package com.example.models.Meal;
+package com.example.models.meal;
 
 import java.util.HashSet;
 import java.util.Set;

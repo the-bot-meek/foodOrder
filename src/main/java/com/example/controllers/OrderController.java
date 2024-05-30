@@ -1,7 +1,7 @@
 package com.example.controllers;
 
-import com.example.Converters.CreateOrderRequestConverter;
-import com.example.Exceptions.OrderRequestConverterException;
+import com.example.converters.CreateOrderRequestConverter;
+import com.example.exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.Order;
 import com.example.services.OrderService;

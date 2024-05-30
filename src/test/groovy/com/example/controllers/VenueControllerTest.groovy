@@ -1,7 +1,7 @@
 package com.example.controllers
 
-import com.example.Converters.CreateOrderRequestConverter
-import com.example.Converters.CreateVenueRequestConverter
+
+import com.example.converters.CreateVenueRequestConverter
 import com.example.dto.request.CreateVenueRequest
 import com.example.models.MenuItem
 import com.example.models.Venue
@@ -10,7 +10,6 @@ import com.example.services.LocationService
 import com.example.services.VenueService
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
-import io.micronaut.http.exceptions.HttpStatusException
 import spock.lang.Specification
 
 class VenueControllerTest extends Specification {

@@ -1,8 +1,8 @@
 package com.example.controllers
 
-import com.example.Converters.CreateOrderRequestConverter
+import com.example.converters.CreateOrderRequestConverter
 import com.example.dto.request.CreateOrderRequest
-import com.example.models.Meal.Meal
+import com.example.models.meal.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
 import com.example.models.Venue

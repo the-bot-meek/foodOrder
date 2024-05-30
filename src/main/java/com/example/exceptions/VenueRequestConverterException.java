@@ -1,4 +1,4 @@
-package com.example.Exceptions;
+package com.example.exceptions;
 
 public class VenueRequestConverterException extends Exception{
     public VenueRequestConverterException(String msg) {

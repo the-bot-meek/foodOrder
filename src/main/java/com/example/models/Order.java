@@ -1,7 +1,7 @@
 package com.example.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.example.models.Meal.Meal;
+import com.example.models.meal.Meal;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;

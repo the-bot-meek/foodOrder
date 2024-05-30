@@ -6,10 +6,10 @@ import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.CreatePrivateMealRequest
 import com.example.dto.request.DeleteMealRequest
-import com.example.models.Meal.DraftMeal
-import com.example.models.Meal.Meal
-import com.example.models.Meal.MealConfig
-import com.example.models.Meal.PrivateMealConfig
+import com.example.models.meal.DraftMeal
+import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
+import com.example.models.meal.PrivateMealConfig
 import com.example.models.MenuItem
 import com.example.models.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest

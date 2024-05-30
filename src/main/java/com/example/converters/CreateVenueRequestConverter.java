@@ -1,6 +1,6 @@
-package com.example.Converters;
+package com.example.converters;
 
-import com.example.Exceptions.VenueRequestConverterException;
+import com.example.exceptions.VenueRequestConverterException;
 import com.example.dto.request.CreateVenueRequest;
 import com.example.models.Venue;
 import com.example.services.LocationService;

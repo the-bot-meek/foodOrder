@@ -1,9 +1,9 @@
 package com.example.converters
 
-import com.example.Converters.CreateMealRequestConverter
+
 import com.example.dto.request.CreateMealRequest
-import com.example.models.Meal.DraftMeal
-import com.example.models.Meal.Meal
+import com.example.models.meal.DraftMeal
+import com.example.models.meal.Meal
 import com.example.services.LocationService
 import spock.lang.Specification
 
