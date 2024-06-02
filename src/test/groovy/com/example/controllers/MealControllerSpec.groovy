@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
 import com.example.converters.CreateMealRequestConverter
 import com.example.dto.request.CreateMealRequest
 import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.LocationService
 import com.example.services.MealService
@@ -26,7 +27,7 @@ class MealControllerSpec extends Specification {
         CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
         MealService mealService = new MealService(dynamoDBFacadeService)
         MealController mealController = new MealController(mealService, null, createMealRequestConverter)
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig())
         Authentication authentication = mockAuthentication( "principal_name")
 
         when:
