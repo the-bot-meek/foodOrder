@@ -36,7 +36,7 @@ public class MealService {
     }
 
     public List<DraftMeal> getListOfDraftMeals(String uid) {
-        final String pk = "Meal_" + uid;
+        final String pk = "DraftMeal_" + uid;
         log.trace("Getting all meals for uid:{}", pk);
         Map<String, AttributeValue> eav = new HashMap<>();
         eav.put(":PK", new AttributeValue().withS(pk));

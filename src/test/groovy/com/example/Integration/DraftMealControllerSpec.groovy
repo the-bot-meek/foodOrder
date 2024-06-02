@@ -54,10 +54,11 @@ class DraftMealControllerSpec extends Specification {
         CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
-        mealClient.addMeal(createMealRequest)
+        Meal draftMeal = mealClient.addMeal(createMealRequest)
         List<DraftMeal> mealList = mealClient.listAllDraftMealsForUser()
         then:
         assert !mealList.isEmpty()
         assert mealList.every {Meal meal -> meal.uid == "steven"}
+        assert mealList.find {it.getId() == draftMeal.getId()} == draftMeal
     }
 }
