@@ -13,14 +13,20 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @DynamoDBDocument
 public class MealConfig {
     private PrivateMealConfig privateMealConfig;
-
-    public MealConfig(PrivateMealConfig privateMealConfig) {
-        this.privateMealConfig = privateMealConfig;
-    }
+    private Boolean draft = false;
 
     public MealConfig() {
 
     }
+
+    public Boolean getDraft() {
+        return draft;
+    }
+
+    public void setDraft(Boolean draft) {
+        this.draft = draft;
+    }
+
     @DynamoDBAttribute
     public PrivateMealConfig getPrivateMealConfig() {
         return privateMealConfig;

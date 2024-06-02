@@ -20,7 +20,7 @@ public interface MealClient {
     List<Meal> listAllMealsForUser();
 
     @Put()
-    Meal addMeal(@Body CreateMealRequest createMealRequest);
+    Meal addMeal(@Valid @Body CreateMealRequest createMealRequest);
 
     @Get("{mealSortKey}")
     Meal fetchMeal(String mealSortKey);

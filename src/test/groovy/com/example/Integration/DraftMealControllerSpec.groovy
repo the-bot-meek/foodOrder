@@ -19,7 +19,7 @@ class DraftMealControllerSpec extends Specification {
     MealClient mealClient
     def "Get Draft Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", draft: true, mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal draftMealSaved = mealClient.addMeal(createMealRequest)

@@ -30,7 +30,7 @@ public class CreateMealRequestConverter {
             throw new MealRequestConverterException("Invalid Location");
         }
         Meal meal;
-        if (createMealRequest.getDraft()) {
+        if (createMealRequest.getMealConfig().getDraft()) {
             meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
         } else {
             meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
