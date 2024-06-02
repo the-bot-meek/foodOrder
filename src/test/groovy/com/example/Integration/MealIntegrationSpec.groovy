@@ -91,6 +91,18 @@ class MealIntegrationSpec extends Specification {
         meal == createMealResp
     }
 
+    def "get meals by mealDate and id"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig())
+
+        when:
+        Meal createMealResp = mealClient.addMeal(createMealRequest)
+        Meal meal = mealClient.getMeal(createMealResp.getMealDate().toEpochMilli(), createMealResp.getId()).get()
+
+        then:
+        meal == createMealResp
+    }
+
     def "List all meals for current user"() {
         given:
         CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig())

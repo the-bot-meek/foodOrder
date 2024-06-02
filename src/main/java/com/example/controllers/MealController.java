@@ -19,6 +19,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,7 @@ public class MealController {
             mealService.saveMeal(meal);
             return HttpResponse.ok(meal);
         } catch (MealRequestConverterException e) {
+            log.error("Error adding Meal", e);
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }
     }
@@ -56,6 +58,13 @@ public class MealController {
     public Optional<Meal> getMeal(@NotNull @NotBlank String mealSortKey, Authentication authentication) {
         log.info("Getting Meal. mealSortKey: {}, uid:{}", mealSortKey, authentication.getName());
         return mealService.getMeal(authentication.getName(), mealSortKey);
+    }
+
+    @Get("{mealDateTimeStamp}/{id}")
+    public Optional<Meal> getMeal(long mealDateTimeStamp, @NotNull String id, Authentication authentication) {
+        Instant mealDate = Instant.ofEpochMilli(mealDateTimeStamp);
+        log.info("Getting Meal. mealDate: {}, id: {}, uid: {}", mealDate, id, authentication.getName());
+        return mealService.getMeal(authentication.getName(), mealDate + "_" + id);
     }
 
     @Get

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
-import { ICreateMealRequest } from '../../../models/ICreateMealRequest';
+import { ICreateMealRequest, IDeleteMealRequest } from '../../../models/ICreateMealRequest';
 import { IMeal } from '../../models/meal';
 
 @Injectable({
@@ -16,7 +16,11 @@ export class MealService {
   }
 
   public getMeal(sortKey: string): Observable<IMeal> {
-    return this.httpClient.get<IMeal>(this.serverUrl + `meal/${encodeURIComponent(sortKey)}`, {withCredentials: true});
+    return this.httpClient.get<IMeal>(this.serverUrl + `/meal/${encodeURIComponent(sortKey)}`, {withCredentials: true});
+  }
+
+  public getMealByMealDateAndId(mealDate: number, id: string): Observable<IMeal> {
+    return this.httpClient.get<IMeal>(this.serverUrl + `/meal/${mealDate}/${id}`, {withCredentials: true});
   }
 
   public getDraftMeal(sortKey: string): Observable<IMeal> {
