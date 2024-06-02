@@ -3,7 +3,6 @@ package com.example.converters;
 import com.example.exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
 import com.example.models.meal.Meal;
-import com.example.models.meal.PrivateMealConfig;
 import com.example.models.MenuItem;
 import com.example.models.Order;
 import com.example.models.Venue;
@@ -53,7 +52,7 @@ public class CreateOrderRequestConverter {
 
         Meal meal = mealOptional.get();
 
-        if (meal.getMealConfig() instanceof PrivateMealConfig && !((PrivateMealConfig) meal.getMealConfig()).getRecipientIds().contains(uid)) {
+        if (meal.getMealConfig().getPrivateMealConfig() != null && !meal.getMealConfig().getPrivateMealConfig().getRecipientIds().contains(uid)) {
             String errMsg = String.format("Uid: %s is not in recipientIds list for Meal: %s", uid, meal.getId());
             throw new OrderRequestConverterException(errMsg);
         }

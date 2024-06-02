@@ -4,6 +4,7 @@ package com.example.converters
 import com.example.exceptions.OrderRequestConverterException
 import com.example.dto.request.CreateOrderRequest
 import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
 import com.example.models.meal.PrivateMealConfig
 import com.example.models.MenuItem
 import com.example.models.Order
@@ -31,7 +32,7 @@ class CreateOrderRequestConverterTest extends Specification {
 
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
-        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name)
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
         }
@@ -102,7 +103,7 @@ class CreateOrderRequestConverterTest extends Specification {
         IDynamoDBFacadeService orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
-            return Optional.of(new Meal(location: location, venueName: name))
+            return Optional.of(new Meal(location: location, venueName: name, mealConfig: new MealConfig()))
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
@@ -142,7 +143,7 @@ class CreateOrderRequestConverterTest extends Specification {
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         PrivateMealConfig privateMealConfig = new PrivateMealConfig()
         privateMealConfig.addRecipientId(uid)
-        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: privateMealConfig)
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig(privateMealConfig: privateMealConfig))
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
         }
@@ -184,7 +185,7 @@ class CreateOrderRequestConverterTest extends Specification {
         MealService mealService = new MealService(orderServiceIDynamoDBFacadeService)
         PrivateMealConfig privateMealConfig = new PrivateMealConfig()
 
-        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: privateMealConfig)
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig(privateMealConfig:  privateMealConfig))
         orderServiceIDynamoDBFacadeService.load(Meal.class, organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
         }

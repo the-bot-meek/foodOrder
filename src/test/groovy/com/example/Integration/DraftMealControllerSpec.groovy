@@ -4,6 +4,7 @@ import com.example.client.MealClient
 import com.example.dto.request.CreateMealRequest
 import com.example.models.meal.DraftMeal
 import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -18,7 +19,7 @@ class DraftMealControllerSpec extends Specification {
     MealClient mealClient
     def "Get Draft Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", draft: true, mealConfig: new MealConfig())
 
         when:
         Meal draftMealSaved = mealClient.addMeal(createMealRequest)

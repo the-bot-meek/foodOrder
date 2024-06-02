@@ -6,8 +6,8 @@ import java.time.Instant;
 
 public class DraftMeal extends Meal {
     public DraftMeal(){}
-    public DraftMeal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
-        super(id, organiserId, name, mealDate, location, venueName);
+    public DraftMeal(String id, String organiserId, String name, Instant mealDate, String location, String venueName, MealConfig mealConfig) {
+        super(id, organiserId, name, mealDate, location, venueName, mealConfig);
     }
     @DynamoDBHashKey(attributeName = "pk")
     public String getPrimaryKey() {

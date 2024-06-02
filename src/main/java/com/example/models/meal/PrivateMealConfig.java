@@ -1,9 +1,12 @@
 package com.example.models.meal;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class PrivateMealConfig extends MealConfig {
+@DynamoDBDocument
+public class PrivateMealConfig {
     private Set<String> recipientIds = new HashSet<>();
 
     public PrivateMealConfig(Set<String> recipientIds) {
@@ -16,6 +19,10 @@ public class PrivateMealConfig extends MealConfig {
 
     public Set<String> getRecipientIds() {
         return recipientIds;
+    }
+
+    public void setRecipientIds(Set<String> recipientIds) {
+        this.recipientIds = recipientIds;
     }
 
     public void addRecipientId(String recipientId) {

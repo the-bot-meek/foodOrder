@@ -1,5 +1,6 @@
 package com.example.dto.request;
 
+import com.example.models.meal.MealConfig;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.core.annotation.Introspected;
@@ -12,7 +13,7 @@ import java.util.Objects;
 
 @Introspected
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
-@JsonSubTypes({@JsonSubTypes.Type(value = CreateMealRequest.class, name = "Meal"), @JsonSubTypes.Type(value = CreatePrivateMealRequest.class, name = "PrivateMeal")})
+@JsonSubTypes({@JsonSubTypes.Type(value = CreateMealRequest.class, name = "Meal")})
 public class CreateMealRequest {
         @NotNull
         @NotBlank
@@ -27,6 +28,17 @@ public class CreateMealRequest {
         String venueName;
         @Nullable
         Boolean draft;
+        @NotNull
+        MealConfig mealConfig;
+
+        public CreateMealRequest(String name, Instant dateOfMeal, String location, String venueName, Boolean draft, MealConfig mealConfig) {
+                this.name = name;
+                this.dateOfMeal = dateOfMeal;
+                this.location = location;
+                this.venueName = venueName;
+                this.draft = draft;
+                this.mealConfig = mealConfig;
+        }
 
         public CreateMealRequest(String name, Instant dateOfMeal, String location, String venueName, Boolean draft) {
                 this.name = name;
@@ -34,6 +46,11 @@ public class CreateMealRequest {
                 this.location = location;
                 this.venueName = venueName;
                 this.draft = draft;
+                this.mealConfig = new MealConfig();
+        }
+
+        public CreateMealRequest() {
+
         }
 
         public String getName() {
@@ -71,6 +88,14 @@ public class CreateMealRequest {
         public Boolean getDraft() {
                 if (draft == null) return false;
                 return draft;
+        }
+
+        public MealConfig getMealConfig() {
+                return mealConfig;
+        }
+
+        public void setMealConfig(MealConfig mealConfig) {
+                this.mealConfig = mealConfig;
         }
 
         public void setDraft(Boolean draft) {

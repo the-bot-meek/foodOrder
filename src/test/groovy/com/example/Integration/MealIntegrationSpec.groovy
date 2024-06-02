@@ -4,7 +4,7 @@ import com.example.client.MealClient
 import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
-import com.example.dto.request.CreatePrivateMealRequest
+
 import com.example.dto.request.DeleteMealRequest
 import com.example.models.meal.DraftMeal
 import com.example.models.meal.Meal
@@ -66,7 +66,7 @@ class MealIntegrationSpec extends Specification {
 
     def "Add private meal"() {
         Set<String> participant = ["9def4c16-91fa-4de3-9673-bfb0b09cce81"]
-        CreatePrivateMealRequest createMealRequest = new CreatePrivateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", false, participant)
+        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", false, new MealConfig(privateMealConfig: new PrivateMealConfig(participant)))
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -79,8 +79,7 @@ class MealIntegrationSpec extends Specification {
         assert meal.getLocation() == "London"
         assert meal.getId() != null
         assert meal.getClass() == Meal
-        assert meal.getMealConfig().getClass() == PrivateMealConfig
-        assert ((PrivateMealConfig) meal.getMealConfig()).getRecipientIds() == ["9def4c16-91fa-4de3-9673-bfb0b09cce81"].toSet()
+        assert meal.getMealConfig().getPrivateMealConfig().getRecipientIds() == ["9def4c16-91fa-4de3-9673-bfb0b09cce81"].toSet()
     }
 
     def "Get Meal"() {
@@ -114,9 +113,6 @@ class MealIntegrationSpec extends Specification {
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
-
-        CreateOrderRequest createOrderRequest = new CreateOrderRequest(meal.mealDate, meal.getId(), menuItems, "steven")
-
         DeleteMealRequest deleteMealRequest = new DeleteMealRequest(
                 meal.getUid(),
                 meal.getMealDate(),

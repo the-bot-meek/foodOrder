@@ -24,13 +24,14 @@ public class Meal implements Model {
     protected String venueName;
     protected MealConfig mealConfig;
 
-    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName) {
+    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName, MealConfig mealConfig) {
         this.id = id;
         this.uid = organiserId;
         this.name = name;
         this.mealDate = mealDate;
         this.location = location;
         this.venueName = venueName;
+        this.mealConfig = mealConfig;
     }
 
     public Meal() {

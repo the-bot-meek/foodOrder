@@ -2,11 +2,8 @@ package com.example.converters;
 
 import com.example.exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
-import com.example.dto.request.CreatePrivateMealRequest;
 import com.example.models.meal.DraftMeal;
 import com.example.models.meal.Meal;
-import com.example.models.meal.MealConfig;
-import com.example.models.meal.PrivateMealConfig;
 import com.example.services.LocationService;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
@@ -16,7 +13,7 @@ import java.util.UUID;
 
 @Singleton
 public class CreateMealRequestConverter {
-    private Logger log = LoggerFactory.getLogger(CreateMealRequestConverter.class);
+    private final Logger log = LoggerFactory.getLogger(CreateMealRequestConverter.class);
     private final LocationService locationService;
     public CreateMealRequestConverter(LocationService locationService) {
         this.locationService = locationService;
@@ -34,19 +31,10 @@ public class CreateMealRequestConverter {
         }
         Meal meal;
         if (createMealRequest.getDraft()) {
-            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
+            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
         } else {
-            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName());
+            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
         }
-        meal.setMealConfig(buildMealConfig(createMealRequest));
         return meal;
-    }
-
-    private MealConfig buildMealConfig(CreateMealRequest createMealRequest) {
-        if (createMealRequest.getClass() == CreatePrivateMealRequest.class) {
-            return new PrivateMealConfig(((CreatePrivateMealRequest) createMealRequest).getParticipant());
-        } else {
-            return new MealConfig();
-        }
     }
 }
