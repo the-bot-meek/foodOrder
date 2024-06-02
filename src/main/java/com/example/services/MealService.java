@@ -52,4 +52,8 @@ public class MealService {
     public void deleteMeal(String uid, Instant mealDate, String id) {
         dynamoDBFacadeService.delete(new Meal(uid, mealDate, id));
     }
+
+    public void deleteDraftMeal(String uid, Instant mealDate, String id) {
+        dynamoDBFacadeService.delete(new DraftMeal(uid, mealDate, id));
+    }
 }

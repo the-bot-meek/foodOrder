@@ -2,6 +2,8 @@ package com.example.Integration
 
 import com.example.client.MealClient
 import com.example.dto.request.CreateMealRequest
+import com.example.dto.request.DeleteMealRequest
+import com.example.models.Order
 import com.example.models.meal.DraftMeal
 import com.example.models.meal.Meal
 import com.example.models.meal.MealConfig
@@ -27,5 +29,23 @@ class DraftMealControllerSpec extends Specification {
 
         then:
         assert draftMeal == draftMealSaved
+    }
+
+    def "Ensure draft meal is deleted"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+
+        when:
+        Meal meal = mealClient.addMeal(createMealRequest)
+        DeleteMealRequest deleteMealRequest = new DeleteMealRequest(
+                meal.getUid(),
+                meal.getMealDate(),
+                meal.getId()
+        )
+        mealClient.deleteDraftMeal(deleteMealRequest)
+        Meal mealAfterDelete = mealClient.fetchDraftMeal(meal.getSortKey())
+
+        then:
+        assert mealAfterDelete == null
     }
 }

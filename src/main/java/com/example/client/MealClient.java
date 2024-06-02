@@ -33,4 +33,7 @@ public interface MealClient {
 
     @Delete()
     void deleteMeal(@Valid @Body DeleteMealRequest deleteMealRequest);
+
+    @Delete("draft")
+    void deleteDraftMeal(@Valid @Body DeleteMealRequest deleteMealRequest);
 }
