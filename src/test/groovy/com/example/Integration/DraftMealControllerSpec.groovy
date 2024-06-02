@@ -48,4 +48,16 @@ class DraftMealControllerSpec extends Specification {
         then:
         assert mealAfterDelete == null
     }
+
+    def "List all draft meals for current user"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+
+        when:
+        mealClient.addMeal(createMealRequest)
+        List<DraftMeal> mealList = mealClient.listAllDraftMealsForUser()
+        then:
+        assert !mealList.isEmpty()
+        assert mealList.every {Meal meal -> meal.uid == "steven"}
+    }
 }

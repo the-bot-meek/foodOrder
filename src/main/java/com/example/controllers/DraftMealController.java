@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller("meal/draft")
@@ -32,6 +33,11 @@ public class DraftMealController {
     public Optional<DraftMeal> getDraftMeal(@NotNull @NotBlank String mealSortKey, Authentication authentication) {
         log.info("Getting Meal. mealSortKey: {}, uid:{}", mealSortKey, authentication.getName());
         return mealService.getDraftMeal(authentication.getName(), mealSortKey);
+    }
+
+    @Get
+    public List<DraftMeal> listAllDraftMealsForUser(Authentication authentication) {
+        return mealService.getListOfDraftMeals(authentication.getName());
     }
 
     @Delete

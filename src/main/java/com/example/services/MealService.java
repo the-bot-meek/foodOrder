@@ -35,6 +35,17 @@ public class MealService {
         return dynamoDBFacadeService.query(Meal.class, dynamoDBQueryExpression);
     }
 
+    public List<DraftMeal> getListOfDraftMeals(String uid) {
+        final String pk = "Meal_" + uid;
+        log.trace("Getting all meals for uid:{}", pk);
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":PK", new AttributeValue().withS(pk));
+        DynamoDBQueryExpression<DraftMeal> dynamoDBQueryExpression = new DynamoDBQueryExpression<DraftMeal>()
+                .withKeyConditionExpression("pk = :PK")
+                .withExpressionAttributeValues(eav);
+        return dynamoDBFacadeService.query(DraftMeal.class, dynamoDBQueryExpression);
+    }
+
     public Optional<Meal> getMeal(String originatorUid, Instant mealDate, String mealId) {
         return dynamoDBFacadeService.load(Meal.class, originatorUid, mealDate + "_" + mealId);
     }

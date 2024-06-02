@@ -19,6 +19,9 @@ public interface MealClient {
     @Get()
     List<Meal> listAllMealsForUser();
 
+    @Get("/draft")
+    List<DraftMeal> listAllDraftMealsForUser();
+
     @Put()
     Meal addMeal(@Valid @Body CreateMealRequest createMealRequest);
 
