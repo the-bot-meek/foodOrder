@@ -11,8 +11,6 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Introspected
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
-@JsonSubTypes({@JsonSubTypes.Type(value = CreateMealRequest.class, name = "Meal")})
 public class CreateMealRequest {
         @NotNull
         @NotBlank
