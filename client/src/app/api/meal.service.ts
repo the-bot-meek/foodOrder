@@ -4,7 +4,8 @@ import { Observable, map } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 import { ICreateMealRequest, IDeleteMealRequest } from '../../../models/ICreateMealRequest';
-import { IMeal } from '../../models/meal';
+import { IMeal } from '../../../models/meal';
+import { IOrder } from '../../../models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,9 @@ export class MealService {
 
   public addMeal(createMealRequest: ICreateMealRequest): Observable<IMeal> {
     return this.httpClient.put<IMeal>(`${this.serverUrl}/meal`, createMealRequest, {withCredentials: true})
+  }
+
+  public listAllOrdersForMeal(mealId: string): Observable<IOrder[]> {
+    return this.httpClient.get<IOrder[]>(`${this.serverUrl}/${mealId}/orders`, {withCredentials: true})
   }
 }
