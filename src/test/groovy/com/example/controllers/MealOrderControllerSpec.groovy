@@ -56,7 +56,7 @@ class MealOrderControllerSpec extends Specification {
         HttpResponse<List<Order>> httpResponse = mealOrderController.listAllOrdersForMeal(mealId, authentication)
 
         then:
-        httpResponse.getStatus() == HttpStatus.NOT_FOUND
+        httpResponse.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR
     }
 
     def "Reject request where the not all orders belong to the same meal meal"() {
@@ -78,6 +78,6 @@ class MealOrderControllerSpec extends Specification {
         HttpResponse<List<Order>> httpResponse = mealOrderController.listAllOrdersForMeal(mealId, authentication)
 
         then:
-        httpResponse.getStatus() == HttpStatus.NOT_FOUND
+        httpResponse.getStatus() == HttpStatus.INTERNAL_SERVER_ERROR
     }
 }

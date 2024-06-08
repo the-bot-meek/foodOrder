@@ -34,6 +34,7 @@ public class DraftMealController {
 
     @Get
     public List<DraftMeal> listAllDraftMealsForUser(Authentication authentication) {
+        log.info("Listing all meals for uid: {}", authentication.getName());
         return mealService.getListOfDraftMeals(authentication.getName());
     }
 

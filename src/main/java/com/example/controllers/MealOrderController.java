@@ -28,7 +28,8 @@ public class MealOrderController {
         log.info("Getting all Orders for mealId: {}", mealId);
         List<Order> orders = orderService.getOrderFromMealId(mealId);
         if (!validateListOfOrders(orders, authentication)) {
-            return HttpResponse.notFound();
+            log.error("Not all meals returned belong to this user.");
+            return HttpResponse.serverError();
         }
         return HttpResponse.ok(orders);
     }

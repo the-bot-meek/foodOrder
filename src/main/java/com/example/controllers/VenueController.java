@@ -49,6 +49,7 @@ public class VenueController {
             venueService.addVenue(venue);
             return HttpResponse.ok(venue);
         } catch (VenueRequestConverterException e) {
+            log.error("Error converting CreateVenueRequest to Venue", e);
             return HttpResponse.badRequest();
         }
     }

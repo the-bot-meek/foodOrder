@@ -29,29 +29,31 @@ public class DynamoDBFacadeService implements IDynamoDBFacadeService{
 
     @Override
     public <T extends Model> Optional<T> load(Class<T> clazz, String primaryKey, String sortKey) {
-        log.trace("Loading clazz: {}, primaryKey: {}, sortKey: {}", clazz, primaryKey, sortKey);
+        log.debug("Loading clazz: {}, primaryKey: {}, sortKey: {}", clazz, primaryKey, sortKey);
         return Optional.ofNullable(dynamoDBMapper.load(clazz, primaryKey, sortKey));
     }
 
     @Override
     public <T extends Model> void save(T object) {
-        log.trace("Saving object: {}", object);
+        log.debug("Saving object: {}", object);
         dynamoDBMapper.save(object);
     }
 
 
     @Override
     public <T extends Model> List<T> query(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression) {
-        log.trace("Getting clazz: {}, dynamoDBQueryExpression: {}", clazz, dynamoDBQueryExpression);
+        log.debug("Getting clazz: {}, dynamoDBQueryExpression: {}", clazz, dynamoDBQueryExpression);
         return dynamoDBMapper.query(clazz, dynamoDBQueryExpression);
     }
 
     @Override
     public <T extends Model> void delete(T entity) {
+        log.debug("Deleting entity: {}", entity);
         dynamoDBMapper.delete(entity);
     }
 
     public <T extends Model> void batchDelete(List<T> tList) {
+        log.debug("Deleting entitys: {}", tList);
         dynamoDBMapper.batchDelete(tList);
     }
 }

@@ -79,7 +79,9 @@ public class MealController {
             @NotNull @QueryValue Instant mealDate,
             @NotNull @NotEmpty @QueryValue String id
     ) {
+        log.info("Deleting meal. uid: {}, mealDate: {}, id:{}", uid, mealDate, id);
         mealService.deleteMeal(uid, mealDate, id);
+        log.info("Deleting all order for mealId: {}", id);
         orderService.deleteAllOrdersForMeal(id);
     }
 }
