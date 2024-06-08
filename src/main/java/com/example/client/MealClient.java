@@ -1,18 +1,16 @@
 package com.example.client;
 
 import com.example.dto.request.CreateMealRequest;
-import com.example.dto.request.DeleteMealRequest;
 import com.example.models.meal.DraftMeal;
 import com.example.models.meal.Meal;
 import com.example.models.Order;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Delete;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +37,17 @@ public interface MealClient {
     @Get("/{mealDateTimeStamp}/{id}")
     Optional<Meal> getMeal(@NotNull long mealDateTimeStamp, @NotNull String id);
 
-    @Delete()
-    void deleteMeal(@Valid @Body DeleteMealRequest deleteMealRequest);
+    @Delete
+    void deleteMeal(
+            @NotNull @NotEmpty @QueryValue String uid,
+            @NotNull @QueryValue Instant mealDate,
+            @NotNull @NotEmpty @QueryValue String id
+    );
 
     @Delete("draft")
-    void deleteDraftMeal(@Valid @Body DeleteMealRequest deleteMealRequest);
+    void deleteDraftMeal(
+        @NotNull @NotEmpty @QueryValue String uid,
+        @NotNull @QueryValue Instant mealDate,
+        @NotNull @NotEmpty @QueryValue String id
+    );
 }

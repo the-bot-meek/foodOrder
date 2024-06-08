@@ -3,7 +3,6 @@ package com.example.controllers;
 import com.example.converters.CreateMealRequestConverter;
 import com.example.exceptions.MealRequestConverterException;
 import com.example.dto.request.CreateMealRequest;
-import com.example.dto.request.DeleteMealRequest;
 import com.example.models.meal.Meal;
 import com.example.services.MealService;
 import com.example.services.OrderService;
@@ -16,6 +15,7 @@ import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,8 +74,12 @@ public class MealController {
     }
 
     @Delete
-    public void deleteMeal(@Valid @Body DeleteMealRequest deleteMealRequest) {
-        mealService.deleteMeal(deleteMealRequest.uid(), deleteMealRequest.mealDate(), deleteMealRequest.id());
-        orderService.deleteAllOrdersForMeal(deleteMealRequest.id());
+    public void deleteMeal(
+            @NotNull @NotEmpty @QueryValue String uid,
+            @NotNull @QueryValue Instant mealDate,
+            @NotNull @NotEmpty @QueryValue String id
+    ) {
+        mealService.deleteMeal(uid, mealDate, id);
+        orderService.deleteAllOrdersForMeal(id);
     }
 }

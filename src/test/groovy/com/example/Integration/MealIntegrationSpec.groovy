@@ -1,16 +1,11 @@
 package com.example.Integration
 
 import com.example.client.MealClient
-import com.example.client.OrderClient
 import com.example.dto.request.CreateMealRequest
-import com.example.dto.request.CreateOrderRequest
-
-import com.example.dto.request.DeleteMealRequest
 import com.example.models.meal.DraftMeal
 import com.example.models.meal.Meal
 import com.example.models.meal.MealConfig
 import com.example.models.meal.PrivateMealConfig
-import com.example.models.MenuItem
 import com.example.models.Order
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
@@ -121,12 +116,11 @@ class MealIntegrationSpec extends Specification {
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
-        DeleteMealRequest deleteMealRequest = new DeleteMealRequest(
+        mealClient.deleteMeal(
                 meal.getUid(),
                 meal.getMealDate(),
                 meal.getId()
         )
-        mealClient.deleteMeal(deleteMealRequest)
         Meal mealAfterDelete = mealClient.fetchMeal(meal.getSortKey())
         List<Order> orderAfterDelete = mealClient.listAllOrdersForMeal(meal.getId())
 

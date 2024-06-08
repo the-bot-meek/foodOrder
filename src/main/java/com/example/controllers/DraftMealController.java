@@ -1,21 +1,18 @@
 package com.example.controllers;
 
-import com.example.dto.request.DeleteMealRequest;
 import com.example.models.meal.DraftMeal;
 import com.example.services.MealService;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Delete;
-import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,8 +38,12 @@ public class DraftMealController {
     }
 
     @Delete
-    public void deleteDraftMeal(@Valid @Body DeleteMealRequest deleteMealRequest) {
-        log.info("Deleting draft meal {}", deleteMealRequest.id());
-        mealService.deleteDraftMeal(deleteMealRequest.uid(), deleteMealRequest.mealDate(), deleteMealRequest.id());
+    public void deleteDraftMeal(
+            @NotNull @NotEmpty @QueryValue String uid,
+            @NotNull @QueryValue Instant mealDate,
+            @NotNull @NotEmpty @QueryValue String id
+    ) {
+        log.info("Deleting draft meal {}", id);
+        mealService.deleteDraftMeal(uid, mealDate, id);
     }
 }

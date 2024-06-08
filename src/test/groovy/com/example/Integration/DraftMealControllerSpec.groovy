@@ -2,8 +2,6 @@ package com.example.Integration
 
 import com.example.client.MealClient
 import com.example.dto.request.CreateMealRequest
-import com.example.dto.request.DeleteMealRequest
-import com.example.models.Order
 import com.example.models.meal.DraftMeal
 import com.example.models.meal.Meal
 import com.example.models.meal.MealConfig
@@ -37,12 +35,11 @@ class DraftMealControllerSpec extends Specification {
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
-        DeleteMealRequest deleteMealRequest = new DeleteMealRequest(
+        mealClient.deleteDraftMeal(
                 meal.getUid(),
                 meal.getMealDate(),
                 meal.getId()
         )
-        mealClient.deleteDraftMeal(deleteMealRequest)
         Meal mealAfterDelete = mealClient.fetchDraftMeal(meal.getSortKey())
 
         then:
