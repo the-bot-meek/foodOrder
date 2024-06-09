@@ -1,6 +1,6 @@
 package com.example.models
 
-import com.example.models.Meal.Meal
+import com.example.models.meal.Meal
 import spock.lang.Specification
 
 import java.time.Instant

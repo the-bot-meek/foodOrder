@@ -1,9 +1,10 @@
 package com.example.converters
 
-import com.example.Converters.CreateMealRequestConverter
+
 import com.example.dto.request.CreateMealRequest
-import com.example.models.Meal.DraftMeal
-import com.example.models.Meal.Meal
+import com.example.models.meal.DraftMeal
+import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
 import com.example.services.LocationService
 import spock.lang.Specification
 
@@ -18,7 +19,7 @@ class CreateMealRequestConverterTest extends Specification {
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
         CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
 
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", false)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig())
 
         when:
         Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
@@ -43,7 +44,7 @@ class CreateMealRequestConverterTest extends Specification {
         String uid = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
 
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)

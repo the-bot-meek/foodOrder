@@ -1,7 +1,7 @@
 package com.example.controllers;
 
-import com.example.Converters.CreateVenueRequestConverter;
-import com.example.Exceptions.VenueRequestConverterException;
+import com.example.converters.CreateVenueRequestConverter;
+import com.example.exceptions.VenueRequestConverterException;
 import com.example.dto.request.CreateVenueRequest;
 import com.example.models.Venue;
 import com.example.services.VenueService;
@@ -49,6 +49,7 @@ public class VenueController {
             venueService.addVenue(venue);
             return HttpResponse.ok(venue);
         } catch (VenueRequestConverterException e) {
+            log.error("Error converting CreateVenueRequest to Venue", e);
             return HttpResponse.badRequest();
         }
     }

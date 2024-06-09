@@ -1,6 +1,6 @@
 package com.example.models
 
-import com.example.models.Meal.DraftMeal
+import com.example.models.meal.DraftMeal
 import spock.lang.Specification
 
 class DraftMealTest extends Specification {

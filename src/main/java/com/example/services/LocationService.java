@@ -10,7 +10,7 @@ import java.util.List;
 public class LocationService {
     private final Logger log = LoggerFactory.getLogger(LocationService.class);
     public List<String> listLocation() {
-        log.info("Getting all available locations");
+        log.trace("Getting all available locations");
         return List.of("Kirkwall", "London");
     }
 }

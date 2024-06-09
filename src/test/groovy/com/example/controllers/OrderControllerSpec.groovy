@@ -1,11 +1,12 @@
 package com.example.controllers
 
-import com.example.Converters.CreateOrderRequestConverter
+import com.example.converters.CreateOrderRequestConverter
 import com.example.dto.request.CreateOrderRequest
-import com.example.models.Meal.Meal
+import com.example.models.meal.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
 import com.example.models.Venue
+import com.example.models.meal.MealConfig
 import com.example.services.IDynamoDBFacadeService
 import com.example.services.MealService
 import com.example.services.OrderService
@@ -29,7 +30,7 @@ class OrderControllerSpec extends Specification {
         IDynamoDBFacadeService mealServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(mealServiceIDynamoDBFacadeService)
         mealServiceIDynamoDBFacadeService.load(Meal, organizerUid, (dateOfMeal.toString() + "_" + mealId)) >> {
-            return Optional.of(new Meal(location: location, venueName: name, id: mealId, mealDate: dateOfMeal))
+            return Optional.of(new Meal(location: location, venueName: name, id: mealId, mealDate: dateOfMeal, mealConfig: new MealConfig()))
         }
 
         IDynamoDBFacadeService venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeService)

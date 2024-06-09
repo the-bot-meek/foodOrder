@@ -7,9 +7,10 @@ import com.example.client.VenueClient
 import com.example.dto.request.CreateMealRequest
 import com.example.dto.request.CreateOrderRequest
 import com.example.dto.request.CreateVenueRequest
-import com.example.models.Meal.Meal
+import com.example.models.meal.Meal
 import com.example.models.MenuItem
 import com.example.models.Order
+import com.example.models.meal.MealConfig
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -40,7 +41,7 @@ class UserOrderControllerIntergrationSpec extends Specification {
 
         Set<MenuItem> menuItems = [new MenuItem()]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name, dateOfMeal, location, name, false)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
 
 
         when:

@@ -36,6 +36,7 @@ public class OrderService {
     }
 
     public void deleteAllOrdersForMeal(String mealId) {
+        log.trace("Deleting all Orders for mealId: {}", mealId);
         List<Order> orders = getOrderFromMealId(mealId);
         dynamoDBFacadeService.batchDelete(orders);
     }

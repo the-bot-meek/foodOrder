@@ -1,9 +1,9 @@
 package com.example.dto.request;
 
+import com.example.models.meal.MealConfig;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.core.annotation.Introspected;
-import io.micronaut.core.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,8 +11,6 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Introspected
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
-@JsonSubTypes({@JsonSubTypes.Type(value = CreateMealRequest.class, name = "Meal"), @JsonSubTypes.Type(value = CreatePrivateMealRequest.class, name = "PrivateMeal")})
 public class CreateMealRequest {
         @NotNull
         @NotBlank
@@ -25,15 +23,11 @@ public class CreateMealRequest {
         @NotNull
         @NotBlank
         String venueName;
-        @Nullable
-        Boolean draft;
+        @NotNull
+        MealConfig mealConfig;
 
-        public CreateMealRequest(String name, Instant dateOfMeal, String location, String venueName, Boolean draft) {
-                this.name = name;
-                this.dateOfMeal = dateOfMeal;
-                this.location = location;
-                this.venueName = venueName;
-                this.draft = draft;
+        public CreateMealRequest() {
+
         }
 
         public String getName() {
@@ -67,15 +61,14 @@ public class CreateMealRequest {
         public void setVenueName(String venueName) {
                 this.venueName = venueName;
         }
-
-        public Boolean getDraft() {
-                if (draft == null) return false;
-                return draft;
+        public MealConfig getMealConfig() {
+                return mealConfig;
         }
 
-        public void setDraft(Boolean draft) {
-                this.draft = draft;
+        public void setMealConfig(MealConfig mealConfig) {
+                this.mealConfig = mealConfig;
         }
+
 
         @Override
         public boolean equals(Object object) {
@@ -86,7 +79,7 @@ public class CreateMealRequest {
                 if (!Objects.equals(dateOfMeal, that.dateOfMeal)) return false;
                 if (!Objects.equals(location, that.location)) return false;
                 if (!Objects.equals(venueName, that.venueName)) return false;
-            return Objects.equals(draft, that.draft);
+            return Objects.equals(mealConfig, that.mealConfig);
         }
 
         @Override
@@ -95,7 +88,7 @@ public class CreateMealRequest {
                 result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
                 result = 31 * result + (location != null ? location.hashCode() : 0);
                 result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
-                result = 31 * result + (draft != null ? draft.hashCode() : 0);
+                result = 31 * result + (mealConfig != null ? mealConfig.hashCode() : 0);
                 return result;
         }
 }

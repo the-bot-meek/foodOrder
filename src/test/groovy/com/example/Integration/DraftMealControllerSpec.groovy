@@ -2,8 +2,9 @@ package com.example.Integration
 
 import com.example.client.MealClient
 import com.example.dto.request.CreateMealRequest
-import com.example.models.Meal.DraftMeal
-import com.example.models.Meal.Meal
+import com.example.models.meal.DraftMeal
+import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -18,7 +19,7 @@ class DraftMealControllerSpec extends Specification {
     MealClient mealClient
     def "Get Draft Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest("name", Instant.ofEpochSecond(1711405066), "London", "MacD", true)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal draftMealSaved = mealClient.addMeal(createMealRequest)
@@ -26,5 +27,35 @@ class DraftMealControllerSpec extends Specification {
 
         then:
         assert draftMeal == draftMealSaved
+    }
+
+    def "Ensure draft meal is deleted"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+
+        when:
+        Meal meal = mealClient.addMeal(createMealRequest)
+        mealClient.deleteDraftMeal(
+                meal.getUid(),
+                meal.getMealDate(),
+                meal.getId()
+        )
+        Meal mealAfterDelete = mealClient.fetchDraftMeal(meal.getSortKey())
+
+        then:
+        assert mealAfterDelete == null
+    }
+
+    def "List all draft meals for current user"() {
+        given:
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+
+        when:
+        Meal draftMeal = mealClient.addMeal(createMealRequest)
+        List<DraftMeal> mealList = mealClient.listAllDraftMealsForUser()
+        then:
+        assert !mealList.isEmpty()
+        assert mealList.every {Meal meal -> meal.uid == "steven"}
+        assert mealList.find {it.getId() == draftMeal.getId()} == draftMeal
     }
 }

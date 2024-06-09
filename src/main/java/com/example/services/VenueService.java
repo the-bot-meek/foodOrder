@@ -21,6 +21,7 @@ public class VenueService {
     }
 
     public Optional<Venue> getVenue(String location, String name) {
+        log.trace("Getting Venue location: {}, name: {}", location, name);
         return dynamoDBFacadeService.load(Venue.class,"Venue_" + location, name);
     }
 
@@ -38,6 +39,7 @@ public class VenueService {
 
 
     public void addVenue(Venue venue) {
+        log.trace("Adding Venue, venueId: {}", venue.getId());
         dynamoDBFacadeService.save(venue);
     }
 }
