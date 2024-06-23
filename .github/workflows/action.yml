@@ -9,6 +9,17 @@ on:
       - main
 
 jobs:
+  test-client:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: NPM install
+        run: (cd client || return; npm install;)
+
+      - name: ng test
+        run: ng test
   build:
 
     runs-on: ubuntu-latest
