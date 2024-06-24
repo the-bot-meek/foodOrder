@@ -13,9 +13,9 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   public getUserInfo(): Observable<IUser> {
-    return this.httpClient.get<IUser>(`${this._serverUrl}/user`)
+    return this.httpClient.get<IUser>(`${this._serverUrl}/user`, {withCredentials: true})
       .pipe(
-        tap(it =>{this._isAuthenticated = true;})
+        tap(() =>{this._isAuthenticated = true;})
       );
   }
 
