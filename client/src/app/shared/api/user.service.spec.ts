@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { UserService } from './user.service';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {of} from "rxjs";
 import {IUser} from "../../../../models/IUser";
 
@@ -35,7 +35,7 @@ describe('UserService', () => {
   })
 
   it('isAuthenticated should be true when user endpoint returns 200', () => {
-    service.getUserInfo().subscribe(it => {
+    service.getUserInfo().subscribe(() => {
       expect(service.isAuthenticated()).toBeTrue()
     })
   })
