@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
+import {
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {IVenue} from "../../../../../models/venue";
@@ -37,7 +43,8 @@ export class AddMealDialogComponent {
   venues: IVenue[] = []
   constructor(
     private venueService: VenueService,
-    private mealService: MealService
+    private mealService: MealService,
+    public dialogRef: MatDialogRef<AddMealDialogComponent>
   ) {
   }
 
@@ -68,5 +75,6 @@ export class AddMealDialogComponent {
     }
     this.mealService.addMeal(createMealRequest).subscribe()
     this.addMealFormGroup.reset()
+    this.dialogRef.close()
   }
 }

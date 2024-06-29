@@ -4,11 +4,11 @@
   <div mat-dialog-content id="meal-dialog">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input type="text" matInput [formControl]="addMealFormGroup.controls.name" >
+        <input id="name-input" type="text" matInput [formControl]="addMealFormGroup.controls.name" >
       </mat-form-field>
       <mat-form-field>
         <mat-label>Date</mat-label>
-        <input matInput [matDatepicker]="datepicker" [formControl]="addMealFormGroup.controls.dateOfMeal"/>
+        <input id="meal-date-input" matInput [matDatepicker]="datepicker" [formControl]="addMealFormGroup.controls.dateOfMeal"/>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
         <mat-datepicker #datepicker>
@@ -39,7 +39,7 @@
       }
   </div>
   <div mat-dialog-actions>
-    <button id="add-meal-button" mat-button mat-dialog-close [disabled]="addMealFormGroup.invalid">Add</button>
+    <button id="add-meal-button" mat-button [disabled]="addMealFormGroup.invalid">Add</button>
     <button mat-button mat-dialog-close type="button">Close</button>
   </div>
 </form>
