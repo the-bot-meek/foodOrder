@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { MealService } from './meal.service';
 
 describe('MealService', () => {

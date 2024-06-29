@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { OrderService } from './order.service';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 describe('OrderService', () => {
   let service: OrderService;
