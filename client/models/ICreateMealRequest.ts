@@ -5,12 +5,11 @@ export interface ICreateMealRequest {
     dateOfMeal: number,
     location: string,
     venueName: string,
-    draft: boolean
     mealConfig: MealConfig
 }
 
 export interface IDeleteMealRequest {
     uid: string;
     mealDate: number;
-    id: string 
+    id: string
 }

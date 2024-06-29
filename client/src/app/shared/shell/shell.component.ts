@@ -14,6 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {AsyncPipe, NgIf} from "@angular/common";
+import {AddMealDialogComponent} from "../../components/meal/add-meal-dialog/add-meal-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ComponentType} from "@angular/cdk/overlay";
 
 @Component({
   selector: 'app-shell',
@@ -44,5 +47,15 @@ export class ShellComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(private breakpointObserver: BreakpointObserver, public dialog: MatDialog) {}
+
+  openDialogComponent<T>(componentType: ComponentType<T>): void {
+    this.dialog.open(componentType, {
+      position: {
+        top: "8vh"
+      }
+    })
+  }
+
+  protected readonly AddMealDialogComponent = AddMealDialogComponent;
 }
