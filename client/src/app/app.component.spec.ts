@@ -3,6 +3,7 @@ import { AppComponent } from './app.component';
 import {AuthService} from "./shared/services/auth/auth.service";
 import {of} from "rxjs";
 import {IUser} from "../../models/IUser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('AppComponent', () => {
   let authService: any;
@@ -19,7 +20,7 @@ describe('AppComponent', () => {
     }
     authService = {checkAuth: jasmine.createSpy().and.returnValue(of(user))}
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, BrowserAnimationsModule],
       providers: [
         {
           provide: AuthService,
