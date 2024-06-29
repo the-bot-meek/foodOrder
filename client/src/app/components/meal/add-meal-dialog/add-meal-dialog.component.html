@@ -21,7 +21,7 @@
       <br>
       <mat-form-field>
         <mat-label>Location</mat-label>
-        <mat-select [formControl]="addMealFormGroup.controls.location" (selectionChange)="getVenuesForLocation($event.value)">
+        <mat-select id="location-select" [formControl]="addMealFormGroup.controls.location" (selectionChange)="getVenuesForLocation($event.value)">
           @for (location of locations; track location) {
             <mat-option [value]="location" >{{location}}</mat-option>
           }
@@ -30,7 +30,7 @@
       @if (addMealFormGroup?.value?.location) {
         <mat-form-field>
           <mat-label>Venue</mat-label>
-          <mat-select [formControl]="addMealFormGroup.controls.venueName">
+          <mat-select id="venue-select" [formControl]="addMealFormGroup.controls.venueName">
             @for (venue of venues; track venue) {
               <mat-option [value]="venue.name" >{{venue.name}}</mat-option>
             }
@@ -39,7 +39,7 @@
       }
   </div>
   <div mat-dialog-actions>
-    <button mat-button mat-dialog-close [disabled]="addMealFormGroup.invalid">Add</button>
+    <button id="add-meal-button" mat-button mat-dialog-close [disabled]="addMealFormGroup.invalid">Add</button>
     <button mat-button mat-dialog-close type="button">Close</button>
   </div>
 </form>
