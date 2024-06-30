@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
+import {MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
 import {ICreateVenueRequest} from "../../../../../models/venue";
 import {VenueService} from "../../../shared/api/venue.service";
@@ -9,9 +9,10 @@ import {MatDateRangeInput} from "@angular/material/datepicker";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatSelect} from "@angular/material/select";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {JsonPipe} from "@angular/common";
 import {MenuItemListComponent} from "../menu-item-list/menu-item-list.component";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-add-venue-dialog',
@@ -28,7 +29,10 @@ import {MenuItemListComponent} from "../menu-item-list/menu-item-list.component"
     JsonPipe,
     MatDialogTitle,
     MatDialogContent,
-    MenuItemListComponent
+    MenuItemListComponent,
+    MatIcon,
+    MatIconButton,
+    MatDialogClose
   ],
   templateUrl: './add-venue-dialog.component.html',
   styleUrl: './add-venue-dialog.component.scss'

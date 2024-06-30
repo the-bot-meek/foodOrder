@@ -1,11 +1,16 @@
-<h2 mat-dialog-title>Add Venue</h2>
+<div mat-dialog-title class="venue-dialog-title">
+  <h2>Add Venue</h2>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <form [formGroup]="venueFormGroup" (ngSubmit)="saveVenue()">
   <div mat-dialog-content id="venue-dialog">
-      <mat-form-field>
+      <mat-form-field style="width: 100%">
         <mat-label>Name</mat-label>
         <input id="venue-name-input" type="text" matInput [formControl]="venueFormGroup.controls.name" >
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field style="width: 100%">
         <mat-label>Location</mat-label>
         <mat-select id="venue-location-select" [formControl]="venueFormGroup.controls.location">
           @for (location of locations; track location) {
@@ -13,12 +18,10 @@
           }
         </mat-select>
       </mat-form-field>
-      <br>
       <mat-form-field class="example-full-width" style="width: 100%">
         <mat-label>Description</mat-label>
-        <textarea id="venue-description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Ex. It makes me feel..."></textarea>
+        <textarea id="venue-description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Add a short description about this Venue"></textarea>
       </mat-form-field>
-      <br>
       <p>Add Menu Item</p>
       <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)"></app-menu-item-list>
 

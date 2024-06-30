@@ -54,7 +54,11 @@ export class ShellComponent {
     this.dialog.open(componentType, {
       position: {
         top: "8vh"
-      }
+      },
+      maxWidth: "100%",
+      minWidth: "80%",
+      minHeight: "60vh",
+      maxHeight: "100vh"
     })
   }
 
