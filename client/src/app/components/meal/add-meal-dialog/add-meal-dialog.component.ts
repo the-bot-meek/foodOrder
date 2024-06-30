@@ -17,6 +17,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-add-meal-dialog',
@@ -34,7 +35,8 @@ import {MatSelect} from "@angular/material/select";
     ReactiveFormsModule,
     MatNativeDateModule,
     MatOption,
-    MatSelect
+    MatSelect,
+    MatIcon
   ],
   templateUrl: './add-meal-dialog.component.html',
   styleUrl: './add-meal-dialog.component.scss'

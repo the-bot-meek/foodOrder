@@ -1,5 +1,9 @@
-
-<h2 mat-dialog-title>Add Meal</h2>
+<div mat-dialog-title class="venue-dialog-title">
+  <h2>Add Meal</h2>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
 <form [formGroup]="addMealFormGroup" (ngSubmit)="addMeal()">
   <div mat-dialog-content id="meal-dialog">
       <mat-form-field>
