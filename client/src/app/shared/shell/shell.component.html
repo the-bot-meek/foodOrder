@@ -37,7 +37,7 @@
         <div *ngIf="!(isHandset$ | async)">
           <a mat-button routerLink="/kanban">Add Order</a>
           <a mat-button (click)="openDialogComponent(AddMealDialogComponent)">Add Meal</a>
-          <a mat-button routerLink="/login">Add Venue</a>
+          <a mat-button (click)="openDialogComponent(AddVenueDialogComponent)">Add Venue</a>
         </div>
       </div>
 

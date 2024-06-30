@@ -17,6 +17,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {AddMealDialogComponent} from "../../components/meal/add-meal-dialog/add-meal-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ComponentType} from "@angular/cdk/overlay";
+import {AddVenueDialogComponent} from "../../components/venue/add-venue-dialog/add-venue-dialog.component";
 
 @Component({
   selector: 'app-shell',
@@ -58,4 +59,5 @@ export class ShellComponent {
   }
 
   protected readonly AddMealDialogComponent = AddMealDialogComponent;
+  protected readonly AddVenueDialogComponent = AddVenueDialogComponent;
 }

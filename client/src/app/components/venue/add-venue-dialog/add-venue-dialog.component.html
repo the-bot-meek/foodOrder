@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Add Venue</h2>
+<form [formGroup]="venueFormGroup" (ngSubmit)="saveVenue()">
+  <div mat-dialog-content id="venue-dialog">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input type="text" matInput [formControl]="venueFormGroup.controls.name" >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Location</mat-label>
+        <mat-select [formControl]="venueFormGroup.controls.location">
+          @for (location of locations; track location) {
+            <mat-option [value]="location" >{{location}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field class="example-full-width" style="width: 100%">
+        <mat-label>Description</mat-label>
+        <textarea id="description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Ex. It makes me feel..."></textarea>
+      </mat-form-field>
+      <br>
+      <p>Add Menu Item</p>
+      <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)"></app-menu-item-list>
+
+      <form [formGroup]="addMenuItemForm" (ngSubmit)="addMenuItem()">
+        <div>
+          {{addMenuItemForm.controls.name.getError('nonUniqueItem')}}
+        </div>
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input type="text" matInput [formControl]="addMenuItemForm.controls.name">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input type="text" matInput [formControl]="addMenuItemForm.controls.description">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Price</mat-label>
+          <input type="number" matInput [formControl]="addMenuItemForm.controls.price">
+        </mat-form-field>
+        <button mat-button [disabled]="addMenuItemForm.invalid">Add MenuItem</button>
+      </form>
+      <button mat-button [disabled]="venueFormGroup.invalid">Add Venue</button>
+  </div>
+</form>
