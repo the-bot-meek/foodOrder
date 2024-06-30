@@ -3,11 +3,11 @@
   <div mat-dialog-content id="venue-dialog">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input type="text" matInput [formControl]="venueFormGroup.controls.name" >
+        <input id="venue-name-input" type="text" matInput [formControl]="venueFormGroup.controls.name" >
       </mat-form-field>
       <mat-form-field>
         <mat-label>Location</mat-label>
-        <mat-select [formControl]="venueFormGroup.controls.location">
+        <mat-select id="venue-location-select" [formControl]="venueFormGroup.controls.location">
           @for (location of locations; track location) {
             <mat-option [value]="location" >{{location}}</mat-option>
           }
@@ -16,7 +16,7 @@
       <br>
       <mat-form-field class="example-full-width" style="width: 100%">
         <mat-label>Description</mat-label>
-        <textarea id="description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Ex. It makes me feel..."></textarea>
+        <textarea id="venue-description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Ex. It makes me feel..."></textarea>
       </mat-form-field>
       <br>
       <p>Add Menu Item</p>
@@ -28,18 +28,18 @@
         </div>
         <mat-form-field>
           <mat-label>Name</mat-label>
-          <input type="text" matInput [formControl]="addMenuItemForm.controls.name">
+          <input id="menu-item-name" type="text" matInput [formControl]="addMenuItemForm.controls.name">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Description</mat-label>
-          <input type="text" matInput [formControl]="addMenuItemForm.controls.description">
+          <input id="menu-item-description" type="text" matInput [formControl]="addMenuItemForm.controls.description">
         </mat-form-field>
         <mat-form-field>
           <mat-label>Price</mat-label>
-          <input type="number" matInput [formControl]="addMenuItemForm.controls.price">
+          <input id="menu-item-price" type="number" matInput [formControl]="addMenuItemForm.controls.price">
         </mat-form-field>
-        <button mat-button [disabled]="addMenuItemForm.invalid">Add MenuItem</button>
+        <button id="add-menu-item-btn" mat-button [disabled]="addMenuItemForm.invalid">Add MenuItem</button>
       </form>
-      <button mat-button [disabled]="venueFormGroup.invalid">Add Venue</button>
+      <button id="add-venue-btn" mat-button [disabled]="venueFormGroup.invalid">Add Venue</button>
   </div>
 </form>
