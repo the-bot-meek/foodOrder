@@ -58,7 +58,8 @@ export class ShellComponent {
       maxWidth: "100%",
       minWidth: "80%",
       minHeight: "60vh",
-      maxHeight: "100vh"
+      maxHeight: "100vh",
+      autoFocus: false
     })
   }
 
