@@ -167,7 +167,7 @@ describe('AddMealDialogComponent', () => {
     await addMealMatButtonHarness.click()
 
     let createMealRequest: ICreateMealRequest = {
-      dateOfMeal: 1719615600000,
+      dateOfMeal: 1719619200000 + (new Date().getTimezoneOffset() * 60000),
       location: 'London',
       mealConfig: {
         draft: false,
