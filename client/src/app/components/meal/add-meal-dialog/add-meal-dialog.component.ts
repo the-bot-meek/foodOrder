@@ -17,6 +17,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-add-meal-dialog',
@@ -34,7 +35,8 @@ import {MatSelect} from "@angular/material/select";
     ReactiveFormsModule,
     MatNativeDateModule,
     MatOption,
-    MatSelect
+    MatSelect,
+    MatIcon
   ],
   templateUrl: './add-meal-dialog.component.html',
   styleUrl: './add-meal-dialog.component.scss'
@@ -73,7 +75,9 @@ export class AddMealDialogComponent {
       name: this.addMealFormGroup.value.name as string,
       venueName: this.addMealFormGroup.value.venueName as string
     }
-    this.mealService.addMeal(createMealRequest).subscribe()
+    this.mealService.addMeal(createMealRequest).subscribe(
+      () => this.mealService.listMeal().subscribe()
+    )
     this.addMealFormGroup.reset()
     this.dialogRef.close()
   }

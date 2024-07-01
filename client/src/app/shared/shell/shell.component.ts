@@ -17,6 +17,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {AddMealDialogComponent} from "../../components/meal/add-meal-dialog/add-meal-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ComponentType} from "@angular/cdk/overlay";
+import {AddVenueDialogComponent} from "../../components/venue/add-venue-dialog/add-venue-dialog.component";
 
 @Component({
   selector: 'app-shell',
@@ -53,9 +54,15 @@ export class ShellComponent {
     this.dialog.open(componentType, {
       position: {
         top: "8vh"
-      }
+      },
+      maxWidth: "100%",
+      minWidth: "80%",
+      minHeight: "60vh",
+      maxHeight: "100vh",
+      autoFocus: false
     })
   }
 
   protected readonly AddMealDialogComponent = AddMealDialogComponent;
+  protected readonly AddVenueDialogComponent = AddVenueDialogComponent;
 }

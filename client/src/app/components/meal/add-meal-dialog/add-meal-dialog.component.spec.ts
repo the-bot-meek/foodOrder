@@ -43,7 +43,8 @@ describe('AddMealDialogComponent', () => {
     }
 
     mealService = {
-      addMeal: jasmine.createSpy().and.returnValue(of({}))
+      addMeal: jasmine.createSpy().and.returnValue(of({})),
+      listMeal: jasmine.createSpy().and.returnValue(of([]))
     }
 
     dialogRef = {
@@ -122,5 +123,7 @@ describe('AddMealDialogComponent', () => {
     }));
     await addMealMatButtonHarness.click()
     expect(dialogRef.close).toHaveBeenCalled()
+    expect(mealService.listMeal).toHaveBeenCalled()
+    expect(mealService.addMeal).toHaveBeenCalled()
   })
 });
