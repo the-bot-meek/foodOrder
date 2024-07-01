@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddMealDialogComponent } from './add-meal-dialog.component';
-import {Observable, of} from "rxjs";
+import {EMPTY, Observable, of} from "rxjs";
 import {IVenue} from "../../../../../models/venue";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {VenueService} from "../../../shared/api/venue.service";
@@ -13,6 +13,10 @@ import {MatButtonHarness} from "@angular/material/button/testing";
 import {MatDialogRef} from "@angular/material/dialog";
 import {MatDatepickerInputHarness} from "@angular/material/datepicker/testing";
 import {MatInputHarness} from "@angular/material/input/testing";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
+import {IMeal} from "../../../../../models/meal";
+import {ICreateMealRequest} from "../../../../../models/ICreateMealRequest";
 
 describe('AddMealDialogComponent', () => {
   let component: AddMealDialogComponent;
@@ -21,6 +25,9 @@ describe('AddMealDialogComponent', () => {
   let venueService: any;
   let mealService: any;
   let dialogRef: any;
+  let snackBar: any;
+  let router: any;
+  let matSnackBarRef: any;
 
   let venue: IVenue = {
     description: "description",
@@ -34,6 +41,22 @@ describe('AddMealDialogComponent', () => {
     name: "Venue Name"
   }
 
+  let mealSortKey = "2024-07-01T20:09:35.796Z_6e30e2b2-e0dd-4345-8422-697e705c746b"
+  let meal: IMeal = {
+    id: "6e30e2b2-e0dd-4345-8422-697e705c746b",
+    location: "London",
+    mealConfig: {
+      draft: false,
+      privateMealConfig: undefined
+    },
+    mealDate: 1719865709058,
+    name: "name",
+    primaryKey: "8422-6e30e2b2-e0dd-4345-697e705c746b",
+    sortKey: mealSortKey,
+    uid: "8422-6e30e2b2-e0dd-4345-697e705c746b",
+    venueName: "MacD"
+  }
+
   beforeEach(async () => {
     venueService = {
       listVenuesForLocation: jasmine.createSpy().and.callFake((location: string): Observable<IVenue[]> => {
@@ -43,12 +66,24 @@ describe('AddMealDialogComponent', () => {
     }
 
     mealService = {
-      addMeal: jasmine.createSpy().and.returnValue(of({})),
+      addMeal: jasmine.createSpy().and.returnValue(of(meal)),
       listMeal: jasmine.createSpy().and.returnValue(of([]))
     }
 
     dialogRef = {
       close: jasmine.createSpy().and.stub()
+    }
+
+    matSnackBarRef = {
+      onAction: jasmine.createSpy().and.returnValue(of(EMPTY))
+    }
+
+    snackBar = {
+      open: jasmine.createSpy("snackBar open").and.returnValue(matSnackBarRef)
+    }
+
+    router = {
+      navigate: jasmine.createSpy("navigate spy").and.stub()
     }
     await TestBed.configureTestingModule({
       imports: [AddMealDialogComponent, BrowserAnimationsModule],
@@ -64,6 +99,14 @@ describe('AddMealDialogComponent', () => {
         {
           provide: MealService,
           useValue: mealService
+        },
+        {
+          provide: MatSnackBar,
+          useValue: snackBar
+        },
+        {
+          provide: Router,
+          useValue: router
         }
       ]
     })
@@ -122,8 +165,22 @@ describe('AddMealDialogComponent', () => {
       selector: "#add-meal-button"
     }));
     await addMealMatButtonHarness.click()
+
+    let createMealRequest: ICreateMealRequest = {
+      dateOfMeal: 1719615600000,
+      location: 'London',
+      mealConfig: {
+        draft: false,
+        privateMealConfig: null
+      },
+      name: 'Name',
+      venueName: 'Venue Name'
+    }
+
     expect(dialogRef.close).toHaveBeenCalled()
     expect(mealService.listMeal).toHaveBeenCalled()
-    expect(mealService.addMeal).toHaveBeenCalled()
+    expect(mealService.addMeal).toHaveBeenCalledWith(createMealRequest)
+    expect(snackBar.open).toHaveBeenCalledWith("Meal added", "Open Meal", jasmine.any(Object))
+    expect(router.navigate).toHaveBeenCalledWith(['meal', mealSortKey])
   })
 });

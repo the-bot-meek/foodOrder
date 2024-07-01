@@ -18,6 +18,9 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatOption} from "@angular/material/core";
 import {MatSelect} from "@angular/material/select";
 import {MatIcon} from "@angular/material/icon";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
+import {catchError} from "rxjs";
 
 @Component({
   selector: 'app-add-meal-dialog',
@@ -46,7 +49,9 @@ export class AddMealDialogComponent {
   constructor(
     private venueService: VenueService,
     private mealService: MealService,
-    public dialogRef: MatDialogRef<AddMealDialogComponent>
+    public dialogRef: MatDialogRef<AddMealDialogComponent>,
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
   }
 
@@ -64,6 +69,20 @@ export class AddMealDialogComponent {
     )
   }
 
+  private openAddMealSnackBar(mealSortKey: string) {
+    this.snackBar.open("Meal added", "Open Meal", {
+      horizontalPosition: 'end', verticalPosition: 'top', duration: 7500
+    }).onAction().subscribe(() => {
+      this.router.navigate(['meal', mealSortKey])
+    })
+  }
+
+  private failedToAddMeal() {
+    this.snackBar.open("Failed to add meal", null, {
+      horizontalPosition: 'end', verticalPosition: 'top', duration: 7500
+    });
+  }
+
   addMeal(): void {
     const createMealRequest: ICreateMealRequest = {
       dateOfMeal: this.addMealFormGroup.value.dateOfMeal?.getTime() as number,
@@ -75,8 +94,17 @@ export class AddMealDialogComponent {
       name: this.addMealFormGroup.value.name as string,
       venueName: this.addMealFormGroup.value.venueName as string
     }
-    this.mealService.addMeal(createMealRequest).subscribe(
-      () => this.mealService.listMeal().subscribe()
+
+    this.mealService.addMeal(createMealRequest)
+      .pipe(catchError((it) => {
+        this.failedToAddMeal();
+        throw it;
+      }))
+      .subscribe(
+      (meal) => {
+        this.openAddMealSnackBar(meal.sortKey)
+        this.mealService.listMeal().subscribe()
+      }
     )
     this.addMealFormGroup.reset()
     this.dialogRef.close()
