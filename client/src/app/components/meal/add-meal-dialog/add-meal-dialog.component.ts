@@ -75,7 +75,9 @@ export class AddMealDialogComponent {
       name: this.addMealFormGroup.value.name as string,
       venueName: this.addMealFormGroup.value.venueName as string
     }
-    this.mealService.addMeal(createMealRequest).subscribe()
+    this.mealService.addMeal(createMealRequest).subscribe(
+      () => this.mealService.listMeal().subscribe()
+    )
     this.addMealFormGroup.reset()
     this.dialogRef.close()
   }
