@@ -22,7 +22,7 @@
         <mat-label>Description</mat-label>
         <textarea id="venue-description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Add a short description about this Venue"></textarea>
       </mat-form-field>
-      <p>Add Menu Item</p>
+      <p>Menu Items</p>
       <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)"></app-menu-item-list>
 
       <form [formGroup]="addMenuItemForm" (ngSubmit)="addMenuItem()">

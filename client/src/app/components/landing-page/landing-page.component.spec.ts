@@ -7,11 +7,13 @@ import {of} from "rxjs";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {MatRowHarness, MatTableHarness} from "@angular/material/table/testing";
+import {Router} from "@angular/router";
 
 describe('LandingPageComponent', () => {
   let component: LandingPageComponent;
   let fixture: ComponentFixture<LandingPageComponent>;
   let mealService;
+  let router = jasmine.createSpyObj<Router>("router spy", ["navigate"]);
   let meals: IMeal[] = [{
     id: '07405c0f-7f50-4e78-82b0-78f8d730d42b',
     uid: '7f50-07405c0f-4e78-82b0-78f8d730d42b',
@@ -30,12 +32,18 @@ describe('LandingPageComponent', () => {
 
   beforeEach(async () => {
     mealService = {listMeal: jasmine.createSpy().and.returnValue(of(meals))}
+    router.navigate = jasmine.createSpy("router.navigate").and.stub()
     await TestBed.configureTestingModule({
       imports: [LandingPageComponent],
-      providers: [{
-        provide: MealService,
-        useValue: mealService
-      }]
+      providers: [
+        {
+          provide: MealService,
+          useValue: mealService
+        },
+        {
+          provide: Router,
+          useValue: router
+        }]
     })
     .compileComponents();
 
@@ -62,4 +70,16 @@ describe('LandingPageComponent', () => {
     })
     expect(rows.length).toEqual(1)
   })
+
+  it('should navigate to meal page when click on table row', async () => {
+    const matTableHarness: MatTableHarness = await loader.getHarness<MatTableHarness>(MatTableHarness.with({
+      selector: '#meal-table'
+    }))
+    const rows: MatRowHarness[] = await matTableHarness.getRows()
+
+    const rowHost = await rows.at(0).host()
+    await rowHost.click()
+
+    expect(router.navigate).toHaveBeenCalled()
+  });
 });
