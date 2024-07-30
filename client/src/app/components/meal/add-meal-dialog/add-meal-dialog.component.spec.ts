@@ -17,6 +17,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {IMeal} from "../../../../../models/meal";
 import {ICreateMealRequest} from "../../../../../models/ICreateMealRequest";
+import {MatCheckboxHarness} from "@angular/material/checkbox/testing";
+import SpyObj = jasmine.SpyObj;
+import {UUIDService} from "../../../shared/utils/uuid.service";
 
 describe('AddMealDialogComponent', () => {
   let component: AddMealDialogComponent;
@@ -28,6 +31,7 @@ describe('AddMealDialogComponent', () => {
   let snackBar: any;
   let router: any;
   let matSnackBarRef: any;
+  let uuidService: SpyObj<UUIDService>;
 
   let venue: IVenue = {
     description: "description",
@@ -85,6 +89,12 @@ describe('AddMealDialogComponent', () => {
     router = {
       navigate: jasmine.createSpy("navigate spy").and.stub()
     }
+
+    uuidService = jasmine.createSpyObj("uuid spy", ["randomUUID"])
+    uuidService.randomUUID = jasmine.createSpy().and.returnValue("b29dca60-2373-4fae-829d-1dd9f2425de3")
+
+
+
     await TestBed.configureTestingModule({
       imports: [AddMealDialogComponent, BrowserAnimationsModule],
       providers: [
@@ -107,6 +117,10 @@ describe('AddMealDialogComponent', () => {
         {
           provide: Router,
           useValue: router
+        },
+        {
+          provide: UUIDService,
+          useValue: uuidService
         }
       ]
     })
@@ -177,6 +191,71 @@ describe('AddMealDialogComponent', () => {
       venueName: 'Venue Name'
     }
 
+    expect(dialogRef.close).toHaveBeenCalled()
+    expect(mealService.listMeal).toHaveBeenCalled()
+    expect(mealService.addMeal).toHaveBeenCalledWith(createMealRequest)
+    expect(snackBar.open).toHaveBeenCalledWith("Meal added", "Open Meal", jasmine.any(Object))
+    expect(router.navigate).toHaveBeenCalledWith(['meal', mealSortKey])
+  })
+
+  it('Should not allow meal to be saved if form is invalid', async () => {
+    const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
+      selector: "#add-meal-button"
+    }));
+
+    expect(await addMealMatButtonHarness.isDisabled()).toEqual(true)
+  })
+
+  it("Should close dialog when meal is saved", async () => {
+    const nameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
+      selector: "#name-input"
+    }))
+    await nameMatInputHarness.setValue("Name")
+
+    const mealMatDatepickerInputHarness: MatDatepickerInputHarness = await loader.getHarness<MatDatepickerInputHarness>(MatDatepickerInputHarness.with({
+      selector: "#meal-date-input"
+    }))
+    await mealMatDatepickerInputHarness.setValue("6/29/2024")
+
+    const locationMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
+      selector: "#location-select"
+    }))
+    await locationMatSelectHarness.clickOptions({text: "London"})
+
+    const venueMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
+      selector: "#venue-select"
+    }))
+    await venueMatSelectHarness.clickOptions({text: "Venue Name"})
+
+    const privateMealCheckBox: MatCheckboxHarness = await loader.getHarness<MatCheckboxHarness>(MatCheckboxHarness.with({
+      selector: "#private-meal-checkbox"
+    }))
+    await privateMealCheckBox.check()
+
+    const numberOfRecipients: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
+      selector: "#number-of-recipients-input"
+    }))
+    await numberOfRecipients.setValue("1")
+
+    const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
+      selector: "#add-meal-button"
+    }));
+    await addMealMatButtonHarness.click()
+
+    let createMealRequest: ICreateMealRequest = {
+      dateOfMeal: 1719619200000 + (new Date().getTimezoneOffset() * 60000),
+      location: 'London',
+      mealConfig: {
+        draft: false,
+        privateMealConfig: {
+          recipientIds: ["b29dca60-2373-4fae-829d-1dd9f2425de3"]
+        }
+      },
+      name: 'Name',
+      venueName: 'Venue Name'
+    }
+
+    expect(uuidService.randomUUID).toHaveBeenCalled()
     expect(dialogRef.close).toHaveBeenCalled()
     expect(mealService.listMeal).toHaveBeenCalled()
     expect(mealService.addMeal).toHaveBeenCalledWith(createMealRequest)

@@ -21,8 +21,8 @@ import {MatIcon} from "@angular/material/icon";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {catchError} from "rxjs";
-import {v4 as uuidv4} from 'uuid';
 import {MatCheckbox} from "@angular/material/checkbox";
+import {UUIDService} from "../../../shared/utils/uuid.service";
 
 
 @Component({
@@ -55,7 +55,8 @@ export class AddMealDialogComponent {
     private mealService: MealService,
     public dialogRef: MatDialogRef<AddMealDialogComponent>,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private uuid: UUIDService
   ) {
   }
 
@@ -102,8 +103,8 @@ export class AddMealDialogComponent {
     }
     if (this.addMealFormGroup.value.privateMeal) {
       const recipientIds: string[] = [];
-      for (let i = 0; i <= this.addMealFormGroup.value.numberOfRecipients; i++) {
-        recipientIds.push(uuidv4().toString())
+      for (let i = 0; i < this.addMealFormGroup.value.numberOfRecipients; i++) {
+        recipientIds.push(this.uuid.randomUUID())
       }
       createMealRequest.mealConfig.privateMealConfig = {
         recipientIds: recipientIds
