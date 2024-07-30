@@ -21,6 +21,9 @@ import {MatIcon} from "@angular/material/icon";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {catchError} from "rxjs";
+import {v4 as uuidv4} from 'uuid';
+import {MatCheckbox} from "@angular/material/checkbox";
+
 
 @Component({
   selector: 'app-add-meal-dialog',
@@ -39,7 +42,8 @@ import {catchError} from "rxjs";
     MatNativeDateModule,
     MatOption,
     MatSelect,
-    MatIcon
+    MatIcon,
+    MatCheckbox
   ],
   templateUrl: './add-meal-dialog.component.html',
   styleUrl: './add-meal-dialog.component.scss'
@@ -60,7 +64,9 @@ export class AddMealDialogComponent {
     name: new FormControl<string>("", [Validators.required]),
     dateOfMeal: new FormControl<Date>(new Date(), [Validators.required]),
     location: new FormControl<string>('', [Validators.required]),
-    venueName: new FormControl<string>('', [Validators.required])
+    venueName: new FormControl<string>('', [Validators.required]),
+    privateMeal: new FormControl<boolean>(false),
+    numberOfRecipients: new FormControl<number>(1)
   })
 
   getVenuesForLocation(locationName: string) {
@@ -94,7 +100,15 @@ export class AddMealDialogComponent {
       name: this.addMealFormGroup.value.name as string,
       venueName: this.addMealFormGroup.value.venueName as string
     }
-
+    if (this.addMealFormGroup.value.privateMeal) {
+      const recipientIds: string[] = [];
+      for (let i = 0; i <= this.addMealFormGroup.value.numberOfRecipients; i++) {
+        recipientIds.push(uuidv4().toString())
+      }
+      createMealRequest.mealConfig.privateMealConfig = {
+        recipientIds: recipientIds
+      }
+    }
     this.mealService.addMeal(createMealRequest)
       .pipe(catchError((it) => {
         this.failedToAddMeal();
