@@ -2,11 +2,13 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.example.models.AnonymousOrder;
 import com.example.models.Order;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.util.*;
 
 @Singleton
@@ -52,5 +54,24 @@ public class OrderService {
                 .withKeyConditionExpression("uid = :PK")
                 .withExpressionAttributeValues(eav);
         return dynamoDBFacadeService.query(Order.class, dynamoDBQueryExpression);
+    }
+
+    public Optional<AnonymousOrder> getAnonymousOrder(String uid, String mealId) {
+        final String pk = "AnonymousOrder_" + uid;
+        log.trace("Getting all AnonymousOrders for meal:{}", uid);
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":uid", new AttributeValue().withS(pk));
+        eav.put(":meal_id", new AttributeValue().withS("Order_" + mealId));
+        DynamoDBQueryExpression<AnonymousOrder> dynamoDBQueryExpression = new DynamoDBQueryExpression<AnonymousOrder>()
+                .withIndexName("uid_gsi")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("uid = :uid and meal_id = :meal_id")
+                .withExpressionAttributeValues(eav);
+
+        List<AnonymousOrder> orders = dynamoDBFacadeService.query(AnonymousOrder.class, dynamoDBQueryExpression);
+        if (orders.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(orders.get(0));
     }
 }

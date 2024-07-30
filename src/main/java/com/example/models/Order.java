@@ -2,6 +2,8 @@ package com.example.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.example.models.meal.Meal;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
 
 import java.time.Instant;
@@ -9,11 +11,14 @@ import java.util.Objects;
 import java.util.Set;
 
 @DynamoDBTable(tableName = "order_table")
+@DynamoDBDocument
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonSubTypes({@JsonSubTypes.Type(value = Order.class, name = "Order"), @JsonSubTypes.Type(value = AnonymousOrder.class, name = "AnonymousOrder")})
 @Serdeable
 public class Order implements Model {
     private String id;
     private Meal meal;
-    private String uid;
+    protected String uid;
     private String participantsName;
     private Set<MenuItem> menuItems;
 
@@ -49,6 +54,7 @@ public class Order implements Model {
 
 
     @DynamoDBHashKey(attributeName = "meal_id")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "uid_gsi", attributeName = "meal_id")
     public String getPrimaryKey() {
         return "Order_" + meal.getId();
     }

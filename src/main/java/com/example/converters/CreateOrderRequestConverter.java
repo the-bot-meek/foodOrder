@@ -2,6 +2,7 @@ package com.example.converters;
 
 import com.example.exceptions.OrderRequestConverterException;
 import com.example.dto.request.CreateOrderRequest;
+import com.example.models.AnonymousOrder;
 import com.example.models.meal.Meal;
 import com.example.models.MenuItem;
 import com.example.models.Order;
@@ -29,7 +30,12 @@ public class CreateOrderRequestConverter {
     private List<MenuItem> getInvalidMenuItemsForVenue(Set<MenuItem> menuItems, Venue venue) {
         return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
     }
+
     public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername) throws OrderRequestConverterException {
+        return convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername, false);
+    }
+
+    public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername, boolean anonymous) throws OrderRequestConverterException {
         final Optional<Meal> mealOptional = mealService.getMeal(
                 createOrderRequest.organizerUid(),
                 createOrderRequest.dateOfMeal(),
@@ -83,12 +89,9 @@ public class CreateOrderRequestConverter {
         }
 
         String orderId = UUID.randomUUID().toString();
-        return new Order(
-                orderId,
-                meal,
-                uid,
-                preferredUsername,
-                createOrderRequest.menuItems()
-        );
+        if (anonymous) {
+            return new AnonymousOrder(orderId, meal, uid, preferredUsername, createOrderRequest.menuItems());
+        }
+        return new Order(orderId, meal, uid, preferredUsername, createOrderRequest.menuItems());
     }
 }
