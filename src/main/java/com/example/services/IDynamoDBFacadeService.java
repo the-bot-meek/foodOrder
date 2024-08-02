@@ -1,5 +1,6 @@
 package com.example.services;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.example.models.Model;
 
@@ -12,4 +13,5 @@ public interface IDynamoDBFacadeService {
     <T extends Model> List<T> query(Class<T> clazz, DynamoDBQueryExpression<T> dynamoDBQueryExpression);
     <T extends Model> void delete(T entity);
     <T extends Model> void batchDelete(List<T> list);
+    <T extends Model> List<DynamoDBMapper.FailedBatch> batchSave(List<T> tList);
 }
