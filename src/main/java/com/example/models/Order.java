@@ -30,6 +30,13 @@ public class Order implements Model {
         this.menuItems = menuItems;
     }
 
+    public Order(Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
+        this.meal = meal;
+        this.uid = uid;
+        this.participantsName = participantsName;
+        this.menuItems = menuItems;
+    }
+
     public Order() {
         this.meal = new Meal();
     }
