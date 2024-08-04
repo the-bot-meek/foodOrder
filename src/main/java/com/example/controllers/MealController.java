@@ -75,12 +75,12 @@ public class MealController {
 
     @Delete
     public void deleteMeal(
-            @NotNull @NotEmpty @QueryValue String uid,
+            @NotNull Authentication authentication,
             @NotNull @QueryValue Instant mealDate,
             @NotNull @NotEmpty @QueryValue String id
     ) {
-        log.info("Deleting meal. uid: {}, mealDate: {}, id:{}", uid, mealDate, id);
-        mealService.deleteMeal(uid, mealDate, id);
+        log.info("Deleting meal. uid: {}, mealDate: {}, id:{}", authentication.getName(), mealDate, id);
+        mealService.deleteMeal(authentication.getName(), mealDate, id);
         log.info("Deleting all order for mealId: {}", id);
         orderService.deleteAllOrdersForMeal(id);
     }
