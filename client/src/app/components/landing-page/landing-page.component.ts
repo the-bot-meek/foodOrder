@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {IMeal} from "../../../../models/meal";
 import {AsyncPipe, DatePipe, JsonPipe} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-landing-page',
@@ -20,7 +21,14 @@ import {MatTableModule} from "@angular/material/table";
 export class LandingPageComponent implements OnInit {
   meals: Observable<IMeal[]>
   displayedColumns: string[] = ['name', 'mealDate', 'location', 'venueName']
-  constructor(private mealService: MealService) {
+  constructor(
+    private mealService: MealService,
+    private router: Router
+  ) {
+  }
+
+  navigateToMeal(mealSortKey: any) {
+    this.router.navigate(['meal', mealSortKey])
   }
 
   ngOnInit(): void {

@@ -56,4 +56,8 @@ public class DynamoDBFacadeService implements IDynamoDBFacadeService{
         log.debug("Deleting entitys: {}", tList);
         dynamoDBMapper.batchDelete(tList);
     }
+
+    public <T extends Model> List<DynamoDBMapper.FailedBatch> batchSave(List<T> tList) {
+        return dynamoDBMapper.batchSave(tList);
+    }
 }

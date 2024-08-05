@@ -1,5 +1,6 @@
 package com.example.controllers
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
 import com.example.models.meal.Meal
 import com.example.models.Order
 import com.example.services.IDynamoDBFacadeService
@@ -20,13 +21,13 @@ class MealOrderControllerSpec extends Specification {
         given:
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService, null)
         Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392), uid: "d84e61c73fe7-de8f-47ed-833a-797b001f")
         List<Order> orders = [new Order(
                 meal: meal,
                 uid: "d84e61c73fe7-de8f-47ed-833a-797b001f"
         )]
-        dynamoDBFacadeService.query(Order.class, _) >> orders
+        dynamoDBFacadeService.query(Order.class, _ as DynamoDBQueryExpression<Order>) >> orders
         Authentication authentication = mockAuthentication( "d84e61c73fe7-de8f-47ed-833a-797b001f")
         MealOrderController mealOrderController = new MealOrderController(orderService)
 
@@ -41,14 +42,14 @@ class MealOrderControllerSpec extends Specification {
         given:
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService, null)
         Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
                 meal: meal,
                 uid: "d84e61c73fe7-de8f-47ed-833a-797b001f",
                 participantsName: "principal_name"
         )]
-        dynamoDBFacadeService.query(Order.class, _) >> orders
+        dynamoDBFacadeService.query(Order.class, _ as DynamoDBQueryExpression<Order>) >> orders
         Authentication authentication = mockAuthentication( "invalid_principal_name")
         MealOrderController mealOrderController = new MealOrderController(orderService)
 
@@ -63,14 +64,14 @@ class MealOrderControllerSpec extends Specification {
         given:
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService, null)
         Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
                 meal: meal,
                 uid: "d84e61c73fe7-de8f-47ed-833a-797b001f",
                 participantsName: "principal_name"
         ), new Order()]
-        dynamoDBFacadeService.query(Order.class, _) >> orders
+        dynamoDBFacadeService.query(Order.class, _ as DynamoDBQueryExpression<Order>) >> orders
         Authentication authentication = mockAuthentication( "invalid_principal_name")
         MealOrderController mealOrderController = new MealOrderController(orderService)
 

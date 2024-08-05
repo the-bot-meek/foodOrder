@@ -41,6 +41,15 @@
           </mat-select>
         </mat-form-field>
       }
+      <mat-label>Private Meal</mat-label>
+      <mat-checkbox id="private-meal-checkbox" [formControl]="addMealFormGroup.controls.privateMeal"></mat-checkbox>
+
+      @if (addMealFormGroup?.value?.privateMeal) {
+        <mat-form-field>
+          <mat-label>Number of recipients</mat-label>
+          <input id="number-of-recipients-input" type="number" matInput [formControl]="addMealFormGroup.controls.numberOfRecipients" >
+        </mat-form-field>
+      }
   </div>
   <div mat-dialog-actions>
     <button id="add-meal-button" mat-button [disabled]="addMealFormGroup.invalid">Add</button>

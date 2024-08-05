@@ -18,6 +18,7 @@ export class CdkStack extends cdk.Stack {
       globalSecondaryIndexes: [{
         indexName: 'uid_gsi',
         partitionKey: {name: 'uid', type: dynamodb.AttributeType.STRING},
+        sortKey: {name: "meal_id", type: dynamodb.AttributeType.STRING},
         projectionType: dynamodb.ProjectionType.ALL
       }]
     })

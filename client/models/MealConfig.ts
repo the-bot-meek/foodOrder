@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 
 export interface PrivateMealConfig {
-    recipientIds: Set<string>
+    recipientIds: string[]
 }
 
 export interface MealConfig {
