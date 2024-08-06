@@ -117,7 +117,6 @@ class MealIntegrationSpec extends Specification {
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
         mealClient.deleteMeal(
-                meal.getUid(),
                 meal.getMealDate(),
                 meal.getId()
         )
