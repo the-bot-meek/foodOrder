@@ -53,7 +53,9 @@ class CreateOrderRequestConverterTest extends Specification {
         Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)
 
         then:
-        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: preferredUsername)
+        assert order.getId() != null
+        order.setId(null)
+        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: preferredUsername, submitted: false)
     }
 
     def "ConvertCreateOrderRequestToOrder with invalid mealId organizerUid/sort key"() {
@@ -165,6 +167,8 @@ class CreateOrderRequestConverterTest extends Specification {
         Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)
 
         then:
+        assert order.getId() != null
+        order.setId(null)
         order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: preferredUsername)
     }
 
