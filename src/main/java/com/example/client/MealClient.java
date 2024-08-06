@@ -39,7 +39,6 @@ public interface MealClient {
 
     @Delete
     void deleteMeal(
-            @NotNull @NotEmpty @QueryValue String uid,
             @NotNull @QueryValue Instant mealDate,
             @NotNull @NotEmpty @QueryValue String id
     );
