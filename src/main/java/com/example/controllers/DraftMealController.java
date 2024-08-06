@@ -40,11 +40,11 @@ public class DraftMealController {
 
     @Delete
     public void deleteDraftMeal(
-            @NotNull @NotEmpty @QueryValue String uid,
+            @NotNull Authentication authentication,
             @NotNull @QueryValue Instant mealDate,
             @NotNull @NotEmpty @QueryValue String id
     ) {
         log.info("Deleting draft meal {}", id);
-        mealService.deleteDraftMeal(uid, mealDate, id);
+        mealService.deleteDraftMeal(authentication.getName(), mealDate, id);
     }
 }

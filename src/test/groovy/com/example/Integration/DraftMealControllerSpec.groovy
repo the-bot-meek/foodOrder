@@ -36,7 +36,6 @@ class DraftMealControllerSpec extends Specification {
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
         mealClient.deleteDraftMeal(
-                meal.getUid(),
                 meal.getMealDate(),
                 meal.getId()
         )
