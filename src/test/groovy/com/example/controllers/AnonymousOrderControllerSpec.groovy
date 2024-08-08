@@ -5,9 +5,14 @@ import com.example.dto.request.CreateOrderRequest
 import com.example.models.AnonymousOrder
 import com.example.models.MenuItem
 import com.example.models.Order
+import com.example.models.meal.Meal
+import com.example.models.meal.MealConfig
+import com.example.models.meal.PrivateMealConfig
+import com.example.services.MealService
 import com.example.services.OrderService
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
+import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
 import java.time.Instant
@@ -62,5 +67,26 @@ class AnonymousOrderControllerSpec extends Specification {
         then:
         assert resp.isEmpty()
         1 * orderService.getAnonymousOrder(uid, mealId) >> Optional.empty()
+    }
+
+    def "test adding AnonymousOrder from a list of recipient ids"() {
+        given:
+        MealService mealService = Mock(MealService)
+        OrderService orderService = Mock(OrderService)
+        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
+        Instant dateOfMeal = Instant.ofEpochSecond(1723140295)
+        String mealId = "3a54a877-388f-4bd7-92af-2f374681b3fd"
+        String uid = "d727d708-0391-49e4-81ce-bf000ddc6d6b"
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> uid
+        Set<String> recipientIds = ["1ce82b95-5abc-422e-991c-a73c77fae9bd"]
+        Meal meal = new Meal(mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig(recipientIds)))
+
+        when:
+        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+
+        then:
+        1 * mealService.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(meal)
+        1 * orderService.addOrdersForPrivateMeal(meal, recipientIds)
     }
 }
