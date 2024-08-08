@@ -30,6 +30,7 @@ public class AnonymousOrderController {
     private final MealService mealService;
     private final CreateOrderRequestConverter createOrderRequestConverter;
     private final Logger log = LoggerFactory.getLogger(AnonymousOrderController.class);
+    private final static String DEFAULT_AnonymousUser_NAME = "AnonymousUser";
 
     public AnonymousOrderController(OrderService orderService, MealService mealService, CreateOrderRequestConverter createOrderRequestConverter) {
         this.orderService = orderService;
@@ -45,7 +46,7 @@ public class AnonymousOrderController {
     @Put("{uid}")
     public HttpResponse<AnonymousOrder> addAnonymousOrder(@Body CreateOrderRequest createOrderRequest, @PathVariable String uid) {
         try {
-            AnonymousOrder order = (AnonymousOrder) this.createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, "AnonymousUser", true);
+            AnonymousOrder order = (AnonymousOrder) createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, DEFAULT_AnonymousUser_NAME, true);
             orderService.addOrder(order);
             return HttpResponse.ok(order);
         } catch (OrderRequestConverterException orderRequestConverterException) {
