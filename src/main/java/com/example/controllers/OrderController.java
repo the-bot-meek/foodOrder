@@ -53,19 +53,4 @@ public class OrderController {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }
     }
-
-
-    @Put("addBlankOrdersForMeal/{mealDate}/{mealId}")
-    public void addOrdersForMeal(Instant mealDate, @NotNull String mealId, Authentication authentication) throws MissingRequredLinkedEntityException {
-        Optional<Meal> mealOptional = mealService.getMeal(authentication.getName(), mealDate + "_" + mealId);
-        if (mealOptional.isEmpty()) {
-            throw new MissingMealLinkedEntityException(authentication.getName(), mealDate, mealId);
-        }
-
-        Meal meal = mealOptional.get();
-        if (meal.getMealConfig() == null || meal.getMealConfig().getPrivateMealConfig() == null) {
-            throw new HttpStatusException(HttpStatus.BAD_REQUEST, "Can not add blank orders for non anomalous meal");
-        }
-        orderService.addOrdersForPrivateMeal(meal, meal.getMealConfig().getPrivateMealConfig().getRecipientIds());
-    }
 }
