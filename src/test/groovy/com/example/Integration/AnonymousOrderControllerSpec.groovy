@@ -81,7 +81,7 @@ class AnonymousOrderControllerSpec extends Specification{
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
         String location = "London"
         String name = "MacD"
-        String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95";
+        String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
@@ -115,19 +115,9 @@ class AnonymousOrderControllerSpec extends Specification{
         )
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        1 * dynamoDBFacadeService.load(Venue, "Venue_" + meal.getLocation(), meal.getVenueName()) >> {
-            return Optional.of(new Venue(menuItems: []))
-        }
         VenueService venueService = new VenueService(dynamoDBFacadeService)
-
         OrderService orderService = new OrderService(dynamoDBFacadeService, venueService)
-
-
         Authentication authentication = mockAuthentication(uid)
-
-        1 * dynamoDBFacadeService.load(Meal.class,uid, "2024-03-25T22:17:46Z_ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd") >> {
-            Optional.of(meal)
-        }
         MealService mealService = new MealService(dynamoDBFacadeService)
         AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
 
@@ -136,41 +126,11 @@ class AnonymousOrderControllerSpec extends Specification{
 
         then:
         1 * dynamoDBFacadeService.batchSave(_)
-    }
-
-
-    def "Adding orders for Meal with a non existent Venue throws MissingOrderLinkedEntityException"() {
-        given:
-        final String uid = "ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd"
-        PrivateMealConfig privateMealConfig = new PrivateMealConfig(["12345"] as Set)
-        Meal meal = new Meal(
-                id: uid, name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD", mealConfig: new MealConfig(privateMealConfig: privateMealConfig)
-        )
-
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        1 * dynamoDBFacadeService.load(Venue, "Venue_" + meal.getLocation(), meal.getVenueName()) >> {
-            return Optional.empty()
-        }
-        VenueService venueService = new VenueService(dynamoDBFacadeService)
-
-        OrderService orderService = new OrderService(dynamoDBFacadeService, venueService)
-
-
-        Authentication authentication = mockAuthentication(uid)
 
         1 * dynamoDBFacadeService.load(Meal.class,uid, "2024-03-25T22:17:46Z_ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd") >> {
             Optional.of(meal)
         }
-        MealService mealService = new MealService(dynamoDBFacadeService)
-        AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
-
-        when:
-        orderController.addOrdersForMeal(meal.getMealDate(), meal.getId(), authentication)
-
-        then:
-        thrown(MissingOrderLinkedEntityException)
     }
-
 
     def "Adding orders for a non existent Meal throws MissingOrderLinkedEntityException"() {
         given:

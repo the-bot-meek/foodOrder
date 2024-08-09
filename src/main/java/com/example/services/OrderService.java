@@ -2,11 +2,8 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.example.exceptions.missingRequredLinkedEntityExceptions.MissingOrderLinkedEntityException;
-import com.example.exceptions.missingRequredLinkedEntityExceptions.MissingRequredLinkedEntityException;
 import com.example.models.AnonymousOrder;
 import com.example.models.Order;
-import com.example.models.Venue;
 import com.example.models.meal.Meal;
 import jakarta.inject.Singleton;
 import jakarta.validation.constraints.NotNull;
@@ -19,14 +16,11 @@ import java.util.*;
 public class OrderService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
-    private final VenueService venueService;
 
     public OrderService(
-            IDynamoDBFacadeService dynamoDBFacadeService,
-            VenueService venueService
+            IDynamoDBFacadeService dynamoDBFacadeService
     ) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
-        this.venueService = venueService;
     }
 
     public void addOrder(Order order) {
@@ -86,15 +80,10 @@ public class OrderService {
         dynamoDBFacadeService.batchSave(orders);
     }
 
-    public void addOrdersForPrivateMeal(@NotNull Meal meal, Set<String> recipientIds) throws MissingRequredLinkedEntityException {
-        Optional<Venue> venueOptional = venueService.getVenue(meal.getLocation(), meal.getVenueName());
-        if (venueOptional.isPresent()) {
-            final List<Order> orders = recipientIds.stream().map(
-                    uid -> new Order(meal, uid, "AnonymousUser", venueOptional.get().getMenuItems())
-            ).toList();
-            batchSave(orders);
-        } else {
-            throw new MissingOrderLinkedEntityException(meal.getLocation(), meal.getName());
-        }
+    public void addOrdersForPrivateMeal(@NotNull Meal meal, Set<String> recipientIds) {
+        final List<Order> orders = recipientIds.stream().map(
+                uid -> new Order(meal, uid, "AnonymousUser", new HashSet<>())
+        ).toList();
+        batchSave(orders);
     }
 }
