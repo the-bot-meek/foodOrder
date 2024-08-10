@@ -3,7 +3,6 @@ package com.example.services
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
 import com.example.models.AnonymousOrder
 import com.example.models.Order
-import com.example.models.Venue
 import com.example.models.meal.Meal
 import spock.lang.Specification
 

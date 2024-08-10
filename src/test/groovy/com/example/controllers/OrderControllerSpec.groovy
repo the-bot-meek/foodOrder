@@ -56,7 +56,7 @@ class OrderControllerSpec extends Specification {
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService, null)
+        OrderService orderService = new OrderService(dynamoDBFacadeService)
         OrderController orderController = new OrderController(orderService, null, createOrderRequestConverter)
         Authentication authentication = Mock(Authentication)
         authentication.getAttributes() >> Map.of("preferred_username", "usename")

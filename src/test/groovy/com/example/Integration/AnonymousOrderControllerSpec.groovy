@@ -115,8 +115,7 @@ class AnonymousOrderControllerSpec extends Specification{
         )
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        VenueService venueService = new VenueService(dynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService, venueService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService)
         Authentication authentication = mockAuthentication(uid)
         MealService mealService = new MealService(dynamoDBFacadeService)
         AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
