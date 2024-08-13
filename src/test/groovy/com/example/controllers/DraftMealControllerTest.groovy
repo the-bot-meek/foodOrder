@@ -3,7 +3,6 @@ package com.example.controllers
 
 import com.example.models.meal.DraftMeal
 import com.example.services.IDynamoDBFacadeService
-import com.example.services.LocationService
 import com.example.services.MealService
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
@@ -11,15 +10,25 @@ import spock.lang.Specification
 import java.time.Instant
 
 class DraftMealControllerTest extends Specification {
+    Authentication authentication
+    MealService mealService
+    DraftMealController draftMealController
+    String uid
+    String mealId
+    String mealSortKey
+
+    def "setup"() {
+        authentication = Mock(Authentication)
+        mealService = Mock(MealService)
+        uid =  "user id"
+        authentication.getName() >> uid
+        draftMealController = new DraftMealController(mealService)
+        mealId = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
+        mealSortKey = "DraftMeal_${mealId}"
+    }
+
     def "Get draft meal"() {
         given:
-        String uid =  "user id"
-        Authentication authentication = Mock(Authentication)
-        authentication.getName() >> uid
-        String mealId = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
-        String mealSortKey = "DraftMeal_${mealId}"
-
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         DraftMeal savedDraftMeal = new DraftMeal(
                 id: mealId,
                 name: "name",
@@ -28,16 +37,32 @@ class DraftMealControllerTest extends Specification {
                 location: "London",
                 venueName: "MacD"
         )
-        dynamoDBFacadeService.load(DraftMeal.class, uid, mealSortKey) >> Optional.of(savedDraftMeal)
-        LocationService locationService = Mock(LocationService)
-        locationService.listLocation() >> ["London"]
-        MealService mealService = new MealService(dynamoDBFacadeService)
-        DraftMealController draftMealController = new DraftMealController(mealService)
 
         when:
         DraftMeal draftMeal = draftMealController.getDraftMeal(mealSortKey, authentication).get()
 
         then:
+        1 * mealService.getDraftMeal(uid, mealSortKey) >> Optional.of(savedDraftMeal)
+
         assert draftMeal == savedDraftMeal
+    }
+
+    def "listAllDraftMealsForUser"() {
+        when:
+        draftMealController.listAllDraftMealsForUser(authentication)
+
+        then:
+        1 * mealService.getListOfDraftMeals(uid)
+    }
+
+    def "deleteDraftMeal"() {
+        given:
+        Instant mealDate = Instant.ofEpochSecond(1723572330)
+
+        when:
+        draftMealController.deleteDraftMeal(authentication, mealDate, mealId)
+
+        then:
+        mealService.deleteDraftMeal(uid, mealDate, mealId)
     }
 }
