@@ -21,6 +21,7 @@ public class Order implements Model {
     protected String uid;
     private String participantsName;
     private Set<MenuItem> menuItems;
+    private boolean submitted = false;
 
     public Order(String id, Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
         this.id = id;
@@ -118,24 +119,33 @@ public class Order implements Model {
         this.participantsName = participantsName;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Order order)) return false;
 
-        if (!Objects.equals(meal, order.meal)) return false;
-        if (!Objects.equals(uid, order.uid)) return false;
-        if (!Objects.equals(participantsName, order.participantsName))
-            return false;
-        return Objects.equals(menuItems, order.menuItems);
+    public boolean isSubmitted() {
+        return submitted;
+    }
+
+    @DynamoDBAttribute
+    public void setSubmitted(boolean submitted) {
+        this.submitted = submitted;
+    }
+
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order order)) return false;
+
+        return submitted == order.submitted && Objects.equals(id, order.id) && Objects.equals(meal, order.meal) && Objects.equals(uid, order.uid) && Objects.equals(participantsName, order.participantsName) && Objects.equals(menuItems, order.menuItems);
     }
 
     @Override
     public int hashCode() {
-        int result = meal != null ? meal.hashCode() : 0;
-        result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (participantsName != null ? participantsName.hashCode() : 0);
-        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(meal);
+        result = 31 * result + Objects.hashCode(uid);
+        result = 31 * result + Objects.hashCode(participantsName);
+        result = 31 * result + Objects.hashCode(menuItems);
+        result = 31 * result + Boolean.hashCode(submitted);
         return result;
     }
 }
