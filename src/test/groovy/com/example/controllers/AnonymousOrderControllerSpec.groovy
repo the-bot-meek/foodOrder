@@ -20,11 +20,20 @@ import spock.lang.Specification
 import java.time.Instant
 
 class AnonymousOrderControllerSpec extends Specification {
+    OrderService orderService
+    CreateOrderRequestConverter createOrderRequestConverter
+    AnonymousOrderController anonymousOrderController
+    MealService mealService
+
+    def "setup"() {
+        orderService = Mock(OrderService)
+        mealService = Mock(MealService)
+        createOrderRequestConverter = Mock(CreateOrderRequestConverter)
+        anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
+    }
+
     def "test adding an Anonymous Order"() {
         given:
-        OrderService orderService = Mock(OrderService)
-        CreateOrderRequestConverter createOrderRequestConverter = Mock(CreateOrderRequestConverter)
-
         AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, null, createOrderRequestConverter)
 
         Set<MenuItem> menuItems = [new MenuItem(name: ",", description: "", price: 0)]
@@ -43,8 +52,6 @@ class AnonymousOrderControllerSpec extends Specification {
 
     def "test getting a valid Anonymous Order"() {
         given:
-        OrderService orderService = Mock(OrderService)
-        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, null, null)
         String uid = "617003fb-60f6-46c1-946a-76dbf8022fc8"
         String mealId = "48c27362-52db-4b57-9652-cdccd0fb698e"
 
@@ -58,8 +65,6 @@ class AnonymousOrderControllerSpec extends Specification {
 
     def "test getting an non existent Anonymous Order"() {
         given:
-        OrderService orderService = Mock(OrderService)
-        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, null, null)
         String uid = "617003fb-60f6-46c1-946a-76dbf8022fc8"
         String mealId = "48c27362-52db-4b57-9652-cdccd0fb698e"
 
@@ -94,9 +99,6 @@ class AnonymousOrderControllerSpec extends Specification {
 
     def "test adding AnonymousOrder from a list of recipient ids when meal does not exist"() {
         given:
-        MealService mealService = Mock(MealService)
-        OrderService orderService = Mock(OrderService)
-        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
         Instant dateOfMeal = Instant.ofEpochSecond(1723140295)
         String mealId = "3a54a877-388f-4bd7-92af-2f374681b3fd"
         String uid = "d727d708-0391-49e4-81ce-bf000ddc6d6b"
@@ -113,9 +115,6 @@ class AnonymousOrderControllerSpec extends Specification {
 
     def "test adding AnonymousOrder from a list of recipient ids when when meal has not private meal config"() {
         given:
-        MealService mealService = Mock(MealService)
-        OrderService orderService = Mock(OrderService)
-        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
         Instant dateOfMeal = Instant.ofEpochSecond(1723140295)
         String mealId = "3a54a877-388f-4bd7-92af-2f374681b3fd"
         String uid = "d727d708-0391-49e4-81ce-bf000ddc6d6b"
