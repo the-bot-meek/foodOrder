@@ -14,27 +14,30 @@ import spock.lang.Specification
 import java.time.Instant
 
 class MealControllerSpec extends Specification {
-    private Authentication mockAuthentication(String name) {
-        Authentication authentication = Mock(Authentication)
-        authentication.getName() >> name
-        return authentication
+    LocationService locationService
+    MealService mealService
+    MealController mealController
+    CreateMealRequestConverter createMealRequestConverter
+    Authentication authentication
+
+    def "setup"() {
+        locationService = new LocationService()
+        mealService = Mock(MealService)
+        createMealRequestConverter = new CreateMealRequestConverter(locationService)
+        mealController = new MealController(mealService, null, createMealRequestConverter)
+        authentication = Mock(Authentication)
+        authentication.getName() >> "principal_name"
     }
     
     def "AddMeal"() {
         given:
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        LocationService locationService = new LocationService()
-        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
-        MealService mealService = new MealService(dynamoDBFacadeService)
-        MealController mealController = new MealController(mealService, null, createMealRequestConverter)
         CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig())
-        Authentication authentication = mockAuthentication( "principal_name")
 
         when:
         mealController.addMeal(createMealRequest, authentication)
 
         then:
-        1 * dynamoDBFacadeService.save(_) >> { Meal meal ->
+        1 * mealService.saveMeal(_) >> { Meal meal ->
             meal.with {
                 // ToDo: update this test
                 assert it.getName() == "name"
@@ -47,13 +50,7 @@ class MealControllerSpec extends Specification {
     }
 
     def "addMeal with invalid location"() {
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        LocationService locationService = new LocationService()
-        CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
-        MealService mealService = new MealService(dynamoDBFacadeService)
-        MealController mealController = new MealController(mealService, null, createMealRequestConverter)
         CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "idk", venueName:  "MacD")
-        Authentication authentication = mockAuthentication( "principal_name")
 
         when:
         mealController.addMeal(createMealRequest, authentication)
@@ -65,37 +62,45 @@ class MealControllerSpec extends Specification {
     def "GetMeal"() {
         given:
         String mealSortKey = "2024-03-25T22:17:46Z_797b001f-de8f-47ed-833a-d84e61c73fe7"
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        dynamoDBFacadeService.load(Meal.class,"principal_name", mealSortKey) >> {
+        1 * mealService.getMeal("principal_name", mealSortKey) >> {
             Optional.of(
                     new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
             )
         }
-
-        MealService mealService = new MealService(dynamoDBFacadeService)
-        MealController mealController = new MealController(mealService, null, null)
-        Authentication authentication = mockAuthentication( "principal_name")
 
         when:
         Optional<Meal> meal = mealController.getMeal(mealSortKey, authentication)
 
         then:
         assert meal.isPresent()
-        meal.get() == new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
+        assert meal.get() == new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
     }
 
     def "ListMeals"() {
         given:
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(dynamoDBFacadeService)
-        MealController mealController = new MealController(mealService, null, null)
-        Authentication authentication = mockAuthentication("principal_name")
-        dynamoDBFacadeService.query(Meal, _ as DynamoDBQueryExpression) >> {return [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]}
+        mealService.getListOfMeals("principal_name") >> [
+                new Meal(
+                        id: "797b001f-de8f-47ed-833a-d84e61c73fe7",
+                        name: "name", mealDate: Instant.ofEpochSecond(1711405066),
+                        uid: "principal_name",
+                        location: "London",
+                        venueName: "MacD"
+                )
+        ]
 
         when:
         List<Meal> mealList = mealController.listMeals(authentication)
 
         then:
-        mealList == [new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")]
+        assert mealList == [
+                new Meal(
+                        id: "797b001f-de8f-47ed-833a-d84e61c73fe7",
+                        name: "name", mealDate:
+                        Instant.ofEpochSecond(1711405066),
+                        uid: "principal_name",
+                        location: "London",
+                        venueName: "MacD"
+                )
+        ]
     }
 }
