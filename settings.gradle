@@ -3,3 +3,4 @@
 rootProject.name="sharedfoodorder"
 
 include("app")
+include("infra")
