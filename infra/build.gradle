@@ -1,0 +1,25 @@
+plugins {
+    id("application") 
+    id("java") 
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform("io.micronaut.platform:micronaut-platform:4.4.2")
+    implementation("io.micronaut.starter:micronaut-starter-aws-cdk:4.3.7") {
+      exclude(group: "software.amazon.awscdk", module: "aws-cdk-lib")
+    }
+    implementation("software.amazon.awscdk:aws-cdk-lib:2.129.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine")
+}
+application {
+    mainClass = "com.example.Main"
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
