@@ -23,8 +23,8 @@ micronaut:
             issuer: 'https://${OAUTH_DOMAIN}/'
   dynamodb:
     primary_table:
-      region: "${DYNAMODB_URL}"
-      endpoint: "eu-west-1"
+      region: "eu-west-1"
+      endpoint: "http://${DYNAMODB_DOMAIN:localhost}:4566"
 
 endpoints:
   routes:

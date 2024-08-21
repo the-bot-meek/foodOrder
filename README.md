@@ -1,10 +1,20 @@
 # Getting started
 
-1. clone this repo and wait for the dependencies to install.
-2. Run the gradle test and integrationTest tasks to ensure that the application is running as expected.  
-3. Run the dockerBuild gradle task.  
-4. Follow the steps to set up a oauth account listed in the [SECURE A MICRONAUT APPLICATION WITH AUTH0](https://guides.micronaut.io/latest/micronaut-oauth2-auth0-gradle-java.html) Micronaut guide.   
-5. Run the docker-compose file with your oauth details in the environment variables.
+## Run application in with dev environment.
+1. Clone this repository and allow time for the dependencies to install.
+2. Start the LocalStack service using the docker-compose.yml file.
+3. Execute the Gradle test and integrationTest tasks to verify that the application is functioning correctly.
+4. Set up an OAuth account by following the steps outlined in the [SECURE A MICRONAUT APPLICATION WITH AUTH0](https://guides.micronaut.io/latest/micronaut-oauth2-auth0-gradle-java.html) Micronaut guide.   
+5. Run the Application.java file, ensuring the OAuth environment variables are configured as per the guide.
+6. Install the necessary Node.js packages by running npm install, then start the Angular application with the provided start script.
+7. Execute the scripts/wait_for_localstack_init_script_to_finish.sh script to confirm the LocalStack setup script has completed.
+8. Open your browser and go to http://localhost:4200.
+
+## Run the application in with mock_auth environment in docker container
+1. Clone this repository and allow time for the dependencies to install.
+2. Execute the dockerBuild Gradle task.
+3. Build the client Docker image from the client/Dockerfile, ensuring it is tagged as food-order-client.
+4. Start all the services defined in the docker-compose.yml file.
 
 # Design Decision
 

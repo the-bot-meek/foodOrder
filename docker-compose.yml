@@ -18,12 +18,10 @@ services:
     ports:
       - "8080:8080"
     environment:
-      OAUTH_CLIENT_ID: "${OAUTH_CLIENT_ID}"
-      OAUTH_CLIENT_SECRET: "${OAUTH_CLIENT_SECRET}"
-      OAUTH_DOMAIN: "${OAUTH_DOMAIN}"
       AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID:-123}"
       AWS_SECRET_KEY: "${AWS_SECRET_KEY:-123}"
-      DYNAMODB_URL: "http://localstack:4566"
+      DYNAMODB_DOMAIN: "localstack"
+      MICRONAUT_ENVIRONMENTS: "mock_auth"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 1m30s
@@ -32,3 +30,8 @@ services:
       start_period: 40s
     depends_on:
       - localstack
+  food-order-client:
+    container_name: "food-order-client"
+    image: "foodorderclient"
+    ports:
+      - "4200:4200"
