@@ -13,8 +13,8 @@ import jakarta.inject.Singleton;
 public class AmazonDynamoDBBeanFactory {
     private final String endPoint;
     private final String region;
-    AmazonDynamoDBBeanFactory(@Value("${micronaut.dynamodb.primary_table.region}") String endPoint,
-                              @Value("${micronaut.dynamodb.primary_table.endpoint}") String region) {
+    AmazonDynamoDBBeanFactory(@Value("${micronaut.dynamodb.primary_table.region}") String region,
+                              @Value("${micronaut.dynamodb.primary_table.endpoint}") String endPoint) {
         this.endPoint = endPoint;
         this.region = region;
     }

@@ -12,8 +12,8 @@ micronaut:
             - http://localhost:4200
   dynamodb:
     primary_table:
-      region: "http://localhost:4566/"
-      endpoint: "eu-west-1"
+      region: "eu-west-1"
+      endpoint: "http://${DYNAMODB_DOMAIN:localhost}:4566"
 
 endpoints:
   routes:
