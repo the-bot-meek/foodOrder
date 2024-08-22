@@ -31,7 +31,7 @@ class DraftMealControllerSpec extends Specification {
 
     def "Ensure draft meal is deleted"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
