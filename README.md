@@ -20,16 +20,16 @@
 
 ## Terms
 - **Organiser** - The person responsible for organising the meal
-- **Meal** - A collection of orders belonging to an organising
+- **Meal** - A collection of orders belonging to a user
 - **Order** - A Participants requested food and drink for a meal
-- **Participants** - A person attending a mean who wants a specificic order
-- **Venue Menu** - A collection of Menu Item available at a specificic Venue
-- **Venue Menu Item** - An item available at a specificic venue.
+- **Participants** - A person attending a mean who wants a specific order
+- **Venue Menu** - A collection of Menu Item available at a specific Venue
+- **Venue Menu Item** - An item available at a specific venue.
 
 
 ## Elevator pitch
 This application would allow large groups to easily order a meal from a restaurant.    
-Participants would be able to add their orders for a one or more specificic event in one place and see all available option on a menu.  
+Participants would be able to add their orders for a one or more specific event in one place and see all available option on a menu.  
 Participants would also be able to see details about the meal e.g. time, location, deadline for orders  
 An Organiser would then be able to place a group order to the restaurant from the orders submitted by participants
 
