@@ -38,8 +38,8 @@ public class VenueService {
 
 
 
-    public void addVenue(Venue venue) {
+    public Venue addVenue(Venue venue) {
         log.trace("Adding Venue, venueId: {}", venue.getId());
-        dynamoDBFacadeService.save(venue);
+        return dynamoDBFacadeService.save(venue);
     }
 }

@@ -19,8 +19,8 @@ public class MealService {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
-    public void saveMeal(Meal meal) {
-        dynamoDBFacadeService.save(meal);
+    public Meal saveMeal(Meal meal) {
+        return dynamoDBFacadeService.save(meal);
     }
 
     // ToDo: add pagination based on the meal date in the sort key
