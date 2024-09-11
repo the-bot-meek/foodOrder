@@ -86,7 +86,7 @@ class VenueControllerTest extends Specification {
         Venue venue =  venueController.addVenue(createVenueRequest).body()
 
         then:
-        1 * dynamoDBFacadeService.save(_) >> { Venue v -> isEql(v)}
+        1 * dynamoDBFacadeService.save(_) >> { Venue v -> isEql(v); return v}
         isEql(venue)
     }
 
