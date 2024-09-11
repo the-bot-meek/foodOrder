@@ -11,3 +11,11 @@ updates:
     directories:
       - "/client"
       - "/CDK"
+    groups:
+      angular:
+        applies-to: version-updates
+        patterns:
+          - "@angular*"
+        update-types:
+          - "minor"
+          - "patch"

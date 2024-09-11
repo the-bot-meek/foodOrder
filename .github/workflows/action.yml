@@ -33,7 +33,7 @@ jobs:
 
       - name: Build
         run: npm run build
-  gardle:
+  gradle:
 
     runs-on: ubuntu-latest
 
