@@ -26,6 +26,8 @@ dependencies {
     implementation("jakarta.validation:jakarta.validation-api")
     implementation("software.amazon.awssdk:dynamodb")
     implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("io.micronaut.cache:micronaut-cache-caffeine")
+    implementation("io.micronaut.cache:micronaut-cache-management")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
     aotPlugins platform("io.micronaut.platform:micronaut-platform:4.6.1")

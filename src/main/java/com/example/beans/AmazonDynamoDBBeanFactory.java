@@ -6,9 +6,11 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.context.annotation.Requires;
 import io.micronaut.context.annotation.Value;
 import jakarta.inject.Singleton;
-
+@Requires(property = "micronaut.dynamodb.primary_table.region")
+@Requires(property = "micronaut.dynamodb.primary_table.endpoint")
 @Factory
 public class AmazonDynamoDBBeanFactory {
     private final String endPoint;
