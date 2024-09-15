@@ -18,7 +18,7 @@ import java.util.Map;
 public class MockAuthenticationFetcher implements AuthenticationFetcher<HttpRequest<?>> {
     @Override
     public Publisher<Authentication> fetchAuthentication(HttpRequest<?> request) {
-        Map<String, Object> attributes = Map.of("preferred_username", "The bot meek");
+        Map<String, Object> attributes = Map.of("name", "The bot meek");
         Authentication authentication = new ServerAuthentication("steven", null, attributes);
         return Mono.just(authentication);
     }

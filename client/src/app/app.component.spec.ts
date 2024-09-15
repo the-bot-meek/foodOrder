@@ -9,7 +9,10 @@ describe('AppComponent', () => {
   let authService: any;
   let document;
   let user: IUser = {
-    name: "name"
+    active: true,
+    name: "name",
+    roles: [],
+    sub: ""
   }
 
   beforeEach(async () => {
