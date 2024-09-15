@@ -59,7 +59,7 @@ class OrderControllerSpec extends Specification {
         OrderService orderService = new OrderService(dynamoDBFacadeService)
         OrderController orderController = new OrderController(orderService, null, createOrderRequestConverter)
         Authentication authentication = Mock(Authentication)
-        authentication.getAttributes() >> Map.of("preferred_username", "usename")
+        authentication.getAttributes() >> Map.of("name", "usename")
         authentication.getName() >> uid
 
         Set<MenuItem> menuItems = Set.of(

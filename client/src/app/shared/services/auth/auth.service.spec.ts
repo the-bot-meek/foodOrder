@@ -10,7 +10,10 @@ describe('AuthService', () => {
   let service: AuthService;
   let userService;
   let user: IUser = {
-    name: "name"
+    name: 'name',
+    active: false,
+    roles: [],
+    sub: ""
   }
 
   beforeEach(() => {

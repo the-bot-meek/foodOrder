@@ -44,7 +44,7 @@ public class OrderController {
             Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(
                     createOrderRequest,
                     authentication.getName(),
-                    (String) authentication.getAttributes().get("preferred_username")
+                    (String) authentication.getAttributes().get("name")
             );
             orderService.addOrder(order);
             return order;

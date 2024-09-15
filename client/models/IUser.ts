@@ -1,3 +1,6 @@
 export interface IUser {
-  name: string
+  active: boolean,
+  name: string,
+  sub: string,
+  roles: string[]
 }

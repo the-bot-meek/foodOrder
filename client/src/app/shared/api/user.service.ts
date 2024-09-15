@@ -13,7 +13,7 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   public getUserInfo(): Observable<IUser> {
-    return this.httpClient.get<IUser>(`${this._serverUrl}/user`, {withCredentials: true})
+    return this.httpClient.get<IUser>(`${this._serverUrl}/token_info`, {withCredentials: true})
       .pipe(
         tap(() =>{this._isAuthenticated = true;})
       );
