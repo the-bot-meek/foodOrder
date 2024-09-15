@@ -5,6 +5,14 @@ updates:
     schedule:
       interval: "daily"
     rebase-strategy: "disabled"
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        exclude-patterns:
+          - "@angular*"
+        update-types:
+          - "patch"
+          - "minor"
   - package-ecosystem: "npm"
     schedule:
       interval: "daily"
@@ -19,3 +27,10 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      minor-and-patch:
+        applies-to: version-updates
+        exclude-patterns:
+          - "@angular*"
+        update-types:
+          - "patch"
+          - "minor"
