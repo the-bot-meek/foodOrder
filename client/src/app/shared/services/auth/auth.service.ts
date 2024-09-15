@@ -1,6 +1,6 @@
-import {Inject, Injectable} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserService} from "../../api/user.service";
-import {BehaviorSubject, catchError, mergeMap, Observable, ReplaySubject, tap} from "rxjs";
+import {BehaviorSubject, catchError, Observable, tap} from "rxjs";
 import {IUser} from "../../../../../models/IUser";
 import {AuthenticatorService} from "./authenticator.service";
 

@@ -1,4 +1,4 @@
-import {ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot, Routes} from '@angular/router';
+import {Routes} from '@angular/router';
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
 import {MealDetailsComponent} from "./components/meal/meal-details/meal-details.component";
 import {authGuardCanActivateFn} from "./shared/authGuards/authGuard";

@@ -1,6 +1,6 @@
-import {ActivatedRouteSnapshot, CanActivateFn, GuardResult, MaybeAsync, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, CanActivateFn, RouterStateSnapshot} from "@angular/router";
 import {inject} from "@angular/core";
-import {mergeMap, Observable, of} from "rxjs";
+import {mergeMap, of} from "rxjs";
 import {AuthService} from "../services/auth/auth.service";
 
 export const authGuardCanActivateFn: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
