@@ -12,7 +12,7 @@ export class AuthService {
   constructor(private userService: UserService, private authenticatorService: AuthenticatorService) { }
 
   checkAuth(): Observable<IUser> {
-    if (this._userReplaySubject.value) {
+    if (this._userReplaySubject.value && this._userReplaySubject.value.exp * 1000 > Date.now()) {
       return this._userReplaySubject
     }
     return this.userService.getUserInfo().pipe(

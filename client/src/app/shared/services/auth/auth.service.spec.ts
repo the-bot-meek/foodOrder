@@ -10,14 +10,32 @@ describe('AuthService', () => {
   let service: AuthService;
   let userService;
   let user: IUser = {
-    name: 'name',
-    active: false,
+    active: true,
+    name: "name",
     roles: [],
-    sub: ""
+    sub: "",
+    email: "",
+    email_verified: false,
+    exp: 0,
+    family_name: "",
+    given_name: "",
+    iat: 0,
+    iss: "",
+    nbf: 0,
+    nickname: "",
+    nonce: "",
+    oauth2Provider: "",
+    picture: "",
+    sid: "",
+    updated_at: "",
+    username: "",
   }
 
   beforeEach(() => {
     userService = {getUserInfo: jasmine.createSpy().and.returnValue(of(user))}
+    // jasmine.clock().install()
+    jasmine.clock().mockDate(new Date(1726439057853))
+    user.exp = 1726439057 + 1000
     TestBed.configureTestingModule({
       providers: [
         {
@@ -32,6 +50,16 @@ describe('AuthService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should only check user info end point once', (done) => {
+    service.checkAuth().subscribe(() => {
+      service.checkAuth().subscribe(() => {
+        expect(userService.getUserInfo).toHaveBeenCalledTimes(1)
+        done()
+      })
+    })
+
+  })
 });
 
 describe('AuthService unauthorised', () => {
