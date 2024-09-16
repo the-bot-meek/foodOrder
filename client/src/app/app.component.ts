@@ -1,6 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {AuthService} from "./shared/services/auth/auth.service";
 import {ShellComponent} from "./shared/shell/shell.component";
 
 @Component({
@@ -10,13 +9,9 @@ import {ShellComponent} from "./shared/shell/shell.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'foodOrder';
-  constructor(private authService: AuthService) {
+  constructor() {
 
-  }
-
-  ngOnInit(): void {
-    this.authService.checkAuth().subscribe()
   }
 }

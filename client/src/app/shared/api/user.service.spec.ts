@@ -9,10 +9,25 @@ describe('UserService', () => {
   let service: UserService;
   let httpClient;
   let user: IUser = {
-    name: 'name',
     active: true,
+    name: "name",
     roles: [],
-    sub: ""
+    sub: "",
+    email: "",
+    email_verified: false,
+    exp: 0,
+    family_name: "",
+    given_name: "",
+    iat: 0,
+    iss: "",
+    nbf: 0,
+    nickname: "",
+    nonce: "",
+    oauth2Provider: "",
+    picture: "",
+    sid: "",
+    updated_at: "",
+    username: "",
   }
 
   beforeEach(() => {
