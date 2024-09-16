@@ -2,8 +2,12 @@ package com.example.services;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.example.models.ModelCacheKeyGenerator;
 import com.example.models.meal.DraftMeal;
 import com.example.models.meal.Meal;
+import io.micronaut.cache.annotation.CacheInvalidate;
+import io.micronaut.cache.annotation.CachePut;
+import io.micronaut.cache.annotation.Cacheable;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +23,9 @@ public class MealService {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
-    public void saveMeal(Meal meal) {
-        dynamoDBFacadeService.save(meal);
+    @CachePut(value = "singleMealCache", keyGenerator = ModelCacheKeyGenerator.class)
+    public Meal saveMeal(Meal meal) {
+        return dynamoDBFacadeService.save(meal);
     }
 
     // ToDo: add pagination based on the meal date in the sort key
@@ -48,14 +53,16 @@ public class MealService {
 
     public Optional<Meal> getMeal(String originatorUid, Instant mealDate, String mealId) {
         log.trace("Getting Meal originatorUid: {}, mealDate: {}, mealId: {}", originatorUid, mealDate, mealId);
-        return dynamoDBFacadeService.load(Meal.class, originatorUid, mealDate + "_" + mealId);
+        return getMeal(originatorUid, mealDate + "_" + mealId);
     }
 
+    @Cacheable("singleMealCache")
     public Optional<DraftMeal> getDraftMeal(String pk, String sk) {
         log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
         return dynamoDBFacadeService.load(DraftMeal.class, pk, sk);
     }
 
+    @Cacheable("singleMealCache")
     public Optional<Meal> getMeal(String pk, String sk) {
         log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
         return dynamoDBFacadeService.load(Meal.class, pk, sk);
@@ -63,11 +70,16 @@ public class MealService {
 
     public void deleteMeal(String uid, Instant mealDate, String id) {
         log.trace("Deleting Meal uid: {}, mealDate: {}, id: {}", uid, mealDate, id);
-        dynamoDBFacadeService.delete(new Meal(uid, mealDate, id));
+        deleteMeal(new Meal(uid, mealDate, id));
     }
 
     public void deleteDraftMeal(String uid, Instant mealDate, String id) {
         log.trace("Deleting DraftMeal uid: {}, mealDate: {}, id: {}", uid, mealDate, id);
-        dynamoDBFacadeService.delete(new DraftMeal(uid, mealDate, id));
+        deleteMeal(new DraftMeal(uid, mealDate, id));
+    }
+
+    @CacheInvalidate(value = "singleMealCache", keyGenerator = ModelCacheKeyGenerator.class)
+    public void deleteMeal(Meal meal) {
+        dynamoDBFacadeService.delete(meal);
     }
 }

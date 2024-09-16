@@ -34,9 +34,10 @@ public class DynamoDBFacadeService implements IDynamoDBFacadeService{
     }
 
     @Override
-    public <T extends Model> void save(T object) {
+    public <T extends Model> T save(T object) {
         log.debug("Saving object: {}", object);
         dynamoDBMapper.save(object);
+        return object;
     }
 
 
