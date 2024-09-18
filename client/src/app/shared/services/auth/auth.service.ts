@@ -23,4 +23,12 @@ export class AuthService {
       ), tap(user => this._userReplaySubject.next(user))
     )
   }
+
+  public get userDetails() {
+    return this._userReplaySubject.value
+  }
+
+  public set userDetails(user: IUser) {
+    this._userReplaySubject.next(user)
+  }
 }

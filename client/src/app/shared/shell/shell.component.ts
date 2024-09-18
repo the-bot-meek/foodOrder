@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
+import {Observable} from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -18,6 +18,8 @@ import {AddMealDialogComponent} from "../../components/meal/add-meal-dialog/add-
 import {MatDialog} from "@angular/material/dialog";
 import {ComponentType} from "@angular/cdk/overlay";
 import {AddVenueDialogComponent} from "../../components/venue/add-venue-dialog/add-venue-dialog.component";
+import {AuthService} from "../services/auth/auth.service";
+import {IUser} from "../../../../models/IUser";
 
 @Component({
   selector: 'app-shell',
@@ -48,7 +50,11 @@ export class ShellComponent {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, public dialog: MatDialog) {}
+  constructor(private breakpointObserver: BreakpointObserver, public dialog: MatDialog, private authService: AuthService) {}
+
+  get userDetails(): IUser {
+    return this.authService.userDetails;
+  }
 
   openDialogComponent<T>(componentType: ComponentType<T>): void {
     this.dialog.open(componentType, {
