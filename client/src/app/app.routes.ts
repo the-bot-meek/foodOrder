@@ -1,7 +1,10 @@
 import {Routes} from '@angular/router';
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
-import {MealDetailsComponent} from "./components/meal/meal-details/meal-details.component";
+import {MealOverviewComponent} from "./components/meal/meal-overview/meal-overview.component";
 import {authGuardCanActivateFn} from "./shared/authGuards/authGuard";
+import {
+  AccreditedOrderComponent
+} from "./components/order/accredited-order-component/accredited-order.component";
 
 export const routes: Routes = [
   {
@@ -11,7 +14,12 @@ export const routes: Routes = [
   },
   {
     path: "meal/:sk",
-    component: MealDetailsComponent,
+    component: MealOverviewComponent,
+    canActivate: [authGuardCanActivateFn]
+  },
+  {
+    path: "order/:venueName/:mealId",
+    component: AccreditedOrderComponent,
     canActivate: [authGuardCanActivateFn]
   }
 ];

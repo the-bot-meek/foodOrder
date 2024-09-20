@@ -1,26 +1,37 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {MealService} from "../../../shared/api/meal.service";
+import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {IMeal} from "../../../../../models/meal";
-import {AsyncPipe, JsonPipe} from "@angular/common";
+import {AsyncPipe, DatePipe, NgIf} from "@angular/common";
+import {MatButton} from "@angular/material/button";
+import {map} from "rxjs/operators";
+import {UserService} from "../../../shared/api/user.service";
+import {AuthService} from "../../../shared/services/auth/auth.service";
 
 @Component({
   selector: 'app-meal-details',
   standalone: true,
   imports: [
-    JsonPipe,
-    AsyncPipe
+    AsyncPipe,
+    DatePipe,
+    MatButton,
+    NgIf
   ],
   templateUrl: './meal-details.component.html',
   styleUrl: './meal-details.component.scss'
 })
 export class MealDetailsComponent implements OnInit {
-  meal: Observable<IMeal>;
-  constructor(private route:ActivatedRoute, private mealService: MealService) {
+  @Input()
+  meal: Observable<IMeal>
+  isOwner: Observable<boolean>
+
+  constructor(private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.meal = this.mealService.getMeal(this.route.snapshot.params['sk'])
+    this.isOwner = this.meal.pipe(
+      map(meal =>
+        meal.uid == this.authService.userDetails.sub
+      )
+    )
   }
 }

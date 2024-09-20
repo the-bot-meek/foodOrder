@@ -1,1 +1,18 @@
-{{meal | async | json}}
+<div class="meal-container" *ngIf="meal | async as meal">
+  <div id="title-container">
+    <div>
+      <h2>{{ meal.name }}</h2>
+    </div>
+    <div *ngIf="isOwner | async">
+      <button mat-button>Edit</button>
+    </div>
+  </div>
+
+  <div class="meal-details">
+    <p><strong>ID:</strong> {{ meal.id }}</p>
+    <p><strong>UID:</strong> {{ meal.uid }}</p>
+    <p><strong>Date:</strong> {{ meal.mealDate | date: 'mediumDate' }}</p>
+    <p><strong>Location:</strong> {{ meal.location }}</p>
+    <p><strong>Venue:</strong> {{ meal.venueName }}</p>
+  </div>
+</div>
