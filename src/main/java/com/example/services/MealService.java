@@ -46,6 +46,22 @@ public class MealService {
         return dynamoDBFacadeService.query(DraftMeal.class, dynamoDBQueryExpression);
     }
 
+    public Optional<Meal> getMealByVenueNameAndMealId(String venueName, String mealId) {
+        Map<String, AttributeValue> eav = new HashMap<>();
+        eav.put(":venueName", new AttributeValue().withS(venueName));
+        eav.put(":mealId", new AttributeValue().withS(mealId));
+        DynamoDBQueryExpression<Meal> dynamoDBQueryExpression = new DynamoDBQueryExpression<Meal>()
+                .withIndexName("gsi")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("gsi_pk = :venueName and gsi_sk = :mealId")
+                .withExpressionAttributeValues(eav);
+        List<Meal> meals = dynamoDBFacadeService.query(Meal.class, dynamoDBQueryExpression);
+        if (meals.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(meals.get(0));
+    }
+
     public Optional<Meal> getMeal(String originatorUid, Instant mealDate, String mealId) {
         log.trace("Getting Meal originatorUid: {}, mealDate: {}, mealId: {}", originatorUid, mealDate, mealId);
         return dynamoDBFacadeService.load(Meal.class, originatorUid, mealDate + "_" + mealId);
