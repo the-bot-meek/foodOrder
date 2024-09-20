@@ -85,7 +85,7 @@ public class Meal implements Model {
         this.mealDate = mealDate;
     }
 
-    @DynamoDBAttribute
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "gsi", attributeName = "gsi_sk")
     public String getId() {
         return id;
     }
@@ -121,7 +121,7 @@ public class Meal implements Model {
         this.location = location;
     }
 
-    @DynamoDBAttribute
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "gsi", attributeName = "gsi_pk")
     public String getVenueName() {
         return venueName;
     }
