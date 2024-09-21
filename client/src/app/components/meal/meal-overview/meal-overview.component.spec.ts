@@ -5,8 +5,10 @@ import {of} from "rxjs";
 import {IMeal} from "../../../../../models/meal";
 import {MealService} from "../../../shared/api/meal.service";
 import {ActivatedRoute} from "@angular/router";
+import {AuthService} from "../../../shared/services/auth/auth.service";
+import {IUser} from "../../../../../models/IUser";
 
-describe('MealDetailsComponent', () => {
+describe('MealOverviewComponent', () => {
   let component: MealOverviewComponent;
   let fixture: ComponentFixture<MealOverviewComponent>;
   let route: any;
@@ -26,6 +28,15 @@ describe('MealDetailsComponent', () => {
     venueName: "MacD"
   }
   let mealSk: string = "2024-07-01T20:09:35.796Z_6e30e2b2-e0dd-4345-8422-697e705c746b"
+
+  let user: any = {
+    sub: "1234"
+  }
+  let authService = jasmine.createSpyObj<AuthService>("authService", ["checkAuth"], {
+    get userDetails(): IUser {
+      return user
+    },
+  })
 
   beforeEach(async () => {
     route = {
@@ -49,6 +60,10 @@ describe('MealDetailsComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: route
+        },
+        {
+          provide: AuthService,
+          useValue: authService
         }
       ]
     })
