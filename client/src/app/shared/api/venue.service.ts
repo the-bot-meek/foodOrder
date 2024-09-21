@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ICreateVenueRequest, IVenue } from '../../../../models/venue';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import {IMeal} from "../../../../models/meal";
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +22,9 @@ export class VenueService {
 
   public fetchVenue(location: string, name: string): Observable<IVenue> {
     return this.httpClient.get<IVenue>(`${this.serverUrl}/venue/${location}/${name}`, {withCredentials: true})
+  }
+
+  public getMealByVenueNameAndMealId(venueName: string, mealId: string): Observable<IMeal> {
+    return this.httpClient.get<IMeal>(`${this.serverUrl}/venue/${venueName}/meal/${mealId}`)
   }
 }

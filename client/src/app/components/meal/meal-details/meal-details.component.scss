@@ -1,0 +1,33 @@
+.meal-container {
+  padding: 16px;
+  margin: 0 auto;
+  max-width: 600px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.meal-details, .meal-config {
+  margin-top: 16px;
+}
+
+.meal-details p, .meal-config p {
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+#title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
