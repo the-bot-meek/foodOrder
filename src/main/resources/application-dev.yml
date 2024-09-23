@@ -12,7 +12,7 @@ micronaut:
             - http://localhost:4200
   security:
     redirect:
-      login-success: http://localhost:4200/
+      login-success: http://localhost:4200/login-success
     authentication: cookie
     oauth2:
       clients:

@@ -5,6 +5,7 @@ import {authGuardCanActivateFn} from "./shared/authGuards/authGuard";
 import {
   AccreditedOrderComponent
 } from "./components/order/accredited-order-component/accredited-order.component";
+import {LoginSuccessComponent} from "./components/login-success/login-success.component";
 
 export const routes: Routes = [
   {
@@ -21,5 +22,9 @@ export const routes: Routes = [
     path: "order/:venueName/:mealId",
     component: AccreditedOrderComponent,
     canActivate: [authGuardCanActivateFn]
+  },
+  {
+    path: 'login-success',
+    component: LoginSuccessComponent
   }
 ];

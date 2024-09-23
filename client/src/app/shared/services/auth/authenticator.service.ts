@@ -11,6 +11,7 @@ export class AuthenticatorService {
   constructor(@Inject(DOCUMENT) private document: Document) { }
 
   auth() {
+    sessionStorage.setItem('authPostRedirectUrl', window.document.documentURI)
     this.document.location = `${this.serverUrl}/${this.authPath}`
   }
 }
