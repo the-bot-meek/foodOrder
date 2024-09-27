@@ -20,6 +20,13 @@ updates:
       - "/client"
       - "/CDK"
     groups:
+      typescript:
+        applies-to: version-updates
+        patterns:
+          - "typescript"
+        update-types:
+          - "patch"
+          - "minor"
       angular:
         applies-to: version-updates
         patterns:
