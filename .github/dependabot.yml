@@ -17,17 +17,16 @@ updates:
     schedule:
       interval: "daily"
     directories:
-      - "/client"
       - "/CDK"
+  - package-ecosystem: "npm"
+    schedule:
+      interval: "daily"
+    directories:
+      - "/client"
+    ignore:
+      - dependency-name: "typescript"
+        versions: [ ">=5.5.0" ]
     groups:
-      typescript:
-        applies-to: version-updates
-        patterns:
-          - "typescript"
-          - "@types/node"
-        update-types:
-          - "patch"
-          - "minor"
       angular:
         applies-to: version-updates
         patterns:
