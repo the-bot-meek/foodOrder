@@ -8,8 +8,6 @@ updates:
     groups:
       minor-and-patch:
         applies-to: version-updates
-        exclude-patterns:
-          - "@angular*"
         update-types:
           - "patch"
           - "minor"
@@ -17,17 +15,21 @@ updates:
     schedule:
       interval: "daily"
     directories:
-      - "/client"
       - "/CDK"
     groups:
-      typescript:
-        applies-to: version-updates
-        patterns:
-          - "typescript"
-          - "@types/node"
+      minor-and-patch:
+        applies-to: security-updates
         update-types:
           - "patch"
-          - "minor"
+  - package-ecosystem: "npm"
+    schedule:
+      interval: "daily"
+    directories:
+      - "/client"
+    ignore:
+      - dependency-name: "typescript"
+        versions: [ ">=5.5.0" ]
+    groups:
       angular:
         applies-to: version-updates
         patterns:
