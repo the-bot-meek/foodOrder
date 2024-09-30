@@ -8,6 +8,7 @@ services:
     environment:
       - SERVICES=dynamodb,ssm,sts,cloudformation,iam
       - PERSISTENCE=1
+      - DYNAMODB_SHARE_DB=1
     volumes:
       - "./local_stack:/etc/localstack/init/ready.d"
       - "./dynamodb_volume:/var/lib/localstack"
