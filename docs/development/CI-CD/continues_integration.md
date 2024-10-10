@@ -7,7 +7,7 @@ The main reason for choosing github was because of its wide support for GitHub a
 # Act
 Act will allow us to test github actions locally making it easy to debug and develop our CI infrastructure.
 
-# Dependabot
-Keeping on top of the latest security issues for my supply chain is not something I like to do in my free time.
-Adding Dependabot means that I won't need to do this while keeping this application secure. 
-Coupled with unit and integration testing we almost fully automate our dependency updates with Dependabot.
+# Dependency management
+Initially, I had configured Dependabot to manage the dependencies for this repository. However, 
+I have decided to transition away from Dependabot, as it does not support upgrading the Micronaut version in my application. 
+To address this limitation, I will now use Renovatebot for dependency management, as it offers broader support across various platforms.
