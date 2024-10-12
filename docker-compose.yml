@@ -36,3 +36,5 @@ services:
     image: "foodorderclient"
     ports:
       - "4200:4200"
+    depends_on:
+      - food-order-server
