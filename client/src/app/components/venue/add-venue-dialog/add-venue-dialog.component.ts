@@ -13,6 +13,8 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {JsonPipe} from "@angular/common";
 import {MenuItemListComponent} from "../menu-item-list/menu-item-list.component";
 import {MatIcon} from "@angular/material/icon";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-add-venue-dialog',
@@ -57,7 +59,8 @@ export class AddVenueDialogComponent {
 
   constructor(
     private venueService:VenueService,
-    public dialogRef: MatDialogRef<AddVenueDialogComponent>
+    public dialogRef: MatDialogRef<AddVenueDialogComponent>,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -68,7 +71,11 @@ export class AddVenueDialogComponent {
       name: this.venueFormGroup.value.name as string,
       menuItems: this.menuItems
     }
-    this.venueService.addVenue(addVenueRequest).subscribe()
+    this.venueService.addVenue(addVenueRequest).pipe(map(() => {
+      this.snackBar.open("Venue Added", null, {
+        horizontalPosition: 'end', verticalPosition: 'top', duration: 7500
+      })
+    })).subscribe()
     this.addMenuItemForm.reset()
     this.venueFormGroup.reset()
     this.menuItems = [];
