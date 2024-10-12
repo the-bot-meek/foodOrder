@@ -21,6 +21,7 @@ import {AddVenueDialogComponent} from "../../components/venue/add-venue-dialog/a
 import {AuthService} from "../services/auth/auth.service";
 import {IUser} from "../../../../models/IUser";
 
+
 @Component({
   selector: 'app-shell',
   standalone: true,
