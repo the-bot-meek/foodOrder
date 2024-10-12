@@ -54,41 +54,41 @@ describe('AddVenueDialogComponent', () => {
 
   it('should close dialog when venue is saved', async () => {
     const venueNameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#venue-name-input"
+      selector: '[data-testid="venue-name-input"]'
     }))
     await venueNameMatInputHarness.setValue("name")
 
     const locationMatSelectHarness: MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: "#venue-location-select"
+      selector: '[data-testid="venue-location-select"]'
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
 
     const descriptionMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#venue-description-textarea"
+      selector: '[data-testid="venue-description-textarea"]'
     }))
     await descriptionMatInputHarness.setValue("Description")
 
     const addVenueBtn: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-      selector: "#add-venue-btn"
+      selector: '[data-testid="add-venue-btn"]'
     }))
 
     const menuItemNameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#menu-item-name"
+      selector: '[data-testid="menu-item-name"]'
     }))
     await menuItemNameMatInputHarness.setValue("Menu Item Name")
 
     const menuItemDescriptionMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#menu-item-description"
+      selector: '[data-testid="menu-item-description"]'
     }))
     await menuItemDescriptionMatInputHarness.setValue("Menu Item Description")
 
     const menuItemPriceMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#menu-item-price"
+      selector: '[data-testid="menu-item-price"]'
     }))
     await menuItemPriceMatInputHarness.setValue("5")
 
     const menuItemAddMatBtnHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-      selector: "#add-menu-item-btn"
+      selector: '[data-testid="add-menu-item-btn"]'
     }))
 
     expect(await addVenueBtn.isDisabled()).toBeFalse()
