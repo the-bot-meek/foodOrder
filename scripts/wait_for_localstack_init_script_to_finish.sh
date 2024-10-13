@@ -9,7 +9,7 @@ while true; do
       echo "Init script is still $result"
       sleep 10
   elif [ "$result" == "ERROR" ]; then
-      echo "Error in localstack init script, exit code 0"
+      echo "Error in localstack init script, exit code 1"
       exit 1
   else
     echo "Unexpected response: $result"

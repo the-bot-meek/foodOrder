@@ -91,7 +91,7 @@ jobs:
       - name: Build Server Image
         run: ./gradlew dockerBuild
 
-      - name: Run localstack container
+      - name: Run food-order-server container
         run: docker compose up -d food-order-server
 
       - name: Setup Node.js
@@ -109,3 +109,11 @@ jobs:
 
       - name: Run E2E tests
         run: npm --prefix ./client run e2e
+
+      - name: Dump localstack logs
+        if: failure()
+        run: docker logs localstack
+
+      - name: Dump food-order-server logs
+        if: failure()
+        run: docker logs food-order-server
