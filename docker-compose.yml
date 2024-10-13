@@ -8,7 +8,7 @@ services:
       - "4566:4566"
     environment:
       - SERVICES=dynamodb,ssm,sts,cloudformation,iam
-#      - PERSISTENCE=1
+      - PERSISTENCE=1
       - DYNAMODB_SHARE_DB=1
     volumes:
       - "./local_stack:/etc/localstack/init/ready.d"
