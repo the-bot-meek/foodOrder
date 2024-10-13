@@ -138,7 +138,7 @@ describe('AddMealDialogComponent', () => {
 
   it('Should request venues for location', async () => {
     const locationMatSelectHarness: MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: "#location-select"
+      selector: '[data-testid="location-select"]'
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
     expect(await locationMatSelectHarness.getValueText()).toEqual("London")
@@ -147,7 +147,7 @@ describe('AddMealDialogComponent', () => {
 
   it('Should not allow meal to be saved if form is invalid', async () => {
      const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-       selector: "#add-meal-button"
+       selector: '[data-testid="add-meal-button"]'
      }));
 
     expect(await addMealMatButtonHarness.isDisabled()).toEqual(true)
@@ -155,28 +155,28 @@ describe('AddMealDialogComponent', () => {
 
   it("Should close dialog when meal is saved", async () => {
     const nameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#name-input"
+      selector: '[data-testid="name-input"]'
     }))
     await nameMatInputHarness.setValue("Name")
 
     const mealMatDatepickerInputHarness: MatDatepickerInputHarness = await loader.getHarness<MatDatepickerInputHarness>(MatDatepickerInputHarness.with({
-      selector: "#meal-date-input"
+      selector: '[data-testid="meal-date-input"]'
     }))
     await mealMatDatepickerInputHarness.setValue("6/29/2024")
 
     const locationMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: "#location-select"
+      selector: '[data-testid="location-select"]'
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
 
     const venueMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: "#venue-select"
+      selector: '[data-testid="venue-select"]'
     }))
     await venueMatSelectHarness.clickOptions({text: "Venue Name"})
 
 
     const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-      selector: "#add-meal-button"
+      selector: '[data-testid="add-meal-button"]'
     }));
     await addMealMatButtonHarness.click()
 
@@ -200,7 +200,7 @@ describe('AddMealDialogComponent', () => {
 
   it('Should not allow meal to be saved if form is invalid', async () => {
     const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-      selector: "#add-meal-button"
+      selector: '[data-testid="add-meal-button"]'
     }));
 
     expect(await addMealMatButtonHarness.isDisabled()).toEqual(true)
@@ -208,37 +208,37 @@ describe('AddMealDialogComponent', () => {
 
   it("Should close dialog when meal is saved", async () => {
     const nameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#name-input"
+      selector: '[data-testid="name-input"]'
     }))
     await nameMatInputHarness.setValue("Name")
 
     const mealMatDatepickerInputHarness: MatDatepickerInputHarness = await loader.getHarness<MatDatepickerInputHarness>(MatDatepickerInputHarness.with({
-      selector: "#meal-date-input"
+      selector: '[data-testid="meal-date-input"]'
     }))
     await mealMatDatepickerInputHarness.setValue("6/29/2024")
 
     const locationMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: "#location-select"
+      selector: '[data-testid="location-select"]'
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
 
     const venueMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: "#venue-select"
+      selector: '[data-testid="venue-select"]'
     }))
     await venueMatSelectHarness.clickOptions({text: "Venue Name"})
 
     const privateMealCheckBox: MatCheckboxHarness = await loader.getHarness<MatCheckboxHarness>(MatCheckboxHarness.with({
-      selector: "#private-meal-checkbox"
+      selector: '[data-testid="private-meal-checkbox"]'
     }))
     await privateMealCheckBox.check()
 
     const numberOfRecipients: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: "#number-of-recipients-input"
+      selector: '[data-testid="number-of-recipients-input"]'
     }))
     await numberOfRecipients.setValue("1")
 
     const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-      selector: "#add-meal-button"
+      selector: '[data-testid="add-meal-button"]'
     }));
     await addMealMatButtonHarness.click()
 
