@@ -1,4 +1,4 @@
-name: Gradle Test
+name: CI Tests
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  test-client:
+  client-unit-test:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -64,3 +64,48 @@ jobs:
 
       - name: Run integration test
         run: ./gradlew integrationTest
+  client-e2e-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: sudo apt-get update && sudo apt-get install docker-compose -y
+
+      - name: Start local stack
+        run: docker-compose up -d localstack
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '21'
+
+      - name: Build with Gradle
+        run: ./gradlew build --no-daemon
+
+      - name: Run tests
+        run: ./gradlew test --no-daemon
+
+      - name: Build Server Image
+        run: ./gradlew dockerBuild
+
+      - name: Run localstack container
+        run: docker compose up -d food-order-server
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: ./client/package-lock.json
+
+      - name: Install dependencies
+        run: npm --prefix ./client ci
+
+      - name: Wait for localstack init script to finish
+        run: bash scripts/wait_for_localstack_init_script_to_finish.sh
+
+      - name: Run E2E tests
+        run: npm --prefix ./client run e2e
