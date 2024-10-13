@@ -48,7 +48,7 @@ test('test add meal', async ({ page, browserName }) => {
   }
 
   const createMealRequest: ICreateMealRequest = {
-    dateOfMeal: 0,
+    dateOfMeal: 1728850944308,
     location: "London",
     mealConfig: {
       draft: false,
