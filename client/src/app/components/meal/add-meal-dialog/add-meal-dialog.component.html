@@ -5,14 +5,14 @@
   </button>
 </div>
 <form [formGroup]="addMealFormGroup" (ngSubmit)="addMeal()">
-  <div mat-dialog-content id="meal-dialog">
+  <div mat-dialog-content data-testid="meal-dialog">
       <mat-form-field>
         <mat-label>Name</mat-label>
-        <input id="name-input" type="text" matInput [formControl]="addMealFormGroup.controls.name" >
+        <input data-testid="name-input" type="text" matInput [formControl]="addMealFormGroup.controls.name" >
       </mat-form-field>
       <mat-form-field>
         <mat-label>Date</mat-label>
-        <input id="meal-date-input" matInput [matDatepicker]="datepicker" [formControl]="addMealFormGroup.controls.dateOfMeal"/>
+        <input data-testid="meal-date-input" matInput [matDatepicker]="datepicker" [formControl]="addMealFormGroup.controls.dateOfMeal"/>
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
         <mat-datepicker #datepicker>
@@ -25,7 +25,7 @@
       <br>
       <mat-form-field>
         <mat-label>Location</mat-label>
-        <mat-select id="location-select" [formControl]="addMealFormGroup.controls.location" (selectionChange)="getVenuesForLocation($event.value)">
+        <mat-select data-testid="location-select" [formControl]="addMealFormGroup.controls.location" (selectionChange)="getVenuesForLocation($event.value)">
           @for (location of locations; track location) {
             <mat-option [value]="location" >{{location}}</mat-option>
           }
@@ -34,7 +34,7 @@
       @if (addMealFormGroup?.value?.location) {
         <mat-form-field>
           <mat-label>Venue</mat-label>
-          <mat-select id="venue-select" [formControl]="addMealFormGroup.controls.venueName">
+          <mat-select data-testid="venue-select" [formControl]="addMealFormGroup.controls.venueName">
             @for (venue of venues; track venue) {
               <mat-option [value]="venue.name" >{{venue.name}}</mat-option>
             }
@@ -42,17 +42,17 @@
         </mat-form-field>
       }
       <mat-label>Private Meal</mat-label>
-      <mat-checkbox id="private-meal-checkbox" [formControl]="addMealFormGroup.controls.privateMeal"></mat-checkbox>
+      <mat-checkbox data-testid="private-meal-checkbox" [formControl]="addMealFormGroup.controls.privateMeal"></mat-checkbox>
 
       @if (addMealFormGroup?.value?.privateMeal) {
         <mat-form-field>
           <mat-label>Number of recipients</mat-label>
-          <input id="number-of-recipients-input" type="number" matInput [formControl]="addMealFormGroup.controls.numberOfRecipients" >
+          <input data-testid="number-of-recipients-input" type="number" matInput [formControl]="addMealFormGroup.controls.numberOfRecipients" >
         </mat-form-field>
       }
   </div>
   <div mat-dialog-actions>
-    <button id="add-meal-button" mat-button [disabled]="addMealFormGroup.invalid">Add</button>
+    <button data-testid="add-meal-button" mat-button [disabled]="addMealFormGroup.invalid">Add</button>
     <button mat-button mat-dialog-close type="button">Close</button>
   </div>
 </form>
