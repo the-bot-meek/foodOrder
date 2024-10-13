@@ -1,4 +1,4 @@
-import {expect, Page, test} from '@playwright/test';
+import {expect, test} from '@playwright/test';
 import {ICreateVenueRequest} from "../models/venue";
 import {ICreateMealRequest} from "../models/ICreateMealRequest";
 import {openAddDialog, populateAddMealDialog, populateAddVenueDialog} from "./utils";
@@ -12,12 +12,12 @@ test('has title', async ({ page }) => {
 });
 
 
-test('add venue test', async ({ page }) => {
+test('add venue test', async ({ page, browserName }) => {
   await page.goto('/');
 
   await openAddDialog('venue', page)
   const createVenueRequest: ICreateVenueRequest = {
-    name: "add venue test",
+    name: `add venue test ${browserName}`,
     description: "description",
     location: "London",
     menuItems: [
@@ -32,10 +32,10 @@ test('add venue test', async ({ page }) => {
   expect(page.getByText('Venue Added')).toBeTruthy()
 });
 
-test('test add meal', async ({ page }) => {
+test('test add meal', async ({ page, browserName }) => {
   await page.goto('/');
   const createVenueRequest: ICreateVenueRequest = {
-    name: "add add meal",
+    name: `test add meal ${browserName}`,
     description: "description",
     location: "London",
     menuItems: [
@@ -55,11 +55,12 @@ test('test add meal', async ({ page }) => {
       privateMealConfig: undefined
     },
     name: "name",
-    venueName: "add add meal"
+    venueName: `test add meal ${browserName}`
   }
 
   await openAddDialog('venue', page)
   await populateAddVenueDialog(createVenueRequest, page)
+  expect(page.getByText('Venue Added')).toBeTruthy()
 
   await openAddDialog('meal', page)
   await populateAddMealDialog(createMealRequest, page)

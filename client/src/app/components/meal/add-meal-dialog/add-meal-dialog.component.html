@@ -31,7 +31,7 @@
           }
         </mat-select>
       </mat-form-field>
-      @if (addMealFormGroup?.value?.location) {
+      @if (venues.length != 0) {
         <mat-form-field>
           <mat-label>Venue</mat-label>
           <mat-select data-testid="venue-select" [formControl]="addMealFormGroup.controls.venueName">
