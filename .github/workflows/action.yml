@@ -73,9 +73,6 @@ jobs:
       - name: Set up Docker Compose
         run: sudo apt-get update && sudo apt-get install docker-compose -y
 
-      - name: Start local stack
-        run: docker-compose up -d localstack
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
