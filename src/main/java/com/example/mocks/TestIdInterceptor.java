@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Filter("/**")
 @Requires(env = "mock_auth")
-@Requires(property = "mock-auth-config.stateless-session-auth", value = "true")
+@Requires(property = "mockAuthConfig.sessionLessStateAuth", value = "true")
 public class TestIdInterceptor implements HttpServerFilter {
     @Override
     public Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
