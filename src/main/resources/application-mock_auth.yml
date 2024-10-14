@@ -34,4 +34,4 @@ jackson:
   serialization-inclusion: always
 
 mockAuthConfig:
-  sessionLessStateAuth: ${stateless-session-auth:true}
+  sessionLessStateAuth: ${STATELESS_SESSION_AUTH:true}
