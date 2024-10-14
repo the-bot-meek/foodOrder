@@ -50,7 +50,7 @@ public class AnonymousOrderController {
             orderService.addOrder(order);
             return HttpResponse.ok(order);
         } catch (OrderRequestConverterException orderRequestConverterException) {
-            log.error("Error adding AnonymousOrder uid: {}", uid);
+            log.error("Error adding AnonymousOrder uid: {}", uid, orderRequestConverterException);
             return HttpResponse.badRequest();
         }
     }
