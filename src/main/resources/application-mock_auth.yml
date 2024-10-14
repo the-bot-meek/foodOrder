@@ -22,6 +22,9 @@ endpoints:
   beans:
     enabled: true
     sensitive: false
+  env:
+    enabled: true
+    sensitive: false
 jackson:
   deserialization:
     readDateTimestampsAsNanoseconds: false
@@ -29,3 +32,6 @@ jackson:
   serialization:
     WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
   serialization-inclusion: always
+
+mockAuthConfig:
+  sessionLessStateAuth: ${stateless-session-auth:true}
