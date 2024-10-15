@@ -78,7 +78,7 @@ export class AddMealDialogComponent {
 
   private openAddMealSnackBar(mealSortKey: string) {
     this.snackBar.open("Meal added", "Open Meal", {
-      horizontalPosition: 'end', verticalPosition: 'top', duration: 7500
+      horizontalPosition: 'center', verticalPosition: 'top', duration: 75000
     }).onAction().subscribe(() => {
       this.router.navigate(['meal', mealSortKey])
     })
