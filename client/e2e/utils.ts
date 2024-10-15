@@ -20,7 +20,7 @@ export async function populateAddVenueDialog(createVenueRequest: ICreateVenueReq
 
 export async function populateAddMealDialog(createMealRequest: ICreateMealRequest, page: Page) {
   await page.getByTestId('name-input').fill(createMealRequest.name)
-  await page.getByTestId('meal-date-input').fill(new Date(createMealRequest.dateOfMeal).toLocaleDateString())
+  await page.getByTestId('meal-date-input').fill(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US'))
 
   await page.getByTestId('location-select').click()
   await page.waitForSelector('mat-option')
