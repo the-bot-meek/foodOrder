@@ -24,6 +24,7 @@ services:
       AWS_SECRET_KEY: "${AWS_SECRET_KEY:-123}"
       DYNAMODB_DOMAIN: "localstack"
       MICRONAUT_ENVIRONMENTS: "mock_auth"
+      STATELESS_SESSION_AUTH: "${STATELESS_SESSION_AUTH:-true}"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 1m30s
