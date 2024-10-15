@@ -73,7 +73,7 @@ export class AddVenueDialogComponent {
     }
     this.venueService.addVenue(addVenueRequest).pipe(map(() => {
       this.snackBar.open("Venue Added", null, {
-        horizontalPosition: 'end', verticalPosition: 'top', duration: 7500
+        horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
       })
     })).subscribe()
     this.addMenuItemForm.reset()
