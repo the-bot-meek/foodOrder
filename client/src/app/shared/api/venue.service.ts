@@ -13,7 +13,7 @@ export class VenueService {
   constructor(private httpClient: HttpClient) { }
 
   public addVenue(createVenueRequest: ICreateVenueRequest): Observable<IVenue> {
-   return  this.httpClient.put<IVenue>(`${this.serverUrl}/venue`, createVenueRequest, {withCredentials: true})
+   return  this.httpClient.post<IVenue>(`${this.serverUrl}/venue`, createVenueRequest, {withCredentials: true})
   }
 
   public listVenuesForLocation(location: string): Observable<IVenue[]> {

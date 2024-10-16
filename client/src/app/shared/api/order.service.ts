@@ -12,6 +12,6 @@ export class OrderService {
   constructor(private httpClient: HttpClient) { }
 
   public addOrder(createOrderRequest: ICreateOrderRequest): Observable<IOrder> {
-    return this.httpClient.put<IOrder>(`${this.serverUrl}/order`, createOrderRequest, {withCredentials: true})
+    return this.httpClient.post<IOrder>(`${this.serverUrl}/order`, createOrderRequest, {withCredentials: true})
   }
 }

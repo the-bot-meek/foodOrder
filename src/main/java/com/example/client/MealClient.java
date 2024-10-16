@@ -22,7 +22,7 @@ public interface MealClient {
     @Get("/draft")
     List<DraftMeal> listAllDraftMealsForUser();
 
-    @Put()
+    @Post()
     Meal addMeal(@Valid @Body CreateMealRequest createMealRequest);
 
     @Get("{mealSortKey}")

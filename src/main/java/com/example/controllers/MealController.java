@@ -41,7 +41,7 @@ public class MealController {
         this.orderService = orderService;
         this.createMealRequestConverter = createMealRequestConverter;
     }
-    @Put
+    @Post
     public HttpResponse<Meal> addMeal(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
         try {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, authentication.getName());

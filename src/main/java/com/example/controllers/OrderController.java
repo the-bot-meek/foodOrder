@@ -8,7 +8,7 @@ import com.example.services.OrderService;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.Post;
 import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
@@ -27,7 +27,7 @@ public class OrderController {
         this.orderService = orderService;
         this.createOrderRequestConverter = createOrderRequestConverter;
     }
-    @Put
+    @Post
     public Order addOrder(@Valid @Body CreateOrderRequest createOrderRequest, Authentication authentication) {
         log.info("Adding Order createOrderRequest: {}, uid: {}", createOrderRequest, authentication.getName());
         try {

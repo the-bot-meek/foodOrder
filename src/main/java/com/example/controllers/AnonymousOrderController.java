@@ -43,7 +43,7 @@ public class AnonymousOrderController {
         return this.orderService.getAnonymousOrder(uid, mealId);
     }
 
-    @Put("{uid}")
+    @Post("{uid}")
     public HttpResponse<AnonymousOrder> addAnonymousOrder(@Body CreateOrderRequest createOrderRequest, @PathVariable String uid) {
         try {
             AnonymousOrder order = (AnonymousOrder) createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, DEFAULT_AnonymousUser_NAME, true);
@@ -55,7 +55,7 @@ public class AnonymousOrderController {
         }
     }
 
-    @Put("addBlankOrdersForMeal/{mealDate}/{mealId}")
+    @Post("addBlankOrdersForMeal/{mealDate}/{mealId}")
     public void addOrdersForMeal(Instant mealDate, @NotNull String mealId, Authentication authentication) throws MissingRequredLinkedEntityException {
         Optional<Meal> mealOptional = mealService.getMeal(authentication.getName(), mealDate + "_" + mealId);
         if (mealOptional.isEmpty()) {
