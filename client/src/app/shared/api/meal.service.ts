@@ -40,7 +40,7 @@ export class MealService {
   }
 
   public addMeal(createMealRequest: ICreateMealRequest): Observable<IMeal> {
-    return this.httpClient.put<IMeal>(`${this._serverUrl}/meal`, createMealRequest, {withCredentials: true})
+    return this.httpClient.post<IMeal>(`${this._serverUrl}/meal`, createMealRequest, {withCredentials: true})
   }
 
   public listAllOrdersForMeal(mealId: string): Observable<IOrder[]> {
