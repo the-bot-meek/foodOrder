@@ -155,7 +155,7 @@ jobs:
         condition: failed()
         inputs:
           dockerComposeFile: 'docker-compose.yml'
-          action: 'Run a Docker Compose command'
+          projectName: 'localstack-food-order'
           dockerComposeCommand: 'logs'
           arguments: 'food-order-server'
       
