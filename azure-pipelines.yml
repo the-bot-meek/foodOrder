@@ -3,11 +3,6 @@ trigger:
     include:
       - main
 
-pr:
-  branches:
-    include:
-      - main
-
 jobs:
   - job: ClientUnitTest
     displayName: 'Client Unit Tests'
@@ -135,7 +130,10 @@ jobs:
           command: 'ci'
           workingDir: './client'
 
-      - script: 'npx playwright install --with-deps'
+      - task: Bash@3
+        displayName: 'Install Playwright'
+        inputs:
+          script: 'npx playwright install --with-deps'
 
       - task: Bash@3
         displayName: 'Wait For Localstack Init Script To Finish'
