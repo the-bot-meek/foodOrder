@@ -65,8 +65,7 @@ jobs:
         displayName: 'Gradle Build'
         inputs:
           gradleWrapperFile: 'gradlew'
-          tasks: 'build'
-          options: '-Xmx3072m'
+          tasks: 'build'`
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.17'
           jdkArchitectureOption: 'x64'
