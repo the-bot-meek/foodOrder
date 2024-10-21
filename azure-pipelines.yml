@@ -105,7 +105,7 @@ jobs:
           jdkVersionOption: '1.17'
           jdkArchitectureOption: 'x64'
       - task: Gradle@3
-        displayName: 'Integration Test'
+        displayName: 'Build Docker Image'
         inputs:
           gradleWrapperFile: 'gradlew'
           tasks: 'dockerBuild'
