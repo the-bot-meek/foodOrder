@@ -133,6 +133,7 @@ jobs:
       - task: Bash@3
         displayName: 'Install Playwright'
         inputs:
+          targetType: inline
           script: 'npx playwright install --with-deps'
 
       - task: Bash@3
