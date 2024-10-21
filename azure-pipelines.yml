@@ -24,19 +24,69 @@ jobs:
           checkLatest: true
         displayName: 'Setup Node.js'
       - task: Npm@1
-        displayName: 'Npm CI'
+        displayName: 'npm run ci'
         inputs:
           command: 'ci'
           workingDir: './client'
       - task: Npm@1
-        displayName: 'Npm run test:ci'
+        displayName: 'npm run test:ci'
         inputs:
           command: 'custom'
           workingDir: './client'
           customCommand: 'run test:ci'
       - task: Npm@1
-        displayName: 'Npm run build'
+        displayName: 'npm run build'
         inputs:
           command: 'custom'
           workingDir: './client'
           customCommand: 'run build'
+  - job: GradleTest
+    displayName: 'Gradle Tests'
+    pool:
+      vmImage: 'ubuntu-latest'
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+        displayName: 'Checkout the source code'
+
+
+      - task: DockerCompose@1
+        displayName: 'Start Localstack'
+        inputs:
+          containerregistrytype: 'Azure Container Registry'
+          dockerComposeFile: 'docker-compose.yml'
+          action: 'Run a Docker Compose command'
+          dockerComposeCommand: 'up'
+          arguments: 'localstack'
+
+      - task: Gradle@3
+        displayName: 'Gradle Build'
+        inputs:
+          gradleWrapperFile: 'gradlew'
+          tasks: 'build'
+          options: '-Xmx3072m'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.17'
+          jdkArchitectureOption: 'x64'
+
+      - task: Gradle@3
+        displayName: 'Gradle Test'
+        inputs:
+          gradleWrapperFile: 'gradlew'
+          tasks: 'test'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.17'
+      - task: Bash@3
+        displayName: 'Wait For Localstack Init Script To Finish'
+        inputs:
+          filePath: './scripts/wait_for_localstack_init_script_to_finish.sh'
+
+      - task: Gradle@3
+        displayName: 'Integration Test'
+        inputs:
+          gradleWrapperFile: 'gradlew'
+          tasks: 'integrationTest'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.17'
+
