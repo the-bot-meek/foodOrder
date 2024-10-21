@@ -59,7 +59,7 @@ jobs:
           projectName: 'localstack-food-order'
           action: 'Run a Docker Compose command'
           dockerComposeCommand: 'up'
-          arguments: 'localstack'
+          arguments: '-d localstack'
 
       - task: Gradle@3
         displayName: 'Gradle Build'
