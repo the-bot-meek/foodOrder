@@ -56,6 +56,7 @@ jobs:
         inputs:
           containerregistrytype: 'Azure Container Registry'
           dockerComposeFile: 'docker-compose.yml'
+          projectName: 'LocalStackFoodOrder'
           action: 'Run a Docker Compose command'
           dockerComposeCommand: 'up'
           arguments: 'localstack'
