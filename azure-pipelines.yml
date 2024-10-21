@@ -1,0 +1,39 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pr:
+  branches:
+    include:
+      - main
+
+jobs:
+  - job: ClientUnitTest
+    displayName: 'Client Unit Tests'
+    pool:
+      vmImage: 'ubuntu-latest'
+    workspace:
+      clean: all
+    steps:
+      - checkout: self
+        displayName: 'Checkout the source code'
+      - task: UseNode@1
+        inputs:
+          version: '22.x'
+          checkLatest: true
+        displayName: 'Setup Node.js'
+      - task: Npm@1
+        inputs:
+          command: 'ci'
+          workingDir: './client'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          workingDir: './client'
+          customCommand: 'run test:ci'
+      - task: Npm@1
+        inputs:
+          command: 'custom'
+          workingDir: './client'
+          customCommand: 'run build'
