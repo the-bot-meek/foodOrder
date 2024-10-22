@@ -50,7 +50,7 @@ jobs:
         displayName: 'Gradle Cache'
         inputs:
           key: '"gradle" | "$(Agent.OS)" | build.gradle | gradle.properties'
-          path: '.gradle'
+          path: '$(Pipeline.Workspace)/.gradle'
           restoreKeys: '"gradle" | "$(Agent.OS)"'
         
       - task: Gradle@3
@@ -84,7 +84,7 @@ jobs:
         displayName: 'Gradle Cache'
         inputs:
           key: '"gradle" | "$(Agent.OS)" | build.gradle | gradle.properties'
-          path: '.gradle'
+          path: '$(Pipeline.Workspace)/.gradle'
           restoreKeys: '"gradle" | "$(Agent.OS)"'
       
       - task: Gradle@3
