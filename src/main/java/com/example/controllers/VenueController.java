@@ -6,10 +6,7 @@ import com.example.dto.request.CreateVenueRequest;
 import com.example.models.Venue;
 import com.example.services.VenueService;
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Put;
+import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 import org.slf4j.Logger;
@@ -41,7 +38,7 @@ public class VenueController {
         return venueService.listVenues(location);
     }
 
-    @Put
+    @Post
     public HttpResponse<Venue> addVenue(@Body CreateVenueRequest createVenueRequest) {
         log.info("Adding Venue. createVenueRequest: {}", createVenueRequest);
         try {
