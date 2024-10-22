@@ -4,6 +4,9 @@ trigger:
     include:
       - main
 
+variables:
+  GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+
 jobs:
   - job: ClientUnitTest
     displayName: 'Client Unit Tests'
@@ -47,10 +50,10 @@ jobs:
         displayName: 'Checkout the source code'
 
       - task: Cache@2
-        displayName: 'Gradle Cache'
+        displayName: 'Gradle'
         inputs:
-          key: '"gradle" | "$(Agent.OS)" | build.gradle | gradle.properties'
-          path: '$(Pipeline.Workspace)/.gradle'
+          key: '"gradle" | "$(Agent.OS)" | gradle.properties | build.gradle'
+          path: $(GRADLE_USER_HOME)
           restoreKeys: '"gradle" | "$(Agent.OS)"'
         
       - task: Gradle@3
@@ -83,8 +86,8 @@ jobs:
       - task: Cache@2
         displayName: 'Gradle Cache'
         inputs:
-          key: '"gradle" | "$(Agent.OS)" | build.gradle | gradle.properties'
-          path: '$(Pipeline.Workspace)/.gradle'
+          key: '"gradle" | "$(Agent.OS)" | gradle.properties | build.gradle'
+          path: $(GRADLE_USER_HOME)
           restoreKeys: '"gradle" | "$(Agent.OS)"'
       
       - task: Gradle@3
@@ -96,7 +99,7 @@ jobs:
           jdkVersionOption: '1.17'
           jdkArchitectureOption: 'x64'
       - task: Gradle@3
-        displayName: 'Integration Test'
+        displayName: 'Build food-order server docker image'
         inputs:
           gradleWrapperFile: 'gradlew'
           tasks: 'dockerBuild'
@@ -139,14 +142,21 @@ jobs:
           command: 'custom'
           workingDir: './client'
           customCommand: 'run e2e'
-      
+
+      - task: Gradle@3
+        displayName: 'Integration Test'
+        inputs:
+          gradleWrapperFile: 'gradlew'
+          tasks: 'integrationTest'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.17'
 
       - task: DockerCompose@1
         displayName: 'Dump Localstack Logs'
         condition: failed()
         inputs:
           dockerComposeFile: 'docker-compose.yml'
-          action: 'Run a Docker Compose command'
+          projectName: 'localstack-food-order'
           dockerComposeCommand: 'logs'
           arguments: 'food-order-server'
       
