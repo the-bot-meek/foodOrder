@@ -6,167 +6,124 @@ trigger:
 
 variables:
   GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
+displayName: 'CI Tests'
 
-jobs:
-  - job: ClientUnitTest
-    displayName: 'Client Unit Tests'
-    pool:
-      vmImage: 'ubuntu-latest'
-    workspace:
-      clean: all
-    steps:
-      - checkout: self
-        displayName: 'Checkout the source code'
-      - task: UseNode@1
-        inputs:
-          version: '22.x'
-          checkLatest: true
-        displayName: 'Setup Node.js'
-      - task: Npm@1
-        displayName: 'npm run ci'
-        inputs:
-          command: 'ci'
-          workingDir: './client'
-      - task: Npm@1
-        displayName: 'npm run test:ci'
-        inputs:
-          command: 'custom'
-          workingDir: './client'
-          customCommand: 'run test:ci'
-      - task: Npm@1
-        displayName: 'npm run build'
-        inputs:
-          command: 'custom'
-          workingDir: './client'
-          customCommand: 'run build'
-  - job: GradleTest
-    displayName: 'Gradle Tests'
-    pool:
-      vmImage: 'ubuntu-latest'
-    workspace:
-      clean: all
-    steps:
-      - checkout: self
-        displayName: 'Checkout the source code'
+pool:
+  vmImage: 'ubuntu-latest'
 
-      - task: Cache@2
-        displayName: 'Gradle'
-        inputs:
-          key: '"gradle" | "$(Agent.OS)" | gradle.properties | build.gradle'
-          path: $(GRADLE_USER_HOME)
-          restoreKeys: '"gradle" | "$(Agent.OS)"'
-        
-      - task: Gradle@3
-        displayName: 'Gradle Build'
-        inputs:
-          gradleWrapperFile: 'gradlew'
-          tasks: 'build'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
-          jdkArchitectureOption: 'x64'
+steps:
+  - checkout: self
+    displayName: 'Checkout the source code'
 
-      - task: Gradle@3
-        displayName: 'Gradle Test'
-        inputs:
-          gradleWrapperFile: 'gradlew'
-          tasks: 'test'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
+  - task: Cache@2
+    displayName: 'Gradle Cache'
+    inputs:
+      key: '"gradle" | "$(Agent.OS)" | gradle.properties | build.gradle'
+      path: $(GRADLE_USER_HOME)
+      restoreKeys: '"gradle" | "$(Agent.OS)"'
 
-  - job: E2ETests
-    displayName: 'E2E tests'
-    pool:
-      vmImage: 'ubuntu-latest'
-    workspace:
-      clean: all
-    steps:
-      - checkout: self
-        displayName: 'Checkout the source code'
-      
-      - task: Cache@2
-        displayName: 'Gradle Cache'
-        inputs:
-          key: '"gradle" | "$(Agent.OS)" | gradle.properties | build.gradle'
-          path: $(GRADLE_USER_HOME)
-          restoreKeys: '"gradle" | "$(Agent.OS)"'
-      
-      - task: Gradle@3
-        displayName: 'Gradle Build'
-        inputs:
-          gradleWrapperFile: 'gradlew'
-          tasks: 'build'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
-          jdkArchitectureOption: 'x64'
-      - task: Gradle@3
-        displayName: 'Build food-order server docker image'
-        inputs:
-          gradleWrapperFile: 'gradlew'
-          tasks: 'dockerBuild'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
-      - task: DockerCompose@1
-        displayName: 'Start Localstack'
-        inputs:
-          containerregistrytype: 'Azure Container Registry'
-          dockerComposeFile: 'docker-compose.yml'
-          projectName: 'localstack-food-order'
-          action: 'Run a Docker Compose command'
-          dockerComposeCommand: 'up'
-          arguments: '-d food-order-server'
-      - task: UseNode@1
-        inputs:
-          version: '22.x'
-          checkLatest: true
-        displayName: 'Setup Node.js'
-      - task: Npm@1
-        displayName: 'npm run ci'
-        inputs:
-          command: 'ci'
-          workingDir: './client'
+  - task: Gradle@3
+    displayName: 'Gradle Build'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'build'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      jdkArchitectureOption: 'x64'
 
-      - task: Bash@3
-        displayName: 'Install Playwright'
-        inputs:
-          targetType: inline
-          script: 'npx playwright install --with-deps'
+  - task: Gradle@3
+    displayName: 'Build food-order server docker image'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'dockerBuild'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
 
-      - task: Bash@3
-        displayName: 'Wait For Localstack Init Script To Finish'
-        inputs:
-          filePath: './scripts/wait_for_localstack_init_script_to_finish.sh'
+  - task: DockerCompose@1
+    displayName: 'Start Localstack'
+    inputs:
+      containerregistrytype: 'Azure Container Registry'
+      dockerComposeFile: 'docker-compose.yml'
+      projectName: 'localstack-food-order'
+      action: 'Run a Docker Compose command'
+      dockerComposeCommand: 'up'
+      arguments: '-d food-order-server'
 
-      - task: Npm@1
-        displayName: 'npm run e2e test'
-        inputs:
-          command: 'custom'
-          workingDir: './client'
-          customCommand: 'run e2e'
+  - task: UseNode@1
+    inputs:
+      version: '22.x'
+      checkLatest: true
+    displayName: 'Setup Node.js'
+  - task: Npm@1
+    displayName: 'npm run ci'
+    inputs:
+      command: 'ci'
+      workingDir: './client'
 
-      - task: Gradle@3
-        displayName: 'Integration Test'
-        inputs:
-          gradleWrapperFile: 'gradlew'
-          tasks: 'integrationTest'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: '1.17'
+  - task: Npm@1
+    displayName: 'npm run test:ci'
+    inputs:
+      command: 'custom'
+      workingDir: './client'
+      customCommand: 'run test:ci'
 
-      - task: DockerCompose@1
-        displayName: 'Dump Localstack Logs'
-        condition: failed()
-        inputs:
-          dockerComposeFile: 'docker-compose.yml'
-          projectName: 'localstack-food-order'
-          dockerComposeCommand: 'logs'
-          arguments: 'food-order-server'
-      
-      - task: DockerCompose@1
-        displayName: 'Dump FoodOrder logs'
-        condition: failed()
-        inputs:
-          dockerComposeFile: 'docker-compose.yml'
-          projectName: 'localstack-food-order'
-          dockerComposeCommand: 'logs'
-          arguments: 'localstack'
+  - task: Npm@1
+    displayName: 'npm run build'
+    inputs:
+      command: 'custom'
+      workingDir: './client'
+      customCommand: 'run build'
+
+  - task: Bash@3
+    displayName: 'Install Playwright'
+    inputs:
+      targetType: inline
+      script: 'npx playwright install --with-deps'
+
+  - task: Bash@3
+    displayName: 'Wait For Localstack Init Script To Finish'
+    inputs:
+      filePath: './scripts/wait_for_localstack_init_script_to_finish.sh'
+
+  - task: Npm@1
+    displayName: 'npm run e2e test'
+    inputs:
+      command: 'custom'
+      workingDir: './client'
+      customCommand: 'run e2e'
+
+  - task: Gradle@3
+    displayName: 'Gradle Test'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'test'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+
+  - task: Gradle@3
+    displayName: 'Integration Test'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      tasks: 'integrationTest'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+
+  - task: DockerCompose@1
+    displayName: 'Dump Localstack Logs'
+    condition: failed()
+    inputs:
+      dockerComposeFile: 'docker-compose.yml'
+      projectName: 'localstack-food-order'
+      dockerComposeCommand: 'logs'
+      arguments: 'food-order-server'
+
+  - task: DockerCompose@1
+    displayName: 'Dump FoodOrder logs'
+    condition: failed()
+    inputs:
+      dockerComposeFile: 'docker-compose.yml'
+      projectName: 'localstack-food-order'
+      dockerComposeCommand: 'logs'
+      arguments: 'localstack'
 
       
