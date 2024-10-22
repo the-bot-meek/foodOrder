@@ -6,7 +6,7 @@ trigger:
 
 variables:
   GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
-displayName: 'CI Tests'
+name: 'CI Tests'
 
 pool:
   vmImage: 'ubuntu-latest'
