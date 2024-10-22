@@ -57,6 +57,14 @@ jobs:
           dockerComposeCommand: 'up'
           arguments: '-d localstack'
 
+
+      - task: Cache@2
+        displayName: 'Gradle Cache'
+        inputs:
+          key: '"gradle" | "$(Agent.OS)" | build.gradle | gradle.properties'
+          path: '.gradle'
+          restoreKeys: '"gradle" | "$(Agent.OS)"'
+        
       - task: Gradle@3
         displayName: 'Gradle Build'
         inputs:
