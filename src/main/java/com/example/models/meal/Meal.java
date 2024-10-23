@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName = "primary_table")
 @DynamoDBDocument
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, defaultImpl = Meal.class)
 @JsonSubTypes({@JsonSubTypes.Type(value = Meal.class, name = "Meal"), @JsonSubTypes.Type(value = DraftMeal.class, name = "DraftMeal")})
 @Serdeable
 public class Meal implements Model {

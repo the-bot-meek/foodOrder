@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Introspected
 @JsonSerialize
-@Serdeable.Deserializable
+@Serdeable
 public record CreateOrderRequest(
         @NotNull
         Instant dateOfMeal,

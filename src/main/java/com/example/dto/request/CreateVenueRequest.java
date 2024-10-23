@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Introspected
 @JsonSerialize
-@Serdeable.Deserializable
+@Serdeable
 public record CreateVenueRequest(
         @NotEmpty
         @NotNull

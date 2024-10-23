@@ -2,10 +2,10 @@ package com.example.models.meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.micronaut.serde.annotation.Serdeable;
 
 @DynamoDBDocument
+@Serdeable
 public class MealConfig {
     private PrivateMealConfig privateMealConfig;
     private Boolean draft = false;
