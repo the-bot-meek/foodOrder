@@ -13,3 +13,13 @@ micronaut:
     endpoints:
       logout:
         get-allowed: true
+
+jackson:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+
+  serialization:
+    WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
+    WRITE_DATES_AS_TIMESTAMPS: true
+  serialization-inclusion: always
