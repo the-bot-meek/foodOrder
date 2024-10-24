@@ -1,4 +1,11 @@
 micronaut:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+  serde:
+    numeric-time-unit: nanoseconds
+    time-write-shape: integer
+
   application:
     name: sharedfoodorder
   security:

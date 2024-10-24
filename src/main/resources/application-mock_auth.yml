@@ -1,7 +1,4 @@
 micronaut:
-  deserialization:
-    readDateTimestampsAsNanoseconds: false
-    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   server:
     cors:
       enabled: true
