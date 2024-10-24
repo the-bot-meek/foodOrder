@@ -1,9 +1,8 @@
 package com.example.dto.request;
 
 import com.example.models.meal.MealConfig;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.core.annotation.Introspected;
+import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,6 +10,7 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Introspected
+@Serdeable
 public class CreateMealRequest {
         @NotNull
         @NotBlank

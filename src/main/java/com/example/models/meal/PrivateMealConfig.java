@@ -1,11 +1,13 @@
 package com.example.models.meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+import io.micronaut.serde.annotation.Serdeable;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @DynamoDBDocument
+@Serdeable
 public class PrivateMealConfig {
     private Set<String> recipientIds = new HashSet<>();
 

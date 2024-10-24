@@ -1,7 +1,4 @@
 micronaut:
-  deserialization:
-    readDateTimestampsAsNanoseconds: false
-    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   server:
     cors:
       enabled: true
@@ -25,13 +22,6 @@ endpoints:
   env:
     enabled: true
     sensitive: false
-jackson:
-  deserialization:
-    readDateTimestampsAsNanoseconds: false
-    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
-  serialization:
-    WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
-  serialization-inclusion: always
 
 mockAuthConfig:
   sessionLessStateAuth: ${STATELESS_SESSION_AUTH:true}

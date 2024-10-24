@@ -20,9 +20,11 @@ import com.example.services.IDynamoDBFacadeService
 import com.example.services.MealService
 import com.example.services.OrderService
 import com.example.services.VenueService
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.exceptions.HttpStatusException
 import io.micronaut.security.authentication.Authentication
+import io.micronaut.serde.ObjectMapper
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -41,6 +43,9 @@ class AnonymousOrderControllerSpec extends Specification{
 
     @Inject
     AnonymousOrderClient anonymousOrderClient
+
+    @Inject
+    ObjectMapper objectMapper
 
     private Authentication mockAuthentication(String name) {
         Authentication authentication = Mock(Authentication)
