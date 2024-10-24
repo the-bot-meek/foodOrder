@@ -1,7 +1,6 @@
 package com.example.dto.request;
 
 import com.example.models.MenuItem;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;
@@ -12,7 +11,6 @@ import java.time.Instant;
 import java.util.Set;
 
 @Introspected
-@JsonSerialize
 @Serdeable
 public record CreateOrderRequest(
         @NotNull

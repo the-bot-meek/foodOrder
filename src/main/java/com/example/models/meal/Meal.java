@@ -2,7 +2,6 @@ package com.example.models.meal;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.example.models.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
@@ -74,13 +73,11 @@ public class Meal implements Model {
     }
 
     @DynamoDBIgnore
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     public Instant getMealDate() {
         return mealDate;
     }
 
     @DynamoDBIgnore
-    @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
     public void setMealDate(Instant mealDate) {
         this.mealDate = mealDate;
     }
