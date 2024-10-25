@@ -1,3 +1,5 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
 plugins {
     id("groovy") 
     id("com.github.johnrengelman.shadow") version "8.1.1"
@@ -77,8 +79,13 @@ tasks.named("dockerfile") {
     baseImage("eclipse-temurin:17-jre-jammy")
 }
 
+// https://github.com/bmuschko/gradle-docker-plugin?tab=readme-ov-file
+tasks.named("dockerBuild", DockerBuildImage) {
+    images.set(["sharedfoodorder"])
+}
 
-task integrationTest(type: Test) {
+
+tasks.register('integrationTest', Test) {
     group = "verification"
     doFirst {
         environment("requireIntegrationTests", "true")
