@@ -9,7 +9,9 @@
       "datasourceTemplate": "maven",
       "depNameTemplate": "micronaut",
       "packageNameTemplate": "io.micronaut.platform:micronaut-platform",
-      "fileMatch": ["(^|/)gradle\\.properties"],
+      "fileMatch": [
+        "(^|/)gradle\\.properties"
+      ],
       "matchStrings": [
         "micronautVersion=(?<currentValue>[\\w+\\.\\-]*)"
       ]
@@ -17,8 +19,12 @@
   ],
   "packageRules": [
     {
-      "matchPackageNames": ["zone.js"],
-      "matchPaths": ["client/**"],
+      "matchPackageNames": [
+        "zone.js"
+      ],
+      "matchFileNames": [
+        "client/**"
+      ],
       "enabled": false
     }
   ]
