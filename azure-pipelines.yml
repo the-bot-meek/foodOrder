@@ -4,6 +4,8 @@ trigger:
     include:
       - main
 
+pr: none
+
 variables:
   GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
 name: 'CI Tests'
