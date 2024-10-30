@@ -7,17 +7,6 @@ micronaut:
           allowed-origins:
             - http://localhost:8080
             - http://localhost:4200
-  security:
-    redirect:
-      login-success: http://localhost:4200/login-success
-    authentication: cookie
-    oauth2:
-      clients:
-        auth0:
-          client-id: '${OAUTH_CLIENT_ID}'
-          client-secret: '${OAUTH_CLIENT_SECRET}'
-          openid:
-            issuer: 'https://${OAUTH_DOMAIN}/'
   dynamodb:
     primary_table:
       region: "eu-west-1"
