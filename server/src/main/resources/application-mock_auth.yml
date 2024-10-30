@@ -1,8 +1,19 @@
 micronaut:
+  server:
+    cors:
+      enabled: true
+      configurations:
+        ui:
+          allowed-origins:
+            - http://localhost:8080
+            - http://localhost:4200
   dynamodb:
     primary_table:
       region: "eu-west-1"
       endpoint: "http://${DYNAMODB_DOMAIN:localhost}:4566"
+  security:
+    oauth2:
+      enabled: false
 
 endpoints:
   routes:
