@@ -11,6 +11,9 @@ micronaut:
     primary_table:
       region: "eu-west-1"
       endpoint: "http://${DYNAMODB_DOMAIN:localhost}:4566"
+  security:
+    redirect:
+      login-success: http://localhost:4200/login-success
 
 endpoints:
   routes:
