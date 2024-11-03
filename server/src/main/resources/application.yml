@@ -1,9 +1,6 @@
 micronaut:
-  deserialization:
-    readDateTimestampsAsNanoseconds: false
-    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   serde:
-    numeric-time-unit: nanoseconds
+    numeric-time-unit: milliseconds
     time-write-shape: integer
 
   application:
@@ -13,10 +10,10 @@ micronaut:
     oauth2:
       clients:
         auth0:
-          client-id: '${OAUTH_CLIENT_ID:xxx}'
-          client-secret: '${OAUTH_CLIENT_SECRET:yyy}'
+          client-id: '${OAUTH_CLIENT_ID}'
+          client-secret: '${OAUTH_CLIENT_SECRET}'
           openid:
-            issuer: 'https://${OAUTH_DOMAIN:micronautguides.eu.auth0.com}/'
+            issuer: 'https://${OAUTH_DOMAIN}/'
     endpoints:
       logout:
         get-allowed: true

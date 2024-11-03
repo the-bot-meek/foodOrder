@@ -4,6 +4,8 @@ trigger:
     include:
       - main
 
+pr: none
+
 variables:
   GRADLE_USER_HOME: $(Pipeline.Workspace)/.gradle
 name: 'CI Tests'
@@ -18,7 +20,7 @@ steps:
   - task: Cache@2
     displayName: 'Gradle Cache'
     inputs:
-      key: '"gradle" | "$(Agent.OS)" | gradle.properties | build.gradle'
+      key: '"gradle" | "$(Agent.OS)" | gradle.properties | server/build.gradle'
       path: $(GRADLE_USER_HOME)
       restoreKeys: '"gradle" | "$(Agent.OS)"'
 

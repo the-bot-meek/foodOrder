@@ -16,6 +16,6 @@ public class InstantTimestampDeserializer implements Deserializer<Instant> {
     @Override
     public @Nullable Instant deserialize(@NonNull Decoder decoder, DecoderContext context, @NonNull Argument<? super Instant> type) throws IOException {
         long timestamp = decoder.decodeLong();
-        return Instant.ofEpochMilli(timestamp / 1000000);
+        return Instant.ofEpochMilli(timestamp);
     }
 }
