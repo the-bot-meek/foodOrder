@@ -1,9 +1,6 @@
 micronaut:
-  deserialization:
-    readDateTimestampsAsNanoseconds: false
-    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
   serde:
-    numeric-time-unit: nanoseconds
+    numeric-time-unit: milliseconds
     time-write-shape: integer
 
   application:

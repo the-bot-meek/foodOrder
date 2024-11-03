@@ -29,6 +29,7 @@ class MealIntegrationSpec extends Specification {
 
         then:
         assert meal.getMealDate() == Instant.ofEpochSecond(1711405066)
+        assert meal.getSortKey().startsWith("2024-03-25T22:17:46Z")
         assert meal.getUid() == "steven"
         assert meal.getName() == "name"
         assert meal.getVenueName() == "MacD"
@@ -47,6 +48,7 @@ class MealIntegrationSpec extends Specification {
 
         then:
         assert meal.getMealDate() == Instant.ofEpochSecond(1711405066)
+        assert meal.getSortKey().startsWith("2024-03-25T22:17:46Z")
         assert meal.getUid() == "steven"
         assert meal.getName() == "name"
         assert meal.getVenueName() == "MacD"
@@ -65,6 +67,7 @@ class MealIntegrationSpec extends Specification {
 
         then:
         assert meal.getMealDate() == Instant.ofEpochSecond(1711405066)
+        assert meal.getSortKey().startsWith("2024-03-25T22:17:46Z")
         assert meal.getUid() == "steven"
         assert meal.getName() == "name"
         assert meal.getVenueName() == "MacD"
