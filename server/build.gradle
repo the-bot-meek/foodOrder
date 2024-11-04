@@ -38,7 +38,7 @@ dependencies {
     implementation("io.micronaut:micronaut-management")
     implementation 'com.amazonaws:aws-java-sdk-dynamodb'
     implementation("io.micronaut:micronaut-management")
-    testImplementation 'net.bytebuddy:byte-buddy:1.15.9'
+    testImplementation 'net.bytebuddy:byte-buddy:1.15.10'
     testImplementation 'org.objenesis:objenesis:3.4'
 }
 
