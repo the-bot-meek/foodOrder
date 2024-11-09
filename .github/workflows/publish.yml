@@ -34,10 +34,7 @@ jobs:
         run: docker tag sharedfoodorder:latest thebotmeek/food_order_app
 
       - name: Build client image
-        run: docker build ./client
-
-      - name: Docker Tag Server
-        run: docker tag foodorderclient:latest thebotmeek/food_order_client
+        run: docker build ./client -t thebotmeek/food_order_client
 
       - name: Log in to Docker Hub
         uses: docker/login-action@7ca345011ac4304463197fac0e56eab1bc7e6af0
