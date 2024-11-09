@@ -9,7 +9,6 @@ services:
   localstack:
     container_name: 'localstack'
     image: "localstack/localstack"
-#    hostname: "localstack"
     ports:
       - "4566:4566"
     networks:
@@ -41,7 +40,7 @@ services:
       retries: 3
       start_period: 15s
     deploy:
-      replicas: 2
+      replicas: ${FOOD_ORDER_REPLICAS:-1}
     depends_on:
       - localstack
   food-order-client:
