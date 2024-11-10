@@ -27,17 +27,16 @@ jobs:
       - name: Run tests
         run: ./gradlew test --no-daemon
 
-      - name: Build Server Image
-        run: ./gradlew dockerBuild
-
-      - name: Docker Tag Server
-        run: docker tag sharedfoodorder:latest thebotmeek/food_order_app
-
-      - name: Build client image
-        run: docker build ./client
-
-      - name: Docker Tag Server
-        run: docker tag foodorderclient:latest thebotmeek/food_order_client
+      - name: Set up Docker
+        uses: crazy-max/ghaction-setup-docker@v3
+        with:
+          daemon-config: |
+            {
+              "debug": true,
+              "features": {
+                "containerd-snapshotter": true
+              }
+            }
 
       - name: Log in to Docker Hub
         uses: docker/login-action@7ca345011ac4304463197fac0e56eab1bc7e6af0
@@ -45,8 +44,22 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_KEY }}
 
-      - name: Docker Push Server
-        run: docker push thebotmeek/food_order_app
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Docker Push Client
-        run: docker push thebotmeek/food_order_client
+      - name: Build Server Image
+        run: ./gradlew dockerfile
+
+      - name: Build and push server image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server/build/docker/main
+          push: true
+          tags: thebotmeek/food_order_app
+
+      - name: Build and push client image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          push: true
+          tags: thebotmeek/food_order_client
