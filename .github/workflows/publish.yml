@@ -53,6 +53,7 @@ jobs:
       - name: Build and push server image
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           context: ./server/build/docker/main
           push: true
           tags: thebotmeek/food_order_app
@@ -60,6 +61,7 @@ jobs:
       - name: Build and push client image
         uses: docker/build-push-action@v6
         with:
+          platforms: linux/amd64,linux/arm64
           context: ./client
           push: true
           tags: thebotmeek/food_order_client
