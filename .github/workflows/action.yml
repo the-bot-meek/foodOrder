@@ -61,6 +61,10 @@ jobs:
 
       - name: Run integration test
         run: ./gradlew integrationTest
+
+      - name: Dump localstack logs
+        if: failure()
+        run: docker logs localstack
   client-e2e-test:
     runs-on: ubuntu-latest
     steps:
