@@ -100,7 +100,7 @@ jobs:
         run: npm --prefix ./client ci
 
       - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+        run: npx --prefix ./client playwright install --with-deps
 
       - name: Wait for localstack init script to finish
         run: bash scripts/wait_for_localstack_init_script_to_finish.sh
