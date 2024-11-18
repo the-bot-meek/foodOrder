@@ -8,7 +8,7 @@ networks:
 services:
   localstack:
     container_name: 'localstack'
-    image: "localstack/localstack"
+    image: "localstack/localstack:stable"
     ports:
       - "4566:4566"
     networks:
