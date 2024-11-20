@@ -8,16 +8,15 @@ import {MealOverviewComponent} from "../../meal/meal-overview/meal-overview.comp
 import {MealDetailsComponent} from "../../meal/meal-details/meal-details.component";
 
 @Component({
-  selector: 'app-accredited-order',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    JsonPipe,
-    MealOverviewComponent,
-    MealDetailsComponent
-  ],
-  templateUrl: './accredited-order.component.html',
-  styleUrl: './accredited-order.component.scss'
+    selector: 'app-accredited-order',
+    imports: [
+        AsyncPipe,
+        JsonPipe,
+        MealOverviewComponent,
+        MealDetailsComponent
+    ],
+    templateUrl: './accredited-order.component.html',
+    styleUrl: './accredited-order.component.scss'
 })
 export class AccreditedOrderComponent implements OnInit {
   private mealId: string

@@ -23,26 +23,25 @@ import {IUser} from "../../../../models/IUser";
 
 
 @Component({
-  selector: 'app-shell',
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    LayoutModule,
-    MatSidenavModule,
-    MatListModule,
-    MatMenuModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSnackBarModule,
-    AsyncPipe,
-    NgIf
-  ],
-  templateUrl: './shell.component.html',
-  styleUrl: './shell.component.scss'
+    selector: 'app-shell',
+    imports: [
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        LayoutModule,
+        MatSidenavModule,
+        MatListModule,
+        MatMenuModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSnackBarModule,
+        AsyncPipe,
+        NgIf
+    ],
+    templateUrl: './shell.component.html',
+    styleUrl: './shell.component.scss'
 })
 export class ShellComponent {
   isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset])

@@ -8,18 +8,17 @@ import {MatButton} from "@angular/material/button";
 import {MealDetailsComponent} from "../meal-details/meal-details.component";
 
 @Component({
-  selector: 'app-overview',
-  standalone: true,
-  imports: [
-    JsonPipe,
-    AsyncPipe,
-    NgIf,
-    DatePipe,
-    MatButton,
-    MealDetailsComponent
-  ],
-  templateUrl: './meal-overview.component.html',
-  styleUrl: './meal-overview.component.scss'
+    selector: 'app-overview',
+    imports: [
+        JsonPipe,
+        AsyncPipe,
+        NgIf,
+        DatePipe,
+        MatButton,
+        MealDetailsComponent
+    ],
+    templateUrl: './meal-overview.component.html',
+    styleUrl: './meal-overview.component.scss'
 })
 export class MealOverviewComponent implements OnInit {
   meal: Observable<IMeal>;

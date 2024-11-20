@@ -17,27 +17,26 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {map} from "rxjs/operators";
 
 @Component({
-  selector: 'app-add-venue-dialog',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatDateRangeInput,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatSelect,
-    MatOption,
-    MatButton,
-    JsonPipe,
-    MatDialogTitle,
-    MatDialogContent,
-    MenuItemListComponent,
-    MatIcon,
-    MatIconButton,
-    MatDialogClose
-  ],
-  templateUrl: './add-venue-dialog.component.html',
-  styleUrl: './add-venue-dialog.component.scss'
+    selector: 'app-add-venue-dialog',
+    imports: [
+        ReactiveFormsModule,
+        MatDateRangeInput,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatSelect,
+        MatOption,
+        MatButton,
+        JsonPipe,
+        MatDialogTitle,
+        MatDialogContent,
+        MenuItemListComponent,
+        MatIcon,
+        MatIconButton,
+        MatDialogClose
+    ],
+    templateUrl: './add-venue-dialog.component.html',
+    styleUrl: './add-venue-dialog.component.scss'
 })
 export class AddVenueDialogComponent {
   locations: string[] = ['London', 'Kirkwall']
