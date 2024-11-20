@@ -44,7 +44,7 @@ dependencies {
 
 
 application {
-    mainClass.set("com.foodorder.server")
+    mainClass.set("com.foodorder.server.Application")
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
