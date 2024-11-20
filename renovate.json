@@ -16,16 +16,5 @@
         "micronautVersion=(?<currentValue>[\\w+\\.\\-]*)"
       ]
     }
-  ],
-  "packageRules": [
-    {
-      "matchPackageNames": [
-        "zone.js"
-      ],
-      "matchFileNames": [
-        "client/**"
-      ],
-      "enabled": false
-    }
   ]
 }
