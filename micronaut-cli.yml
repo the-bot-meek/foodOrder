@@ -1,5 +1,5 @@
 applicationType: default
-defaultPackage: com.example
+defaultPackage: com.foodorder.server
 testFramework: spock
 sourceLanguage: java
 buildTool: gradle
