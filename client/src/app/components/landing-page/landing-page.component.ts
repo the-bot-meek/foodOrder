@@ -7,16 +7,15 @@ import {MatTableModule} from "@angular/material/table";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-landing-page',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    JsonPipe,
-    MatTableModule,
-    DatePipe
-  ],
-  templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.scss'
+    selector: 'app-landing-page',
+    imports: [
+        AsyncPipe,
+        JsonPipe,
+        MatTableModule,
+        DatePipe
+    ],
+    templateUrl: './landing-page.component.html',
+    styleUrl: './landing-page.component.scss'
 })
 export class LandingPageComponent implements OnInit {
   meals: Observable<IMeal[]>

@@ -4,12 +4,10 @@ import {IMeal} from "../../../../../models/meal";
 import {AsyncPipe, DatePipe, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {map} from "rxjs/operators";
-import {UserService} from "../../../shared/api/user.service";
 import {AuthService} from "../../../shared/services/auth/auth.service";
 
 @Component({
   selector: 'app-meal-details',
-  standalone: true,
   imports: [
     AsyncPipe,
     DatePipe,
@@ -17,6 +15,7 @@ import {AuthService} from "../../../shared/services/auth/auth.service";
     NgIf
   ],
   templateUrl: './meal-details.component.html',
+  standalone: true,
   styleUrl: './meal-details.component.scss'
 })
 export class MealDetailsComponent implements OnInit {

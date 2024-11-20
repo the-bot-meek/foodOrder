@@ -26,27 +26,26 @@ import {UUIDService} from "../../../shared/utils/uuid.service";
 
 
 @Component({
-  selector: 'app-add-meal-dialog',
-  standalone: true,
-  imports: [
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatButton,
-    MatDialogClose,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatNativeDateModule,
-    MatOption,
-    MatSelect,
-    MatIcon,
-    MatCheckbox
-  ],
-  templateUrl: './add-meal-dialog.component.html',
-  styleUrl: './add-meal-dialog.component.scss'
+    selector: 'app-add-meal-dialog',
+    imports: [
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions,
+        MatButton,
+        MatDialogClose,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatNativeDateModule,
+        MatOption,
+        MatSelect,
+        MatIcon,
+        MatCheckbox
+    ],
+    templateUrl: './add-meal-dialog.component.html',
+    styleUrl: './add-meal-dialog.component.scss'
 })
 export class AddMealDialogComponent {
   venues: IVenue[] = []
