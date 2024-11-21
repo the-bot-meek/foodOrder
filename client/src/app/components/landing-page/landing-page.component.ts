@@ -2,15 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {MealService} from "../../shared/api/meal.service";
 import {Observable} from "rxjs";
 import {IMeal} from "../../../../models/meal";
-import {AsyncPipe, DatePipe, JsonPipe} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
 import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-landing-page',
     imports: [
-        AsyncPipe,
-        JsonPipe,
         MatTableModule,
         DatePipe
     ],

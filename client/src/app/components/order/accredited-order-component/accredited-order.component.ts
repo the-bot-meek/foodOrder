@@ -3,16 +3,11 @@ import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs";
 import {IMeal} from "../../../../../models/meal";
 import {VenueService} from "../../../shared/api/venue.service";
-import {AsyncPipe, JsonPipe} from "@angular/common";
-import {MealOverviewComponent} from "../../meal/meal-overview/meal-overview.component";
 import {MealDetailsComponent} from "../../meal/meal-details/meal-details.component";
 
 @Component({
     selector: 'app-accredited-order',
     imports: [
-        AsyncPipe,
-        JsonPipe,
-        MealOverviewComponent,
         MealDetailsComponent
     ],
     templateUrl: './accredited-order.component.html',

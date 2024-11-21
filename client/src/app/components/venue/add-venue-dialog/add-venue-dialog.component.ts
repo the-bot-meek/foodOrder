@@ -5,12 +5,10 @@ import {ICreateVenueRequest} from "../../../../../models/venue";
 import {VenueService} from "../../../shared/api/venue.service";
 import {IMenuItems} from "../../../../../models/menuItems";
 import {MatOption} from "@angular/material/autocomplete";
-import {MatDateRangeInput} from "@angular/material/datepicker";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatSelect} from "@angular/material/select";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {JsonPipe} from "@angular/common";
 import {MenuItemListComponent} from "../menu-item-list/menu-item-list.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -20,14 +18,12 @@ import {map} from "rxjs/operators";
     selector: 'app-add-venue-dialog',
     imports: [
         ReactiveFormsModule,
-        MatDateRangeInput,
         MatFormField,
         MatInput,
         MatLabel,
         MatSelect,
         MatOption,
         MatButton,
-        JsonPipe,
         MatDialogTitle,
         MatDialogContent,
         MenuItemListComponent,
