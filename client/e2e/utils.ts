@@ -1,6 +1,8 @@
 import {ICreateVenueRequest} from "../models/venue";
-import {Page} from "@playwright/test";
+import {Locator, Page} from "@playwright/test";
 import {ICreateMealRequest} from "../models/ICreateMealRequest";
+import {IMeal} from "../models/meal";
+import * as path from "node:path";
 
 export async function populateAddVenueDialog(createVenueRequest: ICreateVenueRequest, page: Page) {
   await page.getByTestId('venue-name-input').fill(createVenueRequest.name)
@@ -40,4 +42,8 @@ export async function populateAddMealDialog(createMealRequest: ICreateMealReques
 export async function openAddDialog(dialogName: 'meal' | 'venue', page: Page) {
   const addVenueBtn = page.getByTestId(`open-add-${dialogName}-btn-dialog`)
   await addVenueBtn.click()
+}
+
+export async function getMealTableCellFromTableRow(cellTestId: string, tableRow: Locator) {
+  return tableRow.getByTestId(`meal-table-${cellTestId}-cell`)
 }
