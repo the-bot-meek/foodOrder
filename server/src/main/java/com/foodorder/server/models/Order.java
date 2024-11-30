@@ -1,19 +1,19 @@
 package com.foodorder.server.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.foodorder.server.dynamodbTypeConverters.MenuItemSetConverter;
 import com.foodorder.server.models.meal.Meal;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
-@DynamoDBTable(tableName = "order_table")
-@DynamoDBDocument
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes({@JsonSubTypes.Type(value = Order.class, name = "Order"), @JsonSubTypes.Type(value = AnonymousOrder.class, name = "AnonymousOrder")})
+@DynamoDbBean
 @Serdeable
 public class Order implements Model {
     private String id;
@@ -42,7 +42,6 @@ public class Order implements Model {
         this.meal = new Meal();
     }
 
-    @DynamoDBAttribute
     public String getId() {
         return id;
     }
@@ -51,7 +50,6 @@ public class Order implements Model {
         this.id = id;
     }
 
-    @DynamoDBAttribute
     public Meal getMeal() {
         return meal;
     }
@@ -60,9 +58,10 @@ public class Order implements Model {
         this.meal = meal;
     }
 
-
-    @DynamoDBHashKey(attributeName = "meal_id")
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "uid_gsi", attributeName = "meal_id")
+    @Override
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("meal_id")
+    @DynamoDbSecondarySortKey(indexNames = "uid_gsi")
     public String getPrimaryKey() {
         return "Order_" + meal.getId();
     }
@@ -71,7 +70,9 @@ public class Order implements Model {
         this.meal.setId(pk.replace("Order_", ""));
     }
 
-    @DynamoDBRangeKey(attributeName = "date_of_meal")
+    @Override
+    @DynamoDbAttribute("date_of_meal")
+    @DynamoDbSortKey
     public String getSortKey() {
         if (meal.getMealDate() == null) return null;
         return meal.getMealDate().toString();
@@ -81,7 +82,8 @@ public class Order implements Model {
         this.meal.setMealDate(Instant.parse(sk));
     }
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "uid_gsi", attributeName = "uid")
+    @DynamoDbAttribute("uid")
+    @DynamoDbSecondaryPartitionKey(indexNames = "uid_gsi")
     public String getGSIPrimaryKey() {
         return "Order_" + uid;
     }
@@ -90,17 +92,17 @@ public class Order implements Model {
         uid = primaryKeyGSI.replace("Order_", "");
     }
 
-    @DynamoDBIgnore
+    @DynamoDbIgnore
     public String getUid() {
         return uid;
     }
 
-    @DynamoDBIgnore
+    @DynamoDbIgnore
     public void setUid(String uid) {
         this.uid = uid;
     }
 
-    @DynamoDBAttribute
+    @DynamoDbConvertedBy(MenuItemSetConverter.class)
     public Set<MenuItem> getMenuItems() {
         return menuItems;
     }
@@ -110,7 +112,6 @@ public class Order implements Model {
     }
 
 
-    @DynamoDBAttribute
     public String getParticipantsName() {
         return participantsName;
     }
@@ -124,7 +125,6 @@ public class Order implements Model {
         return submitted;
     }
 
-    @DynamoDBAttribute
     public void setSubmitted(boolean submitted) {
         this.submitted = submitted;
     }

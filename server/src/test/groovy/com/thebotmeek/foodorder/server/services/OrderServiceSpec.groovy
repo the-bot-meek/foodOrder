@@ -1,20 +1,20 @@
 package com.thebotmeek.foodorder.server.services
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression
 import com.foodorder.server.models.AnonymousOrder
 import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.services.DynamoDBFacadeService
+import com.foodorder.server.services.IDynamoDBFacadeService
 import com.foodorder.server.services.OrderService
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import spock.lang.Specification
 
 
 class OrderServiceSpec extends Specification {
-    DynamoDBFacadeService dynamoDBFacadeService
+    IDynamoDBFacadeService dynamoDBFacadeService
     OrderService orderService
 
     def "setup"() {
-        dynamoDBFacadeService = Mock(DynamoDBFacadeService)
+        dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         orderService = new OrderService(dynamoDBFacadeService)
     }
 
@@ -40,7 +40,7 @@ class OrderServiceSpec extends Specification {
         Optional<AnonymousOrder> anonymousOrder = orderService.getAnonymousOrder(uid, mealId)
 
         then:
-        1 * dynamoDBFacadeService.query(AnonymousOrder.class, _ as DynamoDBQueryExpression) >> anonymousOrderList
+        1 * dynamoDBFacadeService.queryWithIndex(AnonymousOrder.class, _ as QueryConditional, "uid_gsi") >> anonymousOrderList
         assert anonymousOrder.isPresent()
         assert anonymousOrder.get() == anonymousOrderList[0]
     }
@@ -54,7 +54,7 @@ class OrderServiceSpec extends Specification {
         Optional<AnonymousOrder> anonymousOrder = orderService.getAnonymousOrder(uid, mealId)
 
         then:
-        1 * dynamoDBFacadeService.query(AnonymousOrder.class, _ as DynamoDBQueryExpression) >> anonymousOrderList
+        1 * dynamoDBFacadeService.queryWithIndex(AnonymousOrder.class, _ as QueryConditional, "uid_gsi")>> anonymousOrderList
         assert anonymousOrder.isEmpty()
     }
 
@@ -67,7 +67,7 @@ class OrderServiceSpec extends Specification {
         List<Order> orders = orderService.listOrdersFromUserID(userId)
 
         then:
-        1 * dynamoDBFacadeService.query(Order, _ as DynamoDBQueryExpression) >> orderList
+        1 * dynamoDBFacadeService.queryWithIndex(Order.class, _ as QueryConditional, "uid_gsi") >> orderList
         assert orders == orderList
     }
 
@@ -79,7 +79,7 @@ class OrderServiceSpec extends Specification {
         orderService.deleteAllOrdersForMeal(mealId)
 
         then:
-        1 * dynamoDBFacadeService.query(Order, _ as DynamoDBQueryExpression) >> orders
+        1 * dynamoDBFacadeService.query(Order, _ as QueryConditional) >> orders
         1 * dynamoDBFacadeService.batchDelete(orders)
     }
 }

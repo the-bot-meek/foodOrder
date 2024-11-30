@@ -1,12 +1,14 @@
 package com.foodorder.server.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.foodorder.server.dynamodbTypeConverters.MenuItemSetConverter;
 import io.micronaut.serde.annotation.Serdeable;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 import java.util.Objects;
 import java.util.Set;
 
-@DynamoDBTable(tableName = "primary_table")
+
+@DynamoDbBean
 @Serdeable
 public class Venue implements Model {
     private String id;
@@ -27,7 +29,8 @@ public class Venue implements Model {
 
     }
 
-    @DynamoDBHashKey(attributeName = "pk")
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("pk")
     public String getPrimaryKey() {
         return "Venue_" + this.location;
     }
@@ -37,6 +40,8 @@ public class Venue implements Model {
     }
 
     @Override
+    @DynamoDbAttribute("sk")
+    @DynamoDbSortKey
     public String getSortKey() {
         return name;
     }
@@ -46,7 +51,6 @@ public class Venue implements Model {
         name = sortKey;
     }
 
-    @DynamoDBAttribute
     public String getId() {
         return id;
     }
@@ -55,7 +59,7 @@ public class Venue implements Model {
         this.id = id;
     }
 
-    @DynamoDBRangeKey(attributeName = "sk")
+
     public String getName() {
         return name;
     }
@@ -64,7 +68,7 @@ public class Venue implements Model {
         this.name = name;
     }
 
-    @DynamoDBIgnore
+
     public String getLocation() {
         return location;
     }
@@ -73,7 +77,7 @@ public class Venue implements Model {
         this.location = location;
     }
 
-    @DynamoDBAttribute
+
     public String getDescription() {
         return description;
     }
@@ -82,7 +86,7 @@ public class Venue implements Model {
         this.description = description;
     }
 
-    @DynamoDBAttribute
+    @DynamoDbConvertedBy(MenuItemSetConverter.class)
     public Set<MenuItem> getMenuItems() {
         return menuItems;
     }

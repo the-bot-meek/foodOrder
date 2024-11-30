@@ -1,18 +1,17 @@
 package com.foodorder.server.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import io.micronaut.serde.annotation.Serdeable;
-
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import java.util.Objects;
 
 
 @Serdeable
-@DynamoDBDocument
 public class MenuItem {
     private String name;
     private String description;
     private Double price;
 
+    @DynamoDbAttribute("name")
     public String getName() {
         return name;
     }
@@ -21,6 +20,7 @@ public class MenuItem {
         this.name = name;
     }
 
+    @DynamoDbAttribute("description")
     public String getDescription() {
         return description;
     }
@@ -33,6 +33,7 @@ public class MenuItem {
         return price;
     }
 
+    @DynamoDbAttribute("price")
     public void setPrice(Double price) {
         this.price = price;
     }

@@ -1,12 +1,17 @@
 package com.thebotmeek.foodorder.server.integration
 
 import com.foodorder.server.client.MealClient
+import com.foodorder.server.client.OrderClient
+import com.foodorder.server.client.VenueClient
+import com.foodorder.server.models.MenuItem
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.DraftMeal
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.models.Order
+import com.foodorder.server.request.CreateOrderRequest
+import com.foodorder.server.request.CreateVenueRequest
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -20,6 +25,13 @@ import java.time.Instant
 class MealIntegrationSpec extends Specification {
     @Inject
     MealClient mealClient
+
+    @Inject
+    OrderClient orderClient
+
+    @Inject
+    VenueClient venueClient
+
     def "Add meal"() {
         given:
         CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig())
@@ -113,12 +125,21 @@ class MealIntegrationSpec extends Specification {
         assert mealList.every {Meal meal -> meal.uid == "steven"}
     }
 
+    // Need to refactor the order query before this will work
     def "Ensure meal is deleted"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "name", mealConfig: new MealConfig())
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
+
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.0)]
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description")
+        venueClient.addVenue(createVenueRequest)
+
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(meal.getMealDate(), meal.getId(), menuItems, meal.getUid())
+        orderClient.addOrder(createOrderRequest)
+
         mealClient.deleteMeal(
                 meal.getMealDate(),
                 meal.getId()

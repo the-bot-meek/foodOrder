@@ -1,11 +1,13 @@
 package com.foodorder.server.models;
 
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBIndexHashKey;
 import com.foodorder.server.models.meal.Meal;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;
 
 import java.util.Set;
 
+@DynamoDbBean
 public class AnonymousOrder extends Order {
     public AnonymousOrder() {
 
@@ -15,7 +17,9 @@ public class AnonymousOrder extends Order {
         super(id, meal, uid, participantsName, menuItems);
     }
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "uid_gsi", attributeName = "uid")
+    @Override
+    @DynamoDbAttribute("uid")
+    @DynamoDbSecondaryPartitionKey(indexNames = "uid_gsi")
     public String getGSIPrimaryKey() {
         return "AnonymousOrder_" + uid;
     }

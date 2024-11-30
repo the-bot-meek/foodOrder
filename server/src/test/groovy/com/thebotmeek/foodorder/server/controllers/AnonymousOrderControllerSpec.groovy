@@ -10,6 +10,7 @@ import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.models.meal.PrivateMealConfig
+import com.foodorder.server.services.IDynamoDBFacadeService
 import com.foodorder.server.services.MealService
 import com.foodorder.server.services.OrderService
 import io.micronaut.http.HttpResponse
@@ -31,6 +32,12 @@ class AnonymousOrderControllerSpec extends Specification {
         mealService = Mock(MealService)
         createOrderRequestConverter = Mock(CreateOrderRequestConverter)
         anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
+    }
+
+    private Authentication mockAuthentication(String name) {
+        Authentication authentication = Mock(Authentication)
+        authentication.getName() >> name
+        return authentication
     }
 
     def "test adding an Anonymous Order"() {
@@ -130,5 +137,49 @@ class AnonymousOrderControllerSpec extends Specification {
 
         HttpStatusException httpStatusException = thrown(HttpStatusException)
         assert httpStatusException.status == HttpStatus.BAD_REQUEST
+    }
+
+    def "Add orders for Meal"() {
+        given:
+        final String uid = "ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd"
+        PrivateMealConfig privateMealConfig = new PrivateMealConfig(["12345"] as Set)
+        Meal meal = new Meal(
+                id: uid, name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD", mealConfig: new MealConfig(privateMealConfig: privateMealConfig)
+        )
+
+        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
+        OrderService orderService = new OrderService(dynamoDBFacadeService)
+        Authentication authentication = mockAuthentication(uid)
+        MealService mealService = new MealService(dynamoDBFacadeService)
+        AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
+
+        when:
+        orderController.addOrdersForMeal(meal.getMealDate(), meal.getId(), authentication)
+
+        then:
+        1 * dynamoDBFacadeService.batchSave(_)
+
+        1 * dynamoDBFacadeService.load(Meal.class, "Meal_" + uid, "2024-03-25T22:17:46Z_ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd") >> {
+            Optional.of(meal)
+        }
+    }
+
+    def "Adding orders for a non existent Meal throws MissingOrderLinkedEntityException"() {
+        given:
+        final String uid = "ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd"
+
+        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
+        Authentication authentication = mockAuthentication(uid)
+        1 * dynamoDBFacadeService.load(*_) >> {
+            Optional.empty()
+        }
+        MealService mealService = new MealService(dynamoDBFacadeService)
+        AnonymousOrderController orderController = new AnonymousOrderController(null, mealService, null)
+
+        when:
+        orderController.addOrdersForMeal(Instant.ofEpochSecond(1722804502), "Invalid Id", authentication)
+
+        then:
+        thrown(MissingMealLinkedEntityException)
     }
 }
