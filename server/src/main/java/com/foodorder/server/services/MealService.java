@@ -1,12 +1,13 @@
 package com.foodorder.server.services;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.foodorder.server.models.meal.DraftMeal;
 import com.foodorder.server.models.meal.Meal;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 
 import java.time.Instant;
 import java.util.*;
@@ -15,7 +16,7 @@ import java.util.*;
 public class MealService {
     private final Logger log = LoggerFactory.getLogger(MealService.class);
     private final IDynamoDBFacadeService dynamoDBFacadeService;
-    public MealService(IDynamoDBFacadeService dynamoDBFacadeService) {
+    public MealService(@Named("primary-table") IDynamoDBFacadeService dynamoDBFacadeService) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
 
@@ -27,35 +28,23 @@ public class MealService {
     public List<Meal> getListOfMeals(String uid) {
         final String pk = "Meal_" + uid;
         log.trace("Getting all meals for uid:{}", pk);
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":PK", new AttributeValue().withS(pk));
-        DynamoDBQueryExpression<Meal> dynamoDBQueryExpression = new DynamoDBQueryExpression<Meal>()
-                .withKeyConditionExpression("pk = :PK")
-                .withExpressionAttributeValues(eav);
-        return dynamoDBFacadeService.query(Meal.class, dynamoDBQueryExpression);
+        Key key = Key.builder().partitionValue(pk).build();
+        QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
+        return dynamoDBFacadeService.query(Meal.class, queryConditional);
     }
 
     public List<DraftMeal> getListOfDraftMeals(String uid) {
         final String pk = "DraftMeal_" + uid;
         log.trace("Getting all meals for uid:{}", pk);
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":PK", new AttributeValue().withS(pk));
-        DynamoDBQueryExpression<DraftMeal> dynamoDBQueryExpression = new DynamoDBQueryExpression<DraftMeal>()
-                .withKeyConditionExpression("pk = :PK")
-                .withExpressionAttributeValues(eav);
-        return dynamoDBFacadeService.query(DraftMeal.class, dynamoDBQueryExpression);
+        Key key = Key.builder().partitionValue(pk).build();
+        QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
+        return dynamoDBFacadeService.query(DraftMeal.class, queryConditional);
     }
 
     public Optional<Meal> getMealByVenueNameAndMealId(String venueName, String mealId) {
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":venueName", new AttributeValue().withS(venueName));
-        eav.put(":mealId", new AttributeValue().withS(mealId));
-        DynamoDBQueryExpression<Meal> dynamoDBQueryExpression = new DynamoDBQueryExpression<Meal>()
-                .withIndexName("gsi")
-                .withConsistentRead(false)
-                .withKeyConditionExpression("gsi_pk = :venueName and gsi_sk = :mealId")
-                .withExpressionAttributeValues(eav);
-        List<Meal> meals = dynamoDBFacadeService.query(Meal.class, dynamoDBQueryExpression);
+        Key key = Key.builder().partitionValue(venueName).sortValue(mealId).build();
+        QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
+        List<Meal> meals = dynamoDBFacadeService.queryWithIndex(Meal.class, queryConditional, "gsi");
         if (meals.isEmpty()) {
             return Optional.empty();
         }
@@ -64,17 +53,17 @@ public class MealService {
 
     public Optional<Meal> getMeal(String originatorUid, Instant mealDate, String mealId) {
         log.trace("Getting Meal originatorUid: {}, mealDate: {}, mealId: {}", originatorUid, mealDate, mealId);
-        return dynamoDBFacadeService.load(Meal.class, originatorUid, mealDate + "_" + mealId);
+        return this.getMeal(originatorUid, mealDate + "_" + mealId);
     }
 
     public Optional<DraftMeal> getDraftMeal(String pk, String sk) {
         log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
-        return dynamoDBFacadeService.load(DraftMeal.class, pk, sk);
+        return dynamoDBFacadeService.load(DraftMeal.class, "DraftMeal_" + pk, sk);
     }
 
-    public Optional<Meal> getMeal(String pk, String sk) {
-        log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
-        return dynamoDBFacadeService.load(Meal.class, pk, sk);
+    public Optional<Meal> getMeal(String uid, String sk) {
+        log.trace("Getting Meal UID: {}, SK: {}", uid, sk);
+        return dynamoDBFacadeService.load(Meal.class, "Meal_" + uid, sk);
     }
 
     public void deleteMeal(String uid, Instant mealDate, String id) {

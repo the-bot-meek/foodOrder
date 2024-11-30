@@ -29,15 +29,13 @@ dependencies {
     implementation("io.micronaut.security:micronaut-security-oauth2")
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("jakarta.validation:jakarta.validation-api")
-    implementation("software.amazon.awssdk:dynamodb")
     implementation("io.micronaut.security:micronaut-security-jwt")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
     aotPlugins platform("io.micronaut.platform:micronaut-platform:4.7.1")
     aotPlugins("io.micronaut.security:micronaut-security-aot")
     implementation("io.micronaut:micronaut-management")
-    implementation 'com.amazonaws:aws-java-sdk-dynamodb'
-    implementation("io.micronaut:micronaut-management")
+    implementation("software.amazon.awssdk:dynamodb-enhanced")
     testImplementation 'net.bytebuddy:byte-buddy:1.15.10'
     testImplementation 'org.objenesis:objenesis:3.4'
 }
@@ -89,6 +87,7 @@ tasks.register('integrationTest', Test) {
     group = "verification"
     doFirst {
         environment("requireIntegrationTests", "true")
+        environment("AWS_REGION", "eu-west-1")
     }
 
     filter {

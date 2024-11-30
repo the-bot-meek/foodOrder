@@ -1,12 +1,13 @@
 package com.foodorder.server.services;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.foodorder.server.models.Venue;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.enhanced.dynamodb.Key;
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 
 
 @Singleton
@@ -15,7 +16,7 @@ public class VenueService {
     private final IDynamoDBFacadeService dynamoDBFacadeService;
 
     public VenueService(
-            IDynamoDBFacadeService dynamoDBFacadeService
+            @Named("primary-table") IDynamoDBFacadeService dynamoDBFacadeService
     ) {
         this.dynamoDBFacadeService = dynamoDBFacadeService;
     }
@@ -28,12 +29,9 @@ public class VenueService {
     public List<Venue> listVenues(String location) {
         final String pk = "Venue_" + location;
         log.trace("Getting all venues for location:{}", location);
-        Map<String, AttributeValue> eav = new HashMap<>();
-        eav.put(":PK", new AttributeValue().withS(pk));
-        DynamoDBQueryExpression<Venue> dynamoDBQueryExpression = new DynamoDBQueryExpression<Venue>()
-                .withKeyConditionExpression("pk = :PK")
-                .withExpressionAttributeValues(eav);
-        return dynamoDBFacadeService.query(Venue.class, dynamoDBQueryExpression);
+        Key key = Key.builder().partitionValue(pk).build();
+        QueryConditional conditional = QueryConditional.keyEqualTo(key);
+        return dynamoDBFacadeService.query(Venue.class, conditional);
     }
 
 

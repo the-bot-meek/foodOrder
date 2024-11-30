@@ -32,7 +32,7 @@ class UserOrderControllerTest extends Specification {
         List<Order> orderList = userOrderController.listOrders(authentication)
 
         then:
-        1 * dynamoDBFacadeService.query(Order.class, _) >> {
+        1 * dynamoDBFacadeService.queryWithIndex(Order.class, _, "uid_gsi") >> {
             List.of(new Order(meal: meal, uid: "d84e61c73fe7-de8f-47ed-833a-797b001f"))
         }
         orderList.get(0) == new Order(meal: meal, uid: "d84e61c73fe7-de8f-47ed-833a-797b001f")

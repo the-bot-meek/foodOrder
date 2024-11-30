@@ -1,11 +1,10 @@
 package com.foodorder.server.models.meal;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import io.micronaut.serde.annotation.Serdeable;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
-@DynamoDBDocument
 @Serdeable
+@DynamoDbBean
 public class MealConfig {
     private PrivateMealConfig privateMealConfig;
     private Boolean draft = false;
@@ -22,7 +21,6 @@ public class MealConfig {
         this.draft = draft;
     }
 
-    @DynamoDBAttribute
     public PrivateMealConfig getPrivateMealConfig() {
         return privateMealConfig;
     }

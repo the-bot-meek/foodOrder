@@ -1,18 +1,17 @@
 package com.foodorder.server.models.meal;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.foodorder.server.models.Model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 import java.time.Instant;
 import java.util.Objects;
 
-@DynamoDBTable(tableName = "primary_table")
-@DynamoDBDocument
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, defaultImpl = Meal.class)
 @JsonSubTypes({@JsonSubTypes.Type(value = Meal.class, name = "Meal"), @JsonSubTypes.Type(value = DraftMeal.class, name = "DraftMeal")})
+@DynamoDbBean
 @Serdeable
 public class Meal implements Model {
     protected String id;
@@ -43,7 +42,9 @@ public class Meal implements Model {
         this.id = id;
     }
 
-    @DynamoDBHashKey(attributeName = "pk")
+    @Override
+    @DynamoDbPartitionKey
+    @DynamoDbAttribute("pk")
     public String getPrimaryKey() {
         return "Meal_" + this.uid;
     }
@@ -54,7 +55,9 @@ public class Meal implements Model {
 
 
 
-    @DynamoDBRangeKey(attributeName = "sk")
+    @Override
+    @DynamoDbAttribute("sk")
+    @DynamoDbSortKey
     public String getSortKey() {
         if (this.id == null) {
             throw new IllegalStateException("Can not get valid sort key while id is null");
@@ -72,17 +75,17 @@ public class Meal implements Model {
         this.id = sortKey.split("_")[1];
     }
 
-    @DynamoDBIgnore
+    @DynamoDbIgnore
     public Instant getMealDate() {
         return mealDate;
     }
 
-    @DynamoDBIgnore
     public void setMealDate(Instant mealDate) {
         this.mealDate = mealDate;
     }
 
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "gsi", attributeName = "gsi_sk")
+    @DynamoDbAttribute("gsi_sk")
+    @DynamoDbSecondarySortKey(indexNames = "gsi")
     public String getId() {
         return id;
     }
@@ -91,7 +94,6 @@ public class Meal implements Model {
         this.id = id;
     }
 
-    @DynamoDBAttribute
     public String getUid() {
         return uid;
     }
@@ -100,7 +102,6 @@ public class Meal implements Model {
         this.uid = uid;
     }
 
-    @DynamoDBAttribute
     public String getName() {
         return name;
     }
@@ -109,7 +110,6 @@ public class Meal implements Model {
         this.name = name;
     }
 
-    @DynamoDBAttribute
     public String getLocation() {
         return location;
     }
@@ -118,7 +118,8 @@ public class Meal implements Model {
         this.location = location;
     }
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "gsi", attributeName = "gsi_pk")
+    @DynamoDbAttribute("gsi_pk")
+    @DynamoDbSecondaryPartitionKey(indexNames = "gsi")
     public String getVenueName() {
         return venueName;
     }
@@ -127,7 +128,6 @@ public class Meal implements Model {
         this.venueName = venueName;
     }
 
-    @DynamoDBAttribute
     public MealConfig getMealConfig() {
         return mealConfig;
     }

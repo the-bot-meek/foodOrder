@@ -1,13 +1,13 @@
 package com.foodorder.server.models.meal;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import io.micronaut.serde.annotation.Serdeable;
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@DynamoDBDocument
 @Serdeable
+@DynamoDbBean
 public class PrivateMealConfig {
     private Set<String> recipientIds = new HashSet<>();
 

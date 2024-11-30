@@ -14,28 +14,27 @@ import spock.lang.Specification
 class VenueIntegrationSpec extends Specification {
     @Inject
     VenueClient venueClient
+    Set<MenuItem> menuItems
+    CreateVenueRequest createVenueRequest
+
+    def "setup"() {
+        menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
+        createVenueRequest = new CreateVenueRequest(menuItems, "London", UUID.randomUUID().toString(), "description")
+    }
 
     def "Add Venue"() {
-        given:
-        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description")
-
         when:
         Venue venue = venueClient.addVenue(createVenueRequest)
 
         then:
-        assert venue.name == "name"
-        assert venue.location == "London"
-        assert venue.description == "description"
+        assert venue.name == createVenueRequest.name()
+        assert venue.location == createVenueRequest.location()
+        assert venue.description == createVenueRequest.description()
         assert venue.menuItems == menuItems
         assert venue.id != null
     }
 
     def "Get venue"() {
-        given:
-        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description")
-
         when:
         Venue createVenueResp = venueClient.addVenue(createVenueRequest)
         Venue venue = venueClient.fetchVenue(createVenueRequest.location(), createVenueRequest.name())
@@ -45,10 +44,6 @@ class VenueIntegrationSpec extends Specification {
     }
 
     def "list all venues for location"() {
-        given:
-        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description")
-
         when:
         venueClient.addVenue(createVenueRequest)
         List<Venue> venueList = venueClient.listVenuesForLocation("London")

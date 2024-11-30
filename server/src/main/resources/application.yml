@@ -27,3 +27,17 @@ jackson:
     WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
     WRITE_DATES_AS_TIMESTAMPS: true
   serialization-inclusion: always
+
+aws:
+  secret-key: 123
+  access-key-id: 123
+  region: "eu-west-1"
+  services:
+    dynamodb:
+      endpoint-override: "http://localhost:4566"
+
+dynamodb-tables:
+  primary_table:
+    table-name: primary_table
+  order-table:
+    table-name: order_table

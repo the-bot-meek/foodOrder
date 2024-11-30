@@ -2,16 +2,17 @@ package com.thebotmeek.foodorder.server.controllers
 
 import com.foodorder.server.controllers.VenueMealController
 import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.services.DynamoDBFacadeService
+import com.foodorder.server.services.IDynamoDBFacadeService
 import com.foodorder.server.services.MealService
+import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import spock.lang.Specification
 
 class VenueMealControllerSpec extends Specification {
     VenueMealController venueMealController
-    DynamoDBFacadeService dynamoDBFacadeService
+    IDynamoDBFacadeService dynamoDBFacadeService
 
     def "setup"() {
-        dynamoDBFacadeService = Mock(DynamoDBFacadeService)
+        dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         MealService mealService = new MealService(dynamoDBFacadeService)
         venueMealController = new VenueMealController(mealService)
     }
@@ -26,7 +27,7 @@ class VenueMealControllerSpec extends Specification {
         Optional<Meal> fetchedMeal = venueMealController.getMeal(venueName, mealId)
 
         then:
-        1 * dynamoDBFacadeService.query(Meal.class, _) >> [meal]
+        1 * dynamoDBFacadeService.queryWithIndex(Meal.class, _ as QueryConditional, "gsi") >> [meal]
         assert fetchedMeal.isPresent()
         assert meal == fetchedMeal.get()
     }
@@ -40,7 +41,7 @@ class VenueMealControllerSpec extends Specification {
         Optional<Meal> fetchedMeal = venueMealController.getMeal(venueName, mealId)
 
         then:
-        1 * dynamoDBFacadeService.query(Meal.class, _) >> []
+        1 * dynamoDBFacadeService.queryWithIndex(Meal.class, _ as QueryConditional, "gsi") >> []
         assert fetchedMeal.isEmpty()
     }
 }
