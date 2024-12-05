@@ -1,0 +1,23 @@
+version: '3.8'
+
+
+networks:
+  localstack-network:
+    external: false
+
+services:
+  localstack:
+    extends:
+      file: ./docker-compose.yml
+      service: localstack
+  food-order-server:
+    image: "thebotmeek/food_order_app:latest"
+    extends:
+      file: ./docker-compose.yml
+      service: food-order-server
+  food-order-client:
+    container_name: "food-order-client"
+    image: "thebotmeek/food_order_client:latest"
+    extends:
+      file: ./docker-compose.yml
+      service: food-order-client
