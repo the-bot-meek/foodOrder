@@ -20,16 +20,16 @@ public class Meal implements Model {
     protected Instant mealDate;
     protected String location;
     protected String venueName;
-    protected MealConfig mealConfig;
+    protected Boolean isPrivate = false;
 
-    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName, MealConfig mealConfig) {
+    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName, Boolean isPrivate) {
         this.id = id;
         this.uid = organiserId;
         this.name = name;
         this.mealDate = mealDate;
         this.location = location;
         this.venueName = venueName;
-        this.mealConfig = mealConfig;
+        this.isPrivate = isPrivate;
     }
 
     public Meal() {
@@ -128,36 +128,31 @@ public class Meal implements Model {
         this.venueName = venueName;
     }
 
-    public MealConfig getMealConfig() {
-        return mealConfig;
+    public Boolean getPrivate() {
+        return isPrivate;
     }
 
-    public void setMealConfig(MealConfig mealConfig) {
-        this.mealConfig = mealConfig;
+    public void setPrivate(Boolean aPrivate) {
+        isPrivate = aPrivate;
     }
-
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Meal meal)) return false;
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Meal meal)) return false;
 
-        if (!Objects.equals(id, meal.id)) return false;
-        if (!Objects.equals(uid, meal.uid)) return false;
-        if (!Objects.equals(name, meal.name)) return false;
-        if (!Objects.equals(mealDate, meal.mealDate)) return false;
-        if (!Objects.equals(location, meal.location)) return false;
-        return Objects.equals(venueName, meal.venueName);
+        return Objects.equals(id, meal.id) && Objects.equals(uid, meal.uid) && Objects.equals(name, meal.name) && Objects.equals(mealDate, meal.mealDate) && Objects.equals(location, meal.location) && Objects.equals(venueName, meal.venueName) && Objects.equals(isPrivate, meal.isPrivate);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (uid != null ? uid.hashCode() : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (mealDate != null ? mealDate.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(uid);
+        result = 31 * result + Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(mealDate);
+        result = 31 * result + Objects.hashCode(location);
+        result = 31 * result + Objects.hashCode(venueName);
+        result = 31 * result + Objects.hashCode(isPrivate);
         return result;
     }
 
@@ -167,9 +162,10 @@ public class Meal implements Model {
         sb.append("id='").append(id).append('\'');
         sb.append(", uid='").append(uid).append('\'');
         sb.append(", name='").append(name).append('\'');
-        sb.append(", dateOfMeal=").append(mealDate);
+        sb.append(", mealDate=").append(mealDate);
         sb.append(", location='").append(location).append('\'');
         sb.append(", venueName='").append(venueName).append('\'');
+        sb.append(", isPrivate=").append(isPrivate);
         sb.append('}');
         return sb.toString();
     }

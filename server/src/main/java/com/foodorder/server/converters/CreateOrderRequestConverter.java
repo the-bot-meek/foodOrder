@@ -43,11 +43,6 @@ public class CreateOrderRequestConverter {
         );
 
         if (mealOptional.isEmpty()) {
-            log.trace("Could not find Meal organizerUid: {}, dateOfMeal: {}, mealId: {}.",
-                    createOrderRequest.organizerUid(),
-                    createOrderRequest.dateOfMeal(),
-                    createOrderRequest.mealId()
-            );
             throw new OrderRequestConverterException(
                     String.format("Could not find Meal organizerUid: %s, dateOfMeal: %s, mealId: %s.", createOrderRequest.organizerUid(),
                             createOrderRequest.dateOfMeal(),
@@ -57,11 +52,6 @@ public class CreateOrderRequestConverter {
         }
 
         Meal meal = mealOptional.get();
-
-        if (meal.getMealConfig().getPrivateMealConfig() != null && !meal.getMealConfig().getPrivateMealConfig().getRecipientIds().contains(uid)) {
-            String errMsg = String.format("Uid: %s is not in recipientIds list for Meal: %s", uid, meal.getId());
-            throw new OrderRequestConverterException(errMsg);
-        }
 
         final Optional<Venue> venueOptional = venueService.getVenue(
                 meal.getLocation(),

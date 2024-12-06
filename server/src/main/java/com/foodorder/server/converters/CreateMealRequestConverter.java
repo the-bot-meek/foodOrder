@@ -30,10 +30,14 @@ public class CreateMealRequestConverter {
             throw new MealRequestConverterException("Invalid Location");
         }
         Meal meal;
-        if (createMealRequest.getMealConfig().getDraft()) {
-            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
+        boolean isPrivate = createMealRequest.getClass() == CreatePrivateMealRequest.class;
+        if (createMealRequest.getDraft()) {
+            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), isPrivate);
         } else {
-            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
+            if (isPrivate) {
+                System.out.println("Adding orders for private meal");
+            }
+            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), isPrivate);
         }
         return meal;
     }
