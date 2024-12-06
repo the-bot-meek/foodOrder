@@ -34,7 +34,7 @@ aws:
   region: "eu-west-1"
   services:
     dynamodb:
-      endpoint-override: "http://localhost:4566"
+      endpoint-override: "http://${DYNAMODB_DOMAIN:localhost}:4566"
 
 dynamodb-tables:
   primary_table:
