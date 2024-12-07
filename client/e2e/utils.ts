@@ -1,8 +1,7 @@
 import {ICreateVenueRequest} from "../models/venue";
-import {Locator, Page} from "@playwright/test";
+import {expect, Locator, Page} from "@playwright/test";
 import {ICreateMealRequest, ICreatePrivateMealRequest} from "../models/ICreateMealRequest";
-import {IMeal} from "../models/meal";
-import * as path from "node:path";
+import {IMeal, IMealDisplayValues} from "../models/meal";
 
 export async function populateAddVenueDialog(createVenueRequest: ICreateVenueRequest, page: Page) {
   await page.getByTestId('venue-name-input').fill(createVenueRequest.name)
@@ -46,4 +45,24 @@ export async function openAddDialog(dialogName: 'meal' | 'venue', page: Page) {
 
 export async function getMealTableCellFromTableRow(cellTestId: string, tableRow: Locator) {
   return tableRow.getByTestId(`meal-table-${cellTestId}-cell`)
+}
+
+export async function getMealDetailsFromTableRow(mealName: string, page: Page): Promise<IMealDisplayValues> {
+  const mealRow = page.getByTestId(`meal-row-${mealName}`)
+  await expect(mealRow).toBeVisible()
+
+  const nameCell = await getMealTableCellFromTableRow('name', mealRow)
+  const dateCell = await getMealTableCellFromTableRow('date', mealRow)
+  const locationCell = await getMealTableCellFromTableRow('location', mealRow)
+  const venueNameCell = await getMealTableCellFromTableRow('venueName', mealRow)
+  const venueVisibilityCell = await getMealTableCellFromTableRow('visibility', mealRow)
+  const isPrivate = await venueVisibilityCell.locator('mat-icon').getAttribute('fontIcon') === 'visibility_off'
+
+  return {
+    name: await nameCell.textContent(),
+    date: await dateCell.textContent(),
+    location: await locationCell.textContent(),
+    venue: await venueNameCell.textContent(),
+    private: isPrivate
+  }
 }
