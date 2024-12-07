@@ -1,6 +1,6 @@
 import {ICreateVenueRequest} from "../models/venue";
 import {Locator, Page} from "@playwright/test";
-import {ICreateMealRequest} from "../models/ICreateMealRequest";
+import {ICreateMealRequest, ICreatePrivateMealRequest} from "../models/ICreateMealRequest";
 import {IMeal} from "../models/meal";
 import * as path from "node:path";
 
@@ -32,7 +32,7 @@ export async function populateAddMealDialog(createMealRequest: ICreateMealReques
   await page.waitForSelector('mat-option')
   await page.click(`mat-option >> text="${createMealRequest.venueName}"`)
 
-  if (createMealRequest.mealConfig.privateMealConfig) {
+  if (createMealRequest.mealType == 'PrivateMeal') {
     await page.getByTestId('private-meal-checkbox').check()
     await page.getByTestId('number-of-recipients-input').fill('10')
   }

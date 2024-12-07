@@ -50,10 +50,8 @@ test('test add meal', async ({ page, browserName }) => {
   const createMealRequest: ICreateMealRequest = {
     dateOfMeal: 1728850944308,
     location: "London",
-    mealConfig: {
-      draft: false,
-      privateMealConfig: undefined
-    },
+    mealType: 'Meal',
+    isDraft: false,
     name: `name-${uuid()}`,
     venueName: `test add meal ${browserName}`
   }
@@ -74,9 +72,13 @@ test('test add meal', async ({ page, browserName }) => {
   const dateCell = await getMealTableCellFromTableRow('date', mealRow)
   const locationCell = await getMealTableCellFromTableRow('location', mealRow)
   const venueNameCell = await getMealTableCellFromTableRow('venueName', mealRow)
+  const venueVisibilityCell = await getMealTableCellFromTableRow('visibility', mealRow)
+  const isPrivate = await venueVisibilityCell.locator('mat-icon').getAttribute('fontIcon') === 'visibility_off'
+
 
   await expect(nameCell).toHaveText(createMealRequest.name)
   await expect(dateCell).toHaveText(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric',}))
   await expect(locationCell).toHaveText(createMealRequest.location)
   await expect(venueNameCell).toHaveText(createMealRequest.venueName)
+  expect(isPrivate).toBeFalsy()
 });
