@@ -34,9 +34,6 @@ public class CreateMealRequestConverter {
         if (createMealRequest.getDraft()) {
             meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), isPrivate);
         } else {
-            if (isPrivate) {
-                System.out.println("Adding orders for private meal");
-            }
             meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), isPrivate);
         }
         return meal;

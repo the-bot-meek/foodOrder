@@ -33,22 +33,22 @@ class OrderSpec extends Specification {
         Order order = new Order()
 
         when:
-        order.meal.setMealDate(Instant.ofEpochSecond(1711394564))
+        order.setUid("steven")
 
         then:
-        order.getSortKey() == "2024-03-25T19:22:44Z"
+        order.getSortKey() == "steven"
     }
 
     def "test sort key sterilisation"() {
         given:
         Order order = new Order()
-        String sortKey = "2024-03-25T19:22:44Z"
+        String sortKey = "steven"
 
         when:
         order.setSortKey(sortKey)
 
         then:
-        order.getMeal().getMealDate() == Instant.ofEpochSecond(1711394564)
+        order.getUid() == "steven"
     }
 
     def "test GSIPrimaryKey sterilisation"() {

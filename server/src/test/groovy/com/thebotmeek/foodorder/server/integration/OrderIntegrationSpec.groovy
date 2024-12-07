@@ -41,7 +41,7 @@ class OrderIntegrationSpec extends Specification {
 
         Set<MenuItem> menuItems = [new MenuItem()]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name)
 
 
         when:
@@ -53,7 +53,7 @@ class OrderIntegrationSpec extends Specification {
 
         then:
         assert order.getUid() == "steven"
-        assert order.getSortKey() =="2024-03-26T21:09:52Z"
+        assert order.getSortKey() == "steven"
         assert order.getParticipantsName() == "The bot meek"
         assert order.getMenuItems() == menuItems
         assert order.getGSIPrimaryKey() == "Order_steven"

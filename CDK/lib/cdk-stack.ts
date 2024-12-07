@@ -20,7 +20,7 @@ export class CdkStack extends cdk.Stack {
 
     const orderTable = new dynamodb.TableV2(this, 'order_table', {
       partitionKey: {name: 'meal_id', type: dynamodb.AttributeType.STRING},
-      sortKey: {name: 'date_of_meal', type: dynamodb.AttributeType.STRING},
+      sortKey: {name: 'uid', type: dynamodb.AttributeType.STRING},
       tableName: "order_table",
       globalSecondaryIndexes: [{
         indexName: 'uid_gsi',
