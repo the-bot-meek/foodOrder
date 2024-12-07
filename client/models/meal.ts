@@ -9,5 +9,5 @@ export interface IMeal {
     venueName: string;
     sortKey: string;
     primaryKey: string;
-    mealConfig: MealConfig;
+    private: boolean
 }
