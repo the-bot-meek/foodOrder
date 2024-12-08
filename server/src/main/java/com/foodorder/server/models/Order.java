@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
-
-import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
@@ -71,18 +69,17 @@ public class Order implements Model {
     }
 
     @Override
-    @DynamoDbAttribute("date_of_meal")
-    @DynamoDbSortKey
+    @DynamoDbIgnore
     public String getSortKey() {
-        if (meal.getMealDate() == null) return null;
-        return meal.getMealDate().toString();
+        return uid;
     }
 
     public void setSortKey(String sk) {
-        this.meal.setMealDate(Instant.parse(sk));
+        this.uid = sk;
     }
 
     @DynamoDbAttribute("uid")
+    @DynamoDbSortKey
     @DynamoDbSecondaryPartitionKey(indexNames = "uid_gsi")
     public String getGSIPrimaryKey() {
         return "Order_" + uid;

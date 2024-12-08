@@ -34,10 +34,10 @@ class VenueMealControllerSpec extends Specification {
     def "test getting Meal from venueName and MealId"() {
         given:
         Authentication authentication = new ServerAuthentication("steven", null, null)
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD")
 
         when:
-        Meal meal = mealController.addMeal(createMealRequest, authentication).body()
+        Meal meal = mealController.handleCreateMealRequest(createMealRequest, authentication)
         Optional<Meal> mealFromVenueId = venueMealClient.getMeal(meal.getVenueName(), meal.getId())
 
         then:

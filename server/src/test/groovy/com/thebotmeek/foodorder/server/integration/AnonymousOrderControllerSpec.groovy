@@ -51,7 +51,7 @@ class AnonymousOrderControllerSpec extends Specification{
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name)
 
         when:
         venueClient.addVenue(createVenueRequest)
@@ -62,7 +62,7 @@ class AnonymousOrderControllerSpec extends Specification{
 
         then:
         assert anonymousOrder.getUid() == anonymousUserId
-        assert anonymousOrder.getSortKey() =="2024-03-26T21:09:52Z"
+        assert anonymousOrder.getSortKey() == anonymousUserId
         assert anonymousOrder.getParticipantsName() == "AnonymousUser"
         assert anonymousOrder.getMenuItems() == menuItems
         assert anonymousOrder.getGSIPrimaryKey() == "AnonymousOrder_${anonymousUserId}"
@@ -79,7 +79,7 @@ class AnonymousOrderControllerSpec extends Specification{
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name)
 
         when:
         venueClient.addVenue(createVenueRequest)
@@ -92,7 +92,7 @@ class AnonymousOrderControllerSpec extends Specification{
         then:
         assert anonymousOrder.isPresent()
         assert anonymousOrder.get().getUid() == anonymousUserId
-        assert anonymousOrder.get().getSortKey() =="2024-03-26T21:09:52Z"
+        assert anonymousOrder.get().getSortKey() == anonymousUserId
         assert anonymousOrder.get().getParticipantsName() == "AnonymousUser"
         assert anonymousOrder.get().getMenuItems() == menuItems
         assert anonymousOrder.get().getGSIPrimaryKey() == "AnonymousOrder_${anonymousUserId}"

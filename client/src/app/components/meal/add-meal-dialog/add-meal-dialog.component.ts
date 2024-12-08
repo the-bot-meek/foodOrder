@@ -11,7 +11,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {IVenue} from "../../../../../models/venue";
 import {VenueService} from "../../../shared/api/venue.service";
 import {MealService} from "../../../shared/api/meal.service";
-import {ICreateMealRequest} from "../../../../../models/ICreateMealRequest";
+import {ICreateMealRequest, ICreatePrivateMealRequest} from "../../../../../models/ICreateMealRequest";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -90,24 +90,14 @@ export class AddMealDialogComponent {
   }
 
   addMeal(): void {
-    const createMealRequest: ICreateMealRequest = {
+    const createMealRequest: ICreateMealRequest | ICreatePrivateMealRequest = {
       dateOfMeal: this.addMealFormGroup.value.dateOfMeal?.getTime() as number,
       location: this.addMealFormGroup.value.location as string,
-      mealConfig: {
-        draft: false,
-        privateMealConfig: null
-      },
+      isDraft: false,
       name: this.addMealFormGroup.value.name as string,
-      venueName: this.addMealFormGroup.value.venueName as string
-    }
-    if (this.addMealFormGroup.value.privateMeal) {
-      const recipientIds: string[] = [];
-      for (let i = 0; i < this.addMealFormGroup.value.numberOfRecipients; i++) {
-        recipientIds.push(this.uuid.randomUUID())
-      }
-      createMealRequest.mealConfig.privateMealConfig = {
-        recipientIds: recipientIds
-      }
+      venueName: this.addMealFormGroup.value.venueName as string,
+      mealType: this.addMealFormGroup.value.privateMeal ? "PrivateMeal" : 'Meal',
+      numberOfOrders: this.addMealFormGroup.value.numberOfRecipients
     }
     this.mealService.addMeal(createMealRequest)
       .pipe(catchError((it) => {

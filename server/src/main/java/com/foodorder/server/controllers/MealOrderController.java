@@ -39,8 +39,6 @@ public class MealOrderController {
         Order order = orders.get(0);
         boolean uniform = orders.stream().allMatch(it ->
                 Objects.equals(it.getMeal().getId(), order.getMeal().getId())
-                && it.getMeal().getMealDate() == order.getMeal().getMealDate()
-                && Objects.equals(it.getUid(), order.getUid())
         );
         if (!uniform) return false;
         return (authentication.getName().equals(order.getMeal().getUid()));

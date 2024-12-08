@@ -5,19 +5,21 @@ import {IMeal} from "../../../../models/meal";
 import {DatePipe} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
 import {Router} from "@angular/router";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
     selector: 'app-landing-page',
     imports: [
         MatTableModule,
-        DatePipe
+        DatePipe,
+        MatIcon
     ],
     templateUrl: './landing-page.component.html',
     styleUrl: './landing-page.component.scss'
 })
 export class LandingPageComponent implements OnInit {
   meals: Observable<IMeal[]>
-  displayedColumns: string[] = ['name', 'mealDate', 'location', 'venueName']
+  displayedColumns: string[] = ['name', 'mealDate', 'location', 'venueName', 'public']
   constructor(
     private mealService: MealService,
     private router: Router

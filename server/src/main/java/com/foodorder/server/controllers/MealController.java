@@ -1,12 +1,13 @@
 package com.foodorder.server.controllers;
 
 import com.foodorder.server.converters.CreateMealRequestConverter;
+import com.foodorder.server.converters.CreatePrivateMealRequest;
 import com.foodorder.server.exceptions.MealRequestConverterException;
+import com.foodorder.server.models.Order;
 import com.foodorder.server.request.CreateMealRequest;
 import com.foodorder.server.models.meal.Meal;
 import com.foodorder.server.services.MealService;
 import com.foodorder.server.services.OrderService;
-import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.exceptions.HttpStatusException;
@@ -20,8 +21,11 @@ import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.IntStream;
 
 
 @Controller("meal")
@@ -42,17 +46,36 @@ public class MealController {
         this.createMealRequestConverter = createMealRequestConverter;
     }
     @Post
-    public HttpResponse<Meal> addMeal(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
+    public Meal handleCreateMealRequest(@Valid @Body CreateMealRequest createMealRequest, Authentication authentication) {
+        Meal meal = addMeal(createMealRequest, authentication);
+        if (createMealRequest instanceof CreatePrivateMealRequest) {
+            addOrdersFor(meal, (CreatePrivateMealRequest) createMealRequest);
+        }
+        return meal;
+    }
+
+
+
+    private void addOrdersFor(Meal meal, CreatePrivateMealRequest createPrivateMealRequest) {
+        List<Order> orders = IntStream.range(0, createPrivateMealRequest.getNumberOfOrders())
+                .mapToObj(i -> UUID.randomUUID().toString())
+                .map(uuid -> new Order(meal, uuid, "Not set yet", new HashSet<>()))
+                .toList();
+        orderService.batchSave(orders);
+    }
+
+    private Meal addMeal(CreateMealRequest createMealRequest, Authentication authentication) {
         try {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, authentication.getName());
             Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, authentication.getName());
             mealService.saveMeal(meal);
-            return HttpResponse.ok(meal);
+            return meal;
         } catch (MealRequestConverterException e) {
             log.error("Error adding Meal", e);
             throw new HttpStatusException(HttpStatus.BAD_REQUEST, e);
         }
     }
+
 
     @Get("{mealSortKey}")
     public Optional<Meal> getMeal(@NotNull @NotBlank String mealSortKey, Authentication authentication) {

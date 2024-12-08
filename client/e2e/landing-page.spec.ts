@@ -1,8 +1,15 @@
 import {expect, test} from '@playwright/test';
 import {ICreateVenueRequest} from "../models/venue";
 import {ICreateMealRequest} from "../models/ICreateMealRequest";
-import {getMealTableCellFromTableRow, openAddDialog, populateAddMealDialog, populateAddVenueDialog} from "./utils";
+import {
+  getMealDetailsFromTableRow,
+  getMealTableCellFromTableRow,
+  openAddDialog,
+  populateAddMealDialog,
+  populateAddVenueDialog
+} from "./utils";
 import {v4 as uuid} from 'uuid';
+import {IMealDisplayValues} from "../models/meal";
 
 test('has title', async ({ page }) => {
   await page.goto('/');
@@ -50,10 +57,8 @@ test('test add meal', async ({ page, browserName }) => {
   const createMealRequest: ICreateMealRequest = {
     dateOfMeal: 1728850944308,
     location: "London",
-    mealConfig: {
-      draft: false,
-      privateMealConfig: undefined
-    },
+    mealType: 'Meal',
+    isDraft: false,
     name: `name-${uuid()}`,
     venueName: `test add meal ${browserName}`
   }
@@ -66,17 +71,11 @@ test('test add meal', async ({ page, browserName }) => {
   await populateAddMealDialog(createMealRequest, page)
   expect(page.getByText('Meal added')).toBeTruthy()
 
+  const mealDisplayValues: IMealDisplayValues = await getMealDetailsFromTableRow(createMealRequest.name, page);
 
-
-  const mealRow = page.getByTestId(`meal-row-${createMealRequest.name}`)
-  await expect(mealRow).toBeVisible()
-  const nameCell = await getMealTableCellFromTableRow('name', mealRow)
-  const dateCell = await getMealTableCellFromTableRow('date', mealRow)
-  const locationCell = await getMealTableCellFromTableRow('location', mealRow)
-  const venueNameCell = await getMealTableCellFromTableRow('venueName', mealRow)
-
-  await expect(nameCell).toHaveText(createMealRequest.name)
-  await expect(dateCell).toHaveText(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric',}))
-  await expect(locationCell).toHaveText(createMealRequest.location)
-  await expect(venueNameCell).toHaveText(createMealRequest.venueName)
+  expect(mealDisplayValues.name).toBe(createMealRequest.name)
+  expect(mealDisplayValues.date).toBe(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric',}))
+  expect(mealDisplayValues.location).toBe(createMealRequest.location)
+  expect(mealDisplayValues.venue).toBe(createMealRequest.venueName)
+  expect(mealDisplayValues.private).toBeFalsy()
 });
