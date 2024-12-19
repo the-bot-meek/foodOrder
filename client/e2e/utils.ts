@@ -9,8 +9,9 @@ export async function populateAddVenueDialog(createVenueRequest: ICreateVenueReq
   await page.getByTestId('venue-location-select').click()
   await page.waitForSelector('mat-option')
   await page.click(`mat-option >> text="${createVenueRequest.location}"`)
-
   await page.getByTestId('venue-description-textarea').fill(createVenueRequest.description)
+  await page.getByTestId('venue-phone-input').fill(createVenueRequest.phoneNumber)
+
   for (const menuItem of createVenueRequest.menuItems) {
     await page.getByTestId('menu-item-name').fill(menuItem.name)
     await page.getByTestId('menu-item-description').fill(menuItem.description)
