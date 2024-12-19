@@ -25,7 +25,11 @@ public record CreateVenueRequest(
         String name,
         @NotNull
         @NotBlank
-        String description
+        String description,
+
+        @NotNull
+        @NotBlank
+        String phoneNumber
 ) {
         @Override
         public String toString() {

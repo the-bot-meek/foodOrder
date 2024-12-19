@@ -40,6 +40,7 @@ export class AddVenueDialogComponent {
   venueFormGroup = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
     location: new FormControl<string>('', [Validators.required]),
+    phoneNumber: new FormControl<string>('', [Validators.required]),
     description: new FormControl<string>('', [Validators.required])
   });
 
@@ -63,6 +64,7 @@ export class AddVenueDialogComponent {
     const addVenueRequest: ICreateVenueRequest = {
       location: this.venueFormGroup.value.location as string,
       description: this.venueFormGroup.value.description as string,
+      phoneNumber: this.venueFormGroup.value.phoneNumber as string,
       name: this.venueFormGroup.value.name as string,
       menuItems: this.menuItems
     }

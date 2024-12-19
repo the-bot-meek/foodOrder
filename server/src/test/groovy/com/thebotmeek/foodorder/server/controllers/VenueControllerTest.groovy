@@ -18,6 +18,7 @@ class VenueControllerTest extends Specification {
     String location
     String description
     Set<MenuItem> menuItems
+    String phoneNumber;
     IDynamoDBFacadeService dynamoDBFacadeService
     LocationService locationService
     VenueService venueService
@@ -40,6 +41,7 @@ class VenueControllerTest extends Specification {
         venueName = "Prep"
         location = "London"
         description = "description"
+        phoneNumber = "+44 20 7123 4567"
         menuItems = Set.of(new MenuItem(name: "name", description: "description", price: 5.55))
         dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         locationService = new LocationService()
@@ -74,7 +76,7 @@ class VenueControllerTest extends Specification {
 
     def "AddVenue - valid"() {
         given:
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, venueName, description)
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, venueName, description, phoneNumber)
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
@@ -93,7 +95,7 @@ class VenueControllerTest extends Specification {
     def "AddVenue - invalid location"() {
         given:
         location = "Not London"
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, venueName, description)
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, venueName, description, phoneNumber)
 
         IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
         LocationService locationService = new LocationService()
