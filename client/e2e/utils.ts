@@ -1,8 +1,6 @@
 import {ICreateVenueRequest} from "../models/venue";
 import {Locator, Page} from "@playwright/test";
 import {ICreateMealRequest} from "../models/ICreateMealRequest";
-import {IMeal} from "../models/meal";
-import * as path from "node:path";
 
 export async function populateAddVenueDialog(createVenueRequest: ICreateVenueRequest, page: Page) {
   await page.getByTestId('venue-name-input').fill(createVenueRequest.name)
