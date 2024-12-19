@@ -20,6 +20,7 @@ test('add venue test', async ({ page, browserName }) => {
     name: `add venue test ${browserName}`,
     description: "description",
     location: "London",
+    phoneNumber: "+44 20 7123 4567",
     menuItems: [
       {
         name: 'name',
@@ -38,6 +39,7 @@ test('test add meal', async ({ page, browserName }) => {
     name: `test add meal ${browserName}`,
     description: "description",
     location: "London",
+    phoneNumber: '+44 20 7123 4567',
     menuItems: [
       {
         name: 'name',

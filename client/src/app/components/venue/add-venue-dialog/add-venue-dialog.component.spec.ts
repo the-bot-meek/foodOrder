@@ -68,6 +68,11 @@ describe('AddVenueDialogComponent', () => {
     }))
     await descriptionMatInputHarness.setValue("Description")
 
+    const phoneNumberInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
+      selector: '[data-testid="venue-phone-input"]'
+    }))
+    await phoneNumberInputHarness.setValue("+44 20 7123 4567")
+
     const addVenueBtn: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
       selector: '[data-testid="add-venue-btn"]'
     }))
@@ -92,10 +97,11 @@ describe('AddVenueDialogComponent', () => {
     }))
 
     expect(await addVenueBtn.isDisabled()).toBeFalse()
-    expect(await  menuItemAddMatBtnHarness.isDisabled()).toBeFalse()
+    expect(await menuItemAddMatBtnHarness.isDisabled()).toBeFalse()
 
     await menuItemAddMatBtnHarness.click()
     await addVenueBtn.click()
+
 
     expect(dialogRef.close).toHaveBeenCalled()
     expect(venueService.addVenue).toHaveBeenCalled()

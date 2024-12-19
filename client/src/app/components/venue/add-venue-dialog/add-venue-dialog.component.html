@@ -24,7 +24,7 @@
       </mat-form-field>
     <mat-form-field>
       <mat-label>Phone Number</mat-label>
-      <input data-testid="menu-item-phone-number" type="text" matInput [formControl]="venueFormGroup.controls.phoneNumber">
+      <input data-testid="venue-phone-input" type="text" matInput [formControl]="venueFormGroup.controls.phoneNumber">
     </mat-form-field>
       <p>Menu Items</p>
       <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)"></app-menu-item-list>
@@ -43,7 +43,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Price</mat-label>
-          <input data-testid="menu-item-price" type="number" matInput [formControl]="addMenuItemForm.controls.price">
+          <input data-testid="menu-item-price" type="string" matInput [formControl]="addMenuItemForm.controls.price">
         </mat-form-field>
         <button data-testid="add-menu-item-btn" mat-button [disabled]="addMenuItemForm.invalid">Add MenuItem</button>
       </form>
