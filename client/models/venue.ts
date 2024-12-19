@@ -12,5 +12,6 @@ export interface ICreateVenueRequest {
   menuItems: IMenuItems[]
   location: string
   name: string
-  description: string
+  description: string,
+  phoneNumber: string
 }

@@ -134,7 +134,7 @@ class MealIntegrationSpec extends Specification {
         Meal meal = mealClient.addMeal(createMealRequest)
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.0)]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description")
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, "London", "name", "description", "+44 20 7123 4567")
         venueClient.addVenue(createVenueRequest)
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(meal.getMealDate(), meal.getId(), menuItems, meal.getUid())

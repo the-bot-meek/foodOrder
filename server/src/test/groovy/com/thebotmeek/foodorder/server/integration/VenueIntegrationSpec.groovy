@@ -19,7 +19,7 @@ class VenueIntegrationSpec extends Specification {
 
     def "setup"() {
         menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
-        createVenueRequest = new CreateVenueRequest(menuItems, "London", UUID.randomUUID().toString(), "description")
+        createVenueRequest = new CreateVenueRequest(menuItems, "London", UUID.randomUUID().toString(), "description", "+44 20 7123 4567")
     }
 
     def "Add Venue"() {

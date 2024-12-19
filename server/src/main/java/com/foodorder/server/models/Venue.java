@@ -16,13 +16,15 @@ public class Venue implements Model {
     private String location;
     private String description;
     private Set<MenuItem> menuItems;
+    private String phoneNumber;
 
-    public Venue(String id, String name, String location, String description, Set<MenuItem> menuItems) {
+    public Venue(String id, String name, String location, String description, Set<MenuItem> menuItems, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.location = location;
         this.description = description;
         this.menuItems = menuItems;
+        this.phoneNumber = phoneNumber;
     }
 
     public Venue() {
@@ -95,25 +97,31 @@ public class Venue implements Model {
         this.menuItems = menuItems;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof Venue venue)) return false;
 
-        if (!Objects.equals(id, venue.id)) return false;
-        if (!Objects.equals(name, venue.name)) return false;
-        if (!Objects.equals(location, venue.location)) return false;
-        if (!Objects.equals(description, venue.description)) return false;
-        return Objects.equals(menuItems, venue.menuItems);
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Venue venue)) return false;
+
+        return Objects.equals(id, venue.id) && Objects.equals(name, venue.name) && Objects.equals(location, venue.location) && Objects.equals(description, venue.description) && Objects.equals(menuItems, venue.menuItems) && Objects.equals(phoneNumber, venue.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (menuItems != null ? menuItems.hashCode() : 0);
+        int result = Objects.hashCode(id);
+        result = 31 * result + Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(location);
+        result = 31 * result + Objects.hashCode(description);
+        result = 31 * result + Objects.hashCode(menuItems);
+        result = 31 * result + Objects.hashCode(phoneNumber);
         return result;
     }
 }

@@ -48,9 +48,10 @@ class AnonymousOrderControllerSpec extends Specification{
         String location = "London"
         String name = "MacD"
         String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
+        String phoneNumber = "+44 20 7123 4567"
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description", phoneNumber)
         CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
 
         when:
@@ -76,9 +77,10 @@ class AnonymousOrderControllerSpec extends Specification{
         String location = "London"
         String name = "MacD"
         String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
+        String phoneNumber = "+44 20 7123 4567"
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description")
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description", phoneNumber)
         CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
 
         when:

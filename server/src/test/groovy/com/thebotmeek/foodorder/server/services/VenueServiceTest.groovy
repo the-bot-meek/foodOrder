@@ -13,8 +13,9 @@ class VenueServiceTest extends Specification {
         String location = "London"
         String name = "name"
         String description = "description"
+        String phoneNumber = '+44 20 7123 4567'
         Set<MenuItem> menuItems = Set.of(new MenuItem(name: "name", description: "description", price: 5.55))
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, description)
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, description, phoneNumber)
         LocationService locationService = Mock(LocationService)
         locationService.listLocation() >> ["London"]
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
@@ -27,6 +28,7 @@ class VenueServiceTest extends Specification {
             assert it.menuItems == menuItems
             assert it.name == name
             assert it.description == description
+            assert it.phoneNumber == phoneNumber
             assert it.id != null
         }
     }

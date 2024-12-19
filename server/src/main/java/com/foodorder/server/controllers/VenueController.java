@@ -9,6 +9,7 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +22,8 @@ public class VenueController {
     final private Logger log = LoggerFactory.getLogger(VenueController.class);
     final private VenueService venueService;
     final private CreateVenueRequestConverter createVenueRequestConverter;
-    VenueController(VenueService venueService, CreateVenueRequestConverter createVenueRequestConverter) {
+
+    public VenueController(VenueService venueService, CreateVenueRequestConverter createVenueRequestConverter) {
         this.venueService = venueService;
         this.createVenueRequestConverter = createVenueRequestConverter;
     }
@@ -39,7 +41,7 @@ public class VenueController {
     }
 
     @Post
-    public HttpResponse<Venue> addVenue(@Body CreateVenueRequest createVenueRequest) {
+    public HttpResponse<Venue> addVenue(@Body @Valid CreateVenueRequest createVenueRequest) {
         log.info("Adding Venue. createVenueRequest: {}", createVenueRequest);
         try {
             Venue venue = createVenueRequestConverter.convertCreateVenuelRequestIntoVenue(createVenueRequest);

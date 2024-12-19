@@ -25,7 +25,8 @@ public class CreateVenueRequestConverter {
                 createVenueRequest.name(),
                 createVenueRequest.location(),
                 createVenueRequest.description(),
-                createVenueRequest.menuItems()
+                createVenueRequest.menuItems(),
+                createVenueRequest.phoneNumber()
         );
     }
 }
