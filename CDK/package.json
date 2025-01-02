@@ -10,7 +10,7 @@
     "test": "jest",
     "cdk": "cdk",
     "localstack-bootstrap": "cdklocal bootstrap",
-    "clocalstack-deploy": "cdklocal deploy"
+    "localstack-deploy": "cdklocal deploy --profile default"
   },
   "devDependencies": {
     "@types/jest": "^29.5.13",
