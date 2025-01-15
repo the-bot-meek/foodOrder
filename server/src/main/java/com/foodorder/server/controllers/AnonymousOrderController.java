@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Instant;
 import java.util.Optional;
 
-@Controller("/AnonymousOrder")
+@Controller("/anonymousOrder")
 @Secured(SecurityRule.IS_ANONYMOUS)
 public class AnonymousOrderController {
     private final OrderService orderService;

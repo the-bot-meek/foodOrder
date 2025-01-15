@@ -6,8 +6,8 @@ import io.micronaut.http.client.annotation.Client;
 
 import java.util.List;
 
-@Client("/User")
+@Client("/user")
 public interface UserClient {
-    @Get("/Order")
+    @Get("/order")
     List<Order> listOrders();
 }
