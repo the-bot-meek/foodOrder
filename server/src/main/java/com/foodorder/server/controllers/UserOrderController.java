@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 
-@Controller("User")
+@Controller("user")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class UserOrderController {
     private final OrderService orderService;
@@ -19,7 +19,7 @@ public class UserOrderController {
     UserOrderController(OrderService orderService) {
         this.orderService = orderService;
     }
-    @Get("Order")
+    @Get("order")
     public List<Order> listOrders(Authentication authentication) {
         log.info("Getting all Orders for uid: {}", authentication.getName());
         return orderService.listOrdersFromUserID(authentication.getName());

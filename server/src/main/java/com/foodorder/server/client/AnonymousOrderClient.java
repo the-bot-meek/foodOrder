@@ -7,7 +7,7 @@ import io.micronaut.http.client.annotation.Client;
 
 import java.util.Optional;
 
-@Client("/AnonymousOrder")
+@Client("/anonymousOrder")
 public interface AnonymousOrderClient {
     @Get("{uid}/{mealId}")
     Optional<AnonymousOrder> getAnonymousOrder(@PathVariable String uid, @PathVariable String mealId);
