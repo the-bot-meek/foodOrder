@@ -3,21 +3,21 @@ package com.thebotmeek.foodorder.server.controllers
 import com.foodorder.server.controllers.UserOrderController
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.Order
-import com.foodorder.server.services.IDynamoDBFacadeService
-import com.foodorder.server.services.OrderService
+import com.foodorder.server.repository.IDynamoDBFacadeRepository
+import com.foodorder.server.repository.OrderRepository
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 import java.time.Instant
 
 class UserOrderControllerTest extends Specification {
-    IDynamoDBFacadeService dynamoDBFacadeService
-    OrderService orderService
+    IDynamoDBFacadeRepository dynamoDBFacadeService
+    OrderRepository orderService
     UserOrderController userOrderController
     Authentication authentication
 
     def "setup"() {
-        dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        orderService = new OrderService(dynamoDBFacadeService)
+        dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        orderService = new OrderRepository(dynamoDBFacadeService)
         userOrderController = new UserOrderController(orderService)
         authentication = Mock(Authentication)
     }

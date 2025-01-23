@@ -1,7 +1,7 @@
 package com.foodorder.server.controllers;
 
 import com.foodorder.server.models.meal.DraftMeal;
-import com.foodorder.server.services.MealService;
+import com.foodorder.server.repository.MealRepository;
 import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
@@ -20,22 +20,22 @@ import java.util.Optional;
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class DraftMealController {
     private final Logger log = LoggerFactory.getLogger(DraftMealController.class);
-    private final MealService mealService;
+    private final MealRepository mealRepository;
 
-    DraftMealController(MealService mealService) {
-        this.mealService = mealService;
+    DraftMealController(MealRepository mealRepository) {
+        this.mealRepository = mealRepository;
     }
 
     @Get("{mealSortKey}")
     public Optional<DraftMeal> getDraftMeal(@NotNull @NotBlank String mealSortKey, Authentication authentication) {
         log.info("Getting Meal. mealSortKey: {}, uid:{}", mealSortKey, authentication.getName());
-        return mealService.getDraftMeal(authentication.getName(), mealSortKey);
+        return mealRepository.getDraftMeal(authentication.getName(), mealSortKey);
     }
 
     @Get
     public List<DraftMeal> listAllDraftMealsForUser(Authentication authentication) {
         log.info("Listing all meals for uid: {}", authentication.getName());
-        return mealService.getListOfDraftMeals(authentication.getName());
+        return mealRepository.getListOfDraftMeals(authentication.getName());
     }
 
     @Delete
@@ -45,6 +45,6 @@ public class DraftMealController {
             @NotNull @NotEmpty @QueryValue String mealId
     ) {
         log.info("Deleting draft meal {}", mealId);
-        mealService.deleteDraftMeal(authentication.getName(), mealDate, mealId);
+        mealRepository.deleteDraftMeal(authentication.getName(), mealDate, mealId);
     }
 }

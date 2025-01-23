@@ -1,4 +1,4 @@
-package com.foodorder.server.services;
+package com.foodorder.server.repository;
 
 import com.foodorder.server.models.meal.DraftMeal;
 import com.foodorder.server.models.meal.Meal;
@@ -13,15 +13,15 @@ import java.time.Instant;
 import java.util.*;
 
 @Singleton
-public class MealService {
-    private final Logger log = LoggerFactory.getLogger(MealService.class);
-    private final IDynamoDBFacadeService dynamoDBFacadeService;
-    public MealService(@Named("primary-table") IDynamoDBFacadeService dynamoDBFacadeService) {
-        this.dynamoDBFacadeService = dynamoDBFacadeService;
+public class MealRepository {
+    private final Logger log = LoggerFactory.getLogger(MealRepository.class);
+    private final IDynamoDBFacadeRepository dynamoDBFacadeRepository;
+    public MealRepository(@Named("primary-table") IDynamoDBFacadeRepository dynamoDBFacadeRepository) {
+        this.dynamoDBFacadeRepository = dynamoDBFacadeRepository;
     }
 
     public void saveMeal(Meal meal) {
-        dynamoDBFacadeService.save(meal);
+        dynamoDBFacadeRepository.save(meal);
     }
 
     // ToDo: add pagination based on the meal date in the sort key
@@ -30,7 +30,7 @@ public class MealService {
         log.trace("Getting all meals for uid:{}", pk);
         Key key = Key.builder().partitionValue(pk).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        return dynamoDBFacadeService.query(Meal.class, queryConditional);
+        return dynamoDBFacadeRepository.query(Meal.class, queryConditional);
     }
 
     public List<DraftMeal> getListOfDraftMeals(String uid) {
@@ -38,13 +38,13 @@ public class MealService {
         log.trace("Getting all meals for uid:{}", pk);
         Key key = Key.builder().partitionValue(pk).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        return dynamoDBFacadeService.query(DraftMeal.class, queryConditional);
+        return dynamoDBFacadeRepository.query(DraftMeal.class, queryConditional);
     }
 
     public Optional<Meal> getMealByVenueNameAndMealId(String venueName, String mealId) {
         Key key = Key.builder().partitionValue(venueName).sortValue(mealId).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        List<Meal> meals = dynamoDBFacadeService.queryWithIndex(Meal.class, queryConditional, "gsi");
+        List<Meal> meals = dynamoDBFacadeRepository.queryWithIndex(Meal.class, queryConditional, "gsi");
         if (meals.isEmpty()) {
             return Optional.empty();
         }
@@ -58,21 +58,21 @@ public class MealService {
 
     public Optional<DraftMeal> getDraftMeal(String pk, String sk) {
         log.trace("Getting Meal PK: {}, SK: {}", pk, sk);
-        return dynamoDBFacadeService.load(DraftMeal.class, "DraftMeal_" + pk, sk);
+        return dynamoDBFacadeRepository.load(DraftMeal.class, "DraftMeal_" + pk, sk);
     }
 
     public Optional<Meal> getMeal(String uid, String sk) {
         log.trace("Getting Meal UID: {}, SK: {}", uid, sk);
-        return dynamoDBFacadeService.load(Meal.class, "Meal_" + uid, sk);
+        return dynamoDBFacadeRepository.load(Meal.class, "Meal_" + uid, sk);
     }
 
     public void deleteMeal(String uid, Instant mealDate, String id) {
         log.trace("Deleting Meal uid: {}, mealDate: {}, id: {}", uid, mealDate, id);
-        dynamoDBFacadeService.delete(new Meal(uid, mealDate, id));
+        dynamoDBFacadeRepository.delete(new Meal(uid, mealDate, id));
     }
 
     public void deleteDraftMeal(String uid, Instant mealDate, String id) {
         log.trace("Deleting DraftMeal uid: {}, mealDate: {}, id: {}", uid, mealDate, id);
-        dynamoDBFacadeService.delete(new DraftMeal(uid, mealDate, id));
+        dynamoDBFacadeRepository.delete(new DraftMeal(uid, mealDate, id));
     }
 }

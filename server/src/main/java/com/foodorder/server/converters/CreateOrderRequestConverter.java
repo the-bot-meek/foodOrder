@@ -7,8 +7,8 @@ import com.foodorder.server.models.meal.Meal;
 import com.foodorder.server.models.MenuItem;
 import com.foodorder.server.models.Order;
 import com.foodorder.server.models.Venue;
-import com.foodorder.server.services.MealService;
-import com.foodorder.server.services.VenueService;
+import com.foodorder.server.repository.MealRepository;
+import com.foodorder.server.repository.VenueRepository;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,11 +21,11 @@ import java.util.UUID;
 @Singleton
 public class CreateOrderRequestConverter {
     private final Logger log = LoggerFactory.getLogger(CreateOrderRequestConverter.class);
-    private final MealService mealService;
-    private final VenueService venueService;
-    public CreateOrderRequestConverter(MealService mealService, VenueService venueService) {
-        this.mealService = mealService;
-        this.venueService = venueService;
+    private final MealRepository mealRepository;
+    private final VenueRepository venueRepository;
+    public CreateOrderRequestConverter(MealRepository mealRepository, VenueRepository venueRepository) {
+        this.mealRepository = mealRepository;
+        this.venueRepository = venueRepository;
     }
     private List<MenuItem> getInvalidMenuItemsForVenue(Set<MenuItem> menuItems, Venue venue) {
         return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
@@ -36,7 +36,7 @@ public class CreateOrderRequestConverter {
     }
 
     public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername, boolean anonymous) throws OrderRequestConverterException {
-        final Optional<Meal> mealOptional = mealService.getMeal(
+        final Optional<Meal> mealOptional = mealRepository.getMeal(
                 createOrderRequest.organizerUid(),
                 createOrderRequest.dateOfMeal(),
                 createOrderRequest.mealId()
@@ -63,7 +63,7 @@ public class CreateOrderRequestConverter {
             throw new OrderRequestConverterException(errMsg);
         }
 
-        final Optional<Venue> venueOptional = venueService.getVenue(
+        final Optional<Venue> venueOptional = venueRepository.getVenue(
                 meal.getLocation(),
                 meal.getVenueName()
         );

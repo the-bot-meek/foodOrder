@@ -4,8 +4,8 @@ import com.foodorder.server.converters.CreateMealRequestConverter;
 import com.foodorder.server.exceptions.MealRequestConverterException;
 import com.foodorder.server.request.CreateMealRequest;
 import com.foodorder.server.models.meal.Meal;
-import com.foodorder.server.services.MealService;
-import com.foodorder.server.services.OrderService;
+import com.foodorder.server.repository.MealRepository;
+import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.*;
@@ -27,18 +27,18 @@ import java.util.Optional;
 @Controller("meal")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class MealController {
-    private final MealService mealService;
+    private final MealRepository mealRepository;
     private final Logger log = LoggerFactory.getLogger(MealController.class);
-    private final OrderService orderService;
+    private final OrderRepository orderRepository;
     private final CreateMealRequestConverter createMealRequestConverter;
 
     MealController(
-            MealService mealService,
-            OrderService orderService,
+            MealRepository mealRepository,
+            OrderRepository orderRepository,
             CreateMealRequestConverter createMealRequestConverter
     ) {
-        this.mealService = mealService;
-        this.orderService = orderService;
+        this.mealRepository = mealRepository;
+        this.orderRepository = orderRepository;
         this.createMealRequestConverter = createMealRequestConverter;
     }
     @Post
@@ -46,7 +46,7 @@ public class MealController {
         try {
             log.info("Adding new Meal. CreateMealRequest: {}, uid: {}", createMealRequest, authentication.getName());
             Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, authentication.getName());
-            mealService.saveMeal(meal);
+            mealRepository.saveMeal(meal);
             return HttpResponse.ok(meal);
         } catch (MealRequestConverterException e) {
             log.error("Error adding Meal", e);
@@ -57,20 +57,20 @@ public class MealController {
     @Get("{mealSortKey}")
     public Optional<Meal> getMeal(@NotNull @NotBlank String mealSortKey, Authentication authentication) {
         log.info("Getting Meal. mealSortKey: {}, uid:{}", mealSortKey, authentication.getName());
-        return mealService.getMeal(authentication.getName(), mealSortKey);
+        return mealRepository.getMeal(authentication.getName(), mealSortKey);
     }
 
     @Get("{mealDateTimeStamp}/{id}")
     public Optional<Meal> getMeal(long mealDateTimeStamp, @NotNull String id, Authentication authentication) {
         Instant mealDate = Instant.ofEpochMilli(mealDateTimeStamp);
         log.info("Getting Meal. mealDate: {}, id: {}, uid: {}", mealDate, id, authentication.getName());
-        return mealService.getMeal(authentication.getName(), mealDate + "_" + id);
+        return mealRepository.getMeal(authentication.getName(), mealDate + "_" + id);
     }
 
     @Get
     public List<Meal> listMeals(Authentication authentication) {
         log.info("Getting all meals for uid: {}", authentication.getName());
-        return mealService.getListOfMeals(authentication.getName());
+        return mealRepository.getListOfMeals(authentication.getName());
     }
 
     @Delete
@@ -80,8 +80,8 @@ public class MealController {
             @NotNull @NotEmpty @QueryValue String id
     ) {
         log.info("Deleting meal. uid: {}, mealDate: {}, id:{}", authentication.getName(), mealDate, id);
-        mealService.deleteMeal(authentication.getName(), mealDate, id);
+        mealRepository.deleteMeal(authentication.getName(), mealDate, id);
         log.info("Deleting all order for mealId: {}", id);
-        orderService.deleteAllOrdersForMeal(id);
+        orderRepository.deleteAllOrdersForMeal(id);
     }
 }

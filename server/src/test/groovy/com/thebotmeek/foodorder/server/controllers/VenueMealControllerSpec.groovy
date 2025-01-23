@@ -2,18 +2,18 @@ package com.thebotmeek.foodorder.server.controllers
 
 import com.foodorder.server.controllers.VenueMealController
 import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.services.IDynamoDBFacadeService
-import com.foodorder.server.services.MealService
+import com.foodorder.server.repository.IDynamoDBFacadeRepository
+import com.foodorder.server.repository.MealRepository
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import spock.lang.Specification
 
 class VenueMealControllerSpec extends Specification {
     VenueMealController venueMealController
-    IDynamoDBFacadeService dynamoDBFacadeService
+    IDynamoDBFacadeRepository dynamoDBFacadeService
 
     def "setup"() {
-        dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        MealService mealService = new MealService(dynamoDBFacadeService)
+        dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        MealRepository mealService = new MealRepository(dynamoDBFacadeService)
         venueMealController = new VenueMealController(mealService)
     }
 

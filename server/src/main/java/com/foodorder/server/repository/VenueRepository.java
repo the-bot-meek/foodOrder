@@ -1,4 +1,4 @@
-package com.foodorder.server.services;
+package com.foodorder.server.repository;
 
 import com.foodorder.server.models.Venue;
 import jakarta.inject.Named;
@@ -11,19 +11,19 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 
 
 @Singleton
-public class VenueService {
-    private final Logger log = LoggerFactory.getLogger(VenueService.class);
-    private final IDynamoDBFacadeService dynamoDBFacadeService;
+public class VenueRepository {
+    private final Logger log = LoggerFactory.getLogger(VenueRepository.class);
+    private final IDynamoDBFacadeRepository dynamoDBFacadeRepository;
 
-    public VenueService(
-            @Named("primary-table") IDynamoDBFacadeService dynamoDBFacadeService
+    public VenueRepository(
+            @Named("primary-table") IDynamoDBFacadeRepository dynamoDBFacadeRepository
     ) {
-        this.dynamoDBFacadeService = dynamoDBFacadeService;
+        this.dynamoDBFacadeRepository = dynamoDBFacadeRepository;
     }
 
     public Optional<Venue> getVenue(String location, String name) {
         log.trace("Getting Venue location: {}, name: {}", location, name);
-        return dynamoDBFacadeService.load(Venue.class,"Venue_" + location, name);
+        return dynamoDBFacadeRepository.load(Venue.class,"Venue_" + location, name);
     }
 
     public List<Venue> listVenues(String location) {
@@ -31,13 +31,13 @@ public class VenueService {
         log.trace("Getting all venues for location:{}", location);
         Key key = Key.builder().partitionValue(pk).build();
         QueryConditional conditional = QueryConditional.keyEqualTo(key);
-        return dynamoDBFacadeService.query(Venue.class, conditional);
+        return dynamoDBFacadeRepository.query(Venue.class, conditional);
     }
 
 
 
     public void addVenue(Venue venue) {
         log.trace("Adding Venue, venueId: {}", venue.getId());
-        dynamoDBFacadeService.save(venue);
+        dynamoDBFacadeRepository.save(venue);
     }
 }

@@ -10,9 +10,9 @@ import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.models.meal.PrivateMealConfig
-import com.foodorder.server.services.IDynamoDBFacadeService
-import com.foodorder.server.services.MealService
-import com.foodorder.server.services.OrderService
+import com.foodorder.server.repository.IDynamoDBFacadeRepository
+import com.foodorder.server.repository.MealRepository
+import com.foodorder.server.repository.OrderRepository
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.exceptions.HttpStatusException
@@ -22,16 +22,16 @@ import spock.lang.Specification
 import java.time.Instant
 
 class AnonymousOrderControllerSpec extends Specification {
-    OrderService orderService
+    OrderRepository orderRepository
     CreateOrderRequestConverter createOrderRequestConverter
     AnonymousOrderController anonymousOrderController
-    MealService mealService
+    MealRepository mealRepository
 
     def "setup"() {
-        orderService = Mock(OrderService)
-        mealService = Mock(MealService)
+        orderRepository = Mock(OrderRepository)
+        mealRepository = Mock(MealRepository)
         createOrderRequestConverter = Mock(CreateOrderRequestConverter)
-        anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
+        anonymousOrderController = new AnonymousOrderController(orderRepository, mealRepository, null)
     }
 
     private Authentication mockAuthentication(String name) {
@@ -42,7 +42,7 @@ class AnonymousOrderControllerSpec extends Specification {
 
     def "test adding an Anonymous Order"() {
         given:
-        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, null, createOrderRequestConverter)
+        AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderRepository, null, createOrderRequestConverter)
 
         Set<MenuItem> menuItems = [new MenuItem(name: ",", description: "", price: 0)]
         String uid = "79fe4688-604d-4301-9025-e5ff0c8c50c3"
@@ -54,7 +54,7 @@ class AnonymousOrderControllerSpec extends Specification {
         then:
         assert resp.status() == HttpStatus.OK
         assert resp.body() != null
-        1 * orderService.addOrder(_ as Order)
+        1 * orderRepository.addOrder(_ as Order)
         1 * createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, AnonymousOrderController.DEFAULT_AnonymousUser_NAME, true) >> new AnonymousOrder()
     }
 
@@ -68,7 +68,7 @@ class AnonymousOrderControllerSpec extends Specification {
 
         then:
         assert resp.isPresent()
-        1 * orderService.getAnonymousOrder(uid, mealId) >> Optional.of(new AnonymousOrder())
+        1 * orderRepository.getAnonymousOrder(uid, mealId) >> Optional.of(new AnonymousOrder())
     }
 
     def "test getting an non existent Anonymous Order"() {
@@ -81,13 +81,13 @@ class AnonymousOrderControllerSpec extends Specification {
 
         then:
         assert resp.isEmpty()
-        1 * orderService.getAnonymousOrder(uid, mealId) >> Optional.empty()
+        1 * orderRepository.getAnonymousOrder(uid, mealId) >> Optional.empty()
     }
 
     def "test adding AnonymousOrder from a list of recipient ids"() {
         given:
-        MealService mealService = Mock(MealService)
-        OrderService orderService = Mock(OrderService)
+        MealRepository mealService = Mock(MealRepository)
+        OrderRepository orderService = Mock(OrderRepository)
         AnonymousOrderController anonymousOrderController = new AnonymousOrderController(orderService, mealService, null)
         Instant dateOfMeal = Instant.ofEpochSecond(1723140295)
         String mealId = "3a54a877-388f-4bd7-92af-2f374681b3fd"
@@ -117,7 +117,7 @@ class AnonymousOrderControllerSpec extends Specification {
         anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
 
         then:
-        1 * mealService.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.empty()
+        1 * mealRepository.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.empty()
         thrown(MissingMealLinkedEntityException)
     }
 
@@ -133,7 +133,7 @@ class AnonymousOrderControllerSpec extends Specification {
         anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
 
         then:
-        1 * mealService.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(new Meal())
+        1 * mealRepository.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(new Meal())
 
         HttpStatusException httpStatusException = thrown(HttpStatusException)
         assert httpStatusException.status == HttpStatus.BAD_REQUEST
@@ -147,10 +147,10 @@ class AnonymousOrderControllerSpec extends Specification {
                 id: uid, name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD", mealConfig: new MealConfig(privateMealConfig: privateMealConfig)
         )
 
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        OrderService orderService = new OrderService(dynamoDBFacadeService)
+        IDynamoDBFacadeRepository dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        OrderRepository orderService = new OrderRepository(dynamoDBFacadeService)
         Authentication authentication = mockAuthentication(uid)
-        MealService mealService = new MealService(dynamoDBFacadeService)
+        MealRepository mealService = new MealRepository(dynamoDBFacadeService)
         AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
 
         when:
@@ -168,12 +168,12 @@ class AnonymousOrderControllerSpec extends Specification {
         given:
         final String uid = "ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd"
 
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
+        IDynamoDBFacadeRepository dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
         Authentication authentication = mockAuthentication(uid)
         1 * dynamoDBFacadeService.load(*_) >> {
             Optional.empty()
         }
-        MealService mealService = new MealService(dynamoDBFacadeService)
+        MealRepository mealService = new MealRepository(dynamoDBFacadeService)
         AnonymousOrderController orderController = new AnonymousOrderController(null, mealService, null)
 
         when:

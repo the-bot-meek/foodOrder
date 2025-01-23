@@ -1,4 +1,4 @@
-package com.foodorder.server.services;
+package com.foodorder.server.repository;
 
 
 import com.foodorder.server.configuration.TableConfigration;
@@ -15,11 +15,11 @@ import java.util.Optional;
 
 @Singleton
 @EachBean(TableConfigration.class)
-public class DynamoDBEnhancedFacadeService implements IDynamoDBFacadeService {
+public class DynamoDBEnhancedFacadeRepository implements IDynamoDBFacadeRepository {
     private final DynamoDbEnhancedClient enhancedClient;
     private final String tableName;
 
-    DynamoDBEnhancedFacadeService(DynamoDbClient dynamoDbClient, TableConfigration tableConfigration) {
+    DynamoDBEnhancedFacadeRepository(DynamoDbClient dynamoDbClient, TableConfigration tableConfigration) {
         this.enhancedClient = DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(dynamoDbClient)
                 .build();

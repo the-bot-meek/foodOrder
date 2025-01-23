@@ -4,7 +4,7 @@ import com.foodorder.server.converters.CreateVenueRequestConverter;
 import com.foodorder.server.exceptions.VenueRequestConverterException;
 import com.foodorder.server.request.CreateVenueRequest;
 import com.foodorder.server.models.Venue;
-import com.foodorder.server.services.VenueService;
+import com.foodorder.server.repository.VenueRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.security.annotation.Secured;
@@ -20,24 +20,24 @@ import java.util.Optional;
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class VenueController {
     final private Logger log = LoggerFactory.getLogger(VenueController.class);
-    final private VenueService venueService;
+    final private VenueRepository venueRepository;
     final private CreateVenueRequestConverter createVenueRequestConverter;
 
-    public VenueController(VenueService venueService, CreateVenueRequestConverter createVenueRequestConverter) {
-        this.venueService = venueService;
+    public VenueController(VenueRepository venueRepository, CreateVenueRequestConverter createVenueRequestConverter) {
+        this.venueRepository = venueRepository;
         this.createVenueRequestConverter = createVenueRequestConverter;
     }
 
     @Get("/{location}/{name}")
     public Optional<Venue> getVenue(String location, String name) {
         log.info("Getting venue. location: {}, name: {}", location, name);
-        return venueService.getVenue(location, name);
+        return venueRepository.getVenue(location, name);
     }
 
     @Get("/{location}")
     public List<Venue> listVenuesForLocation(String location) {
         log.info("Getting all Venues for location: {}", location);
-        return venueService.listVenues(location);
+        return venueRepository.listVenues(location);
     }
 
     @Post
@@ -45,7 +45,7 @@ public class VenueController {
         log.info("Adding Venue. createVenueRequest: {}", createVenueRequest);
         try {
             Venue venue = createVenueRequestConverter.convertCreateVenuelRequestIntoVenue(createVenueRequest);
-            venueService.addVenue(venue);
+            venueRepository.addVenue(venue);
             return HttpResponse.ok(venue);
         } catch (VenueRequestConverterException e) {
             log.error("Error converting CreateVenueRequest to Venue", e);
