@@ -5,9 +5,9 @@ import com.foodorder.server.converters.CreateVenueRequestConverter
 import com.foodorder.server.request.CreateVenueRequest
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.Venue
-import com.foodorder.server.services.IDynamoDBFacadeService
-import com.foodorder.server.services.LocationService
-import com.foodorder.server.services.VenueService
+import com.foodorder.server.repository.IDynamoDBFacadeRepository
+import com.foodorder.server.repository.LocationRepository
+import com.foodorder.server.repository.VenueRepository
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import spock.lang.Specification
@@ -18,10 +18,10 @@ class VenueControllerTest extends Specification {
     String location
     String description
     Set<MenuItem> menuItems
-    String phoneNumber;
-    IDynamoDBFacadeService dynamoDBFacadeService
-    LocationService locationService
-    VenueService venueService
+    String phoneNumber
+    IDynamoDBFacadeRepository dynamoDBFacadeService
+    LocationRepository locationService
+    VenueRepository venueService
     VenueController venueController
 
 
@@ -43,9 +43,9 @@ class VenueControllerTest extends Specification {
         description = "description"
         phoneNumber = "+44 20 7123 4567"
         menuItems = Set.of(new MenuItem(name: "name", description: "description", price: 5.55))
-        dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        locationService = new LocationService()
-        venueService = new VenueService(dynamoDBFacadeService)
+        dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        locationService = new LocationRepository()
+        venueService = new VenueRepository(dynamoDBFacadeService)
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
         venueController = new VenueController(venueService, createVenueRequestConverter)
     }
@@ -78,9 +78,9 @@ class VenueControllerTest extends Specification {
         given:
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, venueName, description, phoneNumber)
 
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        LocationService locationService = new LocationService()
-        VenueService venueService = new VenueService(dynamoDBFacadeService)
+        IDynamoDBFacadeRepository dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        LocationRepository locationService = new LocationRepository()
+        VenueRepository venueService = new VenueRepository(dynamoDBFacadeService)
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
         VenueController venueController = new VenueController(venueService, createVenueRequestConverter)
 
@@ -97,9 +97,9 @@ class VenueControllerTest extends Specification {
         location = "Not London"
         CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, venueName, description, phoneNumber)
 
-        IDynamoDBFacadeService dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        LocationService locationService = new LocationService()
-        VenueService venueService = new VenueService(dynamoDBFacadeService)
+        IDynamoDBFacadeRepository dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        LocationRepository locationService = new LocationRepository()
+        VenueRepository venueService = new VenueRepository(dynamoDBFacadeService)
         CreateVenueRequestConverter createVenueRequestConverter = new CreateVenueRequestConverter(locationService)
         VenueController venueController = new VenueController(venueService, createVenueRequestConverter)
 
@@ -107,6 +107,6 @@ class VenueControllerTest extends Specification {
         HttpResponse<Venue> venueHttpResponse = venueController.addVenue(createVenueRequest)
 
         then:
-        venueHttpResponse.status() == HttpStatus.BAD_REQUEST;
+        venueHttpResponse.status() == HttpStatus.BAD_REQUEST
     }
 }

@@ -2,7 +2,7 @@ package com.thebotmeek.foodorder.server.controllers
 
 import com.foodorder.server.controllers.DraftMealController
 import com.foodorder.server.models.meal.DraftMeal
-import com.foodorder.server.services.MealService
+import com.foodorder.server.repository.MealRepository
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 
@@ -10,7 +10,7 @@ import java.time.Instant
 
 class DraftMealControllerTest extends Specification {
     Authentication authentication
-    MealService mealService
+    MealRepository mealService
     DraftMealController draftMealController
     String uid
     String mealId
@@ -18,7 +18,7 @@ class DraftMealControllerTest extends Specification {
 
     def "setup"() {
         authentication = Mock(Authentication)
-        mealService = Mock(MealService)
+        mealService = Mock(MealRepository)
         uid =  "user id"
         authentication.getName() >> uid
         draftMealController = new DraftMealController(mealService)

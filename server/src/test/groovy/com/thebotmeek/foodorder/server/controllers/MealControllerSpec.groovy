@@ -5,23 +5,23 @@ import com.foodorder.server.converters.CreateMealRequestConverter
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
-import com.foodorder.server.services.LocationService
-import com.foodorder.server.services.MealService
+import com.foodorder.server.repository.LocationRepository
+import com.foodorder.server.repository.MealRepository
 import io.micronaut.http.exceptions.HttpStatusException
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 import java.time.Instant
 
 class MealControllerSpec extends Specification {
-    LocationService locationService
-    MealService mealService
+    LocationRepository locationService
+    MealRepository mealService
     MealController mealController
     CreateMealRequestConverter createMealRequestConverter
     Authentication authentication
 
     def "setup"() {
-        locationService = new LocationService()
-        mealService = Mock(MealService)
+        locationService = new LocationRepository()
+        mealService = Mock(MealRepository)
         createMealRequestConverter = new CreateMealRequestConverter(locationService)
         mealController = new MealController(mealService, null, createMealRequestConverter)
         authentication = Mock(Authentication)

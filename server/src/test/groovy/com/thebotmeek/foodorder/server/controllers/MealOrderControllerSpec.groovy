@@ -3,7 +3,7 @@ package com.thebotmeek.foodorder.server.controllers
 import com.foodorder.server.controllers.MealOrderController
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.Order
-import com.foodorder.server.services.OrderService
+import com.foodorder.server.repository.OrderRepository
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.security.authentication.Authentication
@@ -11,10 +11,10 @@ import spock.lang.Specification
 import java.time.Instant
 
 class MealOrderControllerSpec extends Specification {
-    OrderService orderService
+    OrderRepository orderService
 
     def "setup"() {
-        orderService = Mock(OrderService)
+        orderService = Mock(OrderRepository)
     }
 
     private Authentication mockAuthentication(String name) {

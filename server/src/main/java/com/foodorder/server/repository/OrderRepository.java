@@ -1,4 +1,4 @@
-package com.foodorder.server.services;
+package com.foodorder.server.repository;
 
 import com.foodorder.server.models.AnonymousOrder;
 import com.foodorder.server.models.Order;
@@ -14,18 +14,18 @@ import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import java.util.*;
 
 @Singleton
-public class OrderService {
-    private final Logger log = LoggerFactory.getLogger(MealService.class);
-    private final IDynamoDBFacadeService dynamoDBFacadeService;
+public class OrderRepository {
+    private final Logger log = LoggerFactory.getLogger(MealRepository.class);
+    private final IDynamoDBFacadeRepository dynamoDBFacadeRepository;
 
-    public OrderService(
-            @Named("order-table") IDynamoDBFacadeService dynamoDBFacadeService
+    public OrderRepository(
+            @Named("order-table") IDynamoDBFacadeRepository dynamoDBFacadeRepository
     ) {
-        this.dynamoDBFacadeService = dynamoDBFacadeService;
+        this.dynamoDBFacadeRepository = dynamoDBFacadeRepository;
     }
 
     public void addOrder(Order order) {
-        dynamoDBFacadeService.save(order);
+        dynamoDBFacadeRepository.save(order);
     }
 
     public List<Order> getOrderFromMealId(String mealId) {
@@ -33,13 +33,13 @@ public class OrderService {
         log.trace("Getting all orders for meal:{}", mealId);
         Key key = Key.builder().partitionValue(pk).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        return dynamoDBFacadeService.query(Order.class, queryConditional);
+        return dynamoDBFacadeRepository.query(Order.class, queryConditional);
     }
 
     public void deleteAllOrdersForMeal(String mealId) {
         log.trace("Deleting all Orders for mealId: {}", mealId);
         List<Order> orders = getOrderFromMealId(mealId);
-        dynamoDBFacadeService.batchDelete(orders);
+        dynamoDBFacadeRepository.batchDelete(orders);
     }
 
     public List<Order> listOrdersFromUserID(String uid) {
@@ -47,7 +47,7 @@ public class OrderService {
         log.trace("Getting all orders for meal:{}", uid);
         Key key = Key.builder().partitionValue(pk).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        return dynamoDBFacadeService.queryWithIndex(Order.class, queryConditional, "uid_gsi");
+        return dynamoDBFacadeRepository.queryWithIndex(Order.class, queryConditional, "uid_gsi");
     }
 
     public Optional<AnonymousOrder> getAnonymousOrder(String uid, String mealId) {
@@ -55,7 +55,7 @@ public class OrderService {
         log.trace("Getting all AnonymousOrders for meal:{}", uid);
         Key key = Key.builder().partitionValue(pk).sortValue("Order_" + mealId).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        List<AnonymousOrder> orders = dynamoDBFacadeService.queryWithIndex(AnonymousOrder.class, queryConditional, "uid_gsi");
+        List<AnonymousOrder> orders = dynamoDBFacadeRepository.queryWithIndex(AnonymousOrder.class, queryConditional, "uid_gsi");
         if (orders.isEmpty()) {
             return Optional.empty();
         }
@@ -63,7 +63,7 @@ public class OrderService {
     }
 
     public void batchSave(List<Order> orders) {
-        dynamoDBFacadeService.batchSave(orders);
+        dynamoDBFacadeRepository.batchSave(orders);
     }
 
     public void addOrdersForPrivateMeal(@NotNull Meal meal, Set<String> recipientIds) {

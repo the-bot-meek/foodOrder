@@ -4,14 +4,13 @@ import com.foodorder.server.converters.CreateOrderRequestConverter;
 import com.foodorder.server.exceptions.OrderRequestConverterException;
 import com.foodorder.server.request.CreateOrderRequest;
 import com.foodorder.server.models.Order;
-import com.foodorder.server.services.OrderService;
+import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Error;
 import io.micronaut.http.annotation.Post;
-import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
@@ -23,10 +22,10 @@ import org.slf4j.LoggerFactory;
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class OrderController {
     private final Logger log = LoggerFactory.getLogger(OrderController.class);
-    private final OrderService  orderService;
+    private final OrderRepository orderRepository;
     private final CreateOrderRequestConverter createOrderRequestConverter;
-    OrderController(OrderService orderService, CreateOrderRequestConverter createOrderRequestConverter) {
-        this.orderService = orderService;
+    OrderController(OrderRepository orderRepository, CreateOrderRequestConverter createOrderRequestConverter) {
+        this.orderRepository = orderRepository;
         this.createOrderRequestConverter = createOrderRequestConverter;
     }
     @Post
@@ -37,12 +36,12 @@ public class OrderController {
                 authentication.getName(),
                 (String) authentication.getAttributes().get("name")
         );
-        orderService.addOrder(order);
+        orderRepository.addOrder(order);
         return order;
     }
 
     @Error(OrderRequestConverterException.class)
-    HttpResponse handleOrderRequestConverterException(OrderRequestConverterException e) {
+    <T> HttpResponse<T> handleOrderRequestConverterException(OrderRequestConverterException e) {
         log.error("Failed to add Order", e);
         return HttpResponse.status(HttpStatus.BAD_REQUEST);
     }

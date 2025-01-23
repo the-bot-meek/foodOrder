@@ -1,7 +1,7 @@
 package com.foodorder.server.controllers;
 
 import com.foodorder.server.models.Order;
-import com.foodorder.server.services.OrderService;
+import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.security.annotation.Secured;
@@ -14,14 +14,14 @@ import java.util.List;
 @Controller("user")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class UserOrderController {
-    private final OrderService orderService;
+    private final OrderRepository orderRepository;
     private final Logger log = LoggerFactory.getLogger(UserOrderController.class);
-    UserOrderController(OrderService orderService) {
-        this.orderService = orderService;
+    UserOrderController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
     @Get("order")
     public List<Order> listOrders(Authentication authentication) {
         log.info("Getting all Orders for uid: {}", authentication.getName());
-        return orderService.listOrdersFromUserID(authentication.getName());
+        return orderRepository.listOrdersFromUserID(authentication.getName());
     }
 }

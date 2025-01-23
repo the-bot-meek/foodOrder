@@ -1,7 +1,7 @@
 package com.foodorder.server.controllers;
 
 import com.foodorder.server.models.Order;
-import com.foodorder.server.services.OrderService;
+import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -17,16 +17,16 @@ import java.util.Objects;
 @Controller("/meal")
 @Secured(SecurityRule.IS_AUTHENTICATED)
 public class MealOrderController {
-    private final OrderService orderService;
+    private final OrderRepository orderRepository;
     private final Logger log = LoggerFactory.getLogger(MealOrderController.class);
-    MealOrderController(OrderService orderService) {
-        this.orderService = orderService;
+    MealOrderController(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     @Get("/{mealId}/orders")
     public HttpResponse<List<Order>> listAllOrdersForMeal(String mealId, Authentication authentication) {
         log.info("Getting all Orders for mealId: {}", mealId);
-        List<Order> orders = orderService.getOrderFromMealId(mealId);
+        List<Order> orders = orderRepository.getOrderFromMealId(mealId);
         if (!validateListOfOrders(orders, authentication)) {
             log.error("Not all meals returned belong to this user.");
             return HttpResponse.serverError();

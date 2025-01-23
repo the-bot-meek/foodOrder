@@ -3,19 +3,19 @@ package com.thebotmeek.foodorder.server.services
 import com.foodorder.server.models.AnonymousOrder
 import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.services.IDynamoDBFacadeService
-import com.foodorder.server.services.OrderService
+import com.foodorder.server.repository.IDynamoDBFacadeRepository
+import com.foodorder.server.repository.OrderRepository
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
 import spock.lang.Specification
 
 
-class OrderServiceSpec extends Specification {
-    IDynamoDBFacadeService dynamoDBFacadeService
-    OrderService orderService
+class OrderRepositorySpec extends Specification {
+    IDynamoDBFacadeRepository dynamoDBFacadeService
+    OrderRepository orderService
 
     def "setup"() {
-        dynamoDBFacadeService = Mock(IDynamoDBFacadeService)
-        orderService = new OrderService(dynamoDBFacadeService)
+        dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        orderService = new OrderRepository(dynamoDBFacadeService)
     }
 
     def "test add addOrdersForPrivateMeal happy path"() {

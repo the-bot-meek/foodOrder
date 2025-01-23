@@ -5,7 +5,7 @@ import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.DraftMeal
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
-import com.foodorder.server.services.LocationService
+import com.foodorder.server.repository.LocationRepository
 import spock.lang.Specification
 
 import java.time.Instant
@@ -13,7 +13,7 @@ import java.time.Instant
 class CreateMealRequestConverterTest extends Specification {
     def "ConvertCreateMealRequestToMeal"() {
         given:
-        LocationService locationService = Mock(LocationService)
+        LocationRepository locationService = Mock(LocationRepository)
         locationService.listLocation() >> ["London"]
         String uid = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
@@ -38,7 +38,7 @@ class CreateMealRequestConverterTest extends Specification {
 
     def "ConvertCreateMealRequestToMeal DraftMeal"() {
         given:
-        LocationService locationService = Mock(LocationService)
+        LocationRepository locationService = Mock(LocationRepository)
         locationService.listLocation() >> ["London"]
         CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
         String uid = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
