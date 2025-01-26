@@ -27,14 +27,14 @@ public class MealOrderController {
     public HttpResponse<List<Order>> listAllOrdersForMeal(String mealId, Authentication authentication) {
         log.info("Getting all Orders for mealId: {}", mealId);
         List<Order> orders = orderRepository.getOrderFromMealId(mealId);
-        if (!validateListOfOrders(orders, authentication)) {
+        if (!validateListOfOrdersForUser(orders, authentication)) {
             log.error("Not all meals returned belong to this user.");
             return HttpResponse.serverError();
         }
         return HttpResponse.ok(orders);
     }
 
-    private boolean validateListOfOrders(List<Order> orders, Authentication authentication) {
+    private boolean validateListOfOrdersForUser(List<Order> orders, Authentication authentication) {
         if (orders.isEmpty()) return true;
         Order order = orders.get(0);
         boolean uniform = orders.stream().allMatch(it ->

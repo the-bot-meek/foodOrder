@@ -1,8 +1,11 @@
 package com.thebotmeek.foodorder.server.integration
 
+import com.foodorder.server.client.AnonymousOrderClient
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.OrderClient
 import com.foodorder.server.client.VenueClient
+import com.foodorder.server.models.AnonymousOrder
+import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateVenueRequest
@@ -28,6 +31,10 @@ class MealOrderIntegrationSpec extends Specification {
 
     @Inject
     MealClient mealClient
+
+    @Inject
+    AnonymousOrderClient anonymousOrderClient
+
     def "Get all orders for meal"() {
         given:
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
@@ -49,5 +56,29 @@ class MealOrderIntegrationSpec extends Specification {
 
         then:
         assert orderList.find{Order it -> it.getId() == order.getId()} == order
+    }
+
+
+    def "get all AnonymousOrder for meal"() {
+        given:
+        Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
+        String location = "London"
+        String name = "MacD"
+        PrivateMealConfig privateMealConfig = new PrivateMealConfig(recipientIds: ["84062738-c3cf-4831-873d-c768be9a1a15"])
+
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
+        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description", "+44 20 7123 4567")
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig(privateMealConfig: privateMealConfig))
+
+        when:
+        venueClient.addVenue(createVenueRequest)
+        Meal meal = mealClient.addMeal(createMealRequest)
+
+        anonymousOrderClient.addOrdersForMeal(meal.getMealDate(), meal.getId())
+        List<Order> anonymousOrderForMeal = mealClient.listAllOrdersForMeal(meal.getId())
+
+        then:
+        assert !anonymousOrderForMeal.isEmpty()
+
     }
 }

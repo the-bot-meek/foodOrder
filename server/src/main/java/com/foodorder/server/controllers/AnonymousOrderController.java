@@ -56,7 +56,8 @@ public class AnonymousOrderController {
     }
 
     @Post("addBlankOrdersForMeal/{mealDate}/{mealId}")
-    public void addOrdersForMeal(Instant mealDate, @NotNull String mealId, Authentication authentication) throws MissingRequredLinkedEntityException {
+    public void addOrdersForMeal(@NotNull Instant mealDate, @NotNull String mealId, Authentication authentication) throws MissingRequredLinkedEntityException {
+        log.info("Adding blank AnonymousOrder for mealDate: {}, mealId: {}", mealDate, mealId);
         Optional<Meal> mealOptional = mealRepository.getMeal(authentication.getName(), mealDate + "_" + mealId);
         if (mealOptional.isEmpty()) {
             throw new MissingMealLinkedEntityException(authentication.getName(), mealDate, mealId);
