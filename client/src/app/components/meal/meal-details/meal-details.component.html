@@ -15,4 +15,12 @@
     <p><strong>Location:</strong> {{ meal.location }}</p>
     <p><strong>Venue:</strong> {{ meal.venueName }}</p>
   </div>
+  <div class="orders-container" *ngIf="orders | async as orders">
+    <app-order-table-component [orders]="orders"></app-order-table-component>
+  </div>
+
+
 </div>
+
+
+
