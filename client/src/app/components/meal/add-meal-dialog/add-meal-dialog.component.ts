@@ -85,7 +85,7 @@ export class AddMealDialogComponent {
 
   private failedToAddMeal() {
     this.snackBar.open("Failed to add meal", null, {
-      horizontalPosition: 'end', verticalPosition: 'top', duration: 7500
+      horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
     });
   }
 
