@@ -13,6 +13,7 @@ import {MenuItemListComponent} from "../menu-item-list/menu-item-list.component"
 import {MatIcon} from "@angular/material/icon";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {map} from "rxjs/operators";
+import {catchError} from "rxjs";
 
 @Component({
     selector: 'app-add-venue-dialog',
@@ -72,6 +73,10 @@ export class AddVenueDialogComponent {
       this.snackBar.open("Venue Added", null, {
         horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
       })
+    }),
+    catchError(err => {
+      this.failedToAddVenue()
+      throw err;
     })).subscribe()
     this.addMenuItemForm.reset()
     this.venueFormGroup.reset()
@@ -88,4 +93,11 @@ export class AddVenueDialogComponent {
     this.addMenuItemForm.reset()
   }
 
+
+
+  private failedToAddVenue() {
+    this.snackBar.open("Failed to add venue", null, {
+      horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
+    });
+  }
 }
