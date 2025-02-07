@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MealOverviewComponent } from './meal-overview.component';
 import {of} from "rxjs";
-import {IMeal} from "../../../../../models/meal";
+import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 import {MealService} from "../../../shared/api/meal.service";
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth/auth.service";
-import {IUser} from "../../../../../models/IUser";
+import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 
 describe('MealOverviewComponent', () => {
   let component: MealOverviewComponent;

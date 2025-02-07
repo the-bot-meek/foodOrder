@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Observable} from "rxjs";
-import {IMeal} from "../../../../../models/meal";
+import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 import {VenueService} from "../../../shared/api/venue.service";
 import {MealDetailsComponent} from "../../meal/meal-details/meal-details.component";
 
