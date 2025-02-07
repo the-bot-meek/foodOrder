@@ -1,8 +1,8 @@
 import {expect, test} from '@playwright/test';
-import {ICreateVenueRequest} from "../models/venue";
-import {ICreateMealRequest} from "../models/ICreateMealRequest";
 import {getMealTableCellFromTableRow, openAddDialog, populateAddMealDialog, populateAddVenueDialog} from "./utils";
 import {v4 as uuid} from 'uuid';
+import {ICreateVenueRequest} from "@the-bot-meek/food-orders-models/models/venue";
+import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 
 test('has title', async ({ page }) => {
   await page.goto('/');

@@ -5,9 +5,9 @@ import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth/auth.service";
 import SpyObj = jasmine.SpyObj;
 import {VenueService} from "../../../shared/api/venue.service";
-import {IUser} from "../../../../../models/IUser";
+import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 import {of} from "rxjs";
-import {IMeal} from "../../../../../models/meal";
+import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 
 describe('AccreditedOrderComponentComponent', () => {
   let component: AccreditedOrderComponent;

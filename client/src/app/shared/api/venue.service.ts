@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ICreateVenueRequest, IVenue } from '../../../../models/venue';
+import { ICreateVenueRequest, IVenue } from '@the-bot-meek/food-orders-models/models/venue';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import {IMeal} from "../../../../models/meal";
+import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 
 @Injectable({
   providedIn: 'root'

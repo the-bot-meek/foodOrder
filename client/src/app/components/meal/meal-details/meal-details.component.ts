@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {IMeal} from "../../../../../models/meal";
+import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 import {AsyncPipe, DatePipe, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {map} from "rxjs/operators";

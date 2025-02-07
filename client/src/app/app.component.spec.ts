@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import {AuthService} from "./shared/services/auth/auth.service";
 import {of} from "rxjs";
-import {IUser} from "../../models/IUser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 
 describe('AppComponent', () => {
   let authService: any;

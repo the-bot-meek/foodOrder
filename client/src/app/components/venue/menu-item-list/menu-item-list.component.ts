@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {IMenuItems} from "../../../../../models/menuItems";
+import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";

@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import {Observable, BehaviorSubject, tap} from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-import { ICreateMealRequest } from '../../../../models/ICreateMealRequest';
-import { IMeal } from '../../../../models/meal';
-import { IOrder } from '../../../../models/order';
+import {IMeal} from '@the-bot-meek/food-orders-models/models/meal'
+import {ICreateMealRequest} from '@the-bot-meek/food-orders-models/models/ICreateMealRequest';
+import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
 
 @Injectable({
   providedIn: 'root'

@@ -8,10 +8,10 @@ import {
 } from "@angular/material/dialog";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {IVenue} from "../../../../../models/venue";
+import {IVenue} from "@the-bot-meek/food-orders-models/models/venue";
 import {VenueService} from "../../../shared/api/venue.service";
 import {MealService} from "../../../shared/api/meal.service";
-import {ICreateMealRequest} from "../../../../../models/ICreateMealRequest";
+import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
