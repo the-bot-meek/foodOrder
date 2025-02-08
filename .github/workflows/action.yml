@@ -53,7 +53,7 @@ jobs:
           distribution: 'corretto'
           java-version: '21'
 
-      - name: Build with Gradle
+      - name: Publish modules to maven local
         run: ./gradlew publishToMavenLocal --no-daemon
 
       - name: Build with Gradle
@@ -86,7 +86,7 @@ jobs:
           distribution: 'corretto'
           java-version: '21'
 
-      - name: Build with Gradle
+      - name: Publish modules to maven local
         run: ./gradlew publishToMavenLocal --no-daemon
 
       - name: Build with Gradle
