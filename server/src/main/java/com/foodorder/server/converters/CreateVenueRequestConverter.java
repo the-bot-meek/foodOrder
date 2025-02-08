@@ -2,7 +2,7 @@ package com.foodorder.server.converters;
 
 import com.foodorder.server.exceptions.VenueRequestConverterException;
 import com.foodorder.server.request.CreateVenueRequest;
-import com.foodorder.server.models.Venue;
+import com.foodorder.models.models.Venue;
 import com.foodorder.server.repository.LocationRepository;
 import jakarta.inject.Singleton;
 

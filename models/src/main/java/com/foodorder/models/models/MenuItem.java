@@ -1,7 +1,8 @@
-package com.foodorder.server.models;
+package com.foodorder.models.models;
 
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
+
 import java.util.Objects;
 
 

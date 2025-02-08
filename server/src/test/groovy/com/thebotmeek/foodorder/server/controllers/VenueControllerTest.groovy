@@ -1,13 +1,13 @@
 package com.thebotmeek.foodorder.server.controllers
 
+import com.foodorder.models.models.MenuItem
+import com.foodorder.models.models.Venue
 import com.foodorder.server.controllers.VenueController
 import com.foodorder.server.converters.CreateVenueRequestConverter
-import com.foodorder.server.request.CreateVenueRequest
-import com.foodorder.server.models.MenuItem
-import com.foodorder.server.models.Venue
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.LocationRepository
 import com.foodorder.server.repository.VenueRepository
+import com.foodorder.server.request.CreateVenueRequest
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import spock.lang.Specification

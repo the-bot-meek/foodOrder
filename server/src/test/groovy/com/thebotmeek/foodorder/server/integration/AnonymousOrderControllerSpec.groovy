@@ -1,15 +1,15 @@
 package com.thebotmeek.foodorder.server.integration
 
+import com.foodorder.models.models.AnonymousOrder
+import com.foodorder.models.models.MenuItem
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
 import com.foodorder.server.client.AnonymousOrderClient
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.VenueClient
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateVenueRequest
-import com.foodorder.server.models.AnonymousOrder
-import com.foodorder.server.models.MenuItem
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
 import io.micronaut.serde.ObjectMapper
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject

@@ -1,15 +1,15 @@
 package com.thebotmeek.foodorder.server.integration
 
+import com.foodorder.models.models.MenuItem
+import com.foodorder.models.models.Order
+import com.foodorder.models.models.meal.DraftMeal
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
+import com.foodorder.models.models.meal.PrivateMealConfig
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.OrderClient
 import com.foodorder.server.client.VenueClient
-import com.foodorder.server.models.MenuItem
 import com.foodorder.server.request.CreateMealRequest
-import com.foodorder.server.models.meal.DraftMeal
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
-import com.foodorder.server.models.meal.PrivateMealConfig
-import com.foodorder.server.models.Order
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateVenueRequest
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
@@ -18,7 +18,6 @@ import spock.lang.IgnoreIf
 import spock.lang.Specification
 
 import java.time.Instant
-
 
 @MicronautTest(environments = ["mock_auth"])
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})

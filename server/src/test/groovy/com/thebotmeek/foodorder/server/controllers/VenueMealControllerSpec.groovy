@@ -1,7 +1,7 @@
 package com.thebotmeek.foodorder.server.controllers
 
+import com.foodorder.models.models.meal.Meal
 import com.foodorder.server.controllers.VenueMealController
-import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.MealRepository
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional

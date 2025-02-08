@@ -1,7 +1,7 @@
 package com.foodorder.server.client;
 
 import com.foodorder.server.request.CreateOrderRequest;
-import com.foodorder.server.models.Order;
+import com.foodorder.models.models.Order;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.client.annotation.Client;

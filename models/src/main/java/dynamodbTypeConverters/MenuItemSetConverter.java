@@ -1,13 +1,12 @@
-package com.foodorder.server.dynamodbTypeConverters;
+package dynamodbTypeConverters;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodorder.server.models.MenuItem;
+import com.foodorder.models.models.MenuItem;
 import software.amazon.awssdk.enhanced.dynamodb.AttributeConverter;
 import software.amazon.awssdk.enhanced.dynamodb.AttributeValueType;
 import software.amazon.awssdk.enhanced.dynamodb.EnhancedType;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
-
 
 import java.util.Set;
 

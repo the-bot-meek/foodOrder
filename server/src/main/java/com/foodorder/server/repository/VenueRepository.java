@@ -1,6 +1,6 @@
 package com.foodorder.server.repository;
 
-import com.foodorder.server.models.Venue;
+import com.foodorder.models.models.Venue;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import java.util.*;

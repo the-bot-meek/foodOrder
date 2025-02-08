@@ -1,6 +1,6 @@
 package com.thebotmeek.foodorder.server.models
 
-import com.foodorder.server.models.Venue
+import com.foodorder.models.models.Venue
 import spock.lang.Specification
 
 class VenueSpec extends Specification {

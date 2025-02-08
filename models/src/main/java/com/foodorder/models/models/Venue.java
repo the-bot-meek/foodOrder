@@ -1,6 +1,7 @@
-package com.foodorder.server.models;
+package com.foodorder.models.models;
 
-import com.foodorder.server.dynamodbTypeConverters.MenuItemSetConverter;
+
+import dynamodbTypeConverters.MenuItemSetConverter;
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 

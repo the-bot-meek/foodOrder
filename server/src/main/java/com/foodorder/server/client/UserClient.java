@@ -1,6 +1,6 @@
 package com.foodorder.server.client;
 
-import com.foodorder.server.models.Order;
+import com.foodorder.models.models.Order;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.annotation.Client;
 

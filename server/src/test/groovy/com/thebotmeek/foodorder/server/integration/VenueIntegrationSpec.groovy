@@ -1,9 +1,9 @@
 package com.thebotmeek.foodorder.server.integration
 
+import com.foodorder.models.models.MenuItem
+import com.foodorder.models.models.Venue
 import com.foodorder.server.client.VenueClient
 import com.foodorder.server.request.CreateVenueRequest
-import com.foodorder.server.models.MenuItem
-import com.foodorder.server.models.Venue
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf

@@ -1,6 +1,6 @@
 package com.foodorder.server.controllers;
 
-import com.foodorder.server.models.Order;
+import com.foodorder.models.models.Order;
 import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;

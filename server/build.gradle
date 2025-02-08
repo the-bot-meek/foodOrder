@@ -12,6 +12,7 @@ group = "com.foodorder.server"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -36,6 +37,7 @@ dependencies {
     aotPlugins("io.micronaut.security:micronaut-security-aot")
     implementation("io.micronaut:micronaut-management")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
+    implementation("com.foodorder:models:0.0.1")
     testImplementation 'net.bytebuddy:byte-buddy:1.17.0'
     testImplementation 'org.objenesis:objenesis:3.4'
 }
