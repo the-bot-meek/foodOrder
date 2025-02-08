@@ -1,6 +1,6 @@
 package com.foodorder.server.repository;
 
-import com.foodorder.server.models.Model;
+import com.foodorder.models.models.Model;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.thebotmeek.foodorder.server.models
 
-import com.foodorder.server.models.meal.DraftMeal
+import com.foodorder.models.models.meal.DraftMeal
 import spock.lang.Specification
 
 class DraftMealTest extends Specification {

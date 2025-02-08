@@ -1,6 +1,6 @@
 package com.thebotmeek.foodorder.server.models
 
-import com.foodorder.server.models.meal.Meal
+import com.foodorder.models.models.meal.Meal
 import spock.lang.Specification
 
 import java.time.Instant

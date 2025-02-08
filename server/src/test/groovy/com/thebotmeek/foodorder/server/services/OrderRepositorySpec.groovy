@@ -1,8 +1,8 @@
 package com.thebotmeek.foodorder.server.services
 
-import com.foodorder.server.models.AnonymousOrder
-import com.foodorder.server.models.Order
-import com.foodorder.server.models.meal.Meal
+import com.foodorder.models.models.AnonymousOrder
+import com.foodorder.models.models.Order
+import com.foodorder.models.models.meal.Meal
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.OrderRepository
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional

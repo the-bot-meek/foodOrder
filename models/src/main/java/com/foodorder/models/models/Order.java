@@ -1,9 +1,10 @@
-package com.foodorder.server.models;
+package com.foodorder.models.models;
 
-import com.foodorder.server.dynamodbTypeConverters.MenuItemSetConverter;
-import com.foodorder.server.models.meal.Meal;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import com.foodorder.models.models.meal.Meal;
+import dynamodbTypeConverters.MenuItemSetConverter;
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 

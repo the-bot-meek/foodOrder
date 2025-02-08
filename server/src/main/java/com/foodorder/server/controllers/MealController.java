@@ -3,7 +3,7 @@ package com.foodorder.server.controllers;
 import com.foodorder.server.converters.CreateMealRequestConverter;
 import com.foodorder.server.exceptions.MealRequestConverterException;
 import com.foodorder.server.request.CreateMealRequest;
-import com.foodorder.server.models.meal.Meal;
+import com.foodorder.models.models.meal.Meal;
 import com.foodorder.server.repository.MealRepository;
 import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.HttpResponse;

@@ -1,6 +1,6 @@
 package com.foodorder.server.request;
 
-import com.foodorder.server.models.MenuItem;
+import com.foodorder.models.models.MenuItem;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.serde.annotation.Serdeable;

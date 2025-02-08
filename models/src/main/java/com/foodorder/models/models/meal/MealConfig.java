@@ -1,4 +1,4 @@
-package com.foodorder.server.models.meal;
+package com.foodorder.models.models.meal;
 
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;

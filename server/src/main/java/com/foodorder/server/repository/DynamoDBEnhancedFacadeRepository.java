@@ -2,7 +2,7 @@ package com.foodorder.server.repository;
 
 
 import com.foodorder.server.configuration.TableConfigration;
-import com.foodorder.server.models.Model;
+import com.foodorder.models.models.Model;
 import io.micronaut.context.annotation.EachBean;
 import jakarta.inject.Singleton;
 import software.amazon.awssdk.enhanced.dynamodb.*;

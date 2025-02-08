@@ -1,6 +1,6 @@
 package com.foodorder.server.request;
 
-import com.foodorder.server.models.MenuItem;
+import com.foodorder.models.models.MenuItem;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;

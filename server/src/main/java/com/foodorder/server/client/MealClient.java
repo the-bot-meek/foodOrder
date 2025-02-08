@@ -1,9 +1,9 @@
 package com.foodorder.server.client;
 
 import com.foodorder.server.request.CreateMealRequest;
-import com.foodorder.server.models.meal.DraftMeal;
-import com.foodorder.server.models.meal.Meal;
-import com.foodorder.server.models.Order;
+import com.foodorder.models.models.meal.DraftMeal;
+import com.foodorder.models.models.meal.Meal;
+import com.foodorder.models.models.Order;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.client.annotation.Client;
 import jakarta.validation.Valid;

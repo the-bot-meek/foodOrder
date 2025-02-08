@@ -1,0 +1,67 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'maven-publish'
+    id("io.micronaut.library") version "4.4.5"
+}
+
+group = 'com.foodorder'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
+    runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.18.2'
+    implementation("io.micronaut.aws:micronaut-aws-sdk-v2")
+    implementation("io.micronaut.validation:micronaut-validation")
+    implementation("jakarta.validation:jakarta.validation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("org.yaml:snakeyaml")
+    implementation("software.amazon.awssdk:dynamodb-enhanced")
+    testImplementation 'net.bytebuddy:byte-buddy:1.17.0'
+    testImplementation 'org.objenesis:objenesis:3.4'
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from sourceSets.main.allSource
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    testRuntime("spock2")
+    processing {
+        incremental(true)
+        annotations("com.foodorder.models.*")
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/the-bot-meek/foodOrder"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+        }
+    }
+}

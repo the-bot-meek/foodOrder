@@ -1,6 +1,6 @@
-package com.foodorder.server.models;
+package com.foodorder.models.models;
 
-import com.foodorder.server.models.meal.Meal;
+import com.foodorder.models.models.meal.Meal;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSecondaryPartitionKey;

@@ -1,4 +1,4 @@
-package com.foodorder.server.models;
+package com.foodorder.models.models;
 
 public interface Model {
     String getPrimaryKey();

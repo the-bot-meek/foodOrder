@@ -1,7 +1,7 @@
 package com.foodorder.server.repository;
 
-import com.foodorder.server.models.meal.DraftMeal;
-import com.foodorder.server.models.meal.Meal;
+import com.foodorder.models.models.meal.DraftMeal;
+import com.foodorder.models.models.meal.Meal;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;

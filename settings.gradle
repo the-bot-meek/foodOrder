@@ -1,2 +1,4 @@
 rootProject.name="sharedfoodorder"
 include('server')
+include 'models'
+

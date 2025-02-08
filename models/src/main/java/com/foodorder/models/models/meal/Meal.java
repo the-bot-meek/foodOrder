@@ -1,8 +1,8 @@
-package com.foodorder.server.models.meal;
+package com.foodorder.models.models.meal;
 
-import com.foodorder.server.models.Model;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.foodorder.models.models.Model;
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 

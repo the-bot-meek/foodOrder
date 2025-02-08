@@ -1,10 +1,10 @@
 package com.thebotmeek.foodorder.server.services
 
+import com.foodorder.models.models.MenuItem
+import com.foodorder.models.models.Venue
 import com.foodorder.server.converters.CreateVenueRequestConverter
-import com.foodorder.server.request.CreateVenueRequest
-import com.foodorder.server.models.MenuItem
-import com.foodorder.server.models.Venue
 import com.foodorder.server.repository.LocationRepository
+import com.foodorder.server.request.CreateVenueRequest
 import spock.lang.Specification
 
 class VenueRepositoryTest extends Specification {

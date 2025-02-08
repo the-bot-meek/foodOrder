@@ -1,19 +1,20 @@
 package com.thebotmeek.foodorder.server.controllers
 
+import com.foodorder.models.models.MenuItem
+import com.foodorder.models.models.Order
+import com.foodorder.models.models.Venue
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
 import com.foodorder.server.controllers.OrderController
 import com.foodorder.server.converters.CreateOrderRequestConverter
-import com.foodorder.server.request.CreateOrderRequest
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.MenuItem
-import com.foodorder.server.models.Order
-import com.foodorder.server.models.Venue
-import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.MealRepository
 import com.foodorder.server.repository.OrderRepository
 import com.foodorder.server.repository.VenueRepository
+import com.foodorder.server.request.CreateOrderRequest
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
+
 import java.time.Instant
 
 class OrderControllerSpec extends Specification {

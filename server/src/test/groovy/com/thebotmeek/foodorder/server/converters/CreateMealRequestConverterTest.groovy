@@ -1,11 +1,11 @@
 package com.thebotmeek.foodorder.server.converters
 
+import com.foodorder.models.models.meal.DraftMeal
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
 import com.foodorder.server.converters.CreateMealRequestConverter
-import com.foodorder.server.request.CreateMealRequest
-import com.foodorder.server.models.meal.DraftMeal
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.repository.LocationRepository
+import com.foodorder.server.request.CreateMealRequest
 import spock.lang.Specification
 
 import java.time.Instant

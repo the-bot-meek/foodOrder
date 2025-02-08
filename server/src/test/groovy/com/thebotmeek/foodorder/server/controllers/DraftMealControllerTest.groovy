@@ -1,7 +1,7 @@
 package com.thebotmeek.foodorder.server.controllers
 
+import com.foodorder.models.models.meal.DraftMeal
 import com.foodorder.server.controllers.DraftMealController
-import com.foodorder.server.models.meal.DraftMeal
 import com.foodorder.server.repository.MealRepository
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification

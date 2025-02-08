@@ -1,10 +1,10 @@
 package com.thebotmeek.foodorder.server.integration
 
+import com.foodorder.models.models.meal.DraftMeal
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.request.CreateMealRequest
-import com.foodorder.server.models.meal.DraftMeal
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf

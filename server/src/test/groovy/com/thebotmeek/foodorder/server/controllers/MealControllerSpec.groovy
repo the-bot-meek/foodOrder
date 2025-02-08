@@ -1,15 +1,16 @@
 package com.thebotmeek.foodorder.server.controllers
 
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
 import com.foodorder.server.controllers.MealController
 import com.foodorder.server.converters.CreateMealRequestConverter
-import com.foodorder.server.request.CreateMealRequest
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.repository.LocationRepository
 import com.foodorder.server.repository.MealRepository
+import com.foodorder.server.request.CreateMealRequest
 import io.micronaut.http.exceptions.HttpStatusException
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
+
 import java.time.Instant
 
 class MealControllerSpec extends Specification {

@@ -2,11 +2,11 @@ package com.foodorder.server.converters;
 
 import com.foodorder.server.exceptions.OrderRequestConverterException;
 import com.foodorder.server.request.CreateOrderRequest;
-import com.foodorder.server.models.AnonymousOrder;
-import com.foodorder.server.models.meal.Meal;
-import com.foodorder.server.models.MenuItem;
-import com.foodorder.server.models.Order;
-import com.foodorder.server.models.Venue;
+import com.foodorder.models.models.AnonymousOrder;
+import com.foodorder.models.models.meal.Meal;
+import com.foodorder.models.models.MenuItem;
+import com.foodorder.models.models.Order;
+import com.foodorder.models.models.Venue;
 import com.foodorder.server.repository.MealRepository;
 import com.foodorder.server.repository.VenueRepository;
 import jakarta.inject.Singleton;

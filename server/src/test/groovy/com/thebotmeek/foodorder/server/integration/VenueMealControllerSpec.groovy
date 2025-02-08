@@ -1,12 +1,12 @@
 package com.thebotmeek.foodorder.server.integration
 
+import com.foodorder.models.models.meal.Meal
+import com.foodorder.models.models.meal.MealConfig
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.VenueClient
 import com.foodorder.server.client.VenueMealClient
 import com.foodorder.server.controllers.MealController
 import com.foodorder.server.request.CreateMealRequest
-import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
 import io.micronaut.security.authentication.Authentication
 import io.micronaut.security.authentication.ServerAuthentication
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
