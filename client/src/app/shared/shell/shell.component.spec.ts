@@ -6,7 +6,7 @@ import {AuthService} from "../services/auth/auth.service";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {MatSidenavContainerHarness, MatSidenavHarness} from "@angular/material/sidenav/testing";
-import {IUser} from "../../../../models/IUser";
+import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 
 let user = {
   active: false,

@@ -4,7 +4,7 @@ import { MealDetailsComponent } from './meal-details.component';
 import {HarnessLoader} from "@angular/cdk/testing";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {AuthService} from "../../../shared/services/auth/auth.service";
-import {IUser} from "../../../../../models/IUser";
+import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 import {MatButtonHarness} from "@angular/material/button/testing";
 import {of} from "rxjs";
 

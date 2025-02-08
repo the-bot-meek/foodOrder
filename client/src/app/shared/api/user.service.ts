@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import {Observable, tap} from "rxjs";
-import {IUser} from "../../../../models/IUser";
+import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 import {environment} from "../../../environments/environment";
 
 @Injectable({
