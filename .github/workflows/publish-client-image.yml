@@ -2,11 +2,8 @@ name: Publish To Docker Hub
 
 on:
   push:
-    branches:
-      - release/*
-  pull_request:
-    branches:
-      - release/*
+    branches: ['main']
+    paths: ['client/**']
 
 jobs:
   push:
@@ -14,18 +11,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Build with Gradle
-        run: ./gradlew build --no-daemon
-
-      - name: Run tests
-        run: ./gradlew test --no-daemon
 
       - name: Set up Docker
         uses: crazy-max/ghaction-setup-docker@v4
@@ -46,16 +31,6 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-
-      - name: Build Server Image
-        run: ./gradlew dockerfile
-
-      - name: Build and push server image
-        uses: docker/build-push-action@v6
-        with:
-          context: ./server/build/docker/main
-          push: true
-          tags: thebotmeek/food_order_app
 
       - name: Build and push client image
         uses: docker/build-push-action@v6
