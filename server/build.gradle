@@ -45,8 +45,8 @@ application {
     mainClass.set("com.foodorder.server.Application")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("17")
-    targetCompatibility = JavaVersion.toVersion("17")
+    sourceCompatibility = JavaVersion.toVersion("21")
+    targetCompatibility = JavaVersion.toVersion("21")
 }
 
 
@@ -74,7 +74,7 @@ micronaut {
 }
 
 tasks.named("dockerfile") {
-    baseImage("eclipse-temurin:17-jre-jammy")
+    baseImage("eclipse-temurin:21-jre-jammy")
 }
 
 // https://github.com/bmuschko/gradle-docker-plugin?tab=readme-ov-file
