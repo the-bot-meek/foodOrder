@@ -38,3 +38,5 @@ jobs:
           context: ./client
           push: true
           tags: thebotmeek/food_order_client
+        env:
+          GITHUB_ASSESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
