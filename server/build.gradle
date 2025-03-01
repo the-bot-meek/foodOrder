@@ -22,7 +22,7 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3'
     runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.18.2'
     implementation("io.micronaut.aws:micronaut-aws-sdk-v2")
     implementation("io.micronaut.reactor:micronaut-reactor")
