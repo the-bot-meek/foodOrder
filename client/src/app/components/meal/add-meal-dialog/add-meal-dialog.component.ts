@@ -8,8 +8,8 @@ import {
 } from "@angular/material/dialog";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {IVenue} from "@the-bot-meek/food-orders-models/models/venue";
-import {VenueService} from "../../../shared/api/venue.service";
+import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
+import {MenuService} from "../../../shared/api/menu.service";
 import {MealService} from "../../../shared/api/meal.service";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -48,9 +48,9 @@ import {UUIDService} from "../../../shared/utils/uuid.service";
     styleUrl: './add-meal-dialog.component.scss'
 })
 export class AddMealDialogComponent {
-  venues: IVenue[] = []
+  menus: IMenu[] = []
   constructor(
-    private venueService: VenueService,
+    private menuService: MenuService,
     private mealService: MealService,
     public dialogRef: MatDialogRef<AddMealDialogComponent>,
     private snackBar: MatSnackBar,
@@ -64,14 +64,14 @@ export class AddMealDialogComponent {
     name: new FormControl<string>("", [Validators.required]),
     dateOfMeal: new FormControl<Date>(new Date(), [Validators.required]),
     location: new FormControl<string>('', [Validators.required]),
-    venueName: new FormControl<string>('', [Validators.required]),
+    menuName: new FormControl<string>('', [Validators.required]),
     privateMeal: new FormControl<boolean>(false),
     numberOfRecipients: new FormControl<number>(1)
   })
 
-  getVenuesForLocation(locationName: string) {
-    this.venueService.listVenuesForLocation(locationName).subscribe(venueLocations =>
-      this.venues = venueLocations
+  getMenusForLocation(locationName: string) {
+    this.menuService.listMenusForLocation(locationName).subscribe(menuLocations =>
+      this.menus = menuLocations
     )
   }
 
@@ -98,7 +98,7 @@ export class AddMealDialogComponent {
         privateMealConfig: null
       },
       name: this.addMealFormGroup.value.name as string,
-      venueName: this.addMealFormGroup.value.venueName as string
+      menuName: this.addMealFormGroup.value.menuName as string
     }
     if (this.addMealFormGroup.value.privateMeal) {
       const recipientIds: string[] = [];

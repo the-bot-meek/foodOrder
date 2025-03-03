@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddVenueDialogComponent } from './add-venue-dialog.component';
-import {VenueService} from "../../../shared/api/venue.service";
+import { AddMenuDialogComponent } from './add-menu-dialog.component';
+import {MenuService} from "../../../shared/api/menu.service";
 import {MatDialogRef} from "@angular/material/dialog";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
@@ -11,16 +11,16 @@ import {MatSelectHarness} from "@angular/material/select/testing";
 import {MatButtonHarness} from "@angular/material/button/testing";
 import {of} from "rxjs";
 
-describe('AddVenueDialogComponent', () => {
-  let component: AddVenueDialogComponent;
-  let fixture: ComponentFixture<AddVenueDialogComponent>;
-  let venueService: any;
+describe('AddMenuDialogComponent', () => {
+  let component: AddMenuDialogComponent;
+  let fixture: ComponentFixture<AddMenuDialogComponent>;
+  let menuService: any;
   let dialogRef: any;
   let loader: HarnessLoader;
 
   beforeEach(async () => {
-    venueService = {
-      addVenue: jasmine.createSpy().and.returnValue(of())
+    menuService = {
+      addMenu: jasmine.createSpy().and.returnValue(of())
     }
 
     dialogRef = {
@@ -28,21 +28,21 @@ describe('AddVenueDialogComponent', () => {
     }
 
     await TestBed.configureTestingModule({
-      imports: [AddVenueDialogComponent, BrowserAnimationsModule],
+      imports: [AddMenuDialogComponent, BrowserAnimationsModule],
       providers: [
         {
-          provide: VenueService,
-          useValue: venueService
+          provide: MenuService,
+          useValue: menuService
         },
         {
-          provide: MatDialogRef<AddVenueDialogComponent>,
+          provide: MatDialogRef<AddMenuDialogComponent>,
           useValue: dialogRef
         }
       ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AddVenueDialogComponent);
+    fixture = TestBed.createComponent(AddMenuDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     loader = TestbedHarnessEnvironment.loader(fixture);
@@ -52,29 +52,29 @@ describe('AddVenueDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should close dialog when venue is saved', async () => {
-    const venueNameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: '[data-testid="venue-name-input"]'
+  it('should close dialog when menu is saved', async () => {
+    const menuNameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
+      selector: '[data-testid="menu-name-input"]'
     }))
-    await venueNameMatInputHarness.setValue("name")
+    await menuNameMatInputHarness.setValue("name")
 
     const locationMatSelectHarness: MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: '[data-testid="venue-location-select"]'
+      selector: '[data-testid="menu-location-select"]'
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
 
     const descriptionMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: '[data-testid="venue-description-textarea"]'
+      selector: '[data-testid="menu-description-textarea"]'
     }))
     await descriptionMatInputHarness.setValue("Description")
 
     const phoneNumberInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
-      selector: '[data-testid="venue-phone-input"]'
+      selector: '[data-testid="menu-phone-input"]'
     }))
     await phoneNumberInputHarness.setValue("+44 20 7123 4567")
 
-    const addVenueBtn: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
-      selector: '[data-testid="add-venue-btn"]'
+    const addMenuBtn: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
+      selector: '[data-testid="add-menu-btn"]'
     }))
 
     const menuItemNameMatInputHarness: MatInputHarness = await loader.getHarness<MatInputHarness>(MatInputHarness.with({
@@ -96,14 +96,14 @@ describe('AddVenueDialogComponent', () => {
       selector: '[data-testid="add-menu-item-btn"]'
     }))
 
-    expect(await addVenueBtn.isDisabled()).toBeFalse()
+    expect(await addMenuBtn.isDisabled()).toBeFalse()
     expect(await menuItemAddMatBtnHarness.isDisabled()).toBeFalse()
 
     await menuItemAddMatBtnHarness.click()
-    await addVenueBtn.click()
+    await addMenuBtn.click()
 
 
     expect(dialogRef.close).toHaveBeenCalled()
-    expect(venueService.addVenue).toHaveBeenCalled()
+    expect(menuService.addMenu).toHaveBeenCalled()
   });
 });

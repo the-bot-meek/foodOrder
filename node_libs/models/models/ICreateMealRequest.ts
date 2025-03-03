@@ -4,7 +4,7 @@ export interface ICreateMealRequest {
     name: string,
     dateOfMeal: number,
     location: string,
-    venueName: string,
+    menuName: string,
     mealConfig: MealConfig
 }
 

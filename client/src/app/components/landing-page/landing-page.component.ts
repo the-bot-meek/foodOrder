@@ -17,7 +17,7 @@ import {Router} from "@angular/router";
 })
 export class LandingPageComponent implements OnInit {
   meals: Observable<IMeal[]>
-  displayedColumns: string[] = ['name', 'mealDate', 'location', 'venueName']
+  displayedColumns: string[] = ['name', 'mealDate', 'location', 'menuName']
   constructor(
     private mealService: MealService,
     private router: Router

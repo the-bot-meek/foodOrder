@@ -25,7 +25,7 @@ describe('MealOverviewComponent', () => {
     primaryKey: "8422-6e30e2b2-e0dd-4345-697e705c746b",
     sortKey: "2024-07-01T20:09:35.796Z_6e30e2b2-e0dd-4345-8422-697e705c746b",
     uid: "8422-6e30e2b2-e0dd-4345-697e705c746b",
-    venueName: "MacD"
+    menuName: "MacD"
   }
   let mealSk: string = "2024-07-01T20:09:35.796Z_6e30e2b2-e0dd-4345-8422-697e705c746b"
 
