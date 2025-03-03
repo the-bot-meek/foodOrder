@@ -1,18 +1,18 @@
-<div mat-dialog-title class="venue-dialog-title">
-  <h2>Add Venue</h2>
+<div mat-dialog-title class="menu-dialog-title">
+  <h2>Add Menu</h2>
   <button mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <form [formGroup]="venueFormGroup" (ngSubmit)="saveVenue()">
-  <div mat-dialog-content id="venue-dialog">
+  <div mat-dialog-content id="menu-dialog">
       <mat-form-field style="width: 100%">
         <mat-label>Name</mat-label>
-        <input data-testid="venue-name-input" type="text" matInput [formControl]="venueFormGroup.controls.name" >
+        <input data-testid="menu-name-input" type="text" matInput [formControl]="venueFormGroup.controls.name" >
       </mat-form-field>
       <mat-form-field style="width: 100%">
         <mat-label>Location</mat-label>
-        <mat-select data-testid="venue-location-select" [formControl]="venueFormGroup.controls.location">
+        <mat-select data-testid="menu-location-select" [formControl]="venueFormGroup.controls.location">
           @for (location of locations; track location) {
             <mat-option [value]="location" >{{location}}</mat-option>
           }
@@ -20,11 +20,11 @@
       </mat-form-field>
       <mat-form-field class="example-full-width" style="width: 100%">
         <mat-label>Description</mat-label>
-        <textarea data-testid="venue-description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Add a short description about this Venue"></textarea>
+        <textarea data-testid="menu-description-textarea" matInput [formControl]="venueFormGroup.controls.description" placeholder="Add a short description about this Venue"></textarea>
       </mat-form-field>
     <mat-form-field>
       <mat-label>Phone Number</mat-label>
-      <input data-testid="venue-phone-input" type="text" matInput [formControl]="venueFormGroup.controls.phoneNumber">
+      <input data-testid="menu-phone-input" type="text" matInput [formControl]="venueFormGroup.controls.phoneNumber">
     </mat-form-field>
       <p>Menu Items</p>
       <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)"></app-menu-item-list>
@@ -47,6 +47,6 @@
         </mat-form-field>
         <button data-testid="add-menu-item-btn" mat-button [disabled]="addMenuItemForm.invalid">Add MenuItem</button>
       </form>
-      <button data-testid="add-venue-btn" mat-button [disabled]="venueFormGroup.invalid">Add Venue</button>
+      <button data-testid="add-menu-btn" mat-button [disabled]="venueFormGroup.invalid">Add Venue</button>
   </div>
 </form>

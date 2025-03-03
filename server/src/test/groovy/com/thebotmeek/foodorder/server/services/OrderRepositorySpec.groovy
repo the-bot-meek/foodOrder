@@ -20,7 +20,7 @@ class OrderRepositorySpec extends Specification {
 
     def "test add addOrdersForPrivateMeal happy path"() {
         given:
-        Meal meal = new Meal(location: "location", venueName: "venueName")
+        Meal meal = new Meal(location: "location", menuName: "menuName")
         Set<String> recipientIds = ["18e23aeb-cc62-4f87-8820-71d77612a42a"]
 
 

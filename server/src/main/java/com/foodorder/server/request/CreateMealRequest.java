@@ -22,7 +22,7 @@ public class CreateMealRequest {
         String location;
         @NotNull
         @NotBlank
-        String venueName;
+        String menuName;
         @NotNull
         MealConfig mealConfig;
 
@@ -54,12 +54,12 @@ public class CreateMealRequest {
                 this.location = location;
         }
 
-        public String getVenueName() {
-                return venueName;
+        public String getMenuName() {
+                return menuName;
         }
 
-        public void setVenueName(String venueName) {
-                this.venueName = venueName;
+        public void setMenuName(String menuName) {
+                this.menuName = menuName;
         }
         public MealConfig getMealConfig() {
                 return mealConfig;
@@ -78,7 +78,7 @@ public class CreateMealRequest {
                 if (!Objects.equals(name, that.name)) return false;
                 if (!Objects.equals(dateOfMeal, that.dateOfMeal)) return false;
                 if (!Objects.equals(location, that.location)) return false;
-                if (!Objects.equals(venueName, that.venueName)) return false;
+                if (!Objects.equals(menuName, that.menuName)) return false;
             return Objects.equals(mealConfig, that.mealConfig);
         }
 
@@ -87,7 +87,7 @@ public class CreateMealRequest {
                 int result = name != null ? name.hashCode() : 0;
                 result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
                 result = 31 * result + (location != null ? location.hashCode() : 0);
-                result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
+                result = 31 * result + (menuName != null ? menuName.hashCode() : 0);
                 result = 31 * result + (mealConfig != null ? mealConfig.hashCode() : 0);
                 return result;
         }

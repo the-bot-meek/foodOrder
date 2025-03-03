@@ -19,16 +19,16 @@ public class Meal implements Model {
     protected String name;
     protected Instant mealDate;
     protected String location;
-    protected String venueName;
+    protected String menuName;
     protected MealConfig mealConfig;
 
-    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String venueName, MealConfig mealConfig) {
+    public Meal(String id, String organiserId, String name, Instant mealDate, String location, String menuName, MealConfig mealConfig) {
         this.id = id;
         this.uid = organiserId;
         this.name = name;
         this.mealDate = mealDate;
         this.location = location;
-        this.venueName = venueName;
+        this.menuName = menuName;
         this.mealConfig = mealConfig;
     }
 
@@ -120,12 +120,12 @@ public class Meal implements Model {
 
     @DynamoDbAttribute("gsi_pk")
     @DynamoDbSecondaryPartitionKey(indexNames = "gsi")
-    public String getVenueName() {
-        return venueName;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public void setVenueName(String venueName) {
-        this.venueName = venueName;
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
     public MealConfig getMealConfig() {
@@ -147,7 +147,7 @@ public class Meal implements Model {
         if (!Objects.equals(name, meal.name)) return false;
         if (!Objects.equals(mealDate, meal.mealDate)) return false;
         if (!Objects.equals(location, meal.location)) return false;
-        return Objects.equals(venueName, meal.venueName);
+        return Objects.equals(menuName, meal.menuName);
     }
 
     @Override
@@ -157,7 +157,7 @@ public class Meal implements Model {
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (mealDate != null ? mealDate.hashCode() : 0);
         result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (venueName != null ? venueName.hashCode() : 0);
+        result = 31 * result + (menuName != null ? menuName.hashCode() : 0);
         return result;
     }
 
@@ -169,7 +169,7 @@ public class Meal implements Model {
         sb.append(", name='").append(name).append('\'');
         sb.append(", dateOfMeal=").append(mealDate);
         sb.append(", location='").append(location).append('\'');
-        sb.append(", venueName='").append(venueName).append('\'');
+        sb.append(", menuName='").append(menuName).append('\'');
         sb.append('}');
         return sb.toString();
     }

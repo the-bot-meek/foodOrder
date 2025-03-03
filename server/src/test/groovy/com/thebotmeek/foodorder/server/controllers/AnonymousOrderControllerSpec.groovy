@@ -144,7 +144,7 @@ class AnonymousOrderControllerSpec extends Specification {
         final String uid = "ce05e2ef-a609-4ca4-8650-a9a5c7aadfcd"
         PrivateMealConfig privateMealConfig = new PrivateMealConfig(["12345"] as Set)
         Meal meal = new Meal(
-                id: uid, name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD", mealConfig: new MealConfig(privateMealConfig: privateMealConfig)
+                id: uid, name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", menuName: "MacD", mealConfig: new MealConfig(privateMealConfig: privateMealConfig)
         )
 
         IDynamoDBFacadeRepository dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)

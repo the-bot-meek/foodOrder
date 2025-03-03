@@ -9,8 +9,8 @@ import java.time.Instant;
 @DynamoDbBean
 public class DraftMeal extends Meal {
     public DraftMeal(){}
-    public DraftMeal(String id, String organiserId, String name, Instant mealDate, String location, String venueName, MealConfig mealConfig) {
-        super(id, organiserId, name, mealDate, location, venueName, mealConfig);
+    public DraftMeal(String id, String organiserId, String name, Instant mealDate, String location, String menuName, MealConfig mealConfig) {
+        super(id, organiserId, name, mealDate, location, menuName, mealConfig);
     }
 
     public DraftMeal(String uid, Instant mealDate, String id) {

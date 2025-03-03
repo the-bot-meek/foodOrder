@@ -24,7 +24,7 @@
 - **Order** - A Participants requested food and drink for a meal
 - **Participants** - A person attending a mean who wants a specific order
 - **Venue Menu** - A collection of Menu Item available at a specific Venue
-- **Venue Menu Item** - An item available at a specific venue.
+- **Venue Menu Item** - An item available at a specific menu.
 
 
 ## Elevator pitch

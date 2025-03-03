@@ -1,4 +1,4 @@
-<div mat-dialog-title class="venue-dialog-title">
+<div mat-dialog-title class="menu-dialog-title">
   <h2>Add Meal</h2>
   <button mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>
@@ -34,9 +34,9 @@
       @if (venues.length != 0) {
         <mat-form-field>
           <mat-label>Venue</mat-label>
-          <mat-select data-testid="venue-select" [formControl]="addMealFormGroup.controls.venueName">
-            @for (venue of venues; track venue) {
-              <mat-option [value]="venue.name" >{{venue.name}}</mat-option>
+          <mat-select data-testid="menu-select" [formControl]="addMealFormGroup.controls.venueName">
+            @for (menu of venues; track menu) {
+              <mat-option [value]="menu.name" >{{menu.name}}</mat-option>
             }
           </mat-select>
         </mat-form-field>

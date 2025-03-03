@@ -6,13 +6,11 @@ import io.micronaut.context.annotation.Parameter;
 import java.util.Objects;
 
 @EachProperty("dynamodb-tables")
-public class TableConfigration {
+public class TableConfiguration {
     private final String tableId;
-
-
-
     private String tableName;
-    TableConfigration(@Parameter String tableId) {
+
+    TableConfiguration(@Parameter String tableId) {
         this.tableId = tableId;
     }
 
@@ -31,7 +29,7 @@ public class TableConfigration {
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TableConfigration that)) return false;
+        if (!(o instanceof TableConfiguration that)) return false;
 
         return Objects.equals(tableName, that.tableName);
     }

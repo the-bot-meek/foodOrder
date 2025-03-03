@@ -34,7 +34,7 @@ class DraftMealControllerTest extends Specification {
                 mealDate: Instant.ofEpochSecond(1711405066),
                 uid: "principal_name",
                 location: "London",
-                venueName: "MacD"
+                menuName: "MacD"
         )
 
         when:

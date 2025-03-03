@@ -41,8 +41,8 @@ public class MealRepository {
         return dynamoDBFacadeRepository.query(DraftMeal.class, queryConditional);
     }
 
-    public Optional<Meal> getMealByVenueNameAndMealId(String venueName, String mealId) {
-        Key key = Key.builder().partitionValue(venueName).sortValue(mealId).build();
+    public Optional<Meal> getMealByMenuNameAndMealId(String menuName, String mealId) {
+        Key key = Key.builder().partitionValue(menuName).sortValue(mealId).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
         List<Meal> meals = dynamoDBFacadeRepository.queryWithIndex(Meal.class, queryConditional, "gsi");
         if (meals.isEmpty()) {

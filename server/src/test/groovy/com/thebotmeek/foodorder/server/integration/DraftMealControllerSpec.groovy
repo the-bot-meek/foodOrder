@@ -19,7 +19,7 @@ class DraftMealControllerSpec extends Specification {
     MealClient mealClient
     def "Get Draft Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal draftMealSaved = mealClient.addMeal(createMealRequest)
@@ -31,7 +31,7 @@ class DraftMealControllerSpec extends Specification {
 
     def "Ensure draft meal is deleted"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -47,7 +47,7 @@ class DraftMealControllerSpec extends Specification {
 
     def "List all draft meals for current user"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal draftMeal = mealClient.addMeal(createMealRequest)
