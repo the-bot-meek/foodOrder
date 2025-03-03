@@ -13,7 +13,7 @@ import java.util.Set;
 @Introspected
 @JsonSerialize
 @Serdeable
-public record CreateVenueRequest(
+public record CreateMenuRequest(
         @NotEmpty
         @NotNull
         Set<MenuItem> menuItems,
@@ -33,7 +33,7 @@ public record CreateVenueRequest(
 ) {
         @Override
         public String toString() {
-                final StringBuilder sb = new StringBuilder("CreateVenueRequest{");
+                final StringBuilder sb = new StringBuilder("CreateMenuRequest{");
                 sb.append("menuItems=").append(menuItems);
                 sb.append(", location='").append(location).append('\'');
                 sb.append(", name='").append(name).append('\'');

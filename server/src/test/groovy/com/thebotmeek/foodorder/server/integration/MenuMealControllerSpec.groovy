@@ -1,8 +1,8 @@
 package com.thebotmeek.foodorder.server.integration
 
 import com.foodorder.server.client.MealClient
-import com.foodorder.server.client.VenueClient
-import com.foodorder.server.client.VenueMealClient
+import com.foodorder.server.client.MenuClient
+import com.foodorder.server.client.MenuMealClient
 import com.foodorder.server.controllers.MealController
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.Meal
@@ -18,31 +18,31 @@ import java.time.Instant
 
 @MicronautTest(environments = ["mock_auth"])
 @IgnoreIf({System.getenv("requireIntegrationTests") != 'true'})
-class VenueMealControllerSpec extends Specification {
+class MenuMealControllerSpec extends Specification {
     @Inject
-    VenueMealClient venueMealClient
+    MenuMealClient menuMealClient
 
     @Inject
     MealClient mealClient
 
     @Inject
-    VenueClient venueClient
+    MenuClient menuClient
 
     @Inject
     MealController mealController
 
-    def "test getting Meal from venueName and MealId"() {
+    def "test getting Meal from menuName and MealId"() {
         given:
         Authentication authentication = new ServerAuthentication("steven", null, null)
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig())
 
         when:
         Meal meal = mealController.addMeal(createMealRequest, authentication).body()
-        Optional<Meal> mealFromVenueId = venueMealClient.getMeal(meal.getVenueName(), meal.getId())
+        Optional<Meal> mealFromMenuId = menuMealClient.getMeal(meal.getMenuName(), meal.getId())
 
         then:
-        assert mealFromVenueId.isPresent()
-        assert mealFromVenueId.get() == meal
+        assert mealFromMenuId.isPresent()
+        assert mealFromMenuId.get() == meal
         assert mealController != null
     }
 }

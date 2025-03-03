@@ -2,10 +2,10 @@ package com.thebotmeek.foodorder.server.integration
 
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.OrderClient
-import com.foodorder.server.client.VenueClient
+import com.foodorder.server.client.MenuClient
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
-import com.foodorder.server.request.CreateVenueRequest
+import com.foodorder.server.request.CreateMenuRequest
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.Order
@@ -27,7 +27,7 @@ class OrderIntegrationSpec extends Specification {
     OrderClient orderClient
 
     @Inject
-    VenueClient venueClient
+    MenuClient menuClient
 
     @Inject
     MealClient mealClient
@@ -40,12 +40,12 @@ class OrderIntegrationSpec extends Specification {
         String name = "MacD"
 
         Set<MenuItem> menuItems = [new MenuItem()]
-        CreateVenueRequest createVenueRequest = new CreateVenueRequest(menuItems, location, name, "description", "+44 20 7123 4567")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
+        CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", "+44 20 7123 4567")
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
 
 
         when:
-        venueClient.addVenue(createVenueRequest)
+        menuClient.addMenu(createMenuRequest)
         Meal meal = mealClient.addMeal(createMealRequest)
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, meal.getId(), menuItems, "steven")

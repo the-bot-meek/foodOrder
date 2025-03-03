@@ -19,7 +19,7 @@ class CreateMealRequestConverterTest extends Specification {
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
         CreateMealRequestConverter createMealRequestConverter = new CreateMealRequestConverter(locationService)
 
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", venueName: "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig())
 
         when:
         Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
@@ -30,7 +30,7 @@ class CreateMealRequestConverterTest extends Specification {
         assert meal.getUid() == uid
         assert meal.getMealDate() == createMealRequest.getDateOfMeal()
         assert meal.getLocation() == createMealRequest.getLocation()
-        assert meal.getVenueName() == createMealRequest.getVenueName()
+        assert meal.getMenuName() == createMealRequest.getMenuName()
         assert meal.getName() == createMealRequest.getName()
         assert meal.getPrimaryKey() == "Meal_684d5aa7-2275-469e-8478-c8e35d50a5f9"
         assert meal instanceof Meal
@@ -44,7 +44,7 @@ class CreateMealRequestConverterTest extends Specification {
         String uid = "684d5aa7-2275-469e-8478-c8e35d50a5f9"
         String mealId = "b9a36f0f-1a01-4d9a-88ee-097abe1b29cc"
 
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig(draft: true))
 
         when:
         Meal meal = createMealRequestConverter.convertCreateMealRequestToNewMeal(createMealRequest, uid, mealId)
@@ -55,7 +55,7 @@ class CreateMealRequestConverterTest extends Specification {
         assert meal.getUid() == uid
         assert meal.getMealDate() == createMealRequest.getDateOfMeal()
         assert meal.getLocation() == createMealRequest.getLocation()
-        assert meal.getVenueName() == createMealRequest.getVenueName()
+        assert meal.getMenuName() == createMealRequest.getMenuName()
         assert meal.getName() == createMealRequest.getName()
         assert meal.getPrimaryKey() == "DraftMeal_684d5aa7-2275-469e-8478-c8e35d50a5f9"
         assert meal instanceof DraftMeal

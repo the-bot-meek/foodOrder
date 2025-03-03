@@ -10,7 +10,7 @@ import java.util.Set;
 
 @DynamoDbBean
 @Serdeable
-public class Venue implements Model {
+public class Menu implements Model {
     private String id;
     private String name;
     private String location;
@@ -18,7 +18,7 @@ public class Venue implements Model {
     private Set<MenuItem> menuItems;
     private String phoneNumber;
 
-    public Venue(String id, String name, String location, String description, Set<MenuItem> menuItems, String phoneNumber) {
+    public Menu(String id, String name, String location, String description, Set<MenuItem> menuItems, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -27,18 +27,18 @@ public class Venue implements Model {
         this.phoneNumber = phoneNumber;
     }
 
-    public Venue() {
+    public Menu() {
 
     }
 
     @DynamoDbPartitionKey
     @DynamoDbAttribute("pk")
     public String getPrimaryKey() {
-        return "Venue_" + this.location;
+        return "Menu_" + this.location;
     }
 
     public void setPrimaryKey(String pk) {
-        this.location = pk.replace("Venue_", "");
+        this.location = pk.replace("Menu_", "");
     }
 
     @Override
@@ -109,9 +109,9 @@ public class Venue implements Model {
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Venue venue)) return false;
+        if (!(o instanceof Menu menu)) return false;
 
-        return Objects.equals(id, venue.id) && Objects.equals(name, venue.name) && Objects.equals(location, venue.location) && Objects.equals(description, venue.description) && Objects.equals(menuItems, venue.menuItems) && Objects.equals(phoneNumber, venue.phoneNumber);
+        return Objects.equals(id, menu.id) && Objects.equals(name, menu.name) && Objects.equals(location, menu.location) && Objects.equals(description, menu.description) && Objects.equals(menuItems, menu.menuItems) && Objects.equals(phoneNumber, menu.phoneNumber);
     }
 
     @Override

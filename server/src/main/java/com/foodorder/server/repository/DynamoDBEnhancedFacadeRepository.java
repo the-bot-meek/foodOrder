@@ -1,7 +1,7 @@
 package com.foodorder.server.repository;
 
 
-import com.foodorder.server.configuration.TableConfigration;
+import com.foodorder.server.configuration.TableConfiguration;
 import com.foodorder.server.models.Model;
 import io.micronaut.context.annotation.EachBean;
 import jakarta.inject.Singleton;
@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Singleton
-@EachBean(TableConfigration.class)
+@EachBean(TableConfiguration.class)
 public class DynamoDBEnhancedFacadeRepository implements IDynamoDBFacadeRepository {
     private final DynamoDbEnhancedClient enhancedClient;
     private final String tableName;
 
-    DynamoDBEnhancedFacadeRepository(DynamoDbClient dynamoDbClient, TableConfigration tableConfigration) {
+    DynamoDBEnhancedFacadeRepository(DynamoDbClient dynamoDbClient, TableConfiguration tableConfigration) {
         this.enhancedClient = DynamoDbEnhancedClient.builder()
                 .dynamoDbClient(dynamoDbClient)
                 .build();

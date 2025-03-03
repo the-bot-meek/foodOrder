@@ -8,10 +8,10 @@ import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.Order
-import com.foodorder.server.models.Venue
+import com.foodorder.server.models.Menu
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.MealRepository
-import com.foodorder.server.repository.VenueRepository
+import com.foodorder.server.repository.MenuRepository
 import spock.lang.Specification
 
 import java.time.Instant
@@ -32,22 +32,22 @@ class CreateOrderRequestConverterTest extends Specification {
 
         IDynamoDBFacadeRepository orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
         MealRepository mealService = new MealRepository(orderServiceIDynamoDBFacadeService)
-        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig())
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
         orderServiceIDynamoDBFacadeService.load(Meal.class, "Meal_" + organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
         }
 
-        IDynamoDBFacadeRepository venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
-        VenueRepository venueService = new VenueRepository(venueServiceIDynamoDBFacadeService)
-        venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
+        IDynamoDBFacadeRepository menuServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        MenuRepository menuService = new MenuRepository(menuServiceIDynamoDBFacadeService)
+        menuServiceIDynamoDBFacadeService.load(Menu.class, "Menu_" + location, name) >> {
             return Optional.of(
-                    new Venue(menuItems: List.of(
+                    new Menu(menuItems: List.of(
                             new MenuItem(name: "name", description: "description", price: 1.0)
                     )
                     )
             )
         }
-        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
+        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, menuService)
 
         when:
         Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)
@@ -86,7 +86,7 @@ class CreateOrderRequestConverterTest extends Specification {
         thrown(OrderRequestConverterException)
     }
 
-    def "ConvertCreateOrderRequestToOrder with invalid mealId menuItems"(Integer index, Optional<Venue> venue) {
+    def "ConvertCreateOrderRequestToOrder with invalid mealId menuItems"(Integer index, Optional<Menu> menu) {
         given:
         String mealId = "797b001f-de8f-47ed-833a-d84e61c73fe7"
         Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
@@ -105,15 +105,15 @@ class CreateOrderRequestConverterTest extends Specification {
         IDynamoDBFacadeRepository orderServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
         MealRepository mealService = new MealRepository(orderServiceIDynamoDBFacadeService)
         orderServiceIDynamoDBFacadeService.load(Meal.class, "Meal_" + organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
-            return Optional.of(new Meal(location: location, venueName: name, mealConfig: new MealConfig()))
+            return Optional.of(new Meal(location: location, menuName: name, mealConfig: new MealConfig()))
         }
 
-        IDynamoDBFacadeRepository venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
-        VenueRepository venueService = new VenueRepository(venueServiceIDynamoDBFacadeService)
-        venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
-            return venue
+        IDynamoDBFacadeRepository menuServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        MenuRepository menuService = new MenuRepository(menuServiceIDynamoDBFacadeService)
+        menuServiceIDynamoDBFacadeService.load(Menu.class, "Menu_" + location, name) >> {
+            return menu
         }
-        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
+        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, menuService)
 
 
         when:
@@ -123,9 +123,9 @@ class CreateOrderRequestConverterTest extends Specification {
         thrown(OrderRequestConverterException)
 
         where:
-        index | venue
-        1     | Optional.of(new Venue(menuItems: List.of(new MenuItem(name: "name", description: "description", price: 5.0))))
-        2     | Optional.of(new Venue(menuItems: new ArrayList<MenuItem>()))
+        index | menu
+        1     | Optional.of(new Menu(menuItems: List.of(new MenuItem(name: "name", description: "description", price: 5.0))))
+        2     | Optional.of(new Menu(menuItems: new ArrayList<MenuItem>()))
     }
 
     def "Make sure that validation passes when adding a order to a private meal with valid uid "() {
@@ -145,22 +145,22 @@ class CreateOrderRequestConverterTest extends Specification {
         MealRepository mealService = new MealRepository(orderServiceIDynamoDBFacadeService)
         PrivateMealConfig privateMealConfig = new PrivateMealConfig()
         privateMealConfig.addRecipientId(uid)
-        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig(privateMealConfig: privateMealConfig))
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig(privateMealConfig: privateMealConfig))
         orderServiceIDynamoDBFacadeService.load(Meal.class, "Meal_" + organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
         }
 
-        IDynamoDBFacadeRepository venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
-        VenueRepository venueService = new VenueRepository(venueServiceIDynamoDBFacadeService)
-        venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
+        IDynamoDBFacadeRepository menuServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        MenuRepository menuService = new MenuRepository(menuServiceIDynamoDBFacadeService)
+        menuServiceIDynamoDBFacadeService.load(Menu.class, "Menu_" + location, name) >> {
             return Optional.of(
-                    new Venue(menuItems: List.of(
+                    new Menu(menuItems: List.of(
                             new MenuItem(name: "name", description: "description", price: 1.0)
                     )
                     )
             )
         }
-        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
+        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, menuService)
 
 
         when:
@@ -189,22 +189,22 @@ class CreateOrderRequestConverterTest extends Specification {
         MealRepository mealService = new MealRepository(orderServiceIDynamoDBFacadeService)
         PrivateMealConfig privateMealConfig = new PrivateMealConfig()
 
-        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, venueName: name, mealConfig: new MealConfig(privateMealConfig:  privateMealConfig))
+        Meal meal = new Meal(id: mealId, mealDate: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig(privateMealConfig:  privateMealConfig))
         orderServiceIDynamoDBFacadeService.load(Meal.class, "Meal_" + organizerUid, dateOfMeal.toString() + "_" + mealId) >> {
             return Optional.of(meal)
         }
 
-        IDynamoDBFacadeRepository venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
-        VenueRepository venueService = new VenueRepository(venueServiceIDynamoDBFacadeService)
-        venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
+        IDynamoDBFacadeRepository menuServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        MenuRepository menuService = new MenuRepository(menuServiceIDynamoDBFacadeService)
+        menuServiceIDynamoDBFacadeService.load(Menu.class, "Menu_" + location, name) >> {
             return Optional.of(
-                    new Venue(menuItems: List.of(
+                    new Menu(menuItems: List.of(
                             new MenuItem(name: "name", description: "description", price: 1.0)
                     )
                     )
             )
         }
-        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
+        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, menuService)
 
         when:
         createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, preferredUsername)

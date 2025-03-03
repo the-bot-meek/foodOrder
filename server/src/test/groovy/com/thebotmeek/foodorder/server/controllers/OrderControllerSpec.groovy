@@ -6,12 +6,12 @@ import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.Order
-import com.foodorder.server.models.Venue
+import com.foodorder.server.models.Menu
 import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.MealRepository
 import com.foodorder.server.repository.OrderRepository
-import com.foodorder.server.repository.VenueRepository
+import com.foodorder.server.repository.MenuRepository
 import io.micronaut.security.authentication.Authentication
 import spock.lang.Specification
 import java.time.Instant
@@ -36,14 +36,14 @@ class OrderControllerSpec extends Specification {
         IDynamoDBFacadeRepository mealServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
         MealRepository mealService = new MealRepository(mealServiceIDynamoDBFacadeService)
         mealServiceIDynamoDBFacadeService.load(Meal, "Meal_" + organizerUid, (dateOfMeal.toString() + "_" + mealId)) >> {
-            return Optional.of(new Meal(location: location, venueName: name, id: mealId, mealDate: dateOfMeal, mealConfig: new MealConfig()))
+            return Optional.of(new Meal(location: location, menuName: name, id: mealId, mealDate: dateOfMeal, mealConfig: new MealConfig()))
         }
 
-        IDynamoDBFacadeRepository venueServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
-        VenueRepository venueService = new VenueRepository(venueServiceIDynamoDBFacadeService)
-        venueServiceIDynamoDBFacadeService.load(Venue.class, "Venue_" + location, name) >> {
+        IDynamoDBFacadeRepository menuServiceIDynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
+        MenuRepository menuService = new MenuRepository(menuServiceIDynamoDBFacadeService)
+        menuServiceIDynamoDBFacadeService.load(Menu.class, "Menu_" + location, name) >> {
             return Optional.of(
-                    new Venue(menuItems: List.of(
+                    new Menu(menuItems: List.of(
                             new MenuItem(name: "name", description: "description", price: 1.0)
                     )
                 )
@@ -51,7 +51,7 @@ class OrderControllerSpec extends Specification {
         }
 
         IDynamoDBFacadeRepository dynamoDBFacadeService = Mock(IDynamoDBFacadeRepository)
-        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, venueService)
+        CreateOrderRequestConverter createOrderRequestConverter = new CreateOrderRequestConverter(mealService, menuService)
         OrderRepository orderService = new OrderRepository(dynamoDBFacadeService)
         OrderController orderController = new OrderController(orderService, createOrderRequestConverter)
         Authentication authentication = Mock(Authentication)

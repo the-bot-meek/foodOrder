@@ -30,7 +30,7 @@ class MealControllerSpec extends Specification {
     
     def "AddMeal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", venueName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig())
 
         when:
         mealController.addMeal(createMealRequest, authentication)
@@ -49,7 +49,7 @@ class MealControllerSpec extends Specification {
     }
 
     def "addMeal with invalid location"() {
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "idk", venueName:  "MacD")
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "idk", menuName:  "MacD")
 
         when:
         mealController.addMeal(createMealRequest, authentication)
@@ -63,7 +63,7 @@ class MealControllerSpec extends Specification {
         String mealSortKey = "2024-03-25T22:17:46Z_797b001f-de8f-47ed-833a-d84e61c73fe7"
         1 * mealService.getMeal("principal_name", mealSortKey) >> {
             Optional.of(
-                    new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
+                    new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", menuName: "MacD")
             )
         }
 
@@ -72,7 +72,7 @@ class MealControllerSpec extends Specification {
 
         then:
         assert meal.isPresent()
-        assert meal.get() == new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", venueName: "MacD")
+        assert meal.get() == new Meal(id: "797b001f-de8f-47ed-833a-d84e61c73fe7", name: "name", mealDate: Instant.ofEpochSecond(1711405066), uid: "principal_name", location: "London", menuName: "MacD")
     }
 
     def "ListMeals"() {
@@ -83,7 +83,7 @@ class MealControllerSpec extends Specification {
                         name: "name", mealDate: Instant.ofEpochSecond(1711405066),
                         uid: "principal_name",
                         location: "London",
-                        venueName: "MacD"
+                        menuName: "MacD"
                 )
         ]
 
@@ -98,7 +98,7 @@ class MealControllerSpec extends Specification {
                         Instant.ofEpochSecond(1711405066),
                         uid: "principal_name",
                         location: "London",
-                        venueName: "MacD"
+                        menuName: "MacD"
                 )
         ]
     }

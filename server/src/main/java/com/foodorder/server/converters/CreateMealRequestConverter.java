@@ -31,9 +31,9 @@ public class CreateMealRequestConverter {
         }
         Meal meal;
         if (createMealRequest.getMealConfig().getDraft()) {
-            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
+            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), createMealRequest.getMealConfig());
         } else {
-            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getVenueName(), createMealRequest.getMealConfig());
+            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), createMealRequest.getMealConfig());
         }
         return meal;
     }

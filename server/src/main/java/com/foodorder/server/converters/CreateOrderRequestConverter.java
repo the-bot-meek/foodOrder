@@ -1,14 +1,14 @@
 package com.foodorder.server.converters;
 
 import com.foodorder.server.exceptions.OrderRequestConverterException;
+import com.foodorder.server.models.Menu;
 import com.foodorder.server.request.CreateOrderRequest;
 import com.foodorder.server.models.AnonymousOrder;
 import com.foodorder.server.models.meal.Meal;
 import com.foodorder.server.models.MenuItem;
 import com.foodorder.server.models.Order;
-import com.foodorder.server.models.Venue;
 import com.foodorder.server.repository.MealRepository;
-import com.foodorder.server.repository.VenueRepository;
+import com.foodorder.server.repository.MenuRepository;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +22,13 @@ import java.util.UUID;
 public class CreateOrderRequestConverter {
     private final Logger log = LoggerFactory.getLogger(CreateOrderRequestConverter.class);
     private final MealRepository mealRepository;
-    private final VenueRepository venueRepository;
-    public CreateOrderRequestConverter(MealRepository mealRepository, VenueRepository venueRepository) {
+    private final MenuRepository menuRepository;
+    public CreateOrderRequestConverter(MealRepository mealRepository, MenuRepository menuRepository) {
         this.mealRepository = mealRepository;
-        this.venueRepository = venueRepository;
+        this.menuRepository = menuRepository;
     }
-    private List<MenuItem> getInvalidMenuItemsForVenue(Set<MenuItem> menuItems, Venue venue) {
-        return menuItems.stream().filter(menuItem -> !venue.getMenuItems().contains(menuItem)).toList();
+    private List<MenuItem> getInvalidMenuItemsForMenu(Set<MenuItem> menuItems, Menu menu) {
+        return menuItems.stream().filter(menuItem -> !menu.getMenuItems().contains(menuItem)).toList();
     }
 
     public Order convertCreateOrderRequestToOrder(CreateOrderRequest createOrderRequest, String uid, String preferredUsername) throws OrderRequestConverterException {
@@ -63,27 +63,27 @@ public class CreateOrderRequestConverter {
             throw new OrderRequestConverterException(errMsg);
         }
 
-        final Optional<Venue> venueOptional = venueRepository.getVenue(
+        final Optional<Menu> menuOptional = menuRepository.getMenu(
                 meal.getLocation(),
-                meal.getVenueName()
+                meal.getMenuName()
         );
 
-        if (venueOptional.isEmpty()) {
-            log.trace("Could not find Venue location: {}, name: {}", meal.getLocation(), meal.getVenueName());
+        if (menuOptional.isEmpty()) {
+            log.trace("Could not find Menu location: {}, name: {}", meal.getLocation(), meal.getMenuName());
             throw new OrderRequestConverterException(
-                    String.format("Could not find Venue with location: %s, name: %s", mealOptional.get().getLocation(), mealOptional.get().getVenueName())
+                    String.format("Could not find Menu with location: %s, name: %s", mealOptional.get().getLocation(), mealOptional.get().getMenuName())
             );
         }
-        Venue venue = venueOptional.get();
+        Menu menu = menuOptional.get();
 
-        List<MenuItem> invalidMenuItems = getInvalidMenuItemsForVenue(createOrderRequest.menuItems(), venue);
+        List<MenuItem> invalidMenuItems = getInvalidMenuItemsForMenu(createOrderRequest.menuItems(), menu);
 
         if (!invalidMenuItems.isEmpty()) {
-            log.trace("Found {} invalid invalidMenuItems for venue id: {}, location: {}, name: {}.",
+            log.trace("Found {} invalid invalidMenuItems for menu id: {}, location: {}, name: {}.",
                     invalidMenuItems.size(),
-                    venue.getId(),
-                    venue.getLocation(),
-                    venue.getName()
+                    menu.getId(),
+                    menu.getLocation(),
+                    menu.getName()
             );
             throw new OrderRequestConverterException("Invalid MenuItems");
         }

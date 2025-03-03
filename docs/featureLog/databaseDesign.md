@@ -22,7 +22,7 @@ No additional information will be needed that is not already provided by the ide
 Meals will need to be searchable by its uid to allow the application to list all meals associated to the Organiser.
 The sort key will also need to have a composite key of the date of the meal and the id. 
 If we just used the date of the meal then a organisation could only have one meal per day.
-The location and venueName belonging to the venue associated to the Meal are also stored on the meal item as they will be needed to find the venue associated to a meal.
+The location and venueName belonging to the menu associated to the Meal are also stored on the meal item as they will be needed to find the menu associated to a meal.
 **PK format:** "Meal_{{uid}}"  
 **SK format** "{{date_of_meal}}"
 

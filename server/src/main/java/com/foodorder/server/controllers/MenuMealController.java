@@ -10,16 +10,16 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Optional;
 
-@Controller("/venue")
+@Controller("/menu")
 @Secured(SecurityRule.IS_ANONYMOUS)
-public class VenueMealController {
+public class MenuMealController {
     private final MealRepository mealRepository;
-    VenueMealController(MealRepository mealRepository) {
+    MenuMealController(MealRepository mealRepository) {
         this.mealRepository = mealRepository;
     }
 
-    @Get("{venueId}/meal/{mealId}")
-    public Optional<Meal> getMeal(@NotNull String venueId, @NotNull String mealId) {
-        return this.mealRepository.getMealByVenueNameAndMealId(venueId, mealId);
+    @Get("{menuId}/meal/{mealId}")
+    public Optional<Meal> getMeal(@NotNull String menuId, @NotNull String mealId) {
+        return this.mealRepository.getMealByMenuNameAndMealId(menuId, mealId);
     }
 }
