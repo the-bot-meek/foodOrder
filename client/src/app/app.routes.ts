@@ -1,7 +1,7 @@
 import {Routes} from '@angular/router';
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
 import {MealOverviewComponent} from "./components/meal/meal-overview/meal-overview.component";
-import {isAdmin} from "./shared/authGuards/authGuard";
+import {isAdminCanActivateFn} from "./shared/authGuards/authGuard";
 import {
   AccreditedOrderComponent
 } from "./components/order/accredited-order-component/accredited-order.component";
@@ -11,17 +11,17 @@ export const routes: Routes = [
   {
     path: "",
     component: LandingPageComponent,
-    canActivate: [isAdmin]
+    canActivate: [isAdminCanActivateFn]
   },
   {
     path: "meal/:sk",
     component: MealOverviewComponent,
-    canActivate: [isAdmin]
+    canActivate: [isAdminCanActivateFn]
   },
   {
     path: "order/:menuName/:mealId",
     component: AccreditedOrderComponent,
-    canActivate: [isAdmin]
+    canActivate: [isAdminCanActivateFn]
   },
   {
     path: 'login-success',
