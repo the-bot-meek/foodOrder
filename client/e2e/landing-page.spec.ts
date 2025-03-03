@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test';
-import {getMealTableCellFromTableRow, openAddDialog, populateAddMealDialog, populateAddVenueDialog} from "./utils";
+import {getMealTableCellFromTableRow, openAddDialog, populateAddMealDialog, populateAddMenuDialog} from "./utils";
 import {v4 as uuid} from 'uuid';
-import {ICreateVenueRequest} from "@the-bot-meek/food-orders-models/models/venue";
+import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 
 test('has title', async ({ page }) => {
@@ -12,12 +12,12 @@ test('has title', async ({ page }) => {
 });
 
 
-test('add venue test', async ({ page, browserName }) => {
+test('add menu test', async ({ page, browserName }) => {
   await page.goto('/');
 
-  await openAddDialog('venue', page)
-  const createVenueRequest: ICreateVenueRequest = {
-    name: `add venue test ${browserName}`,
+  await openAddDialog('menu', page)
+  const createMenuRequest: ICreateMenuRequest = {
+    name: `add menu test ${browserName}`,
     description: "description",
     location: "London",
     phoneNumber: "+44 20 7123 4567",
@@ -29,13 +29,13 @@ test('add venue test', async ({ page, browserName }) => {
       }
     ]
   }
-  await populateAddVenueDialog(createVenueRequest, page)
-  expect(page.getByText('Venue Added')).toBeTruthy()
+  await populateAddMenuDialog(createMenuRequest, page)
+  expect(page.getByText('Menu Added')).toBeTruthy()
 });
 
 test('test add meal', async ({ page, browserName }) => {
   await page.goto('/');
-  const createVenueRequest: ICreateVenueRequest = {
+  const createMenuRequest: ICreateMenuRequest = {
     name: `test add meal ${browserName}`,
     description: "description",
     location: "London",
@@ -57,12 +57,12 @@ test('test add meal', async ({ page, browserName }) => {
       privateMealConfig: undefined
     },
     name: `name-${uuid()}`,
-    venueName: `test add meal ${browserName}`
+    menuName: `test add meal ${browserName}`
   }
 
-  await openAddDialog('venue', page)
-  await populateAddVenueDialog(createVenueRequest, page)
-  expect(page.getByText('Venue Added')).toBeTruthy()
+  await openAddDialog('menu', page)
+  await populateAddMenuDialog(createMenuRequest, page)
+  expect(page.getByText('Menu Added')).toBeTruthy()
 
   await openAddDialog('meal', page)
   await populateAddMealDialog(createMealRequest, page)
@@ -75,10 +75,10 @@ test('test add meal', async ({ page, browserName }) => {
   const nameCell = await getMealTableCellFromTableRow('name', mealRow)
   const dateCell = await getMealTableCellFromTableRow('date', mealRow)
   const locationCell = await getMealTableCellFromTableRow('location', mealRow)
-  const venueNameCell = await getMealTableCellFromTableRow('venueName', mealRow)
+  const menuNameCell = await getMealTableCellFromTableRow('menuName', mealRow)
 
   await expect(nameCell).toHaveText(createMealRequest.name)
   await expect(dateCell).toHaveText(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric',}))
   await expect(locationCell).toHaveText(createMealRequest.location)
-  await expect(venueNameCell).toHaveText(createMealRequest.venueName)
+  await expect(menuNameCell).toHaveText(createMealRequest.menuName)
 });

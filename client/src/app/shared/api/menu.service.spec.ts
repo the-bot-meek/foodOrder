@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
-import { VenueService } from './venue.service';
+import { MenuService } from './menu.service';
 import { HttpClient } from "@angular/common/http";
 
-describe('VenueService', () => {
-  let service: VenueService;
+describe('MenuService', () => {
+  let service: MenuService;
   let httpClient;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('VenueService', () => {
       ]
     });
     TestBed.configureTestingModule({});
-    service = TestBed.inject(VenueService);
+    service = TestBed.inject(MenuService);
   });
 
   it('should be created', () => {

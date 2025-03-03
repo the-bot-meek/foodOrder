@@ -19,7 +19,7 @@ export const routes: Routes = [
     canActivate: [authGuardCanActivateFn]
   },
   {
-    path: "order/:venueName/:mealId",
+    path: "order/:menuName/:mealId",
     component: AccreditedOrderComponent,
     canActivate: [authGuardCanActivateFn]
   },

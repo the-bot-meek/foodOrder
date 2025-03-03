@@ -1,6 +1,6 @@
 import {IMenuItems} from "./menuItems";
 
-export interface IVenue {
+export interface IMenu {
   id: string
   name: string
   location: string
@@ -8,7 +8,7 @@ export interface IVenue {
   menuItems: IMenuItems[]
 }
 
-export interface ICreateVenueRequest {
+export interface ICreateMenuRequest {
   menuItems: IMenuItems[]
   location: string
   name: string

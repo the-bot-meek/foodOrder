@@ -6,7 +6,7 @@ export interface IMeal {
     name: string;
     mealDate: number;
     location: string;
-    venueName: string;
+    menuName: string;
     sortKey: string;
     primaryKey: string;
     mealConfig: MealConfig;

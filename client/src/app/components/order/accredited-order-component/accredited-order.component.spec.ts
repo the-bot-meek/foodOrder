@@ -4,7 +4,7 @@ import { AccreditedOrderComponent } from './accredited-order.component';
 import {ActivatedRoute} from "@angular/router";
 import {AuthService} from "../../../shared/services/auth/auth.service";
 import SpyObj = jasmine.SpyObj;
-import {VenueService} from "../../../shared/api/venue.service";
+import {MenuService} from "../../../shared/api/menu.service";
 import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 import {of} from "rxjs";
 import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
@@ -16,7 +16,7 @@ describe('AccreditedOrderComponentComponent', () => {
   let route = {
     snapshot: {
       params: {
-        venueName: "venueName",
+        menuName: "menuName",
         mealId: "mealId"
       }
     }
@@ -31,7 +31,7 @@ describe('AccreditedOrderComponentComponent', () => {
     },
   })
 
-  let venueService: SpyObj<VenueService> = jasmine.createSpyObj('venueService', ['getMealByVenueNameAndMealId'])
+  let menuService: SpyObj<MenuService> = jasmine.createSpyObj('menuService', ['getMealByMenuNameAndMealId'])
   let meal: IMeal = {
     id: "",
     location: "",
@@ -41,18 +41,18 @@ describe('AccreditedOrderComponentComponent', () => {
     primaryKey: "",
     sortKey: "",
     uid: "",
-    venueName: ""
+    menuName: ""
 
   }
-  venueService.getMealByVenueNameAndMealId.and.returnValue(of(meal))
+  menuService.getMealByMenuNameAndMealId.and.returnValue(of(meal))
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AccreditedOrderComponent],
       providers: [
       {
-        provide: VenueService,
-        useValue: venueService
+        provide: MenuService,
+        useValue: menuService
       },
       {
         provide: ActivatedRoute,
@@ -75,8 +75,8 @@ describe('AccreditedOrderComponentComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('expect getMealByVenueNameAndMealId to have been called', () => {
+  it('expect getMealByMenuNameAndMealId to have been called', () => {
     expect(component).toBeTruthy();
-    expect(venueService.getMealByVenueNameAndMealId).toHaveBeenCalledWith("venueName", "mealId")
+    expect(menuService.getMealByMenuNameAndMealId).toHaveBeenCalledWith("menuName", "mealId")
   });
 });

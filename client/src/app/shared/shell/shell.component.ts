@@ -17,7 +17,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
 import {AddMealDialogComponent} from "../../components/meal/add-meal-dialog/add-meal-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ComponentType} from "@angular/cdk/overlay";
-import {AddVenueDialogComponent} from "../../components/venue/add-venue-dialog/add-venue-dialog.component";
+import {AddMenuDialogComponent} from "../../components/menu/add-menu-dialog/add-menu-dialog.component";
 import {AuthService} from "../services/auth/auth.service";
 import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 
@@ -70,5 +70,5 @@ export class ShellComponent {
   }
 
   protected readonly AddMealDialogComponent = AddMealDialogComponent;
-  protected readonly AddVenueDialogComponent = AddVenueDialogComponent;
+  protected readonly AddMenuDialogComponent = AddMenuDialogComponent;
 }

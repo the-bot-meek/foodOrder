@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {ICreateVenueRequest} from "@the-bot-meek/food-orders-models/models/venue";
-import {VenueService} from "../../../shared/api/venue.service";
+import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
+import {MenuService} from "../../../shared/api/menu.service";
 import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -16,7 +16,7 @@ import {map} from "rxjs/operators";
 import {catchError} from "rxjs";
 
 @Component({
-    selector: 'app-add-venue-dialog',
+    selector: 'app-add-menu-dialog',
     imports: [
         ReactiveFormsModule,
         MatFormField,
@@ -32,13 +32,13 @@ import {catchError} from "rxjs";
         MatIconButton,
         MatDialogClose
     ],
-    templateUrl: './add-venue-dialog.component.html',
-    styleUrl: './add-venue-dialog.component.scss'
+    templateUrl: './add-menu-dialog.component.html',
+    styleUrl: './add-menu-dialog.component.scss'
 })
-export class AddVenueDialogComponent {
+export class AddMenuDialogComponent {
   locations: string[] = ['London', 'Kirkwall']
   menuItems: IMenuItems[] = []
-  venueFormGroup = new FormGroup({
+  menuFormGroup = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
     location: new FormControl<string>('', [Validators.required]),
     phoneNumber: new FormControl<string>('', [Validators.required]),
@@ -55,31 +55,31 @@ export class AddVenueDialogComponent {
   })
 
   constructor(
-    private venueService:VenueService,
-    public dialogRef: MatDialogRef<AddVenueDialogComponent>,
+    private menuService:MenuService,
+    public dialogRef: MatDialogRef<AddMenuDialogComponent>,
     private snackBar: MatSnackBar
   ) {
   }
 
-  saveVenue(): void {
-    const addVenueRequest: ICreateVenueRequest = {
-      location: this.venueFormGroup.value.location as string,
-      description: this.venueFormGroup.value.description as string,
-      phoneNumber: this.venueFormGroup.value.phoneNumber as string,
-      name: this.venueFormGroup.value.name as string,
+  saveMenu(): void {
+    const addMenuRequest: ICreateMenuRequest = {
+      location: this.menuFormGroup.value.location as string,
+      description: this.menuFormGroup.value.description as string,
+      phoneNumber: this.menuFormGroup.value.phoneNumber as string,
+      name: this.menuFormGroup.value.name as string,
       menuItems: this.menuItems
     }
-    this.venueService.addVenue(addVenueRequest).pipe(map(() => {
-      this.snackBar.open("Venue Added", null, {
+    this.menuService.addMenu(addMenuRequest).pipe(map(() => {
+      this.snackBar.open("Menu Added", null, {
         horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
       })
     }),
     catchError(err => {
-      this.failedToAddVenue()
+      this.failedToAddMenu()
       throw err;
     })).subscribe()
     this.addMenuItemForm.reset()
-    this.venueFormGroup.reset()
+    this.menuFormGroup.reset()
     this.menuItems = [];
     this.dialogRef.close()
   }
@@ -95,8 +95,8 @@ export class AddVenueDialogComponent {
 
 
 
-  private failedToAddVenue() {
-    this.snackBar.open("Failed to add venue", null, {
+  private failedToAddMenu() {
+    this.snackBar.open("Failed to add menu", null, {
       horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
     });
   }

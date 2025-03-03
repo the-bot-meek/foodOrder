@@ -25,17 +25,17 @@
       <br>
       <mat-form-field>
         <mat-label>Location</mat-label>
-        <mat-select data-testid="location-select" [formControl]="addMealFormGroup.controls.location" (selectionChange)="getVenuesForLocation($event.value)">
+        <mat-select data-testid="location-select" [formControl]="addMealFormGroup.controls.location" (selectionChange)="getMenusForLocation($event.value)">
           @for (location of locations; track location) {
             <mat-option [value]="location" >{{location}}</mat-option>
           }
         </mat-select>
       </mat-form-field>
-      @if (venues.length != 0) {
+      @if (menus.length != 0) {
         <mat-form-field>
-          <mat-label>Venue</mat-label>
-          <mat-select data-testid="menu-select" [formControl]="addMealFormGroup.controls.venueName">
-            @for (menu of venues; track menu) {
+          <mat-label>Menu</mat-label>
+          <mat-select data-testid="menu-select" [formControl]="addMealFormGroup.controls.menuName">
+            @for (menu of menus; track menu) {
               <mat-option [value]="menu.name" >{{menu.name}}</mat-option>
             }
           </mat-select>

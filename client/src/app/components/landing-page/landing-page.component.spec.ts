@@ -22,7 +22,7 @@ describe('LandingPageComponent', () => {
     location: 'London',
     sortKey: 'sortKey": "2024-06-15T21:56:20.592Z_07405c0f-7f50-4e78-82b0-78f8d730d42b',
     primaryKey: '7f50-07405c0f-4e78-82b0-78f8d730d42b',
-    venueName: 'MacD',
+    menuName: 'MacD',
     mealConfig: {
       draft: false,
       privateMealConfig: undefined
@@ -66,7 +66,7 @@ describe('LandingPageComponent', () => {
       name: 'name',
       mealDate: 'Jun 15, 2024',
       location: 'London',
-      venueName: 'MacD'
+      menuName: 'MacD'
     })
     expect(rows.length).toEqual(1)
   })

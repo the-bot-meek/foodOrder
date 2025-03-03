@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AddMealDialogComponent } from './add-meal-dialog.component';
 import {EMPTY, Observable, of} from "rxjs";
-import {IVenue} from "@the-bot-meek/food-orders-models/models/venue";
+import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
-import {VenueService} from "../../../shared/api/venue.service";
+import {MenuService} from "../../../shared/api/menu.service";
 import {MealService} from "../../../shared/api/meal.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HarnessLoader} from "@angular/cdk/testing";
@@ -25,7 +25,7 @@ describe('AddMealDialogComponent', () => {
   let component: AddMealDialogComponent;
   let fixture: ComponentFixture<AddMealDialogComponent>;
   let loader: HarnessLoader
-  let venueService: any;
+  let menuService: any;
   let mealService: any;
   let dialogRef: any;
   let snackBar: any;
@@ -33,7 +33,7 @@ describe('AddMealDialogComponent', () => {
   let matSnackBarRef: any;
   let uuidService: SpyObj<UUIDService>;
 
-  let venue: IVenue = {
+  let menu: IMenu = {
     description: "description",
     id: "569fd798-2b1b-4864-8269-65115a5c94c1",
     location: "London",
@@ -42,7 +42,7 @@ describe('AddMealDialogComponent', () => {
       description: 'description',
       price: 1.01
     }],
-    name: "Venue Name"
+    name: "Menu Name"
   }
 
   let mealSortKey = "2024-07-01T20:09:35.796Z_6e30e2b2-e0dd-4345-8422-697e705c746b"
@@ -58,14 +58,14 @@ describe('AddMealDialogComponent', () => {
     primaryKey: "8422-6e30e2b2-e0dd-4345-697e705c746b",
     sortKey: mealSortKey,
     uid: "8422-6e30e2b2-e0dd-4345-697e705c746b",
-    venueName: "MacD"
+    menuName: "MacD"
   }
 
   beforeEach(async () => {
-    venueService = {
-      listVenuesForLocation: jasmine.createSpy().and.callFake((location: string): Observable<IVenue[]> => {
+    menuService = {
+      listMenusForLocation: jasmine.createSpy().and.callFake((location: string): Observable<IMenu[]> => {
         expect(location).toEqual("London")
-        return of([venue])
+        return of([menu])
       })
     }
 
@@ -99,8 +99,8 @@ describe('AddMealDialogComponent', () => {
       imports: [AddMealDialogComponent, BrowserAnimationsModule],
       providers: [
         {
-          provide: VenueService,
-          useValue: venueService
+          provide: MenuService,
+          useValue: menuService
         },
         {
           provide: MatDialogRef<AddMealDialogComponent>,
@@ -136,7 +136,7 @@ describe('AddMealDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should request venues for location', async () => {
+  it('Should request menus for location', async () => {
     const locationMatSelectHarness: MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
       selector: '[data-testid="location-select"]'
     }))
@@ -169,10 +169,10 @@ describe('AddMealDialogComponent', () => {
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
 
-    const venueMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: '[data-testid="venue-select"]'
+    const menuMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
+      selector: '[data-testid="menu-select"]'
     }))
-    await venueMatSelectHarness.clickOptions({text: "Venue Name"})
+    await menuMatSelectHarness.clickOptions({text: "Menu Name"})
 
 
     const addMealMatButtonHarness: MatButtonHarness = await loader.getHarness<MatButtonHarness>(MatButtonHarness.with({
@@ -188,7 +188,7 @@ describe('AddMealDialogComponent', () => {
         privateMealConfig: null
       },
       name: 'Name',
-      venueName: 'Venue Name'
+      menuName: 'Menu Name'
     }
 
     expect(dialogRef.close).toHaveBeenCalled()
@@ -222,10 +222,10 @@ describe('AddMealDialogComponent', () => {
     }))
     await locationMatSelectHarness.clickOptions({text: "London"})
 
-    const venueMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
-      selector: '[data-testid="venue-select"]'
+    const menuMatSelectHarness:MatSelectHarness = await loader.getHarness<MatSelectHarness>(MatSelectHarness.with({
+      selector: '[data-testid="menu-select"]'
     }))
-    await venueMatSelectHarness.clickOptions({text: "Venue Name"})
+    await menuMatSelectHarness.clickOptions({text: "Menu Name"})
 
     const privateMealCheckBox: MatCheckboxHarness = await loader.getHarness<MatCheckboxHarness>(MatCheckboxHarness.with({
       selector: '[data-testid="private-meal-checkbox"]'
@@ -252,7 +252,7 @@ describe('AddMealDialogComponent', () => {
         }
       },
       name: 'Name',
-      venueName: 'Venue Name'
+      menuName: 'Menu Name'
     }
 
     expect(uuidService.randomUUID).toHaveBeenCalled()
