@@ -24,3 +24,4 @@ endpoints:
 
 mockAuthConfig:
   sessionLessStateAuth: ${STATELESS_SESSION_AUTH:true}
+  admin: ${IS_ADMIN:true}

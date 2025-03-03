@@ -11,11 +11,26 @@ public class MockAuthConfig {
      */
     private boolean sessionLessStateAuth = true;
 
+
+    /**
+     * When isAdmin is true, the user is considered an admin user.
+     * This allows us to test admin only features in the application by adding the admin role to the JWT
+     */
+    private boolean isAdmin = true;
+
     public boolean isSessionLessStateAuth() {
         return sessionLessStateAuth;
     }
 
     public void setSessionLessStateAuth(boolean sessionLessStateAuth) {
         this.sessionLessStateAuth = sessionLessStateAuth;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
