@@ -8,7 +8,7 @@ export interface IUser {
   iss: string
   email_verified: boolean
   updated_at: string
-  roles: any[]
+  foodorder_roles: string[]
   nickname: string
   name: string
   given_name: string
