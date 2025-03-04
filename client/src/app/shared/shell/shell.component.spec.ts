@@ -5,10 +5,10 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {AuthService} from "../services/auth/auth.service";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {HarnessLoader} from "@angular/cdk/testing";
-import {MatSidenavContainerHarness, MatSidenavHarness} from "@angular/material/sidenav/testing";
+import {MatSidenavContainerHarness} from "@angular/material/sidenav/testing";
 import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 
-let user = {
+let user: IUser = {
   active: false,
   email: "",
   email_verified: false,
@@ -19,11 +19,11 @@ let user = {
   iss: "",
   name: "",
   nbf: 0,
+  foodorder_roles: ["FoodOrderAdminUser"],
   nickname: "",
   nonce: "",
   oauth2Provider: "",
   picture: "",
-  roles: [],
   sid: "",
   sub: "",
   updated_at: "",

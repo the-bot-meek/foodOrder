@@ -11,7 +11,6 @@ describe('AppComponent', () => {
   let user: IUser = {
     active: true,
     name: "name",
-    roles: [],
     sub: "",
     email: "",
     email_verified: false,
@@ -28,6 +27,7 @@ describe('AppComponent', () => {
     sid: "",
     updated_at: "",
     username: "",
+    foodorder_roles: ["FoodOrderAdminUser"],
   }
 
   beforeEach(async () => {
