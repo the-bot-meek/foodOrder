@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {MealTableComponent} from "../meal/meal-table/meal-table.component";
 import {UserService} from "../../shared/api/user.service";
 import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
+import {AuthService} from "../../shared/services/auth/auth.service";
 
 @Component({
     selector: 'app-landing-page',
@@ -21,11 +22,11 @@ import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
     styleUrl: './landing-page.component.scss'
 })
 export class LandingPageComponent {
-  userInfo: Observable<IUser> = this.userService.getUserInfo();
+  userInfo: IUser = this.authService.userDetails;
   meals: Observable<IMeal[]> = this.mealService.listMeal()
   constructor(
     private mealService: MealService,
-    private userService: UserService,
+    private authService: AuthService,
   ) {
   }
 }

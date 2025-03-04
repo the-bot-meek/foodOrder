@@ -1,5 +1,5 @@
-@if (userInfo | async; as user) {
-  <p>Welcome back: {{user.name}}</p>
+@if (userInfo) {
+  <p>Welcome back: {{userInfo.name}}</p>
 }
 
 <app-meal-table [meals]="meals"></app-meal-table>
