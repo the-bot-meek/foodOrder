@@ -11,7 +11,6 @@ describe('UserService', () => {
   let user: IUser = {
     active: true,
     name: "name",
-    roles: [],
     sub: "",
     email: "",
     email_verified: false,
@@ -28,6 +27,7 @@ describe('UserService', () => {
     sid: "",
     updated_at: "",
     username: "",
+    foodorder_roles: ["FoodOrderAdminUser"],
   }
 
   beforeEach(() => {
