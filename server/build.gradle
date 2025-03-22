@@ -36,7 +36,7 @@ dependencies {
     aotPlugins("io.micronaut.security:micronaut-security-aot")
     implementation("io.micronaut:micronaut-management")
     implementation("software.amazon.awssdk:dynamodb-enhanced")
-    testImplementation 'net.bytebuddy:byte-buddy:1.17.2'
+    testImplementation 'net.bytebuddy:byte-buddy:1.17.3'
     testImplementation 'org.objenesis:objenesis:3.4'
 }
 
