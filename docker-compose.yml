@@ -14,11 +14,16 @@ services:
     networks:
       - localstack-network
     environment:
-      - SERVICES=dynamodb,ssm,sts,cloudformation,iam
+      - SERVICES=dynamodb,ssm,sts,cloudformation,iam,lambda,apigateway
       - DYNAMODB_SHARE_DB=1
+      - LAMBDA_REMOVE_CONTAINERS=0
+      - MICRONAUT_ENVIRONMENTS="${MICRONAUT_ENVIRONMENTS:-mock_auth}"
+      - STATELESS_SESSION_AUTH="${STATELESS_SESSION_AUTH:-false}"
     volumes:
       - "./local_stack:/etc/localstack/init/ready.d"
       - "./CDK:/CDK"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./lambda-handler/build/libs:/builds/restApiHandler/"
   food-order-server:
     image: "sharedfoodorder:latest"
     ports:
