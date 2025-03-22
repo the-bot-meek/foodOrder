@@ -41,12 +41,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
-        run: sudo apt-get update && sudo apt-get install docker-compose -y
-
-      - name: Start local stack
-        run: docker-compose up -d localstack
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -61,18 +55,9 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test --no-daemon
-
-      - name: Wait for localstack init script to finish
-        run: bash scripts/wait_for_localstack_init_script_to_finish.sh
-
-      - name: Run integration test
-        run: ./gradlew integrationTest
-
-      - name: Dump localstack logs
-        if: failure()
-        run: docker logs localstack
-  client-e2e-test:
+  intergration-test:
     runs-on: ubuntu-latest
+    needs: [gradle, client-unit-test]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -116,6 +101,9 @@ jobs:
 
       - name: Wait for localstack init script to finish
         run: bash scripts/wait_for_localstack_init_script_to_finish.sh
+
+      - name: Run gradle integration test
+        run: ./gradlew integrationTest
 
       - name: Run E2E tests
         run: npm --prefix ./client run e2e
