@@ -46,6 +46,11 @@ export class CdkStack extends cdk.Stack {
       }
     });
 
+    Tags.of(micronautLambda).add('_custom_id_', 'test-lambda-rul')
+
+    micronautLambda.addFunctionUrl()
+
+
     const restApi= new apigw.LambdaRestApi(this, 'MicronautApi', {
       handler: micronautLambda,
       proxy: true,
