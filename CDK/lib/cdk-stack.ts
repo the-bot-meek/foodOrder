@@ -1,45 +1,23 @@
 import * as cdk from 'aws-cdk-lib';
 import {Construct} from 'constructs';
-import * as dynamodb from 'aws-cdk-lib/aws-dynamodb'
-import {ProjectionType} from 'aws-cdk-lib/aws-dynamodb'
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as apigw from 'aws-cdk-lib/aws-apigateway';
 import {Tags} from "aws-cdk-lib";
 import {GatewayConstruct} from "./gateway-construct";
+import {TableConstruct} from "./table-construct";
 
 export class CdkStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-    const primaryTable = new dynamodb.TableV2(this, 'primary_table', {
-      partitionKey: { name: 'pk', type: dynamodb.AttributeType.STRING },
-      sortKey: {name: 'sk', type: dynamodb.AttributeType.STRING},
-      tableName: "primary_table",
-      globalSecondaryIndexes: [{
-        indexName: "gsi",
-        partitionKey: {name: "gsi_pk", type: dynamodb.AttributeType.STRING},
-        sortKey: {name: "gsi_sk", type: dynamodb.AttributeType.STRING},
-        projectionType: ProjectionType.ALL
-      }]
-    });
-
-    const orderTable = new dynamodb.TableV2(this, 'order_table', {
-      partitionKey: {name: 'meal_id', type: dynamodb.AttributeType.STRING},
-      sortKey: {name: 'date_of_meal', type: dynamodb.AttributeType.STRING},
-      tableName: "order_table",
-      globalSecondaryIndexes: [{
-        indexName: 'uid_gsi',
-        partitionKey: {name: 'uid', type: dynamodb.AttributeType.STRING},
-        sortKey: {name: "meal_id", type: dynamodb.AttributeType.STRING},
-        projectionType: dynamodb.ProjectionType.ALL
-      }]
-    })
+    const table: TableConstruct = new TableConstruct(this, 'TableConstruct')
 
     const gatewayConstruct: GatewayConstruct = new GatewayConstruct(this, 'GatewayConstruct', {
       lambdaEnvs: {
         "MICRONAUT_ENVIRONMENTS": "mock_auth",
         "STATELESS_SESSION_AUTH": "false",
-        "DYNAMODB_DOMAIN": "localstack"
-      }
+        "DYNAMODB_DOMAIN": "localstack",
+        "PRIMARY_TABLE_NAME": table.primaryTable.tableName,
+        "ORDER_TABLE_NAME": table.orderTable.tableName
+      },
+      assetPath: '/builds/restApiHandler/lambda-handler-1.0.0-all.jar'
     })
 
     // This tag allows us to use a static endpoint to call the api

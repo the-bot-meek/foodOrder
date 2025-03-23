@@ -18,3 +18,9 @@ endpoints:
   beans:
     enabled: true
     sensitive: false
+
+dynamodb-tables:
+  primary_table:
+    table-name: primary_table
+  order-table:
+    table-name: order_table
