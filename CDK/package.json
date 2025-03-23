@@ -10,7 +10,8 @@
     "test": "jest",
     "cdk": "cdk",
     "localstack-bootstrap": "cdklocal bootstrap",
-    "localstack-deploy": "cdklocal deploy --profile default --require-approval never"
+    "localstack-deploy": "cdklocal deploy --profile default --require-approval never",
+    "localstack-synth": "cdklocal synth"
   },
   "devDependencies": {
     "@types/jest": "^29.5.13",

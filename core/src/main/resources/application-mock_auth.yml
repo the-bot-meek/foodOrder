@@ -1,12 +1,7 @@
 micronaut:
   server:
     cors:
-      enabled: true
-      configurations:
-        ui:
-          allowed-origins:
-            - http://localhost:8080
-            - http://localhost:4200
+      enabled: false
   security:
     oauth2:
       enabled: false
