@@ -19,7 +19,6 @@ services:
       - LAMBDA_REMOVE_CONTAINERS=0
       - MICRONAUT_ENVIRONMENTS="${MICRONAUT_ENVIRONMENTS:-mock_auth}"
       - STATELESS_SESSION_AUTH="${STATELESS_SESSION_AUTH:-false}"
-      - DEBUG=1
     volumes:
       - "./local_stack:/etc/localstack/init/ready.d"
       - "./CDK:/CDK"
