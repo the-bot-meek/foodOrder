@@ -35,14 +35,6 @@ jackson:
     WRITE_DATES_AS_TIMESTAMPS: true
   serialization-inclusion: always
 
-aws:
-  secret-key: 123
-  access-key-id: 123
-  region: "eu-west-1"
-  services:
-    dynamodb:
-      endpoint-override: "http://${DYNAMODB_DOMAIN:localhost}:4566"
-
 dynamodb-tables:
   primary_table:
     table-name: primary_table
