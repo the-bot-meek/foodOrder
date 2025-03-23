@@ -5,3 +5,9 @@ micronaut:
   security:
     oauth2:
       enabled: false
+
+dynamodb-tables:
+  primary_table:
+    table-name: ${PRIMARY_TABLE_NAME}
+  order-table:
+    table-name: ${ORDER_TABLE_NAME}
