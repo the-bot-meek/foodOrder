@@ -1,0 +1,41 @@
+micronaut:
+  serde:
+    numeric-time-unit: milliseconds
+    time-write-shape: integer
+
+  application:
+    name: lambda-handler
+  security:
+    authentication: cookie
+    oauth2:
+      clients:
+        auth0:
+          client-id: ${OAUTH_CLIENT_ID}
+          client-secret: ${OAUTH_CLIENT_SECRET}
+          openid:
+            issuer: https://${OAUTH_DOMAIN}/
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_GENERATOR_SIGNATURE_SECRET}
+
+    endpoints:
+      logout:
+        get-allowed: true
+
+jackson:
+  deserialization:
+    readDateTimestampsAsNanoseconds: false
+    READ_DATE_TIMESTAMPS_AS_NANOSECONDS: false
+
+  serialization:
+    WRITE_DATE_TIMESTAMP_AS_NANOSECONDS: false
+    WRITE_DATES_AS_TIMESTAMPS: true
+  serialization-inclusion: always
+dynamodb-tables:
+  primary_table:
+    table-name: ${PRIMARY_TABLE_NAME}
+  order-table:
+    table-name: ${ORDER_TABLE_NAME}
