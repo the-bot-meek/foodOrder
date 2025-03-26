@@ -9,11 +9,11 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "localstack-bootstrap": "cdklocal bootstrap",
-    "localstack-deploy": "cdklocal deploy --profile default --require-approval never",
+    "localstack-bootstrap": "cdklocal bootstrap ",
+    "localstack-deploy": "cdklocal deploy CdkStack/LocalStack --profile default --require-approval never",
     "localstack-synth": "cdklocal synth",
     "cdk-bootstrap": "cdk bootstrap",
-    "cdk-deploy": "cdk deploy"
+    "cdk-deploy": "cdk deploy CdkStack/ProdStack"
   },
   "devDependencies": {
     "@types/jest": "^29.5.13",

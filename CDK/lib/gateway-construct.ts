@@ -2,6 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import {Construct} from "constructs";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as apigw from "aws-cdk-lib/aws-apigateway";
+import {TableConstruct} from "./table-construct";
 
 
 interface GatewayStackProps {
@@ -9,6 +10,7 @@ interface GatewayStackProps {
         [key: string]: string;
     };
     assetPath: string;
+    tableConstruct: TableConstruct
 }
 
 export class GatewayConstruct extends Construct {
@@ -23,7 +25,7 @@ export class GatewayConstruct extends Construct {
             handler: 'io.micronaut.function.aws.proxy.payload1.ApiGatewayProxyRequestEventFunction::handleRequest', // Change this to your actual handler.
             code: lambda.Code.fromAsset(props.assetPath), // The directory containing your packaged JAR.
             memorySize: 1024,
-            timeout: cdk.Duration.seconds(10),
+            timeout: cdk.Duration.minutes(10),
             environment: props.lambdaEnvs
         });
 
@@ -31,5 +33,12 @@ export class GatewayConstruct extends Construct {
             handler: this.function,
             proxy: true,
         });
+
+        props.tableConstruct.orderTable.grantReadData(this.function);
+        props.tableConstruct.orderTable.grantWriteData(this.function);
+
+        props.tableConstruct.primaryTable.grantReadData(this.function);
+        props.tableConstruct.primaryTable.grantWriteData(this.function);
+
     }
 }

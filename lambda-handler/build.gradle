@@ -19,6 +19,7 @@ dependencies {
     implementation("io.micronaut.aws:micronaut-aws-apigateway")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("com.foodorder:core:1.0.0")
+    runtimeOnly("org.yaml:snakeyaml")
 }
 
 application {
