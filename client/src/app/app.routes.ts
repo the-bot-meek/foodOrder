@@ -2,10 +2,8 @@ import {Routes} from '@angular/router';
 import {LandingPageComponent} from "./components/landing-page/landing-page.component";
 import {MealOverviewComponent} from "./components/meal/meal-overview/meal-overview.component";
 import {isAdminCanActivateFn} from "./shared/authGuards/authGuard";
-import {
-  AccreditedOrderComponent
-} from "./components/order/accredited-order-component/accredited-order.component";
 import {LoginSuccessComponent} from "./components/login-success/login-success.component";
+import {AnonymousOrderComponent} from "./components/order/anonymous-order/anonymous-order.component";
 
 export const routes: Routes = [
   {
@@ -19,9 +17,8 @@ export const routes: Routes = [
     canActivate: [isAdminCanActivateFn]
   },
   {
-    path: "order/:menuName/:mealId",
-    component: AccreditedOrderComponent,
-    canActivate: [isAdminCanActivateFn]
+    path: "order/:mealId/:userId",
+    component: AnonymousOrderComponent,
   },
   {
     path: 'login-success',
