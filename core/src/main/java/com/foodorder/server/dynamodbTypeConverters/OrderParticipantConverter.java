@@ -1,8 +1,6 @@
 package com.foodorder.server.dynamodbTypeConverters;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.foodorder.server.models.MenuItem;
 import com.foodorder.server.models.orderParticipant.OrderParticipant;
 import software.amazon.awssdk.enhanced.dynamodb.AttributeConverter;
 import software.amazon.awssdk.enhanced.dynamodb.AttributeValueType;
@@ -36,7 +34,7 @@ public class OrderParticipantConverter implements AttributeConverter<OrderPartic
 
     @Override
     public EnhancedType<OrderParticipant> type() {
-        return new EnhancedType<OrderParticipant>() {};
+        return new EnhancedType<>() {};
     }
 
     @Override
