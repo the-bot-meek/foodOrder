@@ -44,6 +44,6 @@ export class MealService {
   }
 
   public listAllOrdersForMeal(mealId: string): Observable<IOrder[]> {
-    return this.httpClient.get<IOrder[]>(`${this._serverUrl}/${mealId}/orders`, {withCredentials: true})
+    return this.httpClient.get<IOrder[]>(`${this._serverUrl}/meal/${mealId}/orders`, {withCredentials: true})
   }
 }

@@ -1,0 +1,11 @@
+@use '@angular/material' as mat;
+
+.right-align {
+  text-align: right;
+}
+
+:host {
+  @include mat.table-overrides((
+    background-color: rgba(0, 0, 0, 0),
+  ));
+}

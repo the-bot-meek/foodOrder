@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container" *ngIf="userDetails">
+<mat-sidenav-container class="sidenav-container">
 
   <!-- SIDENAV -->
 
@@ -34,7 +34,7 @@
         <div>
           <span class="logo" routerLink="/">Food Order</span>
         </div>
-        <div *ngIf="!(isHandset$ | async)">
+        <div *ngIf="userDetails">
           <a mat-button routerLink="/kanban">Add Order</a>
           <a mat-button data-testid="open-add-meal-btn-dialog" (click)="openDialogComponent(AddMealDialogComponent)">Add Meal</a>
           <a mat-button data-testid="open-add-menu-btn-dialog" (click)="openDialogComponent(AddMenuDialogComponent)">Add Menu</a>
@@ -50,3 +50,6 @@
 
   </mat-sidenav-content>
 </mat-sidenav-container>
+
+
+
