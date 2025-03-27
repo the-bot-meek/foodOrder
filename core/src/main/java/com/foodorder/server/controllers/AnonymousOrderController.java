@@ -1,11 +1,11 @@
 package com.foodorder.server.controllers;
 
 import com.foodorder.server.converters.CreateOrderRequestConverter;
+import com.foodorder.server.models.Order;
 import com.foodorder.server.request.CreateOrderRequest;
 import com.foodorder.server.exceptions.OrderRequestConverterException;
 import com.foodorder.server.exceptions.missingRequredLinkedEntityExceptions.MissingMealLinkedEntityException;
 import com.foodorder.server.exceptions.missingRequredLinkedEntityExceptions.MissingRequredLinkedEntityException;
-import com.foodorder.server.models.AnonymousOrder;
 import com.foodorder.server.models.meal.Meal;
 import com.foodorder.server.repository.MealRepository;
 import com.foodorder.server.repository.OrderRepository;
@@ -39,14 +39,14 @@ public class AnonymousOrderController {
     }
 
     @Get("{uid}/{mealId}")
-    public Optional<AnonymousOrder> getAnonymousOrder(@PathVariable String uid, @PathVariable String mealId) {
+    public Optional<Order> getAnonymousOrder(@PathVariable String uid, @PathVariable String mealId) {
         return this.orderRepository.getAnonymousOrder(uid, mealId);
     }
 
     @Post("{uid}")
-    public HttpResponse<AnonymousOrder> addAnonymousOrder(@Body CreateOrderRequest createOrderRequest, @PathVariable String uid) {
+    public HttpResponse<Order> addAnonymousOrder(@Body CreateOrderRequest createOrderRequest, @PathVariable String uid) {
         try {
-            AnonymousOrder order = (AnonymousOrder) createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, DEFAULT_AnonymousUser_NAME, true);
+            Order order = createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, DEFAULT_AnonymousUser_NAME, true);
             orderRepository.addOrder(order);
             return HttpResponse.ok(order);
         } catch (OrderRequestConverterException orderRequestConverterException) {

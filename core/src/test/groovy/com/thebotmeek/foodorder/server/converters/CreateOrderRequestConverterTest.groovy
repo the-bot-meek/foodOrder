@@ -2,6 +2,7 @@ package com.thebotmeek.foodorder.server.converters
 
 import com.foodorder.server.converters.CreateOrderRequestConverter
 import com.foodorder.server.exceptions.OrderRequestConverterException
+import com.foodorder.server.models.orderParticipant.AuthenticatedOrderParticipant
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
@@ -55,7 +56,8 @@ class CreateOrderRequestConverterTest extends Specification {
         then:
         assert order.getId() != null
         order.setId(null)
-        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: preferredUsername, submitted: false)
+
+        order == new Order(meal: meal, menuItems: menuItems, orderParticipant: new AuthenticatedOrderParticipant(preferredUsername,uid), submitted: false)
     }
 
     def "ConvertCreateOrderRequestToOrder with invalid mealId organizerUid/sort key"() {
@@ -169,7 +171,7 @@ class CreateOrderRequestConverterTest extends Specification {
         then:
         assert order.getId() != null
         order.setId(null)
-        order == new Order(meal: meal, uid: uid, menuItems: menuItems, participantsName: preferredUsername)
+        order == new Order(meal: meal, menuItems: menuItems, orderParticipant:  new AuthenticatedOrderParticipant(preferredUsername,uid), submitted: false)
     }
 
     def "Make sure that validation fails when adding a order to a private meal without a valid uid "() {

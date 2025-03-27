@@ -73,9 +73,9 @@ class OrderControllerSpec extends Specification {
 
         then:
         1 * dynamoDBFacadeService.save({Order order ->
-            assert order.getUid() == uid
+            assert order.getOrderParticipant().getUserId() == uid
             assert order.getMenuItems() == menuItems
-            assert order.getParticipantsName() == "usename"
+            assert order.getOrderParticipant().getName() == "usename"
             order.getMeal().with {Meal meal ->
                 assert meal.getId() == mealId
                 assert meal.getMealDate() == dateOfMeal

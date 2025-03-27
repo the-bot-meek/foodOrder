@@ -52,11 +52,11 @@ class OrderIntegrationSpec extends Specification {
         Order order = orderClient.addOrder(createOrderRequest)
 
         then:
-        assert order.getUid() == "steven"
+        assert order.getOrderParticipant().getUserId() == "steven"
         assert order.getSortKey() =="2024-03-26T21:09:52Z"
-        assert order.getParticipantsName() == "The bot meek"
+        assert order.getOrderParticipant().getName() == "The bot meek"
         assert order.getMenuItems() == menuItems
-        assert order.getGSIPrimaryKey() == "Order_steven"
+        assert order.getGSIPrimaryKey() == "Order_steven_AUTHENTICATED"
         assert order.getPrimaryKey() == "Order_${meal.getId()}"
         assert order.getMeal() == meal
     }

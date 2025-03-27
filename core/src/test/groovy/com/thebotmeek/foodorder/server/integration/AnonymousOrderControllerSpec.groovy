@@ -3,10 +3,11 @@ package com.thebotmeek.foodorder.server.integration
 import com.foodorder.server.client.AnonymousOrderClient
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.MenuClient
+import com.foodorder.server.models.Order
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateMenuRequest
-import com.foodorder.server.models.AnonymousOrder
+
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
@@ -50,14 +51,14 @@ class AnonymousOrderControllerSpec extends Specification{
         Meal meal = mealClient.addMeal(createMealRequest)
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, meal.getId(), menuItems, "steven")
-        AnonymousOrder anonymousOrder = anonymousOrderClient.addAnonymousOrder(createOrderRequest, anonymousUserId)
+        Order anonymousOrder = anonymousOrderClient.addAnonymousOrder(createOrderRequest, anonymousUserId)
 
         then:
-        assert anonymousOrder.getUid() == anonymousUserId
+        assert anonymousOrder.getOrderParticipant().getUserId() == anonymousUserId
         assert anonymousOrder.getSortKey() =="2024-03-26T21:09:52Z"
-        assert anonymousOrder.getParticipantsName() == "AnonymousUser"
+        assert anonymousOrder.getOrderParticipant().getName() == "AnonymousUser"
         assert anonymousOrder.getMenuItems() == menuItems
-        assert anonymousOrder.getGSIPrimaryKey() == "AnonymousOrder_${anonymousUserId}"
+        assert anonymousOrder.getGSIPrimaryKey() == "Order_${anonymousUserId}_ANONYMOUS"
         assert anonymousOrder.getPrimaryKey() == "Order_${meal.getId()}"
         assert anonymousOrder.getMeal() == meal
     }
@@ -79,16 +80,16 @@ class AnonymousOrderControllerSpec extends Specification{
         Meal meal = mealClient.addMeal(createMealRequest)
 
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, meal.getId(), menuItems, "steven")
-        AnonymousOrder anonymousOrderCreated = anonymousOrderClient.addAnonymousOrder(createOrderRequest, anonymousUserId)
-        Optional<AnonymousOrder> anonymousOrder = anonymousOrderClient.getAnonymousOrder(anonymousOrderCreated.getUid(), anonymousOrderCreated.getMeal().getId())
+        Order anonymousOrderCreated = anonymousOrderClient.addAnonymousOrder(createOrderRequest, anonymousUserId)
+        Optional<Order> anonymousOrder = anonymousOrderClient.getAnonymousOrder(anonymousOrderCreated.getOrderParticipant().getUserId(), anonymousOrderCreated.getMeal().getId())
 
         then:
         assert anonymousOrder.isPresent()
-        assert anonymousOrder.get().getUid() == anonymousUserId
+        assert anonymousOrder.get().getOrderParticipant().getUserId() == anonymousUserId
         assert anonymousOrder.get().getSortKey() =="2024-03-26T21:09:52Z"
-        assert anonymousOrder.get().getParticipantsName() == "AnonymousUser"
+        assert anonymousOrder.get().getOrderParticipant().getName() == "AnonymousUser"
         assert anonymousOrder.get().getMenuItems() == menuItems
-        assert anonymousOrder.get().getGSIPrimaryKey() == "AnonymousOrder_${anonymousUserId}"
+        assert anonymousOrder.get().getGSIPrimaryKey() == "Order_${anonymousUserId}_ANONYMOUS"
         assert anonymousOrder.get().getPrimaryKey() == "Order_${meal.getId()}"
         assert anonymousOrder.get().getMeal() == meal
     }
