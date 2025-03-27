@@ -1,8 +1,8 @@
 package com.foodorder.server.repository;
 
-import com.foodorder.server.models.AnonymousOrder;
 import com.foodorder.server.models.Order;
 import com.foodorder.server.models.meal.Meal;
+import com.foodorder.server.models.orderParticipant.AnonomusOrderParticipant;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import jakarta.validation.constraints.NotNull;
@@ -43,23 +43,24 @@ public class OrderRepository {
     }
 
     public List<Order> listOrdersFromUserID(String uid) {
-        final String pk = "Order_" + uid;
+        // Anonymise users can't have more than one meal, so we don't need to check for them
+        final String pk = "Order_" + uid + "_AUTHENTICATED";
         log.trace("Getting all orders for meal:{}", uid);
         Key key = Key.builder().partitionValue(pk).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
         return dynamoDBFacadeRepository.queryWithIndex(Order.class, queryConditional, "uid_gsi");
     }
 
-    public Optional<AnonymousOrder> getAnonymousOrder(String uid, String mealId) {
-        final String pk = "AnonymousOrder_" + uid;
+    public Optional<Order> getAnonymousOrder(String uid, String mealId) {
+        final String pk = "Order_" + uid + "_ANONYMOUS";
         log.trace("Getting all AnonymousOrders for meal:{}", uid);
         Key key = Key.builder().partitionValue(pk).sortValue("Order_" + mealId).build();
         QueryConditional queryConditional = QueryConditional.keyEqualTo(key);
-        List<AnonymousOrder> orders = dynamoDBFacadeRepository.queryWithIndex(AnonymousOrder.class, queryConditional, "uid_gsi");
+        List<Order> orders = dynamoDBFacadeRepository.queryWithIndex(Order.class, queryConditional, "uid_gsi");
         if (orders.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.of(orders.get(0));
+        return Optional.of(orders.getFirst());
     }
 
     public void batchSave(List<Order> orders) {
@@ -68,7 +69,7 @@ public class OrderRepository {
 
     public void addOrdersForPrivateMeal(@NotNull Meal meal, Set<String> recipientIds) {
         final List<Order> orders = recipientIds.stream().map(
-                uid -> new Order(meal, uid, "AnonymousUser", new HashSet<>())
+                uid -> new Order(meal, new AnonomusOrderParticipant(uid, "AnonymousUser"), new HashSet<>())
         ).toList();
         batchSave(orders);
     }

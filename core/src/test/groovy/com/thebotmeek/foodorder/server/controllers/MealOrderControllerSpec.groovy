@@ -3,6 +3,7 @@ package com.thebotmeek.foodorder.server.controllers
 import com.foodorder.server.controllers.MealOrderController
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.Order
+import com.foodorder.server.models.orderParticipant.AuthenticatedOrderParticipant
 import com.foodorder.server.repository.OrderRepository
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
@@ -28,7 +29,7 @@ class MealOrderControllerSpec extends Specification {
         Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392), uid: "d84e61c73fe7-de8f-47ed-833a-797b001f")
         List<Order> orders = [new Order(
                 meal: meal,
-                uid: "d84e61c73fe7-de8f-47ed-833a-797b001f"
+                orderParticipant: new AuthenticatedOrderParticipant("principal_name","d84e61c73fe7-de8f-47ed-833a-797b001f" )
         )]
         Authentication authentication = mockAuthentication( "d84e61c73fe7-de8f-47ed-833a-797b001f")
         MealOrderController mealOrderController = new MealOrderController(orderService)
@@ -47,8 +48,7 @@ class MealOrderControllerSpec extends Specification {
         Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
                 meal: meal,
-                uid: "d84e61c73fe7-de8f-47ed-833a-797b001f",
-                participantsName: "principal_name"
+                orderParticipant: new AuthenticatedOrderParticipant("principal_name","d84e61c73fe7-de8f-47ed-833a-797b001f"),
         )]
         Authentication authentication = mockAuthentication( "invalid_principal_name")
         MealOrderController mealOrderController = new MealOrderController(orderService)
@@ -67,8 +67,7 @@ class MealOrderControllerSpec extends Specification {
         Meal meal = new Meal(id: mealId, mealDate: Instant.ofEpochSecond(1711487392))
         List<Order> orders = [new Order(
                 meal: meal,
-                uid: "d84e61c73fe7-de8f-47ed-833a-797b001f",
-                participantsName: "principal_name"
+                orderParticipant: new AuthenticatedOrderParticipant("principal_name","d84e61c73fe7-de8f-47ed-833a-797b001f"),
         ), new Order()]
         Authentication authentication = mockAuthentication( "invalid_principal_name")
         MealOrderController mealOrderController = new MealOrderController(orderService)
