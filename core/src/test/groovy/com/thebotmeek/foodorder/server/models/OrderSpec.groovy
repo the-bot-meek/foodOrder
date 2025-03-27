@@ -1,6 +1,8 @@
 package com.thebotmeek.foodorder.server.models
 
 import com.foodorder.server.models.Order
+import com.foodorder.server.models.orderParticipant.AuthenticatedOrderParticipant
+import com.foodorder.server.models.orderParticipant.OrderParticipant
 import spock.lang.Specification
 
 import java.time.Instant
@@ -11,7 +13,7 @@ class OrderSpec extends Specification {
         Order order = new Order()
 
         when:
-        order.setPrimaryKey("Order_101")
+        order.setPrimaryKey("Order_101_AUTHENTICATED")
 
         then:
         order.getMeal().getId() == "101"
@@ -19,7 +21,8 @@ class OrderSpec extends Specification {
 
     def "test primary key desterilisation"() {
         given:
-        Order order = new Order()
+        OrderParticipant orderParticipant = new AuthenticatedOrderParticipant("", "")
+        Order order = new Order(orderParticipant: orderParticipant)
 
         when:
         order.meal.setId("101")
@@ -51,26 +54,14 @@ class OrderSpec extends Specification {
         order.getMeal().getMealDate() == Instant.ofEpochSecond(1711394564)
     }
 
-    def "test GSIPrimaryKey sterilisation"() {
-        given:
-        Order order = new Order()
-        String orderGSIPrimaryKey = "Order_c023346e-4e16-4fb0-a3df-b04dedf58307"
-
-        when:
-        order.setGSIPrimaryKey(orderGSIPrimaryKey)
-
-        then:
-        assert order.getUid() == "c023346e-4e16-4fb0-a3df-b04dedf58307"
-    }
-
     def "test GSIPrimaryKey desterilisation"() {
         given:
         Order order = new Order()
 
         when:
-        order.setUid("c023346e-4e16-4fb0-a3df-b04dedf58307")
+        order.setOrderParticipant(new AuthenticatedOrderParticipant("name", "c023346e-4e16-4fb0-a3df-b04dedf58307"))
 
         then:
-        order.getGSIPrimaryKey() == "Order_c023346e-4e16-4fb0-a3df-b04dedf58307"
+        order.getGSIPrimaryKey() == "Order_c023346e-4e16-4fb0-a3df-b04dedf58307_AUTHENTICATED"
     }
 }

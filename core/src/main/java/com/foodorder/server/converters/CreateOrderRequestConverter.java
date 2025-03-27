@@ -2,8 +2,10 @@ package com.foodorder.server.converters;
 
 import com.foodorder.server.exceptions.OrderRequestConverterException;
 import com.foodorder.server.models.Menu;
+import com.foodorder.server.models.orderParticipant.AnonomusOrderParticipant;
+import com.foodorder.server.models.orderParticipant.AuthenticatedOrderParticipant;
+import com.foodorder.server.models.orderParticipant.OrderParticipant;
 import com.foodorder.server.request.CreateOrderRequest;
-import com.foodorder.server.models.AnonymousOrder;
 import com.foodorder.server.models.meal.Meal;
 import com.foodorder.server.models.MenuItem;
 import com.foodorder.server.models.Order;
@@ -89,9 +91,7 @@ public class CreateOrderRequestConverter {
         }
 
         String orderId = UUID.randomUUID().toString();
-        if (anonymous) {
-            return new AnonymousOrder(orderId, meal, uid, preferredUsername, createOrderRequest.menuItems());
-        }
-        return new Order(orderId, meal, uid, preferredUsername, createOrderRequest.menuItems());
+        OrderParticipant orderParticipant = (anonymous)? new AnonomusOrderParticipant(preferredUsername, uid) : new AuthenticatedOrderParticipant(preferredUsername, uid);
+        return new Order(orderId, meal, orderParticipant , createOrderRequest.menuItems(), false);
     }
 }

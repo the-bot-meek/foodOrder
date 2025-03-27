@@ -1,9 +1,11 @@
 package com.foodorder.server.models;
 
 import com.foodorder.server.dynamodbTypeConverters.MenuItemSetConverter;
+import com.foodorder.server.dynamodbTypeConverters.OrderParticipantConverter;
 import com.foodorder.server.models.meal.Meal;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.foodorder.server.models.orderParticipant.OrderParticipant;
 import io.micronaut.serde.annotation.Serdeable;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
@@ -11,30 +13,26 @@ import java.time.Instant;
 import java.util.Objects;
 import java.util.Set;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
-@JsonSubTypes({@JsonSubTypes.Type(value = Order.class, name = "Order"), @JsonSubTypes.Type(value = AnonymousOrder.class, name = "AnonymousOrder")})
 @DynamoDbBean
 @Serdeable
 public class Order implements Model {
     private String id;
     private Meal meal;
-    protected String uid;
-    private String participantsName;
+    private OrderParticipant orderParticipant;
     private Set<MenuItem> menuItems;
     private boolean submitted = false;
 
-    public Order(String id, Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
+    public Order(String id, Meal meal, OrderParticipant orderParticipant, Set<MenuItem> menuItems, boolean submitted) {
         this.id = id;
         this.meal = meal;
-        this.uid = uid;
-        this.participantsName = participantsName;
+        this.orderParticipant = orderParticipant;
         this.menuItems = menuItems;
+        this.submitted = submitted;
     }
 
-    public Order(Meal meal, String uid, String participantsName, Set<MenuItem> menuItems) {
+    public Order(Meal meal, OrderParticipant orderParticipant, Set<MenuItem> menuItems) {
         this.meal = meal;
-        this.uid = uid;
-        this.participantsName = participantsName;
+        this.orderParticipant = orderParticipant;
         this.menuItems = menuItems;
     }
 
@@ -67,7 +65,7 @@ public class Order implements Model {
     }
 
     public void setPrimaryKey(String pk) {
-        this.meal.setId(pk.replace("Order_", ""));
+        this.meal.setId(pk.split("_")[1]);
     }
 
     @Override
@@ -85,21 +83,11 @@ public class Order implements Model {
     @DynamoDbAttribute("uid")
     @DynamoDbSecondaryPartitionKey(indexNames = "uid_gsi")
     public String getGSIPrimaryKey() {
-        return "Order_" + uid;
+        return "Order_" + orderParticipant.getUserId() + "_" + this.orderParticipant.getKey();
     }
 
     public void setGSIPrimaryKey(String primaryKeyGSI) {
-        uid = primaryKeyGSI.replace("Order_", "");
-    }
 
-    @DynamoDbIgnore
-    public String getUid() {
-        return uid;
-    }
-
-    @DynamoDbIgnore
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     @DynamoDbConvertedBy(MenuItemSetConverter.class)
@@ -112,14 +100,14 @@ public class Order implements Model {
     }
 
 
-    public String getParticipantsName() {
-        return participantsName;
+    @DynamoDbConvertedBy(OrderParticipantConverter.class)
+    public OrderParticipant getOrderParticipant() {
+        return orderParticipant;
     }
 
-    public void setParticipantsName(String participantsName) {
-        this.participantsName = participantsName;
+    public void setOrderParticipant(OrderParticipant orderParticipant) {
+        this.orderParticipant = orderParticipant;
     }
-
 
     public boolean isSubmitted() {
         return submitted;
@@ -135,15 +123,14 @@ public class Order implements Model {
         if (this == o) return true;
         if (!(o instanceof Order order)) return false;
 
-        return submitted == order.submitted && Objects.equals(id, order.id) && Objects.equals(meal, order.meal) && Objects.equals(uid, order.uid) && Objects.equals(participantsName, order.participantsName) && Objects.equals(menuItems, order.menuItems);
+        return submitted == order.submitted && Objects.equals(id, order.id) && Objects.equals(meal, order.meal) && Objects.equals(orderParticipant, order.orderParticipant) && Objects.equals(menuItems, order.menuItems);
     }
 
     @Override
     public int hashCode() {
         int result = Objects.hashCode(id);
         result = 31 * result + Objects.hashCode(meal);
-        result = 31 * result + Objects.hashCode(uid);
-        result = 31 * result + Objects.hashCode(participantsName);
+        result = 31 * result + Objects.hashCode(orderParticipant);
         result = 31 * result + Objects.hashCode(menuItems);
         result = 31 * result + Boolean.hashCode(submitted);
         return result;

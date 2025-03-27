@@ -36,11 +36,11 @@ public class MealOrderController {
 
     private boolean validateListOfOrders(List<Order> orders, Authentication authentication) {
         if (orders.isEmpty()) return true;
-        Order order = orders.get(0);
+        Order order = orders.getFirst();
         boolean uniform = orders.stream().allMatch(it ->
                 Objects.equals(it.getMeal().getId(), order.getMeal().getId())
                 && it.getMeal().getMealDate() == order.getMeal().getMealDate()
-                && Objects.equals(it.getUid(), order.getUid())
+                && Objects.equals(it.getOrderParticipant(), order.getOrderParticipant())
         );
         if (!uniform) return false;
         return (authentication.getName().equals(order.getMeal().getUid()));
