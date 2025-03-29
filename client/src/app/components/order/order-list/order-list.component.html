@@ -6,7 +6,7 @@
   <ng-container matColumnDef="copyInviteLink">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let order" class="right-align" data-testid="meal-table-name-cell">
-      <button mat-raised-button [cdkCopyToClipboard]="placeOrderBasePath + order.meal.id + '/' + order.uid" >Copy Invite Link</button>
+      <button mat-raised-button [cdkCopyToClipboard]="placeOrderBasePath + order.meal.id + '/' + order.orderParticipant.userId" >Copy Invite Link</button>
     </td>
   </ng-container>
 
