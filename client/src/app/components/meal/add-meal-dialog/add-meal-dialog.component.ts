@@ -23,6 +23,7 @@ import {Router} from "@angular/router";
 import {catchError} from "rxjs";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {UUIDService} from "../../../shared/utils/uuid.service";
+import {OrderService} from "../../../shared/api/order.service";
 
 
 @Component({
@@ -55,7 +56,8 @@ export class AddMealDialogComponent {
     public dialogRef: MatDialogRef<AddMealDialogComponent>,
     private snackBar: MatSnackBar,
     private router: Router,
-    private uuid: UUIDService
+    private uuid: UUIDService,
+    private orderService: OrderService
   ) {
   }
 
@@ -117,6 +119,7 @@ export class AddMealDialogComponent {
       .subscribe(
       (meal) => {
         this.openAddMealSnackBar(meal.sortKey)
+        this.orderService.addAnonymousOrders(meal.sortKey).subscribe()
         this.mealService.listMeal().subscribe()
       }
     )
