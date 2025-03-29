@@ -69,7 +69,7 @@ public class OrderRepository {
 
     public void addOrdersForPrivateMeal(@NotNull Meal meal, Set<String> recipientIds) {
         final List<Order> orders = recipientIds.stream().map(
-                uid -> new Order(meal, new AnonomusOrderParticipant(uid, "AnonymousUser"), new HashSet<>())
+                uid -> new Order(meal, new AnonomusOrderParticipant("AnonymousUser", uid), new HashSet<>())
         ).toList();
         batchSave(orders);
     }
