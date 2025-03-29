@@ -98,7 +98,7 @@ class AnonymousOrderControllerSpec extends Specification {
         Meal meal = new Meal(mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig(recipientIds)))
 
         when:
-        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+        anonymousOrderController.addOrdersForMeal(dateOfMeal.toString() + "_" + mealId, authentication)
 
         then:
         1 * mealService.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(meal)
@@ -114,7 +114,7 @@ class AnonymousOrderControllerSpec extends Specification {
         authentication.getName() >> uid
 
         when:
-        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+        anonymousOrderController.addOrdersForMeal(dateOfMeal.toString() + "_" + mealId, authentication)
 
         then:
         1 * mealRepository.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.empty()
@@ -130,7 +130,7 @@ class AnonymousOrderControllerSpec extends Specification {
         authentication.getName() >> uid
 
         when:
-        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+        anonymousOrderController.addOrdersForMeal(dateOfMeal.toString() + "_" + mealId, authentication)
 
         then:
         1 * mealRepository.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(new Meal())
@@ -154,7 +154,7 @@ class AnonymousOrderControllerSpec extends Specification {
         AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
 
         when:
-        orderController.addOrdersForMeal(meal.getMealDate(), meal.getId(), authentication)
+        orderController.addOrdersForMeal(meal.getSortKey(), authentication)
 
         then:
         1 * dynamoDBFacadeService.batchSave(_)
@@ -177,7 +177,7 @@ class AnonymousOrderControllerSpec extends Specification {
         AnonymousOrderController orderController = new AnonymousOrderController(null, mealService, null)
 
         when:
-        orderController.addOrdersForMeal(Instant.ofEpochSecond(1722804502), "Invalid Id", authentication)
+        orderController.addOrdersForMeal("1004298765_invalidID", authentication)
 
         then:
         thrown(MissingMealLinkedEntityException)
