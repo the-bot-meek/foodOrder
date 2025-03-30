@@ -68,6 +68,8 @@ public class OrderRepository {
     }
 
     public void addOrdersForPrivateMeal(@NotNull Meal meal, Set<String> recipientIds) {
+        // Null private meal config to prevent leaking of other private order ids.
+        meal.getMealConfig().setPrivateMealConfig(null);
         final List<Order> orders = recipientIds.stream().map(
                 uid -> new Order(meal, new AnonomusOrderParticipant("AnonymousUser", uid), new HashSet<>())
         ).toList();
