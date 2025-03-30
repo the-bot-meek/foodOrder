@@ -34,7 +34,9 @@
     </label>
   </div>
   <div>
-    Total: {{getTotalPrice(selectedItems) | currency:'GBP'}}
+    @if (selectedItems) {
+      Total: {{getTotalPrice(selectedItems) | currency:'GBP'}}
+    }
   </div>
   <button type="submit" [disabled]="selectedItems.length == 0" (click)="confirmOrder()" mat-button>Submit Order</button>
 </div>
