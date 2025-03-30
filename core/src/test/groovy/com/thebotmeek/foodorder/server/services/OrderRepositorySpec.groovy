@@ -3,6 +3,8 @@ package com.thebotmeek.foodorder.server.services
 
 import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
+import com.foodorder.server.models.meal.MealConfig
+import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.OrderRepository
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
@@ -20,7 +22,7 @@ class OrderRepositorySpec extends Specification {
 
     def "test add addOrdersForPrivateMeal happy path"() {
         given:
-        Meal meal = new Meal(location: "location", menuName: "menuName")
+        Meal meal = new Meal(location: "location", menuName: "menuName", mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig()))
         Set<String> recipientIds = ["18e23aeb-cc62-4f87-8820-71d77612a42a"]
 
 
