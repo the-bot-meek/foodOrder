@@ -17,6 +17,7 @@ import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class AnonymousOrderController {
     }
 
     @Put("{uid}")
-    public Order updateAnonymousOrder(@Body Order order, @PathVariable String uid) throws  MissingExistingOrderException {
+    public Order updateAnonymousOrder(@Valid @Body Order order, @PathVariable String uid) throws  MissingExistingOrderException {
         Optional<Order> existingOrder = orderRepository.getAnonymousOrder(uid, order.getMeal().getId());
         if (existingOrder.isEmpty()) {
             throw new MissingExistingOrderException(uid, order.getMeal().getId());

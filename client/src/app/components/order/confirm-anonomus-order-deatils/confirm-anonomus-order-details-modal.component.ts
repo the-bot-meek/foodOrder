@@ -26,6 +26,7 @@ import {OrderService} from "../../../shared/api/order.service";
 })
 export class ConfirmAnonomusOrderDetailsModalComponent {
   readonly data = inject<{order: Observable<IOrder>}>(MAT_DIALOG_DATA);
+  name: string = '';
   constructor(
     private dialogRef: MatDialogRef<ConfirmAnonomusOrderDetailsModalComponent>,
     private orderService: OrderService
@@ -35,7 +36,9 @@ export class ConfirmAnonomusOrderDetailsModalComponent {
   }
 
   confirmNameAndSubmitOrder(order: IOrder, name: string): void {
-    order.orderParticipant.name = name
+    order.orderParticipant.name = name;
+    this.orderService.updateAnonymousOrder(order).subscribe()
+    this.dialogRef.close()
   }
 
 }
