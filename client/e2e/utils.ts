@@ -3,6 +3,9 @@ import {Locator, Page} from "@playwright/test";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 
+function capitalizeFirstLetter(str) {
+  return str[0].toUpperCase() + str.slice(1);
+}
 
 export async function populateAddMenuDialog(createMenuRequest: ICreateMenuRequest, page: Page) {
   await page.getByTestId('menu-name-input').fill(createMenuRequest.name)
@@ -16,6 +19,11 @@ export async function populateAddMenuDialog(createMenuRequest: ICreateMenuReques
     await page.getByTestId('menu-item-name').fill(menuItem.name)
     await page.getByTestId('menu-item-description').fill(menuItem.description)
     await page.getByTestId('menu-item-price').fill(String(menuItem.price))
+
+    const menuItemSelectTile = capitalizeFirstLetter(menuItem.menuItemCategory.toLowerCase())
+    await page.getByTestId('menu-item-category-select').click()
+    await page.waitForSelector('mat-option')
+    await page.click(`mat-option >> text="${menuItemSelectTile}"`)
     await page.getByTestId('add-menu-item-btn').click()
   }
   await page.getByTestId('add-menu-btn').click()

@@ -47,7 +47,7 @@
         </mat-form-field>
         <mat-form-field style="width: 100%">
           <mat-label>Category</mat-label>
-          <mat-select data-testid="menu-location-select" [formControl]="addMenuItemForm.controls.menuItemCategory">
+          <mat-select data-testid="menu-item-category-select" [formControl]="addMenuItemForm.controls.menuItemCategory">
             @for (category of menuItemCatogorys; track category) {
               <mat-option [value]="category" >{{category.toLowerCase() | titlecase}}</mat-option>
             }
