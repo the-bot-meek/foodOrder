@@ -68,6 +68,7 @@ public class AnonymousOrderController {
     }
 
     @Post("addBlankOrdersForMeal/{sortKey}")
+    @Secured(SecurityRule.IS_AUTHENTICATED)
     public void addOrdersForMeal(@PathVariable String sortKey, Authentication authentication) throws MissingRequredLinkedEntityException {
         Optional<Meal> mealOptional = mealRepository.getMeal(authentication.getName(), sortKey);
         if (mealOptional.isEmpty()) {
