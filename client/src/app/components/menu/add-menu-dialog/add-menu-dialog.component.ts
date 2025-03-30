@@ -41,7 +41,7 @@ import {TitleCasePipe} from "@angular/common";
 export class AddMenuDialogComponent {
   locations: string[] = ['London', 'Kirkwall']
   menuItems: IMenuItems[] = []
-  private menuItemCategory = ['STARTER', 'MAIN', 'DESSERT', 'DRINK']
+  private menuItemCategory = ['STARTER', 'MAIN', 'DESSERT', 'DRINK', 'SIDE']
   menuFormGroup = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
     location: new FormControl<string>('', [Validators.required]),

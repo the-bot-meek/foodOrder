@@ -4,5 +4,6 @@ public enum MenuItemCategory {
     MAIN,
     STARTER,
     DESSERT,
-    DRINK
+    DRINK,
+    SIDE
 }
