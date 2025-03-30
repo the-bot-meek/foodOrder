@@ -182,4 +182,23 @@ class AnonymousOrderControllerSpec extends Specification {
         then:
         thrown(MissingMealLinkedEntityException)
     }
+
+    def "Make sure that private meal config is null to prevent leaking of other private order ids"() {
+        given:
+        List<String> recpientIds = ["10001"]
+        Meal savedMeal = new Meal(id: "101", mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig(recipientIds: recpientIds)), uid: 'test', mealDate: Instant.ofEpochSecond(100000))
+        mealRepository.getMeal(savedMeal.getUid(), savedMeal.getSortKey()) >> {Optional.of(savedMeal)}
+
+        IDynamoDBFacadeRepository orderDynamoDBFacadeRepository = Mock(IDynamoDBFacadeRepository)
+        OrderRepository localOrderRepository = new OrderRepository(orderDynamoDBFacadeRepository)
+        AnonymousOrderController orderController = new AnonymousOrderController(localOrderRepository, mealRepository, null)
+
+        when:
+        orderController.addOrdersForMeal(savedMeal.getSortKey(), mockAuthentication('test'))
+
+        then:
+        1 * orderDynamoDBFacadeRepository.batchSave(
+                (List it) -> {it.every( (Order order) -> {order.meal.mealConfig.getPrivateMealConfig() == null})}
+        )
+    }
 }
