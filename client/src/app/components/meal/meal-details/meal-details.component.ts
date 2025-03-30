@@ -8,6 +8,7 @@ import {AuthService} from "../../../shared/services/auth/auth.service";
 import {OrderListComponent} from "../../order/order-list/order-list.component";
 import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
 import {MealService} from "../../../shared/api/meal.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-meal-details',
