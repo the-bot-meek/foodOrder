@@ -1,5 +1,12 @@
 <div class="order-container">
-  <h2>Place Your Order</h2>
+
+  @if ((order | async)?.orderParticipant.name; as name) {
+    @if (name != "AnonymousUser") {
+      <h2>Welcome back {{name}}</h2>
+    } @else {
+      <h2>Place Your Order</h2>
+    }
+  }
   <p>
     You've been invited to place an order for a meal. Please select the items you'd like to order from the menu below.
   </p>

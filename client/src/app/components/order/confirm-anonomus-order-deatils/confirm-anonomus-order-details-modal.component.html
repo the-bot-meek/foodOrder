@@ -2,10 +2,10 @@
   <div class="confirm-name-container">
       <mat-form-field>
         <mat-label>Update Name</mat-label>
-        <input data-testid="menu-item-name" type="text" matInput>
+        <input data-testid="menu-item-name" type="text" matInput [(ngModel)]="name">
       </mat-form-field>
     <div>
-      <button data-testid="confirm-name-btn" mat-button (click)="confirmNameAndSubmitOrder(order, 'steven')">Confirm Name and Submit Order</button>
+      <button data-testid="confirm-name-btn" mat-button (click)="confirmNameAndSubmitOrder(order, name)">Confirm Name and Submit Order</button>
     </div>
   </div>
 }
