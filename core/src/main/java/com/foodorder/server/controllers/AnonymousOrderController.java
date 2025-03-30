@@ -1,6 +1,7 @@
 package com.foodorder.server.controllers;
 
 import com.foodorder.server.converters.CreateOrderRequestConverter;
+import com.foodorder.server.exceptions.missingExistingEntityException.MissingExistingOrderException;
 import com.foodorder.server.models.Order;
 import com.foodorder.server.request.CreateOrderRequest;
 import com.foodorder.server.exceptions.OrderRequestConverterException;
@@ -53,6 +54,16 @@ public class AnonymousOrderController {
             log.error("Error adding AnonymousOrder uid: {}", uid, orderRequestConverterException);
             return HttpResponse.badRequest();
         }
+    }
+
+    @Put("{uid}")
+    public Order updateAnonymousOrder(@Body Order order, @PathVariable String uid) throws  MissingExistingOrderException {
+        Optional<Order> existingOrder = orderRepository.getAnonymousOrder(uid, order.getMeal().getId());
+        if (existingOrder.isEmpty()) {
+            throw new MissingExistingOrderException(uid, order.getMeal().getId());
+        }
+        orderRepository.addOrder(order);
+        return order;
     }
 
     @Post("addBlankOrdersForMeal/{sortKey}")
