@@ -72,10 +72,10 @@ export class AnonymousOrderComponent implements OnInit{
   }
 
   confirmOrder(): void {
-    console.log(this.order)
     this.dialog.open(ConfirmAnonomusOrderDetailsModalComponent, {
       data: {
-        order: this.order
+        order: this.order,
+        selectedItems: this.selectedItems
       },
       width: '30vw',
     })
@@ -86,13 +86,12 @@ export class AnonymousOrderComponent implements OnInit{
   }
 
   fetchOrderAndMenuItem() {
-    this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId)
+    this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId).pipe(tap(order => {
+      this.selectedItems = order.menuItems;
+    }));
     this.menu = this.order.pipe(mergeMap(
       order => this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
     ))
-    this.order.subscribe(order => {
-      this.selectedItems = order.menuItems;
-    });
   }
 
   ngOnInit(): void {

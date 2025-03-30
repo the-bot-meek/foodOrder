@@ -8,6 +8,7 @@ import {FormsModule} from "@angular/forms";
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {OrderService} from "../../../shared/api/order.service";
+import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 
 @Component({
   selector: 'app-confirm-anonomus-order-deatils',
@@ -25,7 +26,7 @@ import {OrderService} from "../../../shared/api/order.service";
   styleUrl: './confirm-anonomus-order-details-modal.component.scss'
 })
 export class ConfirmAnonomusOrderDetailsModalComponent {
-  readonly data = inject<{order: Observable<IOrder>}>(MAT_DIALOG_DATA);
+  readonly data = inject<{order: Observable<IOrder>, selectedItems: IMenuItems[]}>(MAT_DIALOG_DATA);
   name: string = '';
   constructor(
     private dialogRef: MatDialogRef<ConfirmAnonomusOrderDetailsModalComponent>,
@@ -37,6 +38,7 @@ export class ConfirmAnonomusOrderDetailsModalComponent {
 
   confirmNameAndSubmitOrder(order: IOrder, name: string): void {
     order.orderParticipant.name = name;
+    order.menuItems = this.data.selectedItems
     this.orderService.updateAnonymousOrder(order).subscribe()
     this.dialogRef.close()
   }
