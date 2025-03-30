@@ -1,0 +1,71 @@
+$order-primary-color: #007bff;
+$order-secondary-color: #0056b3;
+$order-background-color: #f8f9fa;
+$order-border-radius: 0.25rem;
+$order-padding: 1rem;
+
+.order-container {
+  background-color: $order-background-color;
+  padding: $order-padding;
+  border-radius: $order-border-radius;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  max-width: 600px;
+  margin: 2rem auto;
+  font-family: Arial, sans-serif;
+
+  h2 {
+    color: $order-primary-color;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: $order-border-radius;
+    background-color: white;
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+
+      .item-name {
+        flex-grow: 1;
+      }
+
+      .item-price {
+        color: #666;
+      }
+    }
+  }
+
+  .submit-button {
+    align-self: flex-start;
+    padding: 0.5rem 1rem;
+    background-color: $order-primary-color;
+    color: white;
+    border: none;
+    border-radius: $order-border-radius;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: $order-secondary-color;
+    }
+  }
+}
