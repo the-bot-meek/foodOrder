@@ -3,8 +3,10 @@ package com.thebotmeek.foodorder.server.integration
 import com.foodorder.server.client.AnonymousOrderClient
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.MenuClient
+import com.foodorder.server.client.OrderClient
 import com.foodorder.server.models.MenuItemCategory
 import com.foodorder.server.models.Order
+import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateMenuRequest
@@ -56,7 +58,7 @@ class AnonymousOrderControllerSpec extends Specification{
 
         then:
         assert anonymousOrder.getOrderParticipant().getUserId() == anonymousUserId
-        assert anonymousOrder.getSortKey() =="2024-03-26T21:09:52Z"
+        assert anonymousOrder.getSortKey() =="2024-03-26T21:09:52Z_3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
         assert anonymousOrder.getOrderParticipant().getName() == "AnonymousUser"
         assert anonymousOrder.getMenuItems() == menuItems
         assert anonymousOrder.getGSIPrimaryKey() == "Order_${anonymousUserId}_ANONYMOUS"
@@ -87,7 +89,7 @@ class AnonymousOrderControllerSpec extends Specification{
         then:
         assert anonymousOrder.isPresent()
         assert anonymousOrder.get().getOrderParticipant().getUserId() == anonymousUserId
-        assert anonymousOrder.get().getSortKey() =="2024-03-26T21:09:52Z"
+        assert anonymousOrder.get().getSortKey() =="2024-03-26T21:09:52Z_3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
         assert anonymousOrder.get().getOrderParticipant().getName() == "AnonymousUser"
         assert anonymousOrder.get().getMenuItems() == menuItems
         assert anonymousOrder.get().getGSIPrimaryKey() == "Order_${anonymousUserId}_ANONYMOUS"
@@ -124,5 +126,29 @@ class AnonymousOrderControllerSpec extends Specification{
         then:
         assert fetchedUpdatedOrder.isPresent()
         assert fetchedUpdatedOrder.get().getOrderParticipant().getName() == "newName"
+    }
+
+    def "add mutiple anonomus orders for meal"() {
+        given:
+        Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
+        String location = "London"
+        String name = "3b0833d9"
+        String phoneNumber = "+44 20 7123 4567"
+        List<String> recipientIds = ["f6562ccc-57f7-41b7-bbc3-88242e325957", "12e71576-a75a-4cea-aa0a-7e086e06bbff"]
+
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
+        MealConfig mealConfig = new MealConfig(privateMealConfig: new PrivateMealConfig(recipientIds: recipientIds))
+        CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", phoneNumber)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: mealConfig)
+
+        when:
+        menuClient.addMenu(createMenuRequest)
+        Meal meal = mealClient.addMeal(createMealRequest)
+
+        anonymousOrderClient.addAnonymousOrdersForMeal(meal.getSortKey())
+        List<Order> orders = mealClient.listAllOrdersForMeal(meal.getId())
+
+        then:
+        orders.size() == 2
     }
 }
