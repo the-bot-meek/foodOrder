@@ -26,7 +26,7 @@ import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
   styleUrl: './confirm-anonomus-order-details-modal.component.scss'
 })
 export class ConfirmAnonomusOrderDetailsModalComponent {
-  readonly data = inject<{order: Observable<IOrder>, selectedItems: IMenuItems[]}>(MAT_DIALOG_DATA);
+  readonly data = inject<{order: IOrder, selectedItems: IMenuItems[]}>(MAT_DIALOG_DATA);
   name: string = '';
   constructor(
     private dialogRef: MatDialogRef<ConfirmAnonomusOrderDetailsModalComponent>,
