@@ -37,9 +37,10 @@ class OrderSpec extends Specification {
 
         when:
         order.meal.setMealDate(Instant.ofEpochSecond(1711394564))
+        order.setOrderParticipant(new AuthenticatedOrderParticipant(userId: "123"))
 
         then:
-        order.getSortKey() == "2024-03-25T19:22:44Z"
+        order.getSortKey() == "2024-03-25T19:22:44Z_123"
     }
 
     def "test sort key sterilisation"() {
