@@ -5,15 +5,16 @@ import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
 
 @Component({
-    selector: 'app-menu-item-list',
-    imports: [
-        MatListItem,
-        MatIcon,
-        MatDivider,
-        MatList
-    ],
-    templateUrl: './menu-item-list.component.html',
-    styleUrl: './menu-item-list.component.scss'
+  selector: 'app-menu-item-list',
+  imports: [
+    MatListItem,
+    MatIcon,
+    MatDivider,
+    MatList
+  ],
+  templateUrl: './menu-item-list.component.html',
+  standalone: true,
+  styleUrl: './menu-item-list.component.scss'
 })
 export class MenuItemListComponent {
   @Input()

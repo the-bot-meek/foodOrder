@@ -4,6 +4,7 @@ import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.OrderClient
 import com.foodorder.server.client.MenuClient
 import com.foodorder.server.models.MenuItem
+import com.foodorder.server.models.MenuItemCategory
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.DraftMeal
 import com.foodorder.server.models.meal.Meal
@@ -133,7 +134,7 @@ class MealIntegrationSpec extends Specification {
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
 
-        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.0)]
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.0, menuItemCategory: MenuItemCategory.MAIN)]
         CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, "London", "name", "description", "+44 20 7123 4567")
         menuClient.addMenu(createMenuRequest)
 

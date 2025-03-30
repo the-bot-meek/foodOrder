@@ -18,7 +18,7 @@ dependencies {
     implementation("io.micronaut.aws:micronaut-aws-lambda-events-serde")
     implementation("io.micronaut.aws:micronaut-aws-apigateway")
     implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("com.foodorder:core:1.0.0")
+    implementation("com.foodorder:core:1.0.1")
     runtimeOnly("org.yaml:snakeyaml")
 }
 

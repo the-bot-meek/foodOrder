@@ -1,8 +1,10 @@
 package com.thebotmeek.foodorder.server.services
 
-import com.foodorder.server.models.AnonymousOrder
+
 import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
+import com.foodorder.server.models.meal.MealConfig
+import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.repository.IDynamoDBFacadeRepository
 import com.foodorder.server.repository.OrderRepository
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional
@@ -20,7 +22,7 @@ class OrderRepositorySpec extends Specification {
 
     def "test add addOrdersForPrivateMeal happy path"() {
         given:
-        Meal meal = new Meal(location: "location", menuName: "menuName")
+        Meal meal = new Meal(location: "location", menuName: "menuName", mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig()))
         Set<String> recipientIds = ["18e23aeb-cc62-4f87-8820-71d77612a42a"]
 
 
@@ -35,12 +37,12 @@ class OrderRepositorySpec extends Specification {
         given:
         String uid = "82cac417-9fde-4820-b607-8b5f56f68f90"
         String mealId = "1945c5b6-7aad-4b3e-9a6a-997101e51179"
-        List<Order> anonymousOrderList = [new AnonymousOrder()]
+        List<Order> anonymousOrderList = [new Order()]
         when:
-        Optional<AnonymousOrder> anonymousOrder = orderService.getAnonymousOrder(uid, mealId)
+        Optional<Order> anonymousOrder = orderService.getAnonymousOrder(uid, mealId)
 
         then:
-        1 * dynamoDBFacadeService.queryWithIndex(AnonymousOrder.class, _ as QueryConditional, "uid_gsi") >> anonymousOrderList
+        1 * dynamoDBFacadeService.queryWithIndex(Order.class, _ as QueryConditional, "uid_gsi") >> anonymousOrderList
         assert anonymousOrder.isPresent()
         assert anonymousOrder.get() == anonymousOrderList[0]
     }
@@ -51,10 +53,10 @@ class OrderRepositorySpec extends Specification {
         String mealId = "1945c5b6-7aad-4b3e-9a6a-997101e51179"
         List<Order> anonymousOrderList = []
         when:
-        Optional<AnonymousOrder> anonymousOrder = orderService.getAnonymousOrder(uid, mealId)
+        Optional<Order> anonymousOrder = orderService.getAnonymousOrder(uid, mealId)
 
         then:
-        1 * dynamoDBFacadeService.queryWithIndex(AnonymousOrder.class, _ as QueryConditional, "uid_gsi")>> anonymousOrderList
+        1 * dynamoDBFacadeService.queryWithIndex(Order.class, _ as QueryConditional, "uid_gsi")>> anonymousOrderList
         assert anonymousOrder.isEmpty()
     }
 

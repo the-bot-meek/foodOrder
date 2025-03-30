@@ -4,7 +4,7 @@ import com.foodorder.server.controllers.AnonymousOrderController
 import com.foodorder.server.converters.CreateOrderRequestConverter
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.exceptions.missingRequredLinkedEntityExceptions.MissingMealLinkedEntityException
-import com.foodorder.server.models.AnonymousOrder
+
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
@@ -49,13 +49,13 @@ class AnonymousOrderControllerSpec extends Specification {
         CreateOrderRequest createOrderRequest = new CreateOrderRequest(Instant.ofEpochSecond(5), "535823f0-1707-4734-8e18-21ac20350b96", menuItems, "1707-535823f0-4734-21ac20350b96-8e18")
 
         when:
-        HttpResponse<AnonymousOrder> resp = anonymousOrderController.addAnonymousOrder(createOrderRequest, uid)
+        HttpResponse<Order> resp = anonymousOrderController.addAnonymousOrder(createOrderRequest, uid)
 
         then:
         assert resp.status() == HttpStatus.OK
         assert resp.body() != null
         1 * orderRepository.addOrder(_ as Order)
-        1 * createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, AnonymousOrderController.DEFAULT_AnonymousUser_NAME, true) >> new AnonymousOrder()
+        1 * createOrderRequestConverter.convertCreateOrderRequestToOrder(createOrderRequest, uid, AnonymousOrderController.DEFAULT_AnonymousUser_NAME, true) >> new Order()
     }
 
     def "test getting a valid Anonymous Order"() {
@@ -64,11 +64,11 @@ class AnonymousOrderControllerSpec extends Specification {
         String mealId = "48c27362-52db-4b57-9652-cdccd0fb698e"
 
         when:
-        Optional<AnonymousOrder> resp = anonymousOrderController.getAnonymousOrder(uid, mealId)
+        Optional<Order> resp = anonymousOrderController.getAnonymousOrder(uid, mealId)
 
         then:
         assert resp.isPresent()
-        1 * orderRepository.getAnonymousOrder(uid, mealId) >> Optional.of(new AnonymousOrder())
+        1 * orderRepository.getAnonymousOrder(uid, mealId) >> Optional.of(new Order())
     }
 
     def "test getting an non existent Anonymous Order"() {
@@ -77,7 +77,7 @@ class AnonymousOrderControllerSpec extends Specification {
         String mealId = "48c27362-52db-4b57-9652-cdccd0fb698e"
 
         when:
-        Optional<AnonymousOrder> resp = anonymousOrderController.getAnonymousOrder(uid, mealId)
+        Optional<Order> resp = anonymousOrderController.getAnonymousOrder(uid, mealId)
 
         then:
         assert resp.isEmpty()
@@ -98,7 +98,7 @@ class AnonymousOrderControllerSpec extends Specification {
         Meal meal = new Meal(mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig(recipientIds)))
 
         when:
-        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+        anonymousOrderController.addOrdersForMeal(dateOfMeal.toString() + "_" + mealId, authentication)
 
         then:
         1 * mealService.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(meal)
@@ -114,7 +114,7 @@ class AnonymousOrderControllerSpec extends Specification {
         authentication.getName() >> uid
 
         when:
-        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+        anonymousOrderController.addOrdersForMeal(dateOfMeal.toString() + "_" + mealId, authentication)
 
         then:
         1 * mealRepository.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.empty()
@@ -130,7 +130,7 @@ class AnonymousOrderControllerSpec extends Specification {
         authentication.getName() >> uid
 
         when:
-        anonymousOrderController.addOrdersForMeal(dateOfMeal, mealId, authentication)
+        anonymousOrderController.addOrdersForMeal(dateOfMeal.toString() + "_" + mealId, authentication)
 
         then:
         1 * mealRepository.getMeal(uid, (dateOfMeal.toString() + "_" + mealId) as String) >> Optional.of(new Meal())
@@ -154,7 +154,7 @@ class AnonymousOrderControllerSpec extends Specification {
         AnonymousOrderController orderController = new AnonymousOrderController(orderService, mealService, null)
 
         when:
-        orderController.addOrdersForMeal(meal.getMealDate(), meal.getId(), authentication)
+        orderController.addOrdersForMeal(meal.getSortKey(), authentication)
 
         then:
         1 * dynamoDBFacadeService.batchSave(_)
@@ -177,9 +177,28 @@ class AnonymousOrderControllerSpec extends Specification {
         AnonymousOrderController orderController = new AnonymousOrderController(null, mealService, null)
 
         when:
-        orderController.addOrdersForMeal(Instant.ofEpochSecond(1722804502), "Invalid Id", authentication)
+        orderController.addOrdersForMeal("1004298765_invalidID", authentication)
 
         then:
         thrown(MissingMealLinkedEntityException)
+    }
+
+    def "Make sure that private meal config is null to prevent leaking of other private order ids"() {
+        given:
+        List<String> recpientIds = ["10001"]
+        Meal savedMeal = new Meal(id: "101", mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig(recipientIds: recpientIds)), uid: 'test', mealDate: Instant.ofEpochSecond(100000))
+        mealRepository.getMeal(savedMeal.getUid(), savedMeal.getSortKey()) >> {Optional.of(savedMeal)}
+
+        IDynamoDBFacadeRepository orderDynamoDBFacadeRepository = Mock(IDynamoDBFacadeRepository)
+        OrderRepository localOrderRepository = new OrderRepository(orderDynamoDBFacadeRepository)
+        AnonymousOrderController orderController = new AnonymousOrderController(localOrderRepository, mealRepository, null)
+
+        when:
+        orderController.addOrdersForMeal(savedMeal.getSortKey(), mockAuthentication('test'))
+
+        then:
+        1 * orderDynamoDBFacadeRepository.batchSave(
+                (List it) -> {it.every( (Order order) -> {order.meal.mealConfig.getPrivateMealConfig() == null})}
+        )
     }
 }

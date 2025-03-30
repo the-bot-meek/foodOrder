@@ -1,6 +1,7 @@
 package com.thebotmeek.foodorder.server.integration
 
 import com.foodorder.server.client.MenuClient
+import com.foodorder.server.models.MenuItemCategory
 import com.foodorder.server.request.CreateMenuRequest
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.Menu
@@ -18,7 +19,7 @@ class MenuIntegrationSpec extends Specification {
     CreateMenuRequest createMenuRequest
 
     def "setup"() {
-        menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
+        menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
         createMenuRequest = new CreateMenuRequest(menuItems, "London", UUID.randomUUID().toString(), "description", "+44 20 7123 4567")
     }
 

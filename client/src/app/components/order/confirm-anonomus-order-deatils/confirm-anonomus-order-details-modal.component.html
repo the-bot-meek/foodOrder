@@ -1,0 +1,11 @@
+@if(data.order; as order) {
+  <div class="confirm-name-container">
+      <mat-form-field>
+        <mat-label>Update Name</mat-label>
+        <input data-testid="menu-item-name" type="text" matInput [(ngModel)]="name">
+      </mat-form-field>
+    <div>
+      <button data-testid="confirm-name-btn" mat-button (click)="confirmNameAndSubmitOrder(order, name)">Confirm Name and Submit Order</button>
+    </div>
+  </div>
+}
