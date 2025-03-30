@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller("menu")
-@Secured(SecurityRule.IS_AUTHENTICATED)
+@Secured(SecurityRule.IS_ANONYMOUS)
 public class MenuController {
     final private Logger log = LoggerFactory.getLogger(MenuController.class);
     final private MenuRepository menuRepository;
@@ -35,12 +35,14 @@ public class MenuController {
     }
 
     @Get("/{location}")
+    @Secured(SecurityRule.IS_AUTHENTICATED)
     public List<Menu> listMenusForLocation(String location) {
         log.info("Getting all Menus for location: {}", location);
         return menuRepository.listMenus(location);
     }
 
     @Post
+    @Secured(SecurityRule.IS_AUTHENTICATED)
     public HttpResponse<Menu> addMenu(@Body @Valid CreateMenuRequest createMenuRequest) {
         log.info("Adding Menu. createMenuRequest: {}", createMenuRequest);
         try {
