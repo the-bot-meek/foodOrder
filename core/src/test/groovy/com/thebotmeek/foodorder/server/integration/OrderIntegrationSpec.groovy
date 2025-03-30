@@ -54,7 +54,7 @@ class OrderIntegrationSpec extends Specification {
 
         then:
         assert order.getOrderParticipant().getUserId() == "steven"
-        assert order.getSortKey() =="2024-03-26T21:09:52Z"
+        assert order.getSortKey() =="2024-03-26T21:09:52Z_steven"
         assert order.getOrderParticipant().getName() == "The bot meek"
         assert order.getMenuItems() == menuItems
         assert order.getGSIPrimaryKey() == "Order_steven_AUTHENTICATED"

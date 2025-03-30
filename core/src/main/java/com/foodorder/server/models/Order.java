@@ -71,11 +71,11 @@ public class Order implements Model {
     @DynamoDbSortKey
     public String getSortKey() {
         if (meal.getMealDate() == null) return null;
-        return meal.getMealDate().toString();
+        return meal.getMealDate() + "_" + orderParticipant.getUserId();
     }
 
     public void setSortKey(String sk) {
-        this.meal.setMealDate(Instant.parse(sk));
+        this.meal.setMealDate(Instant.parse(sk.split("_")[0]));
     }
 
     @DynamoDbAttribute("uid")

@@ -17,4 +17,7 @@ public interface AnonymousOrderClient {
 
     @Put("{uid}")
     Order updateAnonymousOrder(String uid, @Body Order order);
+
+    @Post("addBlankOrdersForMeal/{mealSortKey}")
+    void addAnonymousOrdersForMeal(@PathVariable String mealSortKey);
 }
