@@ -1,7 +1,7 @@
 <table mat-table [dataSource]="this.orders | async" multiTemplateDataRows >
   <ng-container matColumnDef="participantsName">
     <th mat-header-cell *matHeaderCellDef>Participants Name.</th>
-    <td mat-cell *matCellDef="let order" data-testid="meal-table-name-cell">{{order.orderParticipant.name}}</td>
+    <td mat-cell *matCellDef="let order" data-testid="meal-table-name-cell">{{order.orderParticipant.name | titlecase}}</td>
   </ng-container>
   <ng-container matColumnDef="copyInviteLink">
     <th mat-header-cell *matHeaderCellDef></th>

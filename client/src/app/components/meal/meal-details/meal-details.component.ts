@@ -34,6 +34,10 @@ export class MealDetailsComponent implements OnInit {
   ) {
   }
 
+  downloadMealReport(meal: IMeal) {
+    window.location.href = `http://localhost:8080/meal/export/${meal.mealDate}/${meal.id}`
+  }
+
   ngOnInit(): void {
     this.isOwner = this.meal.pipe(
       map(meal => meal.uid == this.authService.userDetails.sub)
