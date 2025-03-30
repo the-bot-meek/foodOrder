@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {OrderService} from "../../../shared/api/order.service";
-import {BehaviorSubject, mergeMap, Observable} from "rxjs";
+import {BehaviorSubject, flatMap, mergeMap, Observable, tap} from "rxjs";
 import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
 import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 import {map} from "rxjs/operators";
@@ -12,6 +12,8 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {
   ConfirmAnonomusOrderDetailsModalComponent
 } from "../confirm-anonomus-order-deatils/confirm-anonomus-order-details-modal.component";
+import {MatCheckbox} from "@angular/material/checkbox";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-anonymous-order',
@@ -23,7 +25,9 @@ import {
     NgIf,
     NgForOf,
     JsonPipe,
-    TitleCasePipe
+    TitleCasePipe,
+    MatCheckbox,
+    MatButton
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
@@ -43,6 +47,10 @@ export class AnonymousOrderComponent implements OnInit{
     private dialog: MatDialog
   ) {}
 
+  get menuItemNames() {
+    return this.selectedItems.map(menuItem => menuItem.name)
+  }
+
   getMenuCategories(menuItems: IMenuItems[]): string[] {
     return menuItems.map(item => item.menuItemCategory).filter((menuItemCategory, i, pastMenuItemCategories) => pastMenuItemCategories.indexOf(menuItemCategory) === i)
   }
@@ -55,11 +63,11 @@ export class AnonymousOrderComponent implements OnInit{
     return  menuItems.reduce((partialSum, menuItem) => partialSum + menuItem.price, 0)
   }
 
-  onItemSelect(item: IMenuItems, isSelected: HTMLElement | any): void {
-    if (isSelected.checked) {
+  onItemSelect(item: IMenuItems, isSelected: boolean): void {
+    if (isSelected) {
       this.selectedItems.push(item);
     } else {
-      this.selectedItems = this.selectedItems.filter(i => i !== item);
+      this.selectedItems = this.selectedItems.filter(i => i.name !== item.name);
     }
   }
 
@@ -71,15 +79,25 @@ export class AnonymousOrderComponent implements OnInit{
       },
       width: '30vw',
     })
+
+    this.dialog.afterAllClosed.subscribe(() => {
+      this.fetchOrderAndMenuItem()
+    })
+  }
+
+  fetchOrderAndMenuItem() {
+    this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId)
+    this.menu = this.order.pipe(mergeMap(
+      order => this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
+    ))
+    this.order.subscribe(order => {
+      this.selectedItems = order.menuItems;
+    });
   }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.params['userId']
     this.mealId = this.route.snapshot.params['mealId']
-
-    this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId)
-    this.menu = this.order.pipe(mergeMap(
-      order => this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
-    ))
+    this.fetchOrderAndMenuItem()
   }
 }

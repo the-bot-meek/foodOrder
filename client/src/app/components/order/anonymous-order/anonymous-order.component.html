@@ -2,7 +2,7 @@
 
   @if ((order | async)?.orderParticipant.name; as name) {
     @if (name != "AnonymousUser") {
-      <h2>Welcome back {{name}}</h2>
+      <h2>Welcome back {{name | titlecase}}</h2>
     } @else {
       <h2>Place Your Order</h2>
     }
@@ -17,7 +17,7 @@
         <h3>{{menuItemCatagories.toLowerCase() | titlecase}}s</h3>
         <div *ngFor="let item of getMenuItemsForCategory(menuItemCatagories, menu.menuItems)" class="menu-item">
           <label>
-            <input type="checkbox" [value]="item" (change)="onItemSelect(item, $event.target)">
+            <mat-checkbox [checked]="menuItemNames.includes(item.name)" (change)="onItemSelect(item, $event.checked)"></mat-checkbox>
             <span class="item-name">{{ item.name }}</span>
             <span class="item-price">{{ item.price | currency:'GBP' }}</span>
           </label>
@@ -36,5 +36,5 @@
   <div>
     Total: {{getTotalPrice(selectedItems) | currency:'GBP'}}
   </div>
-  <button type="submit" class="submit-button" (click)="confirmOrder()">Submit Order</button>
+  <button type="submit" [disabled]="selectedItems.length == 0" (click)="confirmOrder()" mat-button>Submit Order</button>
 </div>
