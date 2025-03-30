@@ -94,4 +94,35 @@ class AnonymousOrderControllerSpec extends Specification{
         assert anonymousOrder.get().getPrimaryKey() == "Order_${meal.getId()}"
         assert anonymousOrder.get().getMeal() == meal
     }
+
+    def "Update existing order"() {
+        given:
+        Instant dateOfMeal = Instant.ofEpochSecond(1711487392)
+        String location = "London"
+        String name = "3b0833d9"
+        String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
+        String phoneNumber = "+44 20 7123 4567"
+
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
+        CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", phoneNumber)
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
+
+        when:
+        menuClient.addMenu(createMenuRequest)
+        Meal meal = mealClient.addMeal(createMealRequest)
+
+        CreateOrderRequest createOrderRequest = new CreateOrderRequest(dateOfMeal, meal.getId(), menuItems, "steven")
+        Order anonymousOrderCreated = anonymousOrderClient.addAnonymousOrder(createOrderRequest, anonymousUserId)
+        Optional<Order> anonymousOrder = anonymousOrderClient.getAnonymousOrder(anonymousOrderCreated.getOrderParticipant().getUserId(), anonymousOrderCreated.getMeal().getId())
+
+        Order updatedOrder = anonymousOrder.get()
+        updatedOrder.getOrderParticipant().setName("newName")
+
+        Order updatedOrderResponse = anonymousOrderClient.updateAnonymousOrder(anonymousUserId, updatedOrder)
+        Optional<Order> fetchedUpdatedOrder = anonymousOrderClient.getAnonymousOrder(updatedOrderResponse.getOrderParticipant().getUserId(), updatedOrderResponse.getMeal().getId())
+
+        then:
+        assert fetchedUpdatedOrder.isPresent()
+        assert fetchedUpdatedOrder.get().getOrderParticipant().getName() == "newName"
+    }
 }

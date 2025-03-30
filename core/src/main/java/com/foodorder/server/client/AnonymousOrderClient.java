@@ -14,4 +14,7 @@ public interface AnonymousOrderClient {
 
     @Post("{uid}")
     Order addAnonymousOrder(@Body CreateOrderRequest createOrderRequest, @PathVariable String uid);
+
+    @Put("{uid}")
+    Order updateAnonymousOrder(String uid, @Body Order order);
 }
