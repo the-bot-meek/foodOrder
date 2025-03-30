@@ -9,7 +9,7 @@ import io.micronaut.http.client.annotation.Client;
 
 import java.util.List;
 
-@Client("/menu")
+@Client("https://c488-82-132-218-240.ngrok-free.app/menu")
 public interface MenuClient {
     @Get("/{location}/{name}")
     Menu fetchMenu(String location, String name);

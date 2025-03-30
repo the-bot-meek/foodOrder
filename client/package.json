@@ -13,7 +13,7 @@
   },
   "private": true,
   "dependencies": {
-    "@the-bot-meek/food-orders-models": "^1.3.0",
+    "@the-bot-meek/food-orders-models": "~1.4.3",
     "@angular/animations": "^19.0.0",
     "@angular/common": "^19.0.0",
     "@angular/compiler": "^19.0.0",
