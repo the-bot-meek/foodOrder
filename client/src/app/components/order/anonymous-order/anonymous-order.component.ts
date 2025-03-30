@@ -71,10 +71,10 @@ export class AnonymousOrderComponent implements OnInit{
     }
   }
 
-  confirmOrder(): void {
+  confirmOrder(order: IOrder): void {
     this.dialog.open(ConfirmAnonomusOrderDetailsModalComponent, {
       data: {
-        order: this.order,
+        order: order,
         selectedItems: this.selectedItems
       },
       width: '30vw',
