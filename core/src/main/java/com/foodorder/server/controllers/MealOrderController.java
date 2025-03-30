@@ -31,7 +31,7 @@ public class MealOrderController {
     private final OrderRepository orderRepository;
     private final MealRepository mealRepository;
     private final Logger log = LoggerFactory.getLogger(MealOrderController.class);
-    MealOrderController(OrderRepository orderRepository, MealRepository mealRepository) {
+    public MealOrderController(OrderRepository orderRepository, MealRepository mealRepository) {
         this.orderRepository = orderRepository;
         this.mealRepository = mealRepository;
     }
