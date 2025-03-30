@@ -4,7 +4,7 @@ $order-background-color: #f8f9fa;
 $order-border-radius: 0.25rem;
 $order-padding: 1rem;
 
-.order-container {
+.order-container, .placed-menu-items-container {
   background-color: $order-background-color;
   padding: $order-padding;
   border-radius: $order-border-radius;
@@ -37,6 +37,7 @@ $order-padding: 1rem;
     border: 1px solid #ddd;
     border-radius: $order-border-radius;
     background-color: white;
+    margin-bottom: .5vw;
 
     label {
       display: flex;
