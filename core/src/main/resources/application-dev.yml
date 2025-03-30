@@ -14,10 +14,18 @@ micronaut:
 endpoints:
   routes:
     enabled: true
-    sensitive: false
+    sensitive: falses
   beans:
     enabled: true
     sensitive: false
+
+aws:
+  secret-key: 123
+  access-key-id: 123
+  region: "eu-west-1"
+  services:
+    dynamodb:
+      endpoint-override: "http://${DYNAMODB_DOMAIN:localhost}:4566"
 
 dynamodb-tables:
   primary_table:

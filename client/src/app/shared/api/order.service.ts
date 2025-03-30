@@ -20,7 +20,7 @@ export class OrderService {
   }
 
   public addAnonymousOrders(sortKey: string): Observable<Object> {
-    return this.httpClient.post(`${this.serverUrl}/anonymousOrder/addBlankOrdersForMeal/${sortKey}`, {withCredentials: true})
+    return this.httpClient.post(`${this.serverUrl}/anonymousOrder/addBlankOrdersForMeal/${sortKey}`, null,{withCredentials: true})
   }
 
   public updateAnonymousOrder(order: IOrder): Observable<IOrder> {

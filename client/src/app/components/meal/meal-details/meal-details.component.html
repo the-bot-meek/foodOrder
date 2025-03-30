@@ -15,6 +15,7 @@
     <p><strong>Location:</strong> {{ meal.location }}</p>
     <p><strong>Menu:</strong> {{ meal.menuName }}</p>
   </div>
+  <button mat-button (click)="downloadMealReport(meal)" >Export Meal to HTML</button>
 </div>
 <div class="order-container">
   <app-order-list [orders]="this.orders"></app-order-list>
