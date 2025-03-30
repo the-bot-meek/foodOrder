@@ -25,7 +25,8 @@ test('add menu test', async ({ page, browserName }) => {
       {
         name: 'name',
         description: 'description',
-        price: 0.5
+        price: 0.5,
+        menuItemCategory: "STARTER"
       }
     ]
   }
@@ -44,7 +45,8 @@ test('test add meal', async ({ page, browserName }) => {
       {
         name: 'name',
         description: 'description',
-        price: 0.5
+        price: 0.5,
+        menuItemCategory: "STARTER"
       }
     ]
   }
