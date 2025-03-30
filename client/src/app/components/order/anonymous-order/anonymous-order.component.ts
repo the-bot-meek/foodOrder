@@ -14,6 +14,7 @@ import {
 } from "../confirm-anonomus-order-deatils/confirm-anonomus-order-details-modal.component";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-anonymous-order',
@@ -27,7 +28,8 @@ import {MatButton} from "@angular/material/button";
     JsonPipe,
     TitleCasePipe,
     MatCheckbox,
-    MatButton
+    MatButton,
+    MatTooltip,
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
@@ -87,11 +89,9 @@ export class AnonymousOrderComponent implements OnInit{
 
   fetchOrderAndMenuItem() {
     this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId).pipe(tap(order => {
-      this.selectedItems = order.menuItems;
+      this.selectedItems = order.menuItems ?? [];
+      this.menu = this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
     }));
-    this.menu = this.order.pipe(mergeMap(
-      order => this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
-    ))
   }
 
   ngOnInit(): void {
