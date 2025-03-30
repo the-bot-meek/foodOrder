@@ -45,6 +45,14 @@
           <mat-label>Price</mat-label>
           <input data-testid="menu-item-price" type="string" matInput [formControl]="addMenuItemForm.controls.price">
         </mat-form-field>
+        <mat-form-field style="width: 100%">
+          <mat-label>Category</mat-label>
+          <mat-select data-testid="menu-location-select" [formControl]="addMenuItemForm.controls.menuItemCategory">
+            @for (category of menuItemCatogorys; track category) {
+              <mat-option [value]="category" >{{category.toLowerCase() | titlecase}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
         <button data-testid="add-menu-item-btn" mat-button [disabled]="addMenuItemForm.invalid">Add MenuItem</button>
       </form>
       <button data-testid="add-menu-btn" mat-button [disabled]="menuFormGroup.invalid">Add Menu</button>

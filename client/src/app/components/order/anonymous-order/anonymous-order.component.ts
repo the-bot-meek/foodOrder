@@ -6,17 +6,20 @@ import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
 import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 import {map} from "rxjs/operators";
 import {MenuService} from "../../../shared/api/menu.service";
-import {AsyncPipe, CurrencyPipe, JsonPipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, CurrencyPipe, JsonPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 
 @Component({
   selector: 'app-anonymous-order',
   imports: [
     AsyncPipe,
-    JsonPipe,
     NgForOf,
     NgIf,
-    CurrencyPipe
+    CurrencyPipe,
+    NgIf,
+    NgForOf,
+    JsonPipe,
+    TitleCasePipe
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
@@ -34,6 +37,18 @@ export class AnonymousOrderComponent implements OnInit{
     private orderService: OrderService,
     private menuService: MenuService
   ) {}
+
+  getMenuCategories(menuItems: IMenuItems[]): string[] {
+    return menuItems.map(item => item.menuItemCategory).filter((menuItemCategory, i, pastMenuItemCategories) => pastMenuItemCategories.indexOf(menuItemCategory) === i)
+  }
+
+  getMenuItemsForCategory(category: string, menuItems: IMenuItems[]): IMenuItems[] {
+    return menuItems.filter(menuItem => menuItem.menuItemCategory === category);
+  }
+
+  getTotalPrice(menuItems: IMenuItems[]): number {
+    return  menuItems.reduce((partialSum, menuItem) => partialSum + menuItem.price, 0)
+  }
 
   onItemSelect(item: IMenuItems, isSelected: HTMLElement | any): void {
     if (isSelected.checked) {

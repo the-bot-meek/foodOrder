@@ -3,6 +3,7 @@ package com.thebotmeek.foodorder.server.integration
 import com.foodorder.server.client.AnonymousOrderClient
 import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.MenuClient
+import com.foodorder.server.models.MenuItemCategory
 import com.foodorder.server.models.Order
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
@@ -42,7 +43,7 @@ class AnonymousOrderControllerSpec extends Specification{
         String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
         String phoneNumber = "+44 20 7123 4567"
 
-        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
         CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", phoneNumber)
         CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
 
@@ -71,7 +72,7 @@ class AnonymousOrderControllerSpec extends Specification{
         String anonymousUserId = "3b0833d9-7e08-4ce4-8bd4-fba1291bef95"
         String phoneNumber = "+44 20 7123 4567"
 
-        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01)]
+        Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
         CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", phoneNumber)
         CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
 

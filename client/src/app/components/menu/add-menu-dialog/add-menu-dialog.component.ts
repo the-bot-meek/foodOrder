@@ -14,30 +14,34 @@ import {MatIcon} from "@angular/material/icon";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {map} from "rxjs/operators";
 import {catchError} from "rxjs";
+import {TitleCasePipe} from "@angular/common";
 
 @Component({
-    selector: 'app-add-menu-dialog',
-    imports: [
-        ReactiveFormsModule,
-        MatFormField,
-        MatInput,
-        MatLabel,
-        MatSelect,
-        MatOption,
-        MatButton,
-        MatDialogTitle,
-        MatDialogContent,
-        MenuItemListComponent,
-        MatIcon,
-        MatIconButton,
-        MatDialogClose
-    ],
-    templateUrl: './add-menu-dialog.component.html',
-    styleUrl: './add-menu-dialog.component.scss'
+  selector: 'app-add-menu-dialog',
+  imports: [
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatButton,
+    MatDialogTitle,
+    MatDialogContent,
+    MenuItemListComponent,
+    MatIcon,
+    MatIconButton,
+    MatDialogClose,
+    TitleCasePipe
+  ],
+  templateUrl: './add-menu-dialog.component.html',
+  standalone: true,
+  styleUrl: './add-menu-dialog.component.scss'
 })
 export class AddMenuDialogComponent {
   locations: string[] = ['London', 'Kirkwall']
   menuItems: IMenuItems[] = []
+  private menuItemCategory = ['STARTER', 'MAIN', 'DESSERT', 'DRINK']
   menuFormGroup = new FormGroup({
     name: new FormControl<string>('', [Validators.required]),
     location: new FormControl<string>('', [Validators.required]),
@@ -51,7 +55,8 @@ export class AddMenuDialogComponent {
   addMenuItemForm = new FormGroup({
     name: new FormControl<string>('', [Validators.required, this.menuItemValidator]),
     description: new FormControl<string>('', [Validators.required]),
-    price: new FormControl<number>(0, [Validators.required, Validators.min(0.01)])
+    price: new FormControl<number>(0, [Validators.required, Validators.min(0.01)]),
+    menuItemCategory: new FormControl<string>('', [Validators.required])
   })
 
   constructor(
@@ -89,6 +94,7 @@ export class AddMenuDialogComponent {
   }
 
   addMenuItem(): void {
+    console.log(this.addMenuItemForm.value)
     this.menuItems.push(this.addMenuItemForm.value as IMenuItems)
     this.addMenuItemForm.reset()
   }
@@ -100,4 +106,10 @@ export class AddMenuDialogComponent {
       horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
     });
   }
+
+  get menuItemCatogorys() {
+    return this.menuItemCategory
+  }
+
+  protected readonly Object = Object;
 }

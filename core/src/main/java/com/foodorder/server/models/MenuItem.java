@@ -1,15 +1,25 @@
 package com.foodorder.server.models;
 
 import io.micronaut.serde.annotation.Serdeable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import java.util.Objects;
 
 
 @Serdeable
 public class MenuItem {
+    @NotNull
     private String name;
+
+    @NotNull
     private String description;
+
+    @NotNull
     private Double price;
+
+    @NotNull
+    private MenuItemCategory menuItemCategory;
 
     @DynamoDbAttribute("name")
     public String getName() {
@@ -38,21 +48,29 @@ public class MenuItem {
         this.price = price;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof MenuItem menuItem)) return false;
+    @DynamoDbAttribute("category")
+    public MenuItemCategory getMenuItemCategory() {
+        return menuItemCategory;
+    }
 
-        if (!Objects.equals(name, menuItem.name)) return false;
-        if (!Objects.equals(description, menuItem.description)) return false;
-        return Objects.equals(price, menuItem.price);
+    public void setMenuItemCategory(MenuItemCategory menuItemCategory) {
+        this.menuItemCategory = menuItemCategory;
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MenuItem menuItem)) return false;
+
+        return Objects.equals(name, menuItem.name) && Objects.equals(description, menuItem.description) && Objects.equals(price, menuItem.price) && menuItemCategory == menuItem.menuItemCategory;
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (price != null ? price.hashCode() : 0);
+        int result = Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(description);
+        result = 31 * result + Objects.hashCode(price);
+        result = 31 * result + Objects.hashCode(menuItemCategory);
         return result;
     }
 }
