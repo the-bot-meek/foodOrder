@@ -1,12 +1,12 @@
+@if (order | async; as order) {
 <div class="order-container">
 
-  @if ((order | async)?.orderParticipant.name; as name) {
-    @if (name != "AnonymousUser") {
-      <h2>Welcome back {{name | titlecase}}</h2>
+
+    @if (order.orderParticipant.name != "AnonymousUser") {
+      <h2>Welcome back {{order.orderParticipant.name | titlecase}}</h2>
     } @else {
       <h2>Place Your Order</h2>
     }
-  }
   <p>
     You've been invited to place an order for a meal. Please select the items you'd like to order from the menu below.
   </p>
@@ -38,5 +38,6 @@
       Total: {{getTotalPrice(selectedItems) | currency:'GBP'}}
     }
   </div>
-  <button type="submit" [disabled]="selectedItems.length == 0" (click)="confirmOrder()" mat-button>Submit Order</button>
+  <button type="submit" [disabled]="selectedItems.length == 0" (click)="confirmOrder(order)" mat-button>Submit Order</button>
 </div>
+}
