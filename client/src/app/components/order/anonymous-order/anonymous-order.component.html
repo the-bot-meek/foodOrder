@@ -1,4 +1,5 @@
 @if (order | async; as order) {
+@if (menu | async; as menu) {
 <div class="order-container">
 
 
@@ -10,12 +11,15 @@
   <p>
     You've been invited to place an order for a meal. Please select the items you'd like to order from the menu below.
   </p>
+  <p>
+    {{menu.description}}
+  </p>
 
   <form >
-    <div *ngIf="menu | async as menu">
+    <div>
       <div *ngFor="let menuItemCatagories of getMenuCategories(menu.menuItems)">
         <h3>{{menuItemCatagories.toLowerCase() | titlecase}}s</h3>
-        <div *ngFor="let item of getMenuItemsForCategory(menuItemCatagories, menu.menuItems)" class="menu-item">
+        <div *ngFor="let item of getMenuItemsForCategory(menuItemCatagories, menu.menuItems)" class="menu-item" [matTooltip]="item.description">
           <label>
             <mat-checkbox [checked]="menuItemNames.includes(item.name)" (change)="onItemSelect(item, $event.checked)"></mat-checkbox>
             <span class="item-name">{{ item.name }}</span>
@@ -40,4 +44,5 @@
   </div>
   <button type="submit" [disabled]="selectedItems.length == 0" (click)="confirmOrder(order)" mat-button>Submit Order</button>
 </div>
+}
 }
