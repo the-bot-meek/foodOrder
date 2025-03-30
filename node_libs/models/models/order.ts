@@ -11,7 +11,7 @@ export interface IOrder {
   meal: IMeal
   uid: string
   menuItems: IMenuItems[],
-  orderParticipant: IOrderParticipant[]
+  orderParticipant: IOrderParticipant
 }
 
 export interface ICreateOrderRequest {

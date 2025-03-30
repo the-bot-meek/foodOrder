@@ -29,5 +29,5 @@
   <div>
     Total: {{getTotalPrice(selectedItems) | currency:'GBP'}}
   </div>
-  <button type="submit" class="submit-button">Submit Order</button>
+  <button type="submit" class="submit-button" (click)="confirmOrder()">Submit Order</button>
 </div>

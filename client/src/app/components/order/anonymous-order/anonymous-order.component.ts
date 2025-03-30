@@ -1,13 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {OrderService} from "../../../shared/api/order.service";
-import {mergeMap, Observable} from "rxjs";
+import {BehaviorSubject, mergeMap, Observable} from "rxjs";
 import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
 import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 import {map} from "rxjs/operators";
 import {MenuService} from "../../../shared/api/menu.service";
 import {AsyncPipe, CurrencyPipe, JsonPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {
+  ConfirmAnonomusOrderDetailsModalComponent
+} from "../confirm-anonomus-order-deatils/confirm-anonomus-order-details-modal.component";
 
 @Component({
   selector: 'app-anonymous-order',
@@ -28,14 +32,15 @@ import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 export class AnonymousOrderComponent implements OnInit{
   private mealId: string
   private userId: string
-  order: Observable<IOrder>;
+  order: Observable<IOrder> = new BehaviorSubject<IOrder>(null);
   menu: Observable<IMenu>
   selectedItems: IMenuItems[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private dialog: MatDialog
   ) {}
 
   getMenuCategories(menuItems: IMenuItems[]): string[] {
@@ -56,6 +61,16 @@ export class AnonymousOrderComponent implements OnInit{
     } else {
       this.selectedItems = this.selectedItems.filter(i => i !== item);
     }
+  }
+
+  confirmOrder(): void {
+    console.log(this.order)
+    this.dialog.open(ConfirmAnonomusOrderDetailsModalComponent, {
+      data: {
+        order: this.order
+      },
+      width: '30vw',
+    })
   }
 
   ngOnInit(): void {
