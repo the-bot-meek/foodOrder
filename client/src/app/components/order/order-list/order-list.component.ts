@@ -23,7 +23,7 @@ import {CdkCopyToClipboard} from "@angular/cdk/clipboard";
 export class OrderListComponent {
   @Input()
   orders: Observable<IOrder[]>
-  readonly placeOrderBasePath: string = environment.serverUrl + "/order/"
+  readonly placeOrderBasePath: string = environment.defaultClientBasePath + "/order/"
 
   columnsToDisplay = ['participantsName', "copyInviteLink"]
 }
