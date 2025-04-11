@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
-import {AsyncPipe, JsonPipe} from "@angular/common";
 import {Observable} from "rxjs";
 import {MatIcon} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
@@ -13,8 +12,6 @@ import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 @Component({
   selector: 'app-confirm-anonomus-order-deatils',
   imports: [
-    JsonPipe,
-    AsyncPipe,
     FormsModule,
     MatInput,
     MatFormField,
