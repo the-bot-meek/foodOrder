@@ -2,7 +2,7 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.container.DockerExecContainer
 plugins {
     id("groovy") 
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.6"
     id("io.micronaut.application") version "4.5.2"
     id("io.micronaut.aot") version "4.5.2"
     id("maven-publish")
@@ -94,8 +94,8 @@ publishing {
         }
     }
     publications {
-        mavenJava(MavenPublication) {
-            from components.java
+        register('mavenJava', MavenPublication) {
+            from components.java as SoftwareComponent
             artifact sourcesJar
         }
     }
