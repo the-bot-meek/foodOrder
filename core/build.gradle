@@ -3,7 +3,7 @@ import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 plugins {
     id("groovy") 
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("io.micronaut.application") version "4.5.1"
+    id("io.micronaut.application") version "4.5.2"
     id("io.micronaut.aot") version "4.5.2"
     id("maven-publish")
 }
