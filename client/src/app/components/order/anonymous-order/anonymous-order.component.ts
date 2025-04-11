@@ -6,7 +6,7 @@ import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
 import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 import {map} from "rxjs/operators";
 import {MenuService} from "../../../shared/api/menu.service";
-import {AsyncPipe, CurrencyPipe, JsonPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
+import {AsyncPipe, CurrencyPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
 import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {
@@ -21,11 +21,9 @@ import {MatTooltip} from "@angular/material/tooltip";
   imports: [
     AsyncPipe,
     NgForOf,
-    NgIf,
     CurrencyPipe,
     NgIf,
     NgForOf,
-    JsonPipe,
     TitleCasePipe,
     MatCheckbox,
     MatButton,
