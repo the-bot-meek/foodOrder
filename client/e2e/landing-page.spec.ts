@@ -1,5 +1,11 @@
 import {expect, test} from '@playwright/test';
-import {getMealTableCellFromTableRow, openAddDialog, populateAddMealDialog, populateAddMenuDialog} from "./utils";
+import {
+  addMeal,
+  addMenu,
+  getMealTableCellFromTableRow,
+  openAddDialog,
+  populateAddMealDialog, verifyMealTableRowExists
+} from "./utils";
 import {v4 as uuid} from 'uuid';
 import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
@@ -15,7 +21,7 @@ test('has title', async ({ page }) => {
 test('add menu test', async ({ page, browserName }) => {
   await page.goto('/');
 
-  await openAddDialog('menu', page)
+
   const createMenuRequest: ICreateMenuRequest = {
     name: `add menu test ${browserName}`,
     description: "description",
@@ -30,8 +36,7 @@ test('add menu test', async ({ page, browserName }) => {
       }
     ]
   }
-  await populateAddMenuDialog(createMenuRequest, page)
-  expect(page.getByText('Menu Added')).toBeTruthy()
+  await addMenu(page, createMenuRequest)
 });
 
 test('test add meal', async ({ page, browserName }) => {
@@ -62,25 +67,7 @@ test('test add meal', async ({ page, browserName }) => {
     menuName: `test add meal ${browserName}`
   }
 
-  await openAddDialog('menu', page)
-  await populateAddMenuDialog(createMenuRequest, page)
-  expect(page.getByText('Menu Added')).toBeTruthy()
-
-  await openAddDialog('meal', page)
-  await populateAddMealDialog(createMealRequest, page)
-  expect(page.getByText('Meal added')).toBeTruthy()
-
-
-
-  const mealRow = page.getByTestId(`meal-row-${createMealRequest.name}`)
-  await expect(mealRow).toBeVisible()
-  const nameCell = await getMealTableCellFromTableRow('name', mealRow)
-  const dateCell = await getMealTableCellFromTableRow('date', mealRow)
-  const locationCell = await getMealTableCellFromTableRow('location', mealRow)
-  const menuNameCell = await getMealTableCellFromTableRow('menuName', mealRow)
-
-  await expect(nameCell).toHaveText(createMealRequest.name)
-  await expect(dateCell).toHaveText(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric',}))
-  await expect(locationCell).toHaveText(createMealRequest.location)
-  await expect(menuNameCell).toHaveText(createMealRequest.menuName)
+  await addMenu(page, createMenuRequest)
+  await addMeal(page, createMealRequest)
+  await verifyMealTableRowExists(page, createMealRequest)
 });

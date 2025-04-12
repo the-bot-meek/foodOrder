@@ -1,7 +1,7 @@
 
-import {Locator, Page} from "@playwright/test";
+import {expect, Locator, Page} from "@playwright/test";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
-import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
+import {ICreateMenuRequest, IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 
 function capitalizeFirstLetter(str) {
   return str[0].toUpperCase() + str.slice(1);
@@ -48,6 +48,20 @@ export async function populateAddMealDialog(createMealRequest: ICreateMealReques
   await page.getByTestId('add-meal-button').click()
 }
 
+export async function verifyMealTableRowExists(page: Page, createMealRequest: ICreateMealRequest) {
+  const mealRow = page.getByTestId(`meal-row-${createMealRequest.name}`)
+  await expect(mealRow).toBeVisible()
+  const nameCell = await getMealTableCellFromTableRow('name', mealRow)
+  const dateCell = await getMealTableCellFromTableRow('date', mealRow)
+  const locationCell = await getMealTableCellFromTableRow('location', mealRow)
+  const menuNameCell = await getMealTableCellFromTableRow('menuName', mealRow)
+
+  await expect(nameCell).toHaveText(createMealRequest.name)
+  await expect(dateCell).toHaveText(new Date(createMealRequest.dateOfMeal).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric',}))
+  await expect(locationCell).toHaveText(createMealRequest.location)
+  await expect(menuNameCell).toHaveText(createMealRequest.menuName)
+}
+
 export async function openAddDialog(dialogName: 'meal' | 'menu', page: Page) {
   const addMenuBtn = page.getByTestId(`open-add-${dialogName}-btn-dialog`)
   await addMenuBtn.click()
@@ -55,4 +69,16 @@ export async function openAddDialog(dialogName: 'meal' | 'menu', page: Page) {
 
 export async function getMealTableCellFromTableRow(cellTestId: string, tableRow: Locator) {
   return tableRow.getByTestId(`meal-table-${cellTestId}-cell`)
+}
+
+export async function addMenu(page: Page, createMenuRequest: ICreateMenuRequest) {
+  await openAddDialog('menu', page)
+  await populateAddMenuDialog(createMenuRequest, page)
+  expect(page.getByText('Menu Added')).toBeTruthy()
+}
+
+export async function addMeal(page: Page, createMealRequest: ICreateMealRequest) {
+  await openAddDialog('meal', page)
+  await populateAddMealDialog(createMealRequest, page)
+  expect(page.getByText('Meal added')).toBeTruthy()
 }
