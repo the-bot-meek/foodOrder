@@ -1,6 +1,6 @@
 
 import {expect, Locator, Page, TestInfo} from "@playwright/test";
-import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
+import {ICreateMealConfig, ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {v4 as uuid} from "uuid";
 import {MealConfig} from "@the-bot-meek/food-orders-models/models/MealConfig";
@@ -26,11 +26,11 @@ export function buildCreateMenuRequest(testInfo: TestInfo, browser: string): ICr
   }
 }
 
-export function buildCreateMealRequest(mealConfig: MealConfig, testInfo: TestInfo, browser: string): ICreateMealRequest {
+export function buildCreateMealRequest(createMealConfig: ICreateMealConfig, testInfo: TestInfo, browser: string): ICreateMealRequest {
   return {
     dateOfMeal: 1728850944308,
     location: "London",
-    mealConfig: mealConfig,
+    createMealConfig: createMealConfig,
     name: `name-${uuid()}`,
     menuName: `${testInfo.title} ${browser}`
   }
@@ -70,9 +70,11 @@ export async function populateAddMealDialog(createMealRequest: ICreateMealReques
   await page.waitForSelector('mat-option')
   await page.click(`mat-option >> text="${createMealRequest.menuName}"`)
 
-  if (createMealRequest.mealConfig.privateMealConfig) {
+  if (createMealRequest.createMealConfig.createPrivateMealConfig) {
     await page.getByTestId('private-meal-checkbox').check()
-    await page.getByTestId('number-of-recipients-input').fill('10')
+    await page.getByTestId('number-of-recipients-input').fill(
+      String(createMealRequest.createMealConfig.createPrivateMealConfig.numberOfRecipients)
+    )
   }
   await page.getByTestId('add-meal-button').click()
 }

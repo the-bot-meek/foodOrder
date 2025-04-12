@@ -1,11 +1,18 @@
-import { MealConfig } from "./MealConfig"
+export interface ICreatePrivateMealConfig {
+    numberOfRecipients: number
+}
+
+export interface ICreateMealConfig {
+    createPrivateMealConfig: ICreatePrivateMealConfig | undefined | null
+    draft: boolean
+}
 
 export interface ICreateMealRequest {
     name: string,
     dateOfMeal: number,
     location: string,
     menuName: string,
-    mealConfig: MealConfig
+    createMealConfig: ICreateMealConfig
 }
 
 export interface IDeleteMealRequest {
