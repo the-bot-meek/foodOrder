@@ -31,7 +31,7 @@ export function buildCreateMealRequest(createMealConfig: ICreateMealConfig, test
     dateOfMeal: 1728850944308,
     location: "London",
     createMealConfig: createMealConfig,
-    name: `name-${uuid()}`,
+    name: `${testInfo.title}-${uuid()}`,
     menuName: `${testInfo.title} ${browser}`
   }
 }
@@ -71,7 +71,7 @@ export async function populateAddMealDialog(createMealRequest: ICreateMealReques
   await page.click(`mat-option >> text="${createMealRequest.menuName}"`)
 
   if (createMealRequest.createMealConfig.createPrivateMealConfig) {
-    await page.getByTestId('private-meal-checkbox').check()
+    await page.getByTestId('private-meal-checkbox').click()
     await page.getByTestId('number-of-recipients-input').fill(
       String(createMealRequest.createMealConfig.createPrivateMealConfig.numberOfRecipients)
     )

@@ -34,3 +34,19 @@ test('test add meal', async ({ page, browserName }, testInfo: TestInfo) => {
   await addMeal(page, createMealRequest)
   await verifyMealTableRowExists(page, createMealRequest)
 });
+
+test('test add anonymous meal', async ({ page, browserName }, testInfo: TestInfo) => {
+  await page.goto('/');
+
+  const mealConfig: ICreateMealConfig = {
+    draft: false,
+    createPrivateMealConfig: {
+      numberOfRecipients: 1000
+    }
+  }
+  const createMenuRequest: ICreateMenuRequest = buildCreateMenuRequest(testInfo, browserName)
+  const createMealRequest: ICreateMealRequest = buildCreateMealRequest(mealConfig, testInfo, browserName)
+  await addMenu(page, createMenuRequest)
+  await addMeal(page, createMealRequest)
+  await verifyMealTableRowExists(page, createMealRequest)
+});
