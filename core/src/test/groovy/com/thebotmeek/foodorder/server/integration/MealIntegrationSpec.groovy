@@ -5,6 +5,7 @@ import com.foodorder.server.client.OrderClient
 import com.foodorder.server.client.MenuClient
 import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.MenuItemCategory
+import com.foodorder.server.request.CreateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.DraftMeal
 import com.foodorder.server.models.meal.Meal
@@ -13,6 +14,7 @@ import com.foodorder.server.models.meal.PrivateMealConfig
 import com.foodorder.server.models.Order
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateMenuRequest
+import com.foodorder.server.request.CreatePrivateMealConfig
 import io.micronaut.test.extensions.spock.annotation.MicronautTest
 import jakarta.inject.Inject
 import spock.lang.IgnoreIf
@@ -35,7 +37,7 @@ class MealIntegrationSpec extends Specification {
 
     def "Add meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -54,7 +56,7 @@ class MealIntegrationSpec extends Specification {
 
     def "Add draftMeal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig(draft: true))
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -72,8 +74,15 @@ class MealIntegrationSpec extends Specification {
 
 
     def "Add private meal"() {
-        Set<String> participant = ["9def4c16-91fa-4de3-9673-bfb0b09cce81"]
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig(privateMealConfig: new PrivateMealConfig(participant)))
+        CreateMealRequest createMealRequest = new CreateMealRequest(
+                name:  "name",
+                dateOfMeal:  Instant.ofEpochSecond(1711405066),
+                location:  "London",
+                menuName:  "MacD",
+                createMealConfig: new CreateMealConfig(
+                        createPrivateMealConfig: new CreatePrivateMealConfig(5)
+                )
+        )
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -87,12 +96,12 @@ class MealIntegrationSpec extends Specification {
         assert meal.getLocation() == "London"
         assert meal.getId() != null
         assert meal.getClass() == Meal
-        assert meal.getMealConfig().getPrivateMealConfig().getRecipientIds() == ["9def4c16-91fa-4de3-9673-bfb0b09cce81"].toSet()
+        assert meal.getMealConfig().getPrivateMealConfig().getRecipientIds().size() == 5
     }
 
     def "Get Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         Meal createMealResp = mealClient.addMeal(createMealRequest)
@@ -104,7 +113,7 @@ class MealIntegrationSpec extends Specification {
 
     def "get meals by mealDate and id"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         Meal createMealResp = mealClient.addMeal(createMealRequest)
@@ -116,7 +125,7 @@ class MealIntegrationSpec extends Specification {
 
     def "List all meals for current user"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         mealClient.addMeal(createMealRequest)
@@ -129,7 +138,7 @@ class MealIntegrationSpec extends Specification {
     // Need to refactor the order query before this will work
     def "Ensure meal is deleted"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "name", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "name", createMealConfig: new CreateMealConfig())
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)

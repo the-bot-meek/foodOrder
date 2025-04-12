@@ -5,6 +5,7 @@ import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.OrderClient
 import com.foodorder.server.client.MenuClient
 import com.foodorder.server.models.MenuItemCategory
+import com.foodorder.server.request.CreateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.request.CreateOrderRequest
 import com.foodorder.server.request.CreateMenuRequest
@@ -47,7 +48,7 @@ class MealOrderIntegrationSpec extends Specification {
         name = "MacD"
         menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
         createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", "+44 20 7123 4567")
-        createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
+        createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, createMealConfig: new CreateMealConfig())
     }
 
     def "Get all authenticated orders for meal"() {

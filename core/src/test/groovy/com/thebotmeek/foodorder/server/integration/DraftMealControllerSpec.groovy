@@ -1,6 +1,7 @@
 package com.thebotmeek.foodorder.server.integration
 
 import com.foodorder.server.client.MealClient
+import com.foodorder.server.request.CreateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.DraftMeal
 import com.foodorder.server.models.meal.Meal
@@ -19,7 +20,7 @@ class DraftMealControllerSpec extends Specification {
     MealClient mealClient
     def "Get Draft Meal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", createMealConfig: new CreateMealConfig(draft: true))
 
         when:
         Meal draftMealSaved = mealClient.addMeal(createMealRequest)
@@ -31,7 +32,7 @@ class DraftMealControllerSpec extends Specification {
 
     def "Ensure draft meal is deleted"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", createMealConfig: new CreateMealConfig(draft: true))
 
         when:
         Meal meal = mealClient.addMeal(createMealRequest)
@@ -47,7 +48,7 @@ class DraftMealControllerSpec extends Specification {
 
     def "List all draft meals for current user"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig(draft: true))
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig(draft: true))
 
         when:
         Meal draftMeal = mealClient.addMeal(createMealRequest)

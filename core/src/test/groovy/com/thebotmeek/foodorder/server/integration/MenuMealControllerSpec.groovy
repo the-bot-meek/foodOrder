@@ -4,6 +4,7 @@ import com.foodorder.server.client.MealClient
 import com.foodorder.server.client.MenuClient
 import com.foodorder.server.client.MenuMealClient
 import com.foodorder.server.controllers.MealController
+import com.foodorder.server.request.CreateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
@@ -34,7 +35,7 @@ class MenuMealControllerSpec extends Specification {
     def "test getting Meal from menuName and MealId"() {
         given:
         Authentication authentication = new ServerAuthentication("steven", null, null)
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: "name", dateOfMeal: Instant.ofEpochSecond(1711405066), location: "London", menuName: "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         Meal meal = mealController.addMeal(createMealRequest, authentication).body()

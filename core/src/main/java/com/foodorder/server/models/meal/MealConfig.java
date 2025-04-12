@@ -13,6 +13,11 @@ public class MealConfig {
 
     }
 
+    public MealConfig(PrivateMealConfig privateMealConfig, Boolean draft) {
+        this.privateMealConfig = privateMealConfig;
+        this.draft = draft;
+    }
+
     public Boolean getDraft() {
         return draft;
     }

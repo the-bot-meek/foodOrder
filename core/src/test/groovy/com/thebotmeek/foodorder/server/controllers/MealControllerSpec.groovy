@@ -1,7 +1,10 @@
 package com.thebotmeek.foodorder.server.controllers
 
 import com.foodorder.server.controllers.MealController
+import com.foodorder.server.converters.CreateMealConfigConverter
 import com.foodorder.server.converters.CreateMealRequestConverter
+import com.foodorder.server.converters.CreatePrivateMealConfigConverter
+import com.foodorder.server.request.CreateMealConfig
 import com.foodorder.server.request.CreateMealRequest
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
@@ -21,8 +24,10 @@ class MealControllerSpec extends Specification {
 
     def "setup"() {
         locationService = new LocationRepository()
+        CreatePrivateMealConfigConverter createPrivateMealConfigConverter = new CreatePrivateMealConfigConverter()
+        CreateMealConfigConverter createMealConfigConverter = new CreateMealConfigConverter(createPrivateMealConfigConverter)
+        createMealRequestConverter = new CreateMealRequestConverter(locationService, createMealConfigConverter)
         mealService = Mock(MealRepository)
-        createMealRequestConverter = new CreateMealRequestConverter(locationService)
         mealController = new MealController(mealService, null, createMealRequestConverter)
         authentication = Mock(Authentication)
         authentication.getName() >> "principal_name"
@@ -30,7 +35,7 @@ class MealControllerSpec extends Specification {
     
     def "AddMeal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         mealController.addMeal(createMealRequest, authentication)

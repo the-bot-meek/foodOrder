@@ -1,6 +1,5 @@
 package com.foodorder.server.request;
 
-import com.foodorder.server.models.meal.MealConfig;
 import io.micronaut.core.annotation.Introspected;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;
@@ -24,7 +23,7 @@ public class CreateMealRequest {
         @NotBlank
         String menuName;
         @NotNull
-        MealConfig mealConfig;
+        CreateMealConfig createMealConfig;
 
         public CreateMealRequest() {
 
@@ -61,34 +60,30 @@ public class CreateMealRequest {
         public void setMenuName(String menuName) {
                 this.menuName = menuName;
         }
-        public MealConfig getMealConfig() {
-                return mealConfig;
+
+        public @NotNull CreateMealConfig getCreateMealConfig() {
+                return createMealConfig;
         }
 
-        public void setMealConfig(MealConfig mealConfig) {
-                this.mealConfig = mealConfig;
+        public void setCreateMealConfig(@NotNull CreateMealConfig createMealConfig) {
+                this.createMealConfig = createMealConfig;
         }
-
 
         @Override
-        public boolean equals(Object object) {
-                if (this == object) return true;
-                if (!(object instanceof CreateMealRequest that)) return false;
+        public final boolean equals(Object o) {
+                if (this == o) return true;
+                if (!(o instanceof CreateMealRequest that)) return false;
 
-                if (!Objects.equals(name, that.name)) return false;
-                if (!Objects.equals(dateOfMeal, that.dateOfMeal)) return false;
-                if (!Objects.equals(location, that.location)) return false;
-                if (!Objects.equals(menuName, that.menuName)) return false;
-            return Objects.equals(mealConfig, that.mealConfig);
+            return Objects.equals(name, that.name) && Objects.equals(dateOfMeal, that.dateOfMeal) && Objects.equals(location, that.location) && Objects.equals(menuName, that.menuName) && Objects.equals(createMealConfig, that.createMealConfig);
         }
 
         @Override
         public int hashCode() {
-                int result = name != null ? name.hashCode() : 0;
-                result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
-                result = 31 * result + (location != null ? location.hashCode() : 0);
-                result = 31 * result + (menuName != null ? menuName.hashCode() : 0);
-                result = 31 * result + (mealConfig != null ? mealConfig.hashCode() : 0);
+                int result = Objects.hashCode(name);
+                result = 31 * result + Objects.hashCode(dateOfMeal);
+                result = 31 * result + Objects.hashCode(location);
+                result = 31 * result + Objects.hashCode(menuName);
+                result = 31 * result + Objects.hashCode(createMealConfig);
                 return result;
         }
 }

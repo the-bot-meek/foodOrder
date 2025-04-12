@@ -2,21 +2,17 @@ package com.foodorder.server.controllers;
 
 import com.foodorder.server.converters.CreateMealRequestConverter;
 import com.foodorder.server.exceptions.MealRequestConverterException;
-import com.foodorder.server.models.Model;
-import com.foodorder.server.models.Order;
 import com.foodorder.server.request.CreateMealRequest;
 import com.foodorder.server.models.meal.Meal;
 import com.foodorder.server.repository.MealRepository;
 import com.foodorder.server.repository.OrderRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
-import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.exceptions.HttpStatusException;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
-import io.micronaut.views.View;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,9 +20,7 @@ import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -38,7 +32,7 @@ public class MealController {
     private final OrderRepository orderRepository;
     private final CreateMealRequestConverter createMealRequestConverter;
 
-    MealController(
+    public MealController(
             MealRepository mealRepository,
             OrderRepository orderRepository,
             CreateMealRequestConverter createMealRequestConverter

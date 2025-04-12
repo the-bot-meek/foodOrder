@@ -50,8 +50,6 @@ public class MealOrderController {
     private boolean validateListOfOrders(List<Order> orders, Authentication authentication) {
         if (orders.isEmpty()) return true;
         Order order = orders.getFirst();
-
-        System.out.println("look at me");
         boolean uniform = orders.stream().allMatch(it ->
                 Objects.equals(it.getMeal().getId(), order.getMeal().getId())
                 && it.getMeal().getMealDate().equals(order.getMeal().getMealDate())
