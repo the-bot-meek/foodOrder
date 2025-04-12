@@ -1,10 +1,41 @@
 
-import {expect, Locator, Page} from "@playwright/test";
+import {expect, Locator, Page, TestInfo} from "@playwright/test";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
-import {ICreateMenuRequest, IMenu} from "@the-bot-meek/food-orders-models/models/menu";
+import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
+import {v4 as uuid} from "uuid";
 
 function capitalizeFirstLetter(str) {
   return str[0].toUpperCase() + str.slice(1);
+}
+
+export function buildCreateMenuRequest(testInfo: TestInfo, browser: string): ICreateMenuRequest  {
+  return {
+    name: `${testInfo.title} ${browser}`,
+    description: "description",
+    location: "London",
+    phoneNumber: "+44 20 7123 4567",
+    menuItems: [
+      {
+        name: 'name',
+        description: 'description',
+        price: 0.5,
+        menuItemCategory: "STARTER"
+      }
+    ]
+  }
+}
+
+export function buildCreateMealRequest(testInfo: TestInfo, browser: string): ICreateMealRequest {
+  return {
+    dateOfMeal: 1728850944308,
+    location: "London",
+    mealConfig: {
+      draft: false,
+      privateMealConfig: undefined
+    },
+    name: `name-${uuid()}`,
+    menuName: `${testInfo.title} ${browser}`
+  }
 }
 
 export async function populateAddMenuDialog(createMenuRequest: ICreateMenuRequest, page: Page) {
