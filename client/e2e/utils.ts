@@ -3,6 +3,7 @@ import {expect, Locator, Page, TestInfo} from "@playwright/test";
 import {ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {v4 as uuid} from "uuid";
+import {MealConfig} from "@the-bot-meek/food-orders-models/models/MealConfig";
 
 function capitalizeFirstLetter(str) {
   return str[0].toUpperCase() + str.slice(1);
@@ -25,14 +26,11 @@ export function buildCreateMenuRequest(testInfo: TestInfo, browser: string): ICr
   }
 }
 
-export function buildCreateMealRequest(testInfo: TestInfo, browser: string): ICreateMealRequest {
+export function buildCreateMealRequest(mealConfig: MealConfig, testInfo: TestInfo, browser: string): ICreateMealRequest {
   return {
     dateOfMeal: 1728850944308,
     location: "London",
-    mealConfig: {
-      draft: false,
-      privateMealConfig: undefined
-    },
+    mealConfig: mealConfig,
     name: `name-${uuid()}`,
     menuName: `${testInfo.title} ${browser}`
   }
