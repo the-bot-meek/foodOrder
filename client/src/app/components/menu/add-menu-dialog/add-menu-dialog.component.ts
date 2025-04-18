@@ -94,7 +94,6 @@ export class AddMenuDialogComponent {
   }
 
   addMenuItem(): void {
-    console.log(this.addMenuItemForm.value)
     this.menuItems.push(this.addMenuItemForm.value as IMenuItems)
     this.addMenuItemForm.reset()
   }
