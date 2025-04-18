@@ -10,16 +10,14 @@ version = '1.0.0'
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
-    implementation project(':core')
+    implementation project(':api')
     implementation("com.amazonaws:aws-lambda-java-events")
     implementation("io.micronaut.aws:micronaut-aws-lambda-events-serde")
     implementation("io.micronaut.aws:micronaut-aws-apigateway")
     implementation("io.micronaut.reactor:micronaut-reactor")
-    implementation("com.thebotmeek:api:0.0.1")
     runtimeOnly("org.yaml:snakeyaml")
 }
 

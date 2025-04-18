@@ -13,7 +13,6 @@ group = "com.foodorder"
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 dependencies {
@@ -82,25 +81,6 @@ micronaut {
 tasks.register('sourcesJar', Jar) {
     archiveClassifier.set("sources")
     from sourceSets.main.allSource
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/the-bot-meek/foodOrder"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java as SoftwareComponent
-            artifact sourcesJar
-        }
-    }
 }
 
 tasks.register("deploy", DockerExecContainer) {
