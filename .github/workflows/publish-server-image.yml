@@ -19,10 +19,10 @@ jobs:
           java-version: '21'
 
       - name: Build with Gradle
-        run: ./gradlew core:build --no-daemon
+        run: ./gradlew api:build --no-daemon
 
       - name: Run tests
-        run: ./gradlew core:test --no-daemon
+        run: ./gradlew api:test --no-daemon
 
       - name: Set up Docker
         uses: crazy-max/ghaction-setup-docker@v4
@@ -45,7 +45,7 @@ jobs:
         uses: docker/setup-qemu-action@v3
 
       - name: Build Server Image
-        run: ./gradlew core:dockerfile
+        run: ./gradlew api:dockerfile
 
       - name: Build and push server image
         uses: docker/build-push-action@v6
