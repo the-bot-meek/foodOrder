@@ -1,0 +1,40 @@
+package com.thebotmeek.api.converters;
+
+import com.foodorder.server.exceptions.MealRequestConverterException;
+import com.foodorder.server.models.meal.DraftMeal;
+import com.foodorder.server.models.meal.Meal;
+import com.foodorder.server.repository.LocationRepository;
+import com.thebotmeek.api.request.CreateMealRequest;
+import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.UUID;
+
+@Singleton
+public class CreateMealRequestConverter {
+    private final Logger log = LoggerFactory.getLogger(CreateMealRequestConverter.class);
+    private final LocationRepository locationRepository;
+    public CreateMealRequestConverter(LocationRepository locationRepository) {
+        this.locationRepository = locationRepository;
+    }
+    public Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
+        final String id = UUID.randomUUID().toString();
+        return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
+    }
+
+    public Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid, String id) throws MealRequestConverterException {
+        log.trace("Converting CreateMealRequest into Meal");
+        if (!locationRepository.listLocation().contains(createMealRequest.getLocation())) {
+            log.trace("Invalid Location Invalid location: {}", createMealRequest.getLocation());
+            throw new MealRequestConverterException("Invalid Location");
+        }
+        Meal meal;
+        if (createMealRequest.getMealConfig().getDraft()) {
+            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), createMealRequest.getMealConfig());
+        } else {
+            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), createMealRequest.getMealConfig());
+        }
+        return meal;
+    }
+}
