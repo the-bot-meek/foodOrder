@@ -9,8 +9,8 @@ plugins {
     id("maven-publish")
 }
 
-version = "0.1"
-group = "com.thebotmeek.api"
+version = "0.0.1"
+group = "com.thebotmeek"
 
 repositories {
     mavenCentral()
@@ -19,6 +19,10 @@ repositories {
 
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
+    annotationProcessor("io.micronaut.validation:micronaut-validation-processor")
+    implementation("io.micronaut.validation:micronaut-validation")
+    implementation("jakarta.validation:jakarta.validation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
     annotationProcessor("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security-oauth2")
@@ -29,7 +33,6 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3'
     runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.18.3'
     aotPlugins("io.micronaut.security:micronaut-security-aot")
-    implementation("io.micronaut.serde:micronaut-serde-jackson")
     compileOnly("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
@@ -39,9 +42,8 @@ dependencies {
     testImplementation 'net.bytebuddy:byte-buddy:1.17.5'
     testImplementation 'org.objenesis:objenesis:3.4'
 
-    // I don't know why this is needed
+//     Why is this needed?
     implementation("software.amazon.awssdk:dynamodb-enhanced")
-
 
     implementation("com.foodorder:core:1.0.1")
 
@@ -69,7 +71,8 @@ micronaut {
         optimizeClassLoading = true
         deduceEnvironment = true
         optimizeNetty = true
-        replaceLogbackXml = true
+        configurationProperties.put("micronaut.security.jwks.enabled","false")
+        configurationProperties.put("micronaut.security.openid-configuration.enabled","false")
     }
 }
 
@@ -105,6 +108,18 @@ tasks.named("dockerfile") {
 // https://github.com/bmuschko/gradle-docker-plugin?tab=readme-ov-file
 tasks.named("dockerBuild", DockerBuildImage) {
     images.set(["sharedfoodorder"])
+}
+
+tasks.register('integrationTest', Test) {
+    group = "verification"
+    doFirst {
+        environment("requireIntegrationTests", "true")
+        environment("AWS_REGION", "eu-west-1")
+    }
+
+    filter {
+        includeTestsMatching("com.thebotmeek.api.integration.*")
+    }
 }
 
 

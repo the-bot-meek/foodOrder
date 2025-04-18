@@ -1,24 +1,3 @@
-micronaut:
-  server:
-    cors:
-      enabled: true
-      configurations:
-        ui:
-          allowed-origins:
-            - http://localhost:8080
-            - http://localhost:4200
-  security:
-    redirect:
-      login-success: http://localhost:4200/login-success
-
-endpoints:
-  routes:
-    enabled: true
-    sensitive: falses
-  beans:
-    enabled: true
-    sensitive: false
-
 aws:
   secret-key: 123
   access-key-id: 123

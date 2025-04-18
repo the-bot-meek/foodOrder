@@ -1,0 +1,20 @@
+micronaut:
+  server:
+    cors:
+      enabled: true
+      configurations:
+        ui:
+          allowed-origins:
+            - http://localhost:8080
+            - http://localhost:4200
+  security:
+    redirect:
+      login-success: http://localhost:4200/login-success
+
+endpoints:
+  routes:
+    enabled: true
+    sensitive: false
+  beans:
+    enabled: true
+    sensitive: false
