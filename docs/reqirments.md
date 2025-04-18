@@ -55,7 +55,3 @@ The **Participant** is then able to view but not edit their **Order** for the gi
 The **Organiser** uses the list of **Meals** associated to their account to accesses a specif **Meal** page.
 The **Organiser** can then see everyone's **Orders** and is able to export them in a csv format or tab separated format to allow them to easily add to a table in a external application.
 
----
-### Features that I want to add, but I won't let my self give into feature creep just yet.
-- A dashboard associated to a **Meal** showing statistics relating the **Participants** orders.  
-- Allow **Organiser** to create their own private **Venue Menus**.  

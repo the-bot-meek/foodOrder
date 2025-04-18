@@ -42,7 +42,8 @@ dependencies {
     testImplementation 'net.bytebuddy:byte-buddy:1.17.5'
     testImplementation 'org.objenesis:objenesis:3.4'
 
-//     Why is this needed?
+    // I think this is needed as my controller unit tests Mock the DynamodbFacadeService.
+    // toDo: refactor unit tests to Mock repository's as they should not know about the implementation of the repository's.
     implementation("software.amazon.awssdk:dynamodb-enhanced")
 }
 
