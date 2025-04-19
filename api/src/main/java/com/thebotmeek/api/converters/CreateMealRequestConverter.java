@@ -3,6 +3,7 @@ package com.thebotmeek.api.converters;
 import com.foodorder.server.exceptions.MealRequestConverterException;
 import com.foodorder.server.models.meal.DraftMeal;
 import com.foodorder.server.models.meal.Meal;
+import com.foodorder.server.models.meal.MealConfig;
 import com.foodorder.server.repository.LocationRepository;
 import com.thebotmeek.api.request.CreateMealRequest;
 import jakarta.inject.Singleton;
@@ -15,9 +16,13 @@ import java.util.UUID;
 public class CreateMealRequestConverter {
     private final Logger log = LoggerFactory.getLogger(CreateMealRequestConverter.class);
     private final LocationRepository locationRepository;
-    public CreateMealRequestConverter(LocationRepository locationRepository) {
+    private final CreateMealConfigConverter createMealConfigConverter;
+
+    public CreateMealRequestConverter(LocationRepository locationRepository, CreateMealConfigConverter createMealConfigConverter) {
         this.locationRepository = locationRepository;
+        this.createMealConfigConverter = createMealConfigConverter;
     }
+
     public Meal convertCreateMealRequestToNewMeal(CreateMealRequest createMealRequest, String uid) throws MealRequestConverterException {
         final String id = UUID.randomUUID().toString();
         return convertCreateMealRequestToNewMeal(createMealRequest, uid, id);
@@ -30,10 +35,13 @@ public class CreateMealRequestConverter {
             throw new MealRequestConverterException("Invalid Location");
         }
         Meal meal;
-        if (createMealRequest.getMealConfig().getDraft()) {
-            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), createMealRequest.getMealConfig());
+        MealConfig mealConfig = createMealConfigConverter.convertCreateMealConfigToNewMealConfig(
+                createMealRequest.getCreateMealConfig()
+        );
+        if (createMealRequest.getCreateMealConfig().isDraft()) {
+            meal = new DraftMeal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), mealConfig);
         } else {
-            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), createMealRequest.getMealConfig());
+            meal = new Meal(id, uid, createMealRequest.getName(), createMealRequest.getDateOfMeal(), createMealRequest.getLocation(), createMealRequest.getMenuName(), mealConfig);
         }
         return meal;
     }

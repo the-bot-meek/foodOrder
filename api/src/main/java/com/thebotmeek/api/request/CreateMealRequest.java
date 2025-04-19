@@ -24,7 +24,7 @@ public class CreateMealRequest {
         @NotBlank
         String menuName;
         @NotNull
-        MealConfig mealConfig;
+        CreateMealConfig createMealConfig;
 
         public CreateMealRequest() {
 
@@ -61,14 +61,14 @@ public class CreateMealRequest {
         public void setMenuName(String menuName) {
                 this.menuName = menuName;
         }
-        public MealConfig getMealConfig() {
-                return mealConfig;
+
+        public @NotNull CreateMealConfig getCreateMealConfig() {
+                return createMealConfig;
         }
 
-        public void setMealConfig(MealConfig mealConfig) {
-                this.mealConfig = mealConfig;
+        public void setCreateMealConfig(@NotNull CreateMealConfig createMealConfig) {
+                this.createMealConfig = createMealConfig;
         }
-
 
         @Override
         public boolean equals(Object object) {
@@ -79,7 +79,7 @@ public class CreateMealRequest {
                 if (!Objects.equals(dateOfMeal, that.dateOfMeal)) return false;
                 if (!Objects.equals(location, that.location)) return false;
                 if (!Objects.equals(menuName, that.menuName)) return false;
-            return Objects.equals(mealConfig, that.mealConfig);
+            return Objects.equals(createMealConfig, that.createMealConfig);
         }
 
         @Override
@@ -88,7 +88,7 @@ public class CreateMealRequest {
                 result = 31 * result + (dateOfMeal != null ? dateOfMeal.hashCode() : 0);
                 result = 31 * result + (location != null ? location.hashCode() : 0);
                 result = 31 * result + (menuName != null ? menuName.hashCode() : 0);
-                result = 31 * result + (mealConfig != null ? mealConfig.hashCode() : 0);
+                result = 31 * result + (createMealConfig != null ? createMealConfig.hashCode() : 0);
                 return result;
         }
 }

@@ -1,11 +1,14 @@
 package com.thebotmeek.api.controllers
 
 import com.thebotmeek.api.controllers.MealController
+import com.thebotmeek.api.converters.CreateMealConfigConverter
 import com.thebotmeek.api.converters.CreateMealRequestConverter
 import com.foodorder.server.models.meal.Meal
 import com.foodorder.server.models.meal.MealConfig
 import com.foodorder.server.repository.LocationRepository
 import com.foodorder.server.repository.MealRepository
+import com.thebotmeek.api.converters.CreatePrivateMealConfigConverter
+import com.thebotmeek.api.request.CreateMealConfig
 import com.thebotmeek.api.request.CreateMealRequest
 import io.micronaut.http.exceptions.HttpStatusException
 import io.micronaut.security.authentication.Authentication
@@ -22,16 +25,18 @@ class MealControllerSpec extends Specification {
 
     def "setup"() {
         locationService = new LocationRepository()
+        CreatePrivateMealConfigConverter createPrivateMealConfigConverter = new CreatePrivateMealConfigConverter()
+        CreateMealConfigConverter createMealConfigConverter = new CreateMealConfigConverter(createPrivateMealConfigConverter)
+        createMealRequestConverter = new CreateMealRequestConverter(locationService, createMealConfigConverter)
         mealService = Mock(MealRepository)
-        createMealRequestConverter = new CreateMealRequestConverter(locationService)
         mealController = new MealController(mealService, null, createMealRequestConverter)
         authentication = Mock(Authentication)
         authentication.getName() >> "principal_name"
     }
-    
+
     def "AddMeal"() {
         given:
-        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name:  "name", dateOfMeal:  Instant.ofEpochSecond(1711405066), location:  "London", menuName:  "MacD", createMealConfig: new CreateMealConfig())
 
         when:
         mealController.addMeal(createMealRequest, authentication)

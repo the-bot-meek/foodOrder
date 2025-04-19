@@ -33,7 +33,7 @@ public class MealController {
     private final OrderRepository orderRepository;
     private final CreateMealRequestConverter createMealRequestConverter;
 
-    MealController(
+    public MealController(
             MealRepository mealRepository,
             OrderRepository orderRepository,
             CreateMealRequestConverter createMealRequestConverter
