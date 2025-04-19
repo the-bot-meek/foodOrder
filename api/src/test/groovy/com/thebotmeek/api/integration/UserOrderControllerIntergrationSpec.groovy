@@ -8,7 +8,7 @@ import com.foodorder.server.models.MenuItem
 import com.foodorder.server.models.MenuItemCategory
 import com.foodorder.server.models.Order
 import com.foodorder.server.models.meal.Meal
-import com.foodorder.server.models.meal.MealConfig
+import com.thebotmeek.api.request.CreateMealConfig
 import com.thebotmeek.api.request.CreateMealRequest
 import com.thebotmeek.api.request.CreateMenuRequest
 import com.thebotmeek.api.request.CreateOrderRequest
@@ -42,7 +42,7 @@ class UserOrderControllerIntergrationSpec extends Specification {
 
         Set<MenuItem> menuItems = [new MenuItem(name: "name", description: "description", price: 1.01, menuItemCategory: MenuItemCategory.MAIN)]
         CreateMenuRequest createMenuRequest = new CreateMenuRequest(menuItems, location, name, "description", "+44 20 7123 4567")
-        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, mealConfig: new MealConfig())
+        CreateMealRequest createMealRequest = new CreateMealRequest(name: name, dateOfMeal: dateOfMeal, location: location, menuName: name, createMealConfig: new CreateMealConfig())
 
 
         when:

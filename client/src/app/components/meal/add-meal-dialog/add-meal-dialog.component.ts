@@ -27,26 +27,26 @@ import {OrderService} from "../../../shared/api/order.service";
 
 
 @Component({
-    selector: 'app-add-meal-dialog',
-    imports: [
-        MatDialogTitle,
-        MatDialogContent,
-        MatDialogActions,
-        MatButton,
-        MatDialogClose,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatButtonModule,
-        ReactiveFormsModule,
-        MatNativeDateModule,
-        MatOption,
-        MatSelect,
-        MatIcon,
-        MatCheckbox
-    ],
-    templateUrl: './add-meal-dialog.component.html',
-    styleUrl: './add-meal-dialog.component.scss'
+  selector: 'app-add-meal-dialog',
+  imports: [
+    MatDialogTitle,
+    MatDialogContent,
+    MatDialogActions,
+    MatButton,
+    MatDialogClose,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatOption,
+    MatSelect,
+    MatIcon,
+    MatCheckbox
+  ],
+  templateUrl: './add-meal-dialog.component.html',
+  styleUrl: './add-meal-dialog.component.scss'
 })
 export class AddMealDialogComponent {
   menus: IMenu[] = []
@@ -95,20 +95,16 @@ export class AddMealDialogComponent {
     const createMealRequest: ICreateMealRequest = {
       dateOfMeal: this.addMealFormGroup.value.dateOfMeal?.getTime() as number,
       location: this.addMealFormGroup.value.location as string,
-      mealConfig: {
+      createMealConfig: {
         draft: false,
-        privateMealConfig: null
+        createPrivateMealConfig: null
       },
       name: this.addMealFormGroup.value.name as string,
       menuName: this.addMealFormGroup.value.menuName as string
     }
     if (this.addMealFormGroup.value.privateMeal) {
-      const recipientIds: string[] = [];
-      for (let i = 0; i < this.addMealFormGroup.value.numberOfRecipients; i++) {
-        recipientIds.push(this.uuid.randomUUID())
-      }
-      createMealRequest.mealConfig.privateMealConfig = {
-        recipientIds: recipientIds
+      createMealRequest.createMealConfig.createPrivateMealConfig = {
+        numberOfRecipients: this.addMealFormGroup.value.numberOfRecipients
       }
     }
     this.mealService.addMeal(createMealRequest)
@@ -117,12 +113,12 @@ export class AddMealDialogComponent {
         throw it;
       }))
       .subscribe(
-      (meal) => {
-        this.openAddMealSnackBar(meal.sortKey)
-        this.orderService.addAnonymousOrders(meal.sortKey).subscribe()
-        this.mealService.listMeal().subscribe()
-      }
-    )
+        (meal) => {
+          this.openAddMealSnackBar(meal.sortKey)
+          this.orderService.addAnonymousOrders(meal.sortKey).subscribe()
+          this.mealService.listMeal().subscribe()
+        }
+      )
     this.addMealFormGroup.reset()
     this.dialogRef.close()
   }
