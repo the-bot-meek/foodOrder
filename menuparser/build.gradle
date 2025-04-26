@@ -20,6 +20,7 @@ dependencies {
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("jakarta.validation:jakarta.validation-api")
+    implementation("io.micronaut.security:micronaut-security-jwt")
     implementation 'org.docx4j:docx4j-core:11.5.2'
     annotationProcessor("io.micronaut.langchain4j:micronaut-langchain4j-processor")
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
