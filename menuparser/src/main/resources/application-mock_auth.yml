@@ -1,0 +1,17 @@
+aws:
+  secret-key: 123
+  access-key-id: 123
+  region: "eu-west-1"
+  services:
+    dynamodb:
+      endpoint-override: "http://${DYNAMODB_DOMAIN:localhost}:4566"
+
+mockAuthConfig:
+  sessionLessStateAuth: ${STATELESS_SESSION_AUTH:true}
+  admin: ${IS_ADMIN:true}
+
+dynamodb-tables:
+  primary_table:
+    table-name: primary_table
+  order-table:
+    table-name: order_table
