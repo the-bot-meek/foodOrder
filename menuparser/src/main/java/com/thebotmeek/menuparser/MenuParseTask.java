@@ -3,6 +3,8 @@ package com.thebotmeek.menuparser;
 import com.foodorder.server.dynamodbTypeConverters.MenuItemSetConverter;
 import com.foodorder.server.models.MenuItem;
 import com.foodorder.server.models.Model;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 import java.time.Instant;
@@ -12,10 +14,15 @@ import java.util.Set;
 
 @DynamoDbBean
 public class MenuParseTask implements Model {
+    @NotNull
     String taskId;
+    @NotNull
     String userId;
+    @NotNull
     Status status;
+    @NotNull
     Set<MenuItem> results;
+    @NotNull
     Instant dateCreated;
 
     public MenuParseTask() {

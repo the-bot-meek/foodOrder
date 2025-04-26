@@ -1,5 +1,7 @@
 package com.thebotmeek.menuparser;
 
+import jakarta.validation.Valid;
+
 import java.io.InputStream;
 import java.util.Optional;
 
@@ -10,6 +12,6 @@ public interface MenuParserFacade {
      * @param menu the InputStream containing the menu data
      * @return taskId
      */
-    MenuParseTask parseMenu(InputStream menu, String userId);
-    Optional<MenuParseTask> getTask(String taskId, String userId);
+    MenuParseTask parseMenu(InputStream menu, String userId, SupportedFileTypes supportedFileTypes);
+    Optional<@Valid MenuParseTask> getTask(String taskId, String userId);
 }
