@@ -15,7 +15,7 @@ class MenuParseTaskRepositoryTest extends Specification {
         menuParseTaskRepository.save(menuParseTask)
 
         then:
-        1 * menuParseTaskRepository.save({MenuParseTask newMenuParseTask ->
+        1 * dynamoDBFacadeRepository.save({MenuParseTask newMenuParseTask ->
             newMenuParseTask.getTaskId() != null
             newMenuParseTask.getUserId() == "userId"
             newMenuParseTask.getStatus() == Status.SUBMITTED
