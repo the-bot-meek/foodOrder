@@ -23,6 +23,10 @@ public class MenuParseEvent {
         this.supportedFileTypes = supportedFileTypes;
     }
 
+    public MenuParseEvent() {
+
+    }
+
     public @NotNull InputStream getInputStream() {
         return inputStream;
     }

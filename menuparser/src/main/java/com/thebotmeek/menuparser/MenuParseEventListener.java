@@ -1,14 +1,13 @@
 package com.thebotmeek.menuparser;
 
-import com.foodorder.server.models.MenuItem;
 import com.thebotmeek.menuparser.exception.MenuParserException;
 import io.micronaut.context.event.ApplicationEventListener;
+import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.util.Map;
-import java.util.Set;
 
+@Singleton
 public class MenuParseEventListener implements ApplicationEventListener<MenuParseEvent> {
     private static final Logger log = LoggerFactory.getLogger(MenuParseEventListener.class);
     private final Map<String, MenuParser> menuParsers;
@@ -19,7 +18,7 @@ public class MenuParseEventListener implements ApplicationEventListener<MenuPars
             MenuParseTaskRepository menuParseTaskRepository
     ) {
         this.menuParsers = menuParsers;
-        this.menuParseTaskRepository =  menuParseTaskRepository
+        this.menuParseTaskRepository =  menuParseTaskRepository;
     }
 
     @Override

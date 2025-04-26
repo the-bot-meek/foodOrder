@@ -3,6 +3,7 @@ package com.thebotmeek.menuparser;
 import com.foodorder.server.models.MenuItem;
 import com.thebotmeek.menuparser.exception.MenuParserException;
 import jakarta.inject.Named;
+import jakarta.inject.Qualifier;
 import jakarta.inject.Singleton;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
@@ -13,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
-@Named("docx")
+@Named("DOCX")
 public class DocxMenuParser implements MenuParser {
     @Override
     public Set<MenuItem> parse(MenuParseEvent menuParseEvent) throws MenuParserException {
