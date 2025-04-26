@@ -11,7 +11,7 @@ class DocxMenuParserTest extends Specification {
     def "parser file to plain text"() {
         given:
         InputStream testFile = getTestFile('menu.docx')
-        MenuParser menuParser = new DocxMenuParser()
+        MenuParser menuParser = new DocxMenuParser(null, null)
 
         when:
         String fileAsRawText = menuParser.getDocumentAsRawText(testFile)

@@ -1,3 +1,12 @@
+micronaut:
+  security:
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_GENERATOR_SIGNATURE_SECRET:vRuiEfCobPOLacpjeRh4AOrFtWEuWs89VMQpoVucYX0dLVuksidTuE1TrGhjbNah}
+
 aws:
   secret-key: 123
   access-key-id: 123
@@ -15,3 +24,7 @@ dynamodb-tables:
     table-name: primary_table
   order-table:
     table-name: order_table
+
+langchain4j:
+  open-ai:
+    enabled: false
