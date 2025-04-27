@@ -58,3 +58,4 @@
       <button data-testid="add-menu-btn" mat-button [disabled]="menuFormGroup.invalid">Add Menu</button>
   </div>
 </form>
+<app-menu-upload (menuItems)="addMenuItemsFromFile($event)"></app-menu-upload>

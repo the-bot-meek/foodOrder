@@ -1,0 +1,8 @@
+<input hidden="hidden" type="file" class="file-input" (change)="menuFileChange($event)" #fileUpload  accept=".docx">
+
+@if (uploading) {
+  <p>uploading {{fileName}}</p>
+} @else {
+  <button mat-button (click)="fileUpload.click()">Upload Menu From File</button>
+}
+

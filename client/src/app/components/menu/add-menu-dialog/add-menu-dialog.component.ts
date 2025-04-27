@@ -15,6 +15,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {map} from "rxjs/operators";
 import {catchError} from "rxjs";
 import {TitleCasePipe} from "@angular/common";
+import {MenuUploadComponent} from "../menu-upload/menu-upload.component";
 
 @Component({
   selector: 'app-add-menu-dialog',
@@ -32,7 +33,8 @@ import {TitleCasePipe} from "@angular/common";
     MatIcon,
     MatIconButton,
     MatDialogClose,
-    TitleCasePipe
+    TitleCasePipe,
+    MenuUploadComponent
   ],
   templateUrl: './add-menu-dialog.component.html',
   standalone: true,
@@ -111,4 +113,9 @@ export class AddMenuDialogComponent {
   }
 
   protected readonly Object = Object;
+
+
+  public addMenuItemsFromFile(menuItems: IMenuItems[]) {
+    this.menuItems = [...this.menuItems, ...menuItems]
+  }
 }

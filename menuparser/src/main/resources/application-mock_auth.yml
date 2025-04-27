@@ -1,11 +1,18 @@
 micronaut:
   security:
+    oauth2:
+      enabled: false
     token:
       jwt:
-        signatures:
-          secret:
-            generator:
-              secret: ${JWT_GENERATOR_SIGNATURE_SECRET:vRuiEfCobPOLacpjeRh4AOrFtWEuWs89VMQpoVucYX0dLVuksidTuE1TrGhjbNah}
+        enabled: false
+  server:
+    cors:
+      enabled: true
+      configurations:
+        ui:
+          allowed-origins:
+            - http://localhost:8080
+            - http://localhost:4200
 
 aws:
   secret-key: 123
@@ -14,6 +21,17 @@ aws:
   services:
     dynamodb:
       endpoint-override: "http://${DYNAMODB_DOMAIN:localhost}:4566"
+
+endpoints:
+  routes:
+    enabled: true
+    sensitive: false
+  beans:
+    enabled: true
+    sensitive: false
+  env:
+    enabled: true
+    sensitive: false
 
 mockAuthConfig:
   sessionLessStateAuth: ${STATELESS_SESSION_AUTH:true}
@@ -27,4 +45,12 @@ dynamodb-tables:
 
 langchain4j:
   open-ai:
-    enabled: false
+    api-key: ${OPEN_AI_API_KEY}
+    log-requests: true
+    log-responses: true
+    chat-model:
+      top-p: 1.00
+      model-name: gpt-4.1-mini
+      max-tokens: 2048
+      temperature: 1.00
+      response-format: json

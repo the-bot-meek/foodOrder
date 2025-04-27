@@ -2,12 +2,15 @@ package com.thebotmeek.menuparser;
 
 import io.micronaut.context.event.ApplicationEventPublisher;
 import jakarta.inject.Singleton;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.Optional;
 
 @Singleton
 public class DefaultMenuParserFacade implements MenuParserFacade {
+    private static final Logger log = LoggerFactory.getLogger(DefaultMenuParserFacade.class);
     private final MenuParseTaskRepository menuParseTaskRepository;
     private final ApplicationEventPublisher<MenuParseEvent> menuParseEventPublisher;
 
@@ -21,8 +24,9 @@ public class DefaultMenuParserFacade implements MenuParserFacade {
 
     @Override
     public MenuParseTask parseMenu(InputStream menu, String userId, SupportedFileTypes supportedFileTypes) {
+        log.info("Parsing menu for user: {}, supportedFileTypes: {}", userId, supportedFileTypes.toString());
         MenuParseTask menuParseTask = menuParseTaskRepository.save(new MenuParseTask(userId));
-        menuParseEventPublisher.publishEvent(new MenuParseEvent(menu, menuParseTask, supportedFileTypes));
+        menuParseEventPublisher.publishEventAsync(new MenuParseEvent(menu, menuParseTask, supportedFileTypes));
         return menuParseTask;
     }
 
