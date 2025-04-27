@@ -46,3 +46,6 @@ dynamodb-tables:
 langchain4j:
   open-ai:
     enabled: false
+
+mockTextToMenuItemConfig:
+  error: ${MOCK_TEXT_TO_MENU_ITEM_ERROR:false}

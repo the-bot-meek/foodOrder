@@ -14,16 +14,22 @@ import java.nio.charset.StandardCharsets;
 @Replaces(DefaultTextToMenuItemParser.class)
 public class MockTextToMenuItemParser implements TextToMenuItemParser {
     private final String DEFAULT_MENU_ITEMS_JSON;
-    MockTextToMenuItemParser() throws IOException {
+    private final MockTextToMenuItemParserConfig mockTextToMenuItemParserConfig;
+
+    MockTextToMenuItemParser(MockTextToMenuItemParserConfig mockTextToMenuItemParserConfig) throws IOException {
         InputStream in = getClass()
                 .getClassLoader()
                 .getResourceAsStream("default_menu-items.json");
         assert in != null;
         DEFAULT_MENU_ITEMS_JSON = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        this.mockTextToMenuItemParserConfig = mockTextToMenuItemParserConfig;
     }
 
     @Override
     public String parseMenu(String menuText) {
+        if (mockTextToMenuItemParserConfig.isError()) {
+            throw new RuntimeException("Generic parsing exception");
+        }
         return DEFAULT_MENU_ITEMS_JSON;
     }
 }
