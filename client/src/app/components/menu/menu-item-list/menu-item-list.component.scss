@@ -1,5 +1,43 @@
-#menu-item {
+.menu-items-list {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 16px; // Space between each menu item
+
+  .menu-item-card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .item-name {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .item-category {
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+  }
+
+  .item-description {
+    font-size: 1rem;
+  }
+
+  .item-price {
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: right;
+  }
+
+  .bottom-section {
+    display: flex;
+    justify-content: space-between;
+  }
 }
