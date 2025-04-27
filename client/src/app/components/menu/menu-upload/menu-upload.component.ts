@@ -1,25 +1,19 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MenuParserService} from "../../../shared/api/menu-parser.service";
-import {IConvertMenuItemTask} from "@the-bot-meek/food-orders-models/models/IConvertMenuItemTask";
+import {IConvertMenuItemTask, ConvertMenuItemTaskStatus} from "@the-bot-meek/food-orders-models/models/IConvertMenuItemTask";
 import {
-  catchError,
-  delay,
-  EMPTY,
   filter,
-  flatMap, mergeMap,
+  mergeMap,
   Observable,
-  retry,
-  share,
   switchMap,
   take,
-  takeUntil,
   tap,
   timer
 } from "rxjs";
-import {map} from "rxjs/operators";
 import {AsyncPipe} from "@angular/common";
 import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-menu-upload',
@@ -33,12 +27,12 @@ import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 })
 export class MenuUploadComponent {
   convertMenuItemTask: Observable<IConvertMenuItemTask>
-  uploading: boolean = false
+  uploadingStatus: ConvertMenuItemTaskStatus
   fileName: string
   @Output('menuItems')
   menuItemsEventEmitter: EventEmitter<IMenuItems[]> = new EventEmitter<IMenuItems[]>()
 
-  constructor(private menuParserService: MenuParserService) {
+  constructor(private menuParserService: MenuParserService, private snackBar: MatSnackBar) {
 
   }
 
@@ -46,18 +40,26 @@ export class MenuUploadComponent {
   public menuFileChange(fileInputEvent: any) {
     const file: File = fileInputEvent.target.files[0]
     this.fileName = file.name
-    this.uploading = true
+    this.uploadingStatus = ConvertMenuItemTaskStatus.SUBMITTED
     this.convertMenuItemTask = this.menuParserService.startMenuConvertTask(file).pipe(
       mergeMap(convertMenuItemTask => this.pollMenuConvertTask(convertMenuItemTask).pipe(
-        tap(() => this.uploading = false))
+        tap(convertMenuTask => this.uploadingStatus = convertMenuTask.status))
       )
     );
 
     this.convertMenuItemTask.pipe(
       tap((convertMenuItemTask: IConvertMenuItemTask) => {
-        this.menuItemsEventEmitter.emit(convertMenuItemTask.results)
-      }
-    )).subscribe()
+        if (convertMenuItemTask.status == ConvertMenuItemTaskStatus.SUCCESS) {
+          this.menuItemsEventEmitter.emit(convertMenuItemTask.results)
+        }
+        this.uploadingStatus = convertMenuItemTask.status;
+      }),
+      tap((convertMenuItemTask: IConvertMenuItemTask) => {
+        const msg = convertMenuItemTask.status == ConvertMenuItemTaskStatus.ERROR ? 'Failed to Parse Menu Items' : 'Parsed Menu Items';
+        this.snackBar.open(msg, null, {
+          horizontalPosition: 'center', verticalPosition: 'top', duration: 7500
+        });
+      })).subscribe()
   }
 
   public pollMenuConvertTask(
@@ -69,9 +71,13 @@ export class MenuUploadComponent {
         this.menuParserService.getMenuConvertTask(convertMenuItemTask.taskId)
       ),
       // only let through those responses with at least one menuItem
-      filter(resp => Array.isArray(resp.results) && resp.results.length > 0),
+      filter(resp => !this.isProcessing(resp.status)),
       // take the first matching response and complete
       take(1)
     );
+  }
+
+  isProcessing(convertMenuItemTaskStatus: ConvertMenuItemTaskStatus): boolean {
+    return [ConvertMenuItemTaskStatus.SUBMITTED.toString(), ConvertMenuItemTaskStatus.IN_PROGRESS.toString()].includes(convertMenuItemTaskStatus)
   }
 }
