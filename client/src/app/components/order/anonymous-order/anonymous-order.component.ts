@@ -19,6 +19,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatBadge} from "@angular/material/badge.d-Bhde3P8d";
 import {MatBadgeModule} from "@angular/material/badge";
+import {ScrollingModule} from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-anonymous-order',
@@ -33,7 +34,8 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatButton,
     MatTooltip,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    ScrollingModule
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
