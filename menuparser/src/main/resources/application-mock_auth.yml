@@ -45,12 +45,4 @@ dynamodb-tables:
 
 langchain4j:
   open-ai:
-    api-key: ${OPEN_AI_API_KEY}
-    log-requests: true
-    log-responses: true
-    chat-model:
-      top-p: 1.00
-      model-name: gpt-4.1-mini
-      max-tokens: 2048
-      temperature: 1.00
-      response-format: json
+    enabled: false
