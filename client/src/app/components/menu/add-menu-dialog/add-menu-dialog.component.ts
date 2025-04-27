@@ -116,6 +116,8 @@ export class AddMenuDialogComponent {
 
 
   public addMenuItemsFromFile(menuItems: IMenuItems[]) {
+    const existingMenuItemName = this.menuItems.map(menuItem => menuItem.name)
+    menuItems = menuItems.filter(menuItem => !existingMenuItemName.includes(menuItem.name))
     this.menuItems = [...this.menuItems, ...menuItems]
   }
 }
