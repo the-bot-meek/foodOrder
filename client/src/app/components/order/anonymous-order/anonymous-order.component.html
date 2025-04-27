@@ -1,6 +1,6 @@
 @if (order | async; as order) {
 @if (menu | async; as menu) {
-<div class="order-container">
+<div class="order-container" [style.background-image]="backgroundImage">
 
 
     @if (!isNewOrder) {

@@ -33,7 +33,7 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatButton,
     MatTooltip,
     MatChipsModule,
-    MatBadgeModule,
+    MatBadgeModule
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
@@ -48,6 +48,7 @@ export class AnonymousOrderComponent implements OnInit{
   menuItemCategoryOrder: ("STARTER" | "MAIN" | "DESSERT" | "DRINK" | "SIDE")[] = ["STARTER", "MAIN", "SIDE", "DESSERT", "DRINK"]
   isNewOrder: boolean = false
   selectedMenuItemCategory: string
+  backgroundImage: string = "https://images.unsplash.com/photo-1550367363-ea12860cc124?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
   constructor(
     private route: ActivatedRoute,
@@ -115,4 +116,6 @@ export class AnonymousOrderComponent implements OnInit{
     this.mealId = this.route.snapshot.params['mealId']
     this.fetchOrderAndMenuItem()
   }
+
+
 }
