@@ -14,7 +14,6 @@ export interface ICreateMealRequest {
     dateOfMeal: number,
     location: string,
     menuName: string,
-    mealConfig: MealConfig,
     createMealConfig: ICreateMealConfig
 }
 

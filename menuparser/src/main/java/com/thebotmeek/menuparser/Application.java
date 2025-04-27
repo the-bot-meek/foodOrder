@@ -1,4 +1,4 @@
-package com.thebotmeek.api;
+package com.thebotmeek.menuparser;
 
 import io.micronaut.runtime.Micronaut;
 

@@ -1,5 +1,5 @@
 export const environment = {
-  serverUrl: "http://localhost:4566/_aws/execute-api/api/prod",
+  serverUrl: "http://localhost/api",
   authPath: 'oauth/login/auth0',
-  defaultClientBasePath: 'http://localhost:4200'
+  defaultClientBasePath: 'http://localhost'
 };
