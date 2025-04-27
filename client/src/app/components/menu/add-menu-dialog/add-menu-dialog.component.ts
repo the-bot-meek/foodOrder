@@ -95,6 +95,12 @@ export class AddMenuDialogComponent {
     this.menuItems = this.menuItems.filter(menuItem => menuItem.name != name)
   }
 
+  editMenuItem(name: string) {
+    const menuItem = this.menuItems.find(menuItem => menuItem.name == name)
+    this.menuItems = this.menuItems.filter(menuItem => menuItem.name != name)
+    this.addMenuItemForm.patchValue(menuItem)
+  }
+
   addMenuItem(): void {
     this.menuItems.push(this.addMenuItemForm.value as IMenuItems)
     this.addMenuItemForm.reset()
