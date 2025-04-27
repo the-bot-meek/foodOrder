@@ -3,7 +3,7 @@
 <div class="order-container">
 
 
-    @if (order.orderParticipant.name != "AnonymousUser") {
+    @if (!isNewOrder) {
       <h2>Welcome back {{order.orderParticipant.name | titlecase}}</h2>
     } @else {
       <h2>Place Your Order</h2>
@@ -15,20 +15,22 @@
     {{menu.description}}
   </p>
 
-  <form >
-    <div>
-      <div *ngFor="let menuItemCatagories of getMenuCategories(menu.menuItems)">
-        <h3>{{menuItemCatagories.toLowerCase() | titlecase}}s</h3>
-        <div *ngFor="let item of getMenuItemsForCategory(menuItemCatagories, menu.menuItems)" class="menu-item" [matTooltip]="item.description">
-          <label>
-            <mat-checkbox [checked]="menuItemNames.includes(item.name)" (change)="onItemSelect(item, $event.checked)"></mat-checkbox>
-            <span class="item-name">{{ item.name }}</span>
-            <span class="item-price">{{ item.price | currency:'GBP' }}</span>
-          </label>
-        </div>
-      </div>
-    </div>
-  </form>
+  <mat-chip-listbox aria-label="Fish selection" >
+    @for (menuItemCategory of getMenuCategories(menu.menuItems); track menuItemCategory) {
+      <mat-chip-option
+        [matBadge]="getOrderedMenuItemsNamesForCategory(menuItemCategory).length > 0?getOrderedMenuItemsNamesForCategory(menuItemCategory).length:null"
+        (click)="selectedMenuItemCategory = menuItemCategory"
+      >{{menuItemCategory | titlecase}}</mat-chip-option>
+    }
+  </mat-chip-listbox>
+  <div *ngFor="let item of getMenuItemsForCategory(selectedMenuItemCategory, menu.menuItems)" class="menu-item" [matTooltip]="item.description">
+    <label>
+      <mat-checkbox [checked]="menuItemNames.includes(item.name)" (change)="onItemSelect(item, $event.checked)"></mat-checkbox>
+      <span class="item-name">{{ item.name }}</span>
+      <span class="item-price">{{ item.price | currency:'GBP' }}</span>
+    </label>
+  </div>
+
 </div>
 <div class="placed-menu-items-container">
   <div *ngFor="let menuItem of selectedItems" class="menu-item">

@@ -15,6 +15,10 @@ import {
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MatExpansionModule} from "@angular/material/expansion";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatBadge} from "@angular/material/badge.d-Bhde3P8d";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @Component({
   selector: 'app-anonymous-order',
@@ -28,6 +32,8 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatCheckbox,
     MatButton,
     MatTooltip,
+    MatChipsModule,
+    MatBadgeModule,
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
@@ -39,6 +45,9 @@ export class AnonymousOrderComponent implements OnInit{
   order: Observable<IOrder> = new BehaviorSubject<IOrder>(null);
   menu: Observable<IMenu>
   selectedItems: IMenuItems[] = [];
+  menuItemCategoryOrder: ("STARTER" | "MAIN" | "DESSERT" | "DRINK" | "SIDE")[] = ["STARTER", "MAIN", "SIDE", "DESSERT", "DRINK"]
+  isNewOrder: boolean = false
+  selectedMenuItemCategory: string
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +61,15 @@ export class AnonymousOrderComponent implements OnInit{
   }
 
   getMenuCategories(menuItems: IMenuItems[]): string[] {
-    return menuItems.map(item => item.menuItemCategory).filter((menuItemCategory, i, pastMenuItemCategories) => pastMenuItemCategories.indexOf(menuItemCategory) === i)
+    const availableMenuItems = menuItems.map(item => item.menuItemCategory)
+      .filter((menuItemCategory, i, pastMenuItemCategories) => pastMenuItemCategories.indexOf(menuItemCategory) === i)
+      .sort()
+
+    return this.menuItemCategoryOrder.filter(menuItemCategory => availableMenuItems.includes(menuItemCategory))
+  }
+
+  getOrderedMenuItemsNamesForCategory(category: string): string[]  {
+    return this.getMenuItemsForCategory(category, this.selectedItems).map(menuItem => menuItem.name)
   }
 
   getMenuItemsForCategory(category: string, menuItems: IMenuItems[]): IMenuItems[] {
@@ -89,6 +106,7 @@ export class AnonymousOrderComponent implements OnInit{
     this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId).pipe(tap(order => {
       this.selectedItems = order.menuItems ?? [];
       this.menu = this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
+      this.isNewOrder = order.orderParticipant.name == "AnonymousUser"
     }));
   }
 

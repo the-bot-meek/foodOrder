@@ -10,8 +10,10 @@ $order-padding: 1rem;
   border-radius: $order-border-radius;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   max-width: 600px;
+
   margin: 2rem auto;
   font-family: Arial, sans-serif;
+  text-overflow: fade;
 
   h2 {
     color: $order-primary-color;
@@ -70,3 +72,15 @@ $order-padding: 1rem;
     }
   }
 }
+
+.transparent-panel {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Also clear the header background */
+.transparent-panel
+.mat-expansion-panel-header {
+  background-color: transparent !important;
+}
+
