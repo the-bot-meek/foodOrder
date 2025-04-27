@@ -23,22 +23,27 @@
       >{{menuItemCategory | titlecase}}</mat-chip-option>
     }
   </mat-chip-listbox>
-  <div *ngFor="let item of getMenuItemsForCategory(selectedMenuItemCategory, menu.menuItems)" class="menu-item" [matTooltip]="item.description">
-    <label>
-      <mat-checkbox [checked]="menuItemNames.includes(item.name)" (change)="onItemSelect(item, $event.checked)"></mat-checkbox>
-      <span class="item-name">{{ item.name }}</span>
-      <span class="item-price">{{ item.price | currency:'GBP' }}</span>
-    </label>
-  </div>
+  <cdk-virtual-scroll-viewport itemSize="50" appendOnly class="select-menu-item-container">
+    <div *cdkVirtualFor="let item of getMenuItemsForCategory(selectedMenuItemCategory, menu.menuItems)" class="menu-item" [matTooltip]="item.description">
+      <label>
+        <mat-checkbox [checked]="menuItemNames.includes(item.name)" (change)="onItemSelect(item, $event.checked)"></mat-checkbox>
+        <span class="item-name">{{ item.name }}</span>
+        <span class="item-price">{{ item.price | currency:'GBP' }}</span>
+      </label>
+    </div>
+  </cdk-virtual-scroll-viewport>
+
 
 </div>
 <div class="placed-menu-items-container">
-  <div *ngFor="let menuItem of selectedItems" class="menu-item">
-    <label>
-      <span class="item-name">{{ menuItem.name }}</span>
-      <span class="item-price">{{ menuItem.price | currency:'GBP' }}</span>
-    </label>
-  </div>
+  <cdk-virtual-scroll-viewport itemSize="50" class="select-menu-item-container">
+    <div *cdkVirtualFor="let menuItem of selectedItems" class="menu-item">
+      <label>
+        <span class="item-name">{{ menuItem.name }}</span>
+        <span class="item-price">{{ menuItem.price | currency:'GBP' }}</span>
+      </label>
+    </div>
+  </cdk-virtual-scroll-viewport>
   <div>
     @if (selectedItems) {
       Total: {{getTotalPrice(selectedItems) | currency:'GBP'}}
