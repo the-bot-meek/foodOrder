@@ -14,10 +14,10 @@ export class MenuParserService {
   public startMenuConvertTask(file: File): Observable<IConvertMenuItemTask> {
     const formData = new FormData()
     formData.append('file', file)
-    return this.http.post<IConvertMenuItemTask>(`${environment.serverUrl}/menuParseTask`, formData, {withCredentials: true})
+    return this.http.post<IConvertMenuItemTask>(`${environment.menuParserUrl}`, formData, {withCredentials: true})
   }
 
   public getMenuConvertTask(taskId: string) {
-    return this.http.get<IConvertMenuItemTask>(`${environment.serverUrl}/menuParseTask/${taskId}`, {withCredentials: true})
+    return this.http.get<IConvertMenuItemTask>(`${environment.menuParserUrl}/${taskId}`, {withCredentials: true})
   }
 }
