@@ -1,5 +1,3 @@
-import { MealConfig } from "./MealConfig"
-
 export interface ICreatePrivateMealConfig {
     numberOfRecipients: number
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
-import {IConvertMenuItemTask} from '@the-bot-meek/food-orders-models/models/IConvertMenuItemTask'
+import {IConvertMenuItemTask} from "../../../models/IConvertMenuItemTask";
 
 @Injectable({
   providedIn: 'root'

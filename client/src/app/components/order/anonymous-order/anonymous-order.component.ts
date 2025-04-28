@@ -1,25 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {OrderService} from "../../../shared/api/order.service";
-import {BehaviorSubject, flatMap, mergeMap, Observable, tap} from "rxjs";
-import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
-import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
-import {map} from "rxjs/operators";
+import {BehaviorSubject, Observable, tap} from "rxjs";
 import {MenuService} from "../../../shared/api/menu.service";
 import {AsyncPipe, CurrencyPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {
   ConfirmAnonomusOrderDetailsModalComponent
 } from "../confirm-anonomus-order-deatils/confirm-anonomus-order-details-modal.component";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
-import {MatExpansionModule} from "@angular/material/expansion";
 import {MatChipsModule} from "@angular/material/chips";
-import {MatBadge} from "@angular/material/badge.d-Bhde3P8d";
 import {MatBadgeModule} from "@angular/material/badge";
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {IMenuItems} from "../../../../models/menuItems";
+import {IOrder} from "../../../../models/order";
+import {IMenu} from "../../../../models/menu";
 
 @Component({
   selector: 'app-anonymous-order',

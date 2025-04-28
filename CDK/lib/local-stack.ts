@@ -3,7 +3,6 @@ import {Construct} from 'constructs';
 import {Tags} from "aws-cdk-lib";
 import {GatewayConstruct} from "./gateway-construct";
 import {TableConstruct} from "./table-construct";
-import {ProdStack} from "./prod-stack";
 
 export class LocalStack extends cdk.Stack {
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {

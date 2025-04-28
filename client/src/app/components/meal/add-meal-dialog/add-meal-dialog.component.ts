@@ -8,10 +8,8 @@ import {
 } from "@angular/material/dialog";
 import {MatButton, MatButtonModule} from "@angular/material/button";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
 import {MenuService} from "../../../shared/api/menu.service";
 import {MealService} from "../../../shared/api/meal.service";
-import {ICreateMealConfig, ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -24,6 +22,8 @@ import {catchError} from "rxjs";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {UUIDService} from "../../../shared/utils/uuid.service";
 import {OrderService} from "../../../shared/api/order.service";
+import {IMenu} from "../../../../models/menu";
+import {ICreateMealConfig, ICreateMealRequest} from "../../../../models/ICreateMealRequest";
 
 
 @Component({

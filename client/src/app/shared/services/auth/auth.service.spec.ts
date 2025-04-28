@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import {catchError, EMPTY, of, throwError} from "rxjs";
-import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 import {UserService} from "../../api/user.service";
 import {AuthenticatorService} from "./authenticator.service";
+import {IUser} from "../../../../models/IUser";
 
 describe('AuthService', () => {
   let service: AuthService;
