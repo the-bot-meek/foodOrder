@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatList, MatListItem} from "@angular/material/list";
 import {MatIcon} from "@angular/material/icon";
 import {MatDivider} from "@angular/material/divider";
 import {CurrencyPipe, NgForOf} from "@angular/common";
 import {MatCard, MatCardActions} from "@angular/material/card";
 import {MatButton, MatIconButton} from "@angular/material/button";
+import {IMenuItems} from "../../../../models/menuItems";
 
 @Component({
   selector: 'app-menu-item-list',

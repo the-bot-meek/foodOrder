@@ -1,9 +1,8 @@
 
 import {expect, Locator, Page, TestInfo} from "@playwright/test";
-import {ICreateMealConfig, ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
-import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {v4 as uuid} from "uuid";
-import {MealConfig} from "@the-bot-meek/food-orders-models/models/MealConfig";
+import {ICreateMenuRequest} from "../src/models/menu";
+import {ICreateMealConfig, ICreateMealRequest} from "../src/models/ICreateMealRequest";
 
 function capitalizeFirstLetter(str) {
   return str[0].toUpperCase() + str.slice(1);

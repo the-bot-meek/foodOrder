@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MenuParserService} from "../../../shared/api/menu-parser.service";
-import {IConvertMenuItemTask, ConvertMenuItemTaskStatus} from "@the-bot-meek/food-orders-models/models/IConvertMenuItemTask";
 import {
   filter,
   mergeMap,
@@ -12,8 +11,9 @@ import {
   timer
 } from "rxjs";
 import {AsyncPipe} from "@angular/common";
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {IMenuItems} from "../../../../models/menuItems";
+import {ConvertMenuItemTaskStatus, IConvertMenuItemTask} from "../../../../models/IConvertMenuItemTask";
 
 @Component({
   selector: 'app-menu-upload',

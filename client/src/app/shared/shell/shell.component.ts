@@ -19,7 +19,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ComponentType} from "@angular/cdk/overlay";
 import {AddMenuDialogComponent} from "../../components/menu/add-menu-dialog/add-menu-dialog.component";
 import {AuthService} from "../services/auth/auth.service";
-import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
+import {IUser} from "../../../models/IUser";
 
 
 @Component({

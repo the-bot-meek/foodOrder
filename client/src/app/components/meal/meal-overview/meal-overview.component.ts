@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {MealService} from "../../../shared/api/meal.service";
 import {Observable} from "rxjs";
-import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 import {MealDetailsComponent} from "../meal-details/meal-details.component";
+import {IMeal} from "../../../../models/meal";
 
 @Component({
   selector: 'app-overview',

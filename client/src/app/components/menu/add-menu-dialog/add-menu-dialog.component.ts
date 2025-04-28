@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import {MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {MenuService} from "../../../shared/api/menu.service";
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -16,6 +14,8 @@ import {map} from "rxjs/operators";
 import {catchError} from "rxjs";
 import {TitleCasePipe} from "@angular/common";
 import {MenuUploadComponent} from "../menu-upload/menu-upload.component";
+import {IMenuItems} from "../../../../models/menuItems";
+import {ICreateMenuRequest} from "../../../../models/menu";
 
 @Component({
   selector: 'app-add-menu-dialog',
