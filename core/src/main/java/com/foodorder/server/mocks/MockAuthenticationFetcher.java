@@ -1,4 +1,4 @@
-package com.thebotmeek.api.mocks;
+package com.foodorder.server.mocks;
 
 import io.micronaut.context.annotation.Replaces;
 import io.micronaut.context.annotation.Requires;
