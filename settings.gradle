@@ -2,4 +2,5 @@ rootProject.name="sharedfoodorder"
 include('core')
 include 'lambda-handler'
 include('api')
+include('menuparser')
 

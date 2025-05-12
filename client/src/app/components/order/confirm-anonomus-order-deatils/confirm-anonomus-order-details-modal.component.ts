@@ -1,13 +1,11 @@
 import {Component, inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
-import {Observable} from "rxjs";
-import {MatIcon} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {OrderService} from "../../../shared/api/order.service";
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
+import {IOrder} from "../../../../models/order";
+import {IMenuItems} from "../../../../models/menuItems";
 
 @Component({
   selector: 'app-confirm-anonomus-order-deatils',

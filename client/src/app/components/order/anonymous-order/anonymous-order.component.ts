@@ -1,20 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {OrderService} from "../../../shared/api/order.service";
-import {BehaviorSubject, flatMap, mergeMap, Observable, tap} from "rxjs";
-import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
-import {IMenu} from "@the-bot-meek/food-orders-models/models/menu";
-import {map} from "rxjs/operators";
+import {BehaviorSubject, Observable, tap} from "rxjs";
 import {MenuService} from "../../../shared/api/menu.service";
 import {AsyncPipe, CurrencyPipe, NgForOf, NgIf, TitleCasePipe} from "@angular/common";
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {
   ConfirmAnonomusOrderDetailsModalComponent
 } from "../confirm-anonomus-order-deatils/confirm-anonomus-order-details-modal.component";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MatChipsModule} from "@angular/material/chips";
+import {MatBadgeModule} from "@angular/material/badge";
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {IMenuItems} from "../../../../models/menuItems";
+import {IOrder} from "../../../../models/order";
+import {IMenu} from "../../../../models/menu";
 
 @Component({
   selector: 'app-anonymous-order',
@@ -28,6 +30,9 @@ import {MatTooltip} from "@angular/material/tooltip";
     MatCheckbox,
     MatButton,
     MatTooltip,
+    MatChipsModule,
+    MatBadgeModule,
+    ScrollingModule
   ],
   templateUrl: './anonymous-order.component.html',
   standalone: true,
@@ -39,6 +44,10 @@ export class AnonymousOrderComponent implements OnInit{
   order: Observable<IOrder> = new BehaviorSubject<IOrder>(null);
   menu: Observable<IMenu>
   selectedItems: IMenuItems[] = [];
+  menuItemCategoryOrder: ("STARTER" | "MAIN" | "DESSERT" | "DRINK" | "SIDE")[] = ["STARTER", "MAIN", "SIDE", "DESSERT", "DRINK"]
+  isNewOrder: boolean = false
+  selectedMenuItemCategory: string
+  backgroundImage: string = "https://images.unsplash.com/photo-1550367363-ea12860cc124?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 
   constructor(
     private route: ActivatedRoute,
@@ -52,7 +61,15 @@ export class AnonymousOrderComponent implements OnInit{
   }
 
   getMenuCategories(menuItems: IMenuItems[]): string[] {
-    return menuItems.map(item => item.menuItemCategory).filter((menuItemCategory, i, pastMenuItemCategories) => pastMenuItemCategories.indexOf(menuItemCategory) === i)
+    const availableMenuItems = menuItems.map(item => item.menuItemCategory)
+      .filter((menuItemCategory, i, pastMenuItemCategories) => pastMenuItemCategories.indexOf(menuItemCategory) === i)
+      .sort()
+
+    return this.menuItemCategoryOrder.filter(menuItemCategory => availableMenuItems.includes(menuItemCategory))
+  }
+
+  getOrderedMenuItemsNamesForCategory(category: string): string[]  {
+    return this.getMenuItemsForCategory(category, this.selectedItems).map(menuItem => menuItem.name)
   }
 
   getMenuItemsForCategory(category: string, menuItems: IMenuItems[]): IMenuItems[] {
@@ -89,6 +106,7 @@ export class AnonymousOrderComponent implements OnInit{
     this.order = this.orderService.getAnonymousOrder(this.userId, this.mealId).pipe(tap(order => {
       this.selectedItems = order.menuItems ?? [];
       this.menu = this.menuService.fetchMenu(order.meal.location, order.meal.menuName)
+      this.isNewOrder = order.orderParticipant.name == "AnonymousUser"
     }));
   }
 
@@ -97,4 +115,6 @@ export class AnonymousOrderComponent implements OnInit{
     this.mealId = this.route.snapshot.params['mealId']
     this.fetchOrderAndMenuItem()
   }
+
+
 }

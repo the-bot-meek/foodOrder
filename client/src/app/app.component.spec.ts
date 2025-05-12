@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import {AuthService} from "./shared/services/auth/auth.service";
 import {of} from "rxjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
+import {IUser} from "../models/IUser";
 
 describe('AppComponent', () => {
   let authService: any;

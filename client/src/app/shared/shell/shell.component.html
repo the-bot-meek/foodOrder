@@ -1,40 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
-
-  <!-- SIDENAV -->
-
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="(isHandset$ | async) ? 'over' : 'side'"
-               [opened]="false">
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
-
-      <a mat-list-item routerLink="/" (click)="drawer.close()">Home</a>
-      <a mat-list-item routerLink="/login" (click)="drawer.close()">Login</a>
-      <a mat-list-item routerLink="/kanban" (click)="drawer.close()">Kanban Demo</a>
-      <a mat-list-item routerLink="/customers" (click)="drawer.close()">SSR Demo</a>
-    </mat-nav-list>
-  </mat-sidenav>
-  <mat-sidenav-content>
-
-    <!-- TOP TOOLBAR-->
-
-    <mat-toolbar>
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-
-
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
+    <mat-toolbar *ngIf="userDetails">
       <div id="nav-bar-container">
         <div>
           <span class="logo" routerLink="/">Food Order</span>
         </div>
-        <div *ngIf="userDetails">
+        <div>
           <a mat-button routerLink="/kanban">Add Order</a>
           <a mat-button data-testid="open-add-meal-btn-dialog" (click)="openDialogComponent(AddMealDialogComponent)">Add Meal</a>
           <a mat-button data-testid="open-add-menu-btn-dialog" (click)="openDialogComponent(AddMenuDialogComponent)">Add Menu</a>
@@ -47,8 +17,6 @@
 
     <!-- TRANSCLUSION -->
     <ng-content></ng-content>
-
-  </mat-sidenav-content>
 </mat-sidenav-container>
 
 

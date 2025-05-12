@@ -1,16 +1,20 @@
-<mat-list>
-  @for (menuItem of menuItems; track menuItem) {
-
-      <mat-list-item>
-        <div id="menu-item">
-          <div>
-            <p>{{menuItem.name}}, {{menuItem.description}}, {{menuItem.price}}</p>
-          </div>
-          <div>
-            <mat-icon fontIcon="highlight_remove" (click)="removeMenuItem(menuItem.name)"></mat-icon>
-          </div>
-        </div>
-      </mat-list-item>
-    <mat-divider></mat-divider>
-  }
-</mat-list>
+<div class="menu-items-list">
+  <mat-card *ngFor="let item of menuItems" class="menu-item-card">
+    <div class="menu-item-header">
+      <span class="item-name">{{ item.name }}</span>
+      <span class="item-category">{{ item.menuItemCategory }}</span>
+    </div>
+    <div class="item-description">
+      {{ item.description }}
+    </div>
+    <div class="bottom-section">
+      <div>
+        <button mat-button (click)="editMenuItem(item.name)">Edit</button>
+        <button mat-button (click)="removeMenuItem(item.name)">Delete</button>
+      </div>
+      <div class="item-price">
+        {{ item.price | currency }}
+      </div>
+    </div>
+  </mat-card>
+</div>

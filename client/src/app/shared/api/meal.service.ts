@@ -2,10 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable, BehaviorSubject, tap} from 'rxjs';
 import { environment } from '../../../environments/environment';
-
-import {IMeal} from '@the-bot-meek/food-orders-models/models/meal'
-import {ICreateMealRequest} from '@the-bot-meek/food-orders-models/models/ICreateMealRequest';
-import {IOrder} from "@the-bot-meek/food-orders-models/models/order";
+import {IMeal} from "../../../models/meal";
+import {ICreateMealRequest} from "../../../models/ICreateMealRequest";
+import {IOrder} from "../../../models/order";
 
 @Injectable({
   providedIn: 'root'

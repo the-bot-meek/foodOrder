@@ -17,4 +17,4 @@ out/
 node_modules
 .vscode
 .angular
-/client/dist/
+dist

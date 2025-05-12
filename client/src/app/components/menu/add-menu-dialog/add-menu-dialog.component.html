@@ -27,7 +27,7 @@
       <input data-testid="menu-phone-input" type="text" matInput [formControl]="menuFormGroup.controls.phoneNumber">
     </mat-form-field>
       <p>Menu Items</p>
-      <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)"></app-menu-item-list>
+      <app-menu-item-list [menuItems]="menuItems" (removeMenuItem)="removeMenuItem($event)" (editMenuItem)="editMenuItem($event)"></app-menu-item-list>
 
       <form [formGroup]="addMenuItemForm" (ngSubmit)="addMenuItem()">
         <div>
@@ -58,3 +58,4 @@
       <button data-testid="add-menu-btn" mat-button [disabled]="menuFormGroup.invalid">Add Menu</button>
   </div>
 </form>
+<app-menu-upload (menuItems)="addMenuItemsFromFile($event)"></app-menu-upload>

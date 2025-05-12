@@ -6,7 +6,7 @@ import {AuthService} from "../services/auth/auth.service";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {MatSidenavContainerHarness} from "@angular/material/sidenav/testing";
-import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
+import {IUser} from "../../../models/IUser";
 
 let user: IUser = {
   active: false,
@@ -28,7 +28,7 @@ let user: IUser = {
   sub: "",
   updated_at: "",
   username: ""
-}
+};
 
 describe('ShellComponent failed', () => {
   let component: ShellComponent;

@@ -1,0 +1,29 @@
+micronaut:
+  application:
+    name: menuparser
+
+  serde:
+    numeric-time-unit: milliseconds
+    time-write-shape: integer
+  security:
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: ${JWT_GENERATOR_SIGNATURE_SECRET}
+  server:
+    port: 8081
+
+
+langchain4j:
+  open-ai:
+    api-key: ${OPEN_AI_API_KEY}
+    log-requests: true
+    log-responses: true
+    chat-model:
+      top-p: 1.00
+      model-name: gpt-4.1-mini
+      max-tokens: 2048
+      temperature: 1.00
+      response-format: json

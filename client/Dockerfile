@@ -2,7 +2,7 @@ FROM node:alpine AS build
 WORKDIR /usr/src/app
 COPY . /usr/src/app
 RUN npm ci
-RUN npm run build --prod
+RUN npm run build:integration
 
 FROM nginx:alpine
 WORKDIR /usr/src/app

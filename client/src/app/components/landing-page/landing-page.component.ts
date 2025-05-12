@@ -1,19 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {MealService} from "../../shared/api/meal.service";
 import {Observable} from "rxjs";
-import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 import {DatePipe} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
 import {Router} from "@angular/router";
+import {IMeal} from "../../../models/meal";
 
 @Component({
-    selector: 'app-landing-page',
-    imports: [
-        MatTableModule,
-        DatePipe
-    ],
-    templateUrl: './landing-page.component.html',
-    styleUrl: './landing-page.component.scss'
+  selector: 'app-landing-page',
+  imports: [
+    MatTableModule,
+    DatePipe
+  ],
+  templateUrl: './landing-page.component.html',
+  standalone: true,
+  styleUrl: './landing-page.component.scss'
 })
 export class LandingPageComponent implements OnInit {
   meals: Observable<IMeal[]>

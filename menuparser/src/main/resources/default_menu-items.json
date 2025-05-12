@@ -1,0 +1,192 @@
+[
+  {
+    "name": "Chicken Stuffed with Haggis",
+    "description": "in a whisky sauce, served with potatoes & seasonal vegetables",
+    "price": 17.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Slow Roasted Lamb Shank",
+    "description": "With a port & mint jus, potatoes & seasonal vegetables",
+    "price": 18.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Daily vegetables",
+    "price": 4.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Breaded Scampi",
+    "description": "Served with chips, peas, & homemade tartare sauce",
+    "price": 14.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Peppercorn Sauce",
+    "price": 3.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Deep Fried Breaded Grimbister Cheese",
+    "description": "with sweet chilli dip",
+    "price": 8.5,
+    "menuItemCategory": "STARTER"
+  },
+  {
+    "name": "Vegan Burger",
+    "description": "Vegetable burger topped with vegan mayo, lettuce, red onion & tomato, served with chips & vegan coleslaw",
+    "price": 14.5,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Chicken Or Vegetable Curry",
+    "description": "Served with rice & naan bread",
+    "price": 16.5,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Homemade Fish Pie",
+    "description": "Salmon, smoked haddock & crab in a creamy sauce, topped with mashed potatoes",
+    "price": 19.5,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Local Steak & Ale Pie",
+    "description": "Served with chips or potatoes & seasonal vegetables",
+    "price": 16.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Cheese Plate",
+    "description": "Selection of cheeses served with oatcakes, fruit & homemade chutney",
+    "price": 11.5,
+    "menuItemCategory": "DESSERT"
+  },
+  {
+    "name": "Homemade Sticky Toffee Pudding",
+    "description": "Served with vanilla Orkney ice cream",
+    "price": 8.95,
+    "menuItemCategory": "DESSERT"
+  },
+  {
+    "name": "Homemade Soup of the Day",
+    "description": "Served with crusty bloomer bread",
+    "price": 5.95,
+    "menuItemCategory": "STARTER"
+  },
+  {
+    "name": "Baileys Cheesecake",
+    "description": "Served with pouring cream",
+    "price": 8.95,
+    "menuItemCategory": "DESSERT"
+  },
+  {
+    "name": "Trio of Seafood",
+    "description": "Prawns in Marie rose sauce, Scottish smoked salmon & smoked mackerel with crusty bloomer bread",
+    "price": 9.5,
+    "menuItemCategory": "STARTER"
+  },
+  {
+    "name": "Spaghetti Bolognese",
+    "description": "Donaldsons beef mince in a rich tomato sauce, served on spaghetti, topped with Parmesan Cheese",
+    "price": 16.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Seafood Salad",
+    "description": "Crab, Prawns & Smoked Salmon, with salad leaves & potato salad",
+    "price": 21.5,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Chicken Satay",
+    "description": "Chicken in a peanut & sweet chilli sauce served with salad",
+    "price": 8.95,
+    "menuItemCategory": "STARTER"
+  },
+  {
+    "name": "Selection of Orkney Ice Cream",
+    "description": "Enjoy a duo of flavours",
+    "price": 6.0,
+    "menuItemCategory": "DESSERT"
+  },
+  {
+    "name": "Vegan Platter",
+    "description": "Hummus, babaganush, olives, gherkins, romesco and crudités",
+    "price": 7.95,
+    "menuItemCategory": "STARTER"
+  },
+  {
+    "name": "Cajun Chicken Burger",
+    "description": "Topped with bacon, Orkney cheddar & garlic mayo, served with chips & coleslaw",
+    "price": 16.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Local Sirloin Steak Garni",
+    "description": "Cooked to your liking, served with chips, onion rings, mushroom & tomato",
+    "price": 27.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "House Salad",
+    "price": 4.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Whisky Sauce",
+    "price": 3.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Onion Rings",
+    "price": 4.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Vegan Chocolate Orange Tart",
+    "description": "Served with Fruit Coulis",
+    "price": 8.95,
+    "menuItemCategory": "DESSERT"
+  },
+  {
+    "name": "Tomato, Mozzarella & Basil Salad",
+    "description": "With a balsamic glaze",
+    "price": 8.5,
+    "menuItemCategory": "STARTER"
+  },
+  {
+    "name": "Deep Fried Haddock",
+    "description": "Battered or breaded, served with chips, peas & homemade tartare sauce",
+    "price": 15.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Local Fillet Steak Garni",
+    "description": "Cooked to your liking, served with chips, onion rings, mushroom & tomato",
+    "price": 29.95,
+    "menuItemCategory": "MAIN"
+  },
+  {
+    "name": "Mixed Fruit Tartlet",
+    "description": "Vegan shortcrust pastry tart, with vanilla cream, topped with fresh fruit",
+    "price": 8.95,
+    "menuItemCategory": "DESSERT"
+  },
+  {
+    "name": "Coleslaw",
+    "price": 3.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Garlic Bread",
+    "price": 4.0,
+    "menuItemCategory": "SIDE"
+  },
+  {
+    "name": "Chips",
+    "price": 4.0,
+    "menuItemCategory": "SIDE"
+  }
+]

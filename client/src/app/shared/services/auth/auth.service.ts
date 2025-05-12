@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {UserService} from "../../api/user.service";
 import {BehaviorSubject, catchError, Observable, tap} from "rxjs";
-import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
 import {AuthenticatorService} from "./authenticator.service";
+import {IUser} from "../../../../models/IUser";
 
 @Injectable({
   providedIn: 'root'

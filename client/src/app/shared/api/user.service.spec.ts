@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserService } from './user.service';
 import { HttpClient } from "@angular/common/http";
 import {of} from "rxjs";
-import {IUser} from "@the-bot-meek/food-orders-models/models/IUser";
+import {IUser} from "../../../models/IUser";
 
 describe('UserService', () => {
   let service: UserService;
