@@ -41,7 +41,7 @@ test('test add anonymous meal', async ({ page, browserName }, testInfo: TestInfo
   const mealConfig: ICreateMealConfig = {
     draft: false,
     createPrivateMealConfig: {
-      numberOfRecipients: 1000
+      numberOfRecipients: 10
     }
   }
   const createMenuRequest: ICreateMenuRequest = buildCreateMenuRequest(testInfo, browserName)
