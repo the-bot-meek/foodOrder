@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LandingPageComponent } from './landing-page.component';
 import {MealService} from "../../shared/api/meal.service";
-import {IMeal} from "@the-bot-meek/food-orders-models/models/meal";
 import {of} from "rxjs";
 import {TestbedHarnessEnvironment} from "@angular/cdk/testing/testbed";
 import {HarnessLoader} from "@angular/cdk/testing";
 import {MatRowHarness, MatTableHarness} from "@angular/material/table/testing";
 import {Router} from "@angular/router";
+import {IMeal} from "../../../models/meal";
 
 describe('LandingPageComponent', () => {
   let component: LandingPageComponent;

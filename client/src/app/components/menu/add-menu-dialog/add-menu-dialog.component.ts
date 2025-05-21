@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import {MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle} from "@angular/material/dialog";
 import {FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
 import {MenuService} from "../../../shared/api/menu.service";
-import {IMenuItems} from "@the-bot-meek/food-orders-models/models/menuItems";
 import {MatOption} from "@angular/material/autocomplete";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -15,6 +13,9 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {map} from "rxjs/operators";
 import {catchError} from "rxjs";
 import {TitleCasePipe} from "@angular/common";
+import {MenuUploadComponent} from "../menu-upload/menu-upload.component";
+import {IMenuItems} from "../../../../models/menuItems";
+import {ICreateMenuRequest} from "../../../../models/menu";
 
 @Component({
   selector: 'app-add-menu-dialog',
@@ -32,7 +33,8 @@ import {TitleCasePipe} from "@angular/common";
     MatIcon,
     MatIconButton,
     MatDialogClose,
-    TitleCasePipe
+    TitleCasePipe,
+    MenuUploadComponent
   ],
   templateUrl: './add-menu-dialog.component.html',
   standalone: true,
@@ -93,6 +95,12 @@ export class AddMenuDialogComponent {
     this.menuItems = this.menuItems.filter(menuItem => menuItem.name != name)
   }
 
+  editMenuItem(name: string) {
+    const menuItem = this.menuItems.find(menuItem => menuItem.name == name)
+    this.menuItems = this.menuItems.filter(menuItem => menuItem.name != name)
+    this.addMenuItemForm.patchValue(menuItem)
+  }
+
   addMenuItem(): void {
     this.menuItems.push(this.addMenuItemForm.value as IMenuItems)
     this.addMenuItemForm.reset()
@@ -111,4 +119,11 @@ export class AddMenuDialogComponent {
   }
 
   protected readonly Object = Object;
+
+
+  public addMenuItemsFromFile(menuItems: IMenuItems[]) {
+    const existingMenuItemName = this.menuItems.map(menuItem => menuItem.name)
+    menuItems = menuItems.filter(menuItem => !existingMenuItemName.includes(menuItem.name))
+    this.menuItems = [...this.menuItems, ...menuItems]
+  }
 }

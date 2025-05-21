@@ -1,0 +1,3 @@
+<input hidden="hidden" type="file" class="file-input" (change)="menuFileChange($event)" #fileUpload  accept=".docx">
+<button mat-button (click)="fileUpload.click()" [disabled]="isProcessing(uploadingStatus)">Upload Menu From File</button>
+

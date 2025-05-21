@@ -4,8 +4,8 @@ import {
   addMenu, buildCreateMealRequest, buildCreateMenuRequest,
   verifyMealTableRowExists
 } from "./utils";
-import {ICreateMenuRequest} from "@the-bot-meek/food-orders-models/models/menu";
-import {ICreateMealConfig, ICreateMealRequest} from "@the-bot-meek/food-orders-models/models/ICreateMealRequest";
+import {ICreateMenuRequest} from "../src/models/menu";
+import {ICreateMealConfig, ICreateMealRequest} from "../src/models/ICreateMealRequest";
 
 test('has title', async ({ page }) => {
   await page.goto('/');
@@ -41,7 +41,7 @@ test('test add anonymous meal', async ({ page, browserName }, testInfo: TestInfo
   const mealConfig: ICreateMealConfig = {
     draft: false,
     createPrivateMealConfig: {
-      numberOfRecipients: 1000
+      numberOfRecipients: 10
     }
   }
   const createMenuRequest: ICreateMenuRequest = buildCreateMenuRequest(testInfo, browserName)

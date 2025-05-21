@@ -1,17 +1,31 @@
-$order-primary-color: #007bff;
+@use '@angular/material' as mat;
+
+$order-primary-color: whitesmoke;
 $order-secondary-color: #0056b3;
-$order-background-color: #f8f9fa;
+$order-background-color: rgba(0, 0, 0, 0.5);
 $order-border-radius: 0.25rem;
 $order-padding: 1rem;
 
+//.placed-menu-items-container {
+//  height: 30vh;
+//}
+
 .order-container, .placed-menu-items-container {
-  background-color: $order-background-color;
+  //background-color: $order-background-color;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: saturate(180%) blur(5px);
+  border: 1px solid gray;
+  color: whitesmoke;
+  margin: 1vh auto auto;
+
   padding: $order-padding;
   border-radius: $order-border-radius;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   max-width: 600px;
-  margin: 2rem auto;
+
+
   font-family: Arial, sans-serif;
+  text-overflow: fade;
 
   h2 {
     color: $order-primary-color;
@@ -20,7 +34,7 @@ $order-padding: 1rem;
 
   p {
     margin-bottom: 1.5rem;
-    color: #333;
+    color: $order-primary-color;
   }
 
   form {
@@ -29,15 +43,25 @@ $order-padding: 1rem;
     gap: 1rem;
   }
 
+  .select-menu-item-container {
+    height: 20vh;
+  }
+
   .menu-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid gray;
+    color: whitesmoke;
     border-radius: $order-border-radius;
-    background-color: white;
+    backdrop-filter: saturate(180%) blur(1px);
+    margin-top: 1vh;
+
+
+    //background-color: white;
     margin-bottom: .5vw;
+    //background-color: red;
 
     label {
       display: flex;
@@ -50,7 +74,7 @@ $order-padding: 1rem;
       }
 
       .item-price {
-        color: #666;
+        color: white;
       }
     }
   }
@@ -69,4 +93,31 @@ $order-padding: 1rem;
       background-color: $order-secondary-color;
     }
   }
+}
+
+.transparent-panel {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Also clear the header background */
+.transparent-panel
+.mat-expansion-panel-header {
+  background-color: transparent !important;
+}
+
+
+.select-menu-item-check-box {
+  background-color: red;
+}
+
+:host {
+  display: block;                /* ensure the host takes up space */
+  height: 99.91vh;
+  /* or whatever height you need */
+  background-image: url('https://traveltrade.visitscotland.org/wp-content/uploads/2024/01/restauant-wpcf_726x484.jpg');
+  background-size: cover;        /* cover the entire area */
+  background-position: center;   /* center the image */
+  background-repeat: no-repeat;
+  padding: .1vw 2vw 0 2vw;
 }
