@@ -9,8 +9,8 @@
       "datasourceTemplate": "maven",
       "depNameTemplate": "micronaut",
       "packageNameTemplate": "io.micronaut.platform:micronaut-platform",
-      "fileMatch": [
-        "(^|/)gradle\\.properties"
+      "managerFilePatterns": [
+        "/(^|/)gradle\\.properties/"
       ],
       "matchStrings": [
         "micronautVersion=(?<currentValue>[\\w+\\.\\-]*)"
@@ -19,11 +19,18 @@
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automerge": true
     },
     {
-      "matchDepTypes": ["devDependencies"],
+      "matchDepTypes": [
+        "devDependencies"
+      ],
       "automerge": true
     }
   ],
