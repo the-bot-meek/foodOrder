@@ -39,7 +39,7 @@ dependencies {
     testImplementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.views:micronaut-views-fieldset")
     implementation("io.micronaut.views:micronaut-views-thymeleaf")
-    testImplementation 'net.bytebuddy:byte-buddy:1.17.5'
+    testImplementation 'net.bytebuddy:byte-buddy:1.17.6'
     testImplementation 'org.objenesis:objenesis:3.4'
 
     // I think this is needed as my controller unit tests Mock the DynamodbFacadeService.
