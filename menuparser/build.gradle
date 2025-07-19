@@ -22,7 +22,7 @@ dependencies {
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.2'
-    runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.19.1'
+    runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.19.2'
     implementation("io.micronaut.validation:micronaut-validation")
     implementation("jakarta.validation:jakarta.validation-api")
     implementation("io.micronaut.security:micronaut-security-jwt")
