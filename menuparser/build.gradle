@@ -39,7 +39,7 @@ dependencies {
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("org.yaml:snakeyaml")
     testImplementation("io.micronaut:micronaut-http-client")
-    testImplementation 'net.bytebuddy:byte-buddy:1.17.6'
+    testImplementation 'net.bytebuddy:byte-buddy:1.17.7'
     testImplementation 'org.objenesis:objenesis:3.4'
 }
 
