@@ -30,7 +30,7 @@ dependencies {
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.19.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.20.0'
     runtimeOnly 'com.fasterxml.jackson.module:jackson-modules-java8:2.19.2'
     aotPlugins("io.micronaut.security:micronaut-security-aot")
     compileOnly("io.micronaut:micronaut-http-client")
